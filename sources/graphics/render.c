@@ -6,11 +6,19 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 14:03:16 by emis              #+#    #+#             */
-/*   Updated: 2023/06/15 18:28:10 by emis             ###   ########.fr       */
+/*   Updated: 2023/06/16 16:40:01 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../../includes/graphics.h"
+
+int	pixget(t_img *img, int x, int y)
+{
+	char	*dst;
+
+	dst = img->data + (y * img->size_line + x * (img->bpp / 8));
+	return (*(unsigned int*)dst);
+}
 
 void	pixput(t_img *img, int x, int y, int color)
 {
@@ -22,6 +30,16 @@ void	pixput(t_img *img, int x, int y, int color)
 
 int	render(t_gui *gui)
 {
+	if (gui->rendered && !gui->keys)
+		return (0);
+	if (gui->keys)
+	{
+		if (gui->keys & (1 << KP_rot_left))
+			rotate(&gui->player, -1);
+		else if (gui->keys & (1 << KP_rot_right))
+			rotate(&gui->player, 1);
+		move(gui);
+	}
 	t_img	*rend = mlx_new_image(gui->mlx, SCRWIDTH, SCRHEIGHT);
 
 	for(int x = 0; x < SCRWIDTH; x++)
@@ -97,9 +115,9 @@ int	render(t_gui *gui)
 			mapY += stepY;
 			side = 1;
 			}
-			//Check if ray has hit a wall
-			if (mapX == 24 || mapX < 0 || mapY == 24 || mapY < 0)
+			if (mapX >= 24 || mapX < 0 || mapY >= 24 || mapY < 0) // spawn outside map
 				return (gui->mlx->end_loop = 1, 42);
+			//Check if ray has hit a wall
 			if(gui->map->map[mapX][mapY] > 0) hit = 1;
 		}
 		//Calculate distance projected on camera direction. This is the shortest distance from the point where the wall is
@@ -110,16 +128,19 @@ int	render(t_gui *gui)
 		//steps, but we subtract deltaDist once because one step more into the wall was taken above.
 		if(side == 0) perpWallDist = (sideDistX - deltaDistX);
 		else          perpWallDist = (sideDistY - deltaDistY);
+#define SIMPLE 1
 
 		//Calculate height of line to draw on screen
 		int lineHeight = (int)(SCRHEIGHT / perpWallDist);
 
-		//calculate lowest and highest pixel to fill in current stripe
-		int drawStart = -lineHeight / 2 + SCRHEIGHT / 2;
-		if(drawStart < 0) drawStart = 0;
-		int drawEnd = lineHeight / 2 + SCRHEIGHT / 2;
-		if(drawEnd >= SCRHEIGHT) drawEnd = SCRHEIGHT - 1;
+		int pitch = 100;
 
+		//calculate lowest and highest pixel to fill in current stripe
+		int drawStart = -lineHeight / 2 + SCRHEIGHT / 2 + (pitch * SIMPLE);
+		if(drawStart < 0) drawStart = 0;
+		int drawEnd = lineHeight / 2 + SCRHEIGHT / 2 + (pitch * SIMPLE);
+		if(drawEnd >= SCRHEIGHT) drawEnd = SCRHEIGHT - 1;
+#if SIMPLE == 0
 		//choose wall color
 		int color;
 		switch(gui->map->map[mapX][mapY])
@@ -138,9 +159,49 @@ int	render(t_gui *gui)
 		// verLine(x, drawStart, drawEnd, color);
 		for (int y = drawStart; y < drawEnd; y++)
 			pixput(rend, x, y, color);
+#else
+#define texWidth 64
+#define texHeight 64
+
+		int w,h;
+		static t_img	*text;
+		if (!text) text = mlx_xpm_file_to_image(gui->mlx, "textures/shrek.xpm", &w, &h);
+
+		//texturing calculations
+		// int texNum = gui->map->map[mapX][mapY] - 1; //1 subtracted from it so that texture 0 can be used!
+
+		//calculate value of wallX
+		double wallX; //where exactly the wall was hit
+		if(side == 0) wallX = gui->player.posi.y + perpWallDist * rayDirY;
+		else          wallX = gui->player.posi.x + perpWallDist * rayDirX;
+		wallX -= floor((wallX));
+
+		//x coordinate on the texture
+		int texX = (int)(wallX * (double)(texWidth));
+		if(side == 0 && rayDirX > 0) texX = texWidth - texX - 1;
+		if(side == 1 && rayDirY < 0) texX = texWidth - texX - 1;
+
+		// TODO: an integer-only bresenham or DDA like algorithm could make the texture coordinate stepping faster
+		// How much to increase the texture coordinate per screen pixel
+		double step = 1.0 * texHeight / lineHeight;
+		// Starting texture coordinate
+		double texPos = (drawStart - pitch - SCRHEIGHT / 2 + lineHeight / 2) * step;
+		for(int y = drawStart; y < drawEnd; y++)
+		{
+			// Cast the texture coordinate to integer, and mask with (texHeight - 1) in case of overflow
+			int texY = (int)texPos & (texHeight - 1);
+			texPos += step;
+			int color = pixget(text, texHeight * texY + texX, 0);
+			//make color darker for y-sides: R, G and B byte each divided through two with a "shift" and an "and"
+			if(side == 1) color = (color >> 1) & 8355711;
+			// buffer[y][x] = color;
+			pixput(rend, x, y, color);
+		}
+#endif
 	}
 	mlx_put_image_to_window(gui->mlx, gui->mlx->win_list, rend, 0, 0);
 	mlx_destroy_image(gui->mlx, rend);
+	gui->rendered = 1;
 	printf("x%fy%fdirx%fdiry%f\n", gui->player.posi.x, gui->player.posi.y,
 									gui->player.dir.x, gui->player.dir.y);
 	return (0);

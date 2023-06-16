@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:18:42 by emis              #+#    #+#             */
-/*   Updated: 2023/06/16 15:16:07 by emis             ###   ########.fr       */
+/*   Updated: 2023/06/16 16:25:13 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,14 +83,14 @@ int	main(int ac, char **av)
 	gui.map->width = mapWidth;
 	gui.map->height = mapHeight;
 	gui.map->map = trymalloc(sizeof(int *) * gui.map->width, 0);
+	gui.keys = 0;
+	gui.rendered = 0;
 	for(int x = 0; x < gui.map->width; x++)
 	{
 		gui.map->map[x] = trymalloc(sizeof(int) * gui.map->height, 0);
 		for(int y = 0; y < gui.map->height; y++)
 			gui.map->map[x][y] = worldMap[x][y];
 	}
-	// union Point p = {3.14f, 0.0f, 1.2f};
-	// p.xyz.x = 1.1f;
 	mlx_new_window(gui.mlx, SCRWIDTH, SCRHEIGHT, "TITLE");
 	mlx_loop_hook(gui.mlx, &render, &gui);
 	mlx_hook(gui.mlx->win_list, KeyPress, KeyPressMask, &key_press, &gui);

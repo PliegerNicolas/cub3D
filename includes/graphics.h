@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/06/16 15:11:08 by emis             ###   ########.fr       */
+/*   Updated: 2023/06/16 16:30:33 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,23 @@ typedef enum e_keybinds
 	back = XK_s,
 	left = XK_a,
 	right = XK_d,
-	attack = XK_space,
+	jump = XK_space,
 	rot_left = XK_Left,
 	rot_right = XK_Right,
 }	t_kbind;
+
+# define KEYS ((t_kbind[]){forth, back, left, right, jump, rot_left, rot_right})
+
+typedef enum e_keypresses
+{
+	KP_forth,
+	KP_back,
+	KP_left,
+	KP_right,
+	KP_jump,
+	KP_rot_left,
+	KP_rot_right,
+}	t_kprs;
 
 typedef struct s_vect
 {
@@ -69,6 +82,7 @@ typedef struct s_gui
 	t_map	*map;
 	t_play	player;
 	int		keys;
+	_Bool	rendered;
 }	t_gui;
 
 /* RENDER */
@@ -77,6 +91,8 @@ int	render(t_gui *gui);
 
 /* CONTROLS */
 
+void	rotate(t_play	*play, int dir);
+int		move(t_gui *gui);
 int		key_press(int keycode, t_gui *gui);
 int		key_rel(int keycode, t_gui *gui);
 
