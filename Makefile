@@ -16,34 +16,45 @@ MLXPATH		:=	mlx/
 
 #################### SOURCES ####################
 
-LIB			= libft.a
+LIB			:=	libft.a
 
-MLX			:= libmlx.a
+MLX			:=	libmlx.a
 
 OBJS		:=	$(SOURCES:.c=.o)
 OBJS		:=	$(addprefix $(OBJPATH), $(OBJS))
 
 CC			:=	cc
 
-CFLAGS		:=	-Wall -Wextra -Werror -g3
+CFLAGS		:=	-Wall -Wextra -Werror
 
-CLIBS		:=	-L${MLXPATH} -lmlx -L${LIBPATH} -lft
+CCFLAGS		:=	-Iincludes -I/usr/include -Imlx -g3
+
+LFLAGS		:=	-L/usr/lib -lXext -lX11 -lm -lz
 
 RM			:=	rm -rf
 
 NAME		:=	cub3D
 
+####################  COLOR  ####################
+
+RED			= \033[31;01m
+
+GREEN		= \033[32;01m
+
+NOCOL		= \033[0m
+
 ####################  RULES  ####################
 
 ${NAME}: ${LIBPATH}${LIB} ${MLXPATH}${MLX} ${OBJPATH} ${OBJS} $(INCLUDES)
-		${CC} ${CFLAGS} ${OBJS} ${CLIBS} -o ${NAME}
-		@echo "Cub3D compiled"
+		@${CC} ${CFLAGS} ${OBJS} ${LIBPATH}${LIB} ${MLXPATH}${MLX} ${LFLAGS} -o ${NAME}	\
+		&& echo "${GREEN}Cub3D compiled! :D ${NOCOL}"	\
+		|| echo "${RED}Cub3D compilation failed... X(${NOCOL}"
 
 all:	${NAME}
 
 .objects/%.o:	%.c
 		@mkdir -p $(dir $@)
-		${CC} ${CFLAGS} -c $< -o $@ ${INC}
+		${CC} ${CFLAGS} ${CCFLAGS} -c $< -o $@ ${INC}
 
 ${OBJPATH}:
 		mkdir -p ${OBJPATH}
@@ -68,7 +79,8 @@ clean:
 
 fclean: clean
 		$(MAKE) -C ${LIBPATH} fclean
-		${RM} ${NAME} ${MLXPATH}
+		${RM} ${NAME} \
+# ${MLXPATH}
 
 re:		fclean all
 
@@ -77,8 +89,8 @@ val:
 # --trace-children=yes
 
 gmk:
-		@if [ -d make ];then echo ok;else mkdir make;fi
-		@find -name '*.c' | grep -v libft | sed 's/^/SOURCES += /' > make/sources.mk
-		@find -name '*.h' | grep -v libft | sed 's/^/INCLUDES += /' > make/includes.mk
+		@mkdir -p make
+		@find -name '*.c' | grep -Ev 'libft|mlx' | sed 's/^/SOURCES += /' > make/sources.mk
+		@find -name '*.h' | grep -Ev 'libft|mlx' | sed 's/^/INCLUDES += /' > make/includes.mk
 
 .PHONY: all clean fclean re%
