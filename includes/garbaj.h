@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:37:41 by emis              #+#    #+#             */
-/*   Updated: 2023/06/13 16:56:15 by emis             ###   ########.fr       */
+/*   Updated: 2023/06/18 16:38:22 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,6 @@ void	try(int fail, char *name);
 /* WRAPPERS */
 
 int		mlxwrap(void *mlx);
+int		mlximgwrap(void *mlximg);
 
 #endif

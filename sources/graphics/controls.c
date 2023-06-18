@@ -6,15 +6,23 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 15:49:02 by emis              #+#    #+#             */
-/*   Updated: 2023/06/16 16:39:01 by emis             ###   ########.fr       */
+/*   Updated: 2023/06/18 17:52:58 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../../includes/graphics.h"
 
+void	zoom(t_play	*play, int dir)
+{
+	double zoomRate = 0.025;
+
+	zoomRate *= dir;
+	play->zoom += zoomRate;
+}
+
 void	rotate(t_play	*play, int dir)
 {
-	double rotSpeed = 0.025; //frameTime * 3.0 //the constant value is in radians/second
+	double rotSpeed = 0.05; //frameTime * 3.0 //the constant value is in radians/second
 
 	double oldDirX = play->dir.x;
 	rotSpeed *= dir;
@@ -27,7 +35,7 @@ void	rotate(t_play	*play, int dir)
 
 int	move(t_gui *gui)
 {
-	double moveSpeed = 0.25; //frameTime * 5.0 //the constant value is in squares/second
+	double moveSpeed = 0.20 * gui->player.speed; //frameTime * 5.0 //the constant value is in squares/second
 
 	if (gui->keys & (1 << KP_forth))
 	{

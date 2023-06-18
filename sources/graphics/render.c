@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 14:03:16 by emis              #+#    #+#             */
-/*   Updated: 2023/06/16 16:40:01 by emis             ###   ########.fr       */
+/*   Updated: 2023/06/18 19:25:52 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,20 +34,28 @@ int	render(t_gui *gui)
 		return (0);
 	if (gui->keys)
 	{
+		if (gui->keys & (1 << KP_sprint))
+			gui->player.speed = 2;
+		else
+			gui->player.speed = 1;
 		if (gui->keys & (1 << KP_rot_left))
-			rotate(&gui->player, -1);
-		else if (gui->keys & (1 << KP_rot_right))
 			rotate(&gui->player, 1);
+		else if (gui->keys & (1 << KP_rot_right))
+			rotate(&gui->player, -1);
+		if (gui->keys & (1 << KP_zoom_in))
+			zoom(&gui->player, 1);
+		else if (gui->keys & (1 << KP_zoom_out))
+			zoom(&gui->player, -1);
 		move(gui);
 	}
-	t_img	*rend = mlx_new_image(gui->mlx, SCRWIDTH, SCRHEIGHT);
+	// t_img	*rend = 
 
 	for(int x = 0; x < SCRWIDTH; x++)
 	{
 		//calculate ray position and direction
 		double cameraX = 2 * x / (double)SCRWIDTH - 1; //x-coordinate in camera space
-		double rayDirX = gui->player.dir.x + gui->player.plane.x * cameraX;
-		double rayDirY = gui->player.dir.y + gui->player.plane.y * cameraX;
+		double rayDirX = (gui->player.dir.x * gui->player.zoom) + gui->player.plane.x * cameraX;
+		double rayDirY = (gui->player.dir.y * gui->player.zoom) + gui->player.plane.y * cameraX;
 		//which box of the map we're in
 		int mapX = (int)(gui->player.posi.x);
 		int mapY = (int)(gui->player.posi.y);
@@ -160,15 +168,9 @@ int	render(t_gui *gui)
 		for (int y = drawStart; y < drawEnd; y++)
 			pixput(rend, x, y, color);
 #else
-#define texWidth 64
-#define texHeight 64
-
-		int w,h;
-		static t_img	*text;
-		if (!text) text = mlx_xpm_file_to_image(gui->mlx, "textures/shrek.xpm", &w, &h);
-
 		//texturing calculations
-		// int texNum = gui->map->map[mapX][mapY] - 1; //1 subtracted from it so that texture 0 can be used!
+		int texNum = gui->map->map[mapX][mapY] - 1; //1 subtracted from it so that texture 0 can be used!
+		int	texInd = (texNum * gui->textures.arrsize + side * 2 + ((side == 0 && rayDirX > 0) || (side == 1 && rayDirY < 0))) % gui->textures.arrsize;
 
 		//calculate value of wallX
 		double wallX; //where exactly the wall was hit
@@ -177,30 +179,36 @@ int	render(t_gui *gui)
 		wallX -= floor((wallX));
 
 		//x coordinate on the texture
-		int texX = (int)(wallX * (double)(texWidth));
-		if(side == 0 && rayDirX > 0) texX = texWidth - texX - 1;
-		if(side == 1 && rayDirY < 0) texX = texWidth - texX - 1;
+		int texX = (int)(wallX * (double)(gui->textures.width));
+		if(side == 0 && rayDirX > 0) texX = gui->textures.width - texX - 1;
+		if(side == 1 && rayDirY < 0) texX = gui->textures.width - texX - 1;
 
 		// TODO: an integer-only bresenham or DDA like algorithm could make the texture coordinate stepping faster
 		// How much to increase the texture coordinate per screen pixel
-		double step = 1.0 * texHeight / lineHeight;
+		double step = 1.0 * gui->textures.width / lineHeight;
 		// Starting texture coordinate
 		double texPos = (drawStart - pitch - SCRHEIGHT / 2 + lineHeight / 2) * step;
-		for(int y = drawStart; y < drawEnd; y++)
+		for(int y = 0; y < SCRHEIGHT; y++)
 		{
-			// Cast the texture coordinate to integer, and mask with (texHeight - 1) in case of overflow
-			int texY = (int)texPos & (texHeight - 1);
-			texPos += step;
-			int color = pixget(text, texHeight * texY + texX, 0);
-			//make color darker for y-sides: R, G and B byte each divided through two with a "shift" and an "and"
-			if(side == 1) color = (color >> 1) & 8355711;
-			// buffer[y][x] = color;
-			pixput(rend, x, y, color);
+			if (y < drawStart)
+				pixput(gui->buffer, x, y, gui->textures.ceil_col);
+			else if (y >= drawEnd)
+				pixput(gui->buffer, x, y, gui->textures.floor_col);
+			else
+			{
+				// Cast the texture coordinate to integer, and mask with (gui->textures.width - 1) in case of overflow
+				int texY = (int)texPos & (gui->textures.width - 1);
+				texPos += step;
+				int color = pixget(gui->textures.walls[texInd], gui->textures.width * texY + texX, 0); //gui->textures.textures
+				//make color darker for y-sides: R, G and B byte each divided through two with a "shift" and an "and"
+				if(side == 1) color = (color >> 1) & 8355711;
+				// buffer[y][x] = color;
+				pixput(gui->buffer, x, y, color);
+			}
 		}
 #endif
 	}
-	mlx_put_image_to_window(gui->mlx, gui->mlx->win_list, rend, 0, 0);
-	mlx_destroy_image(gui->mlx, rend);
+	mlx_put_image_to_window(gui->mlx, gui->mlx->win_list, gui->buffer, 0, 0);
 	gui->rendered = 1;
 	printf("x%fy%fdirx%fdiry%f\n", gui->player.posi.x, gui->player.posi.y,
 									gui->player.dir.x, gui->player.dir.y);
