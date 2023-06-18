@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/06/18 19:18:44 by emis             ###   ########.fr       */
+/*   Updated: 2023/06/18 20:05:58 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ typedef struct s_textures
 {
 	int		width;
 	int		height;
-	t_img	*textures;
+	// t_img	*textures;
 	int		arrsize;
 	t_img	**walls;
 	int		floor_col;
@@ -89,7 +89,6 @@ typedef struct s_map
 	int		height;
 	int		**map;
 	// char	**map;
-	t_sprt	*sprites;
 }	t_map;
 
 typedef struct s_gui
@@ -98,6 +97,7 @@ typedef struct s_gui
 	t_img	*buffer;
 	t_map	*map;
 	t_tex	textures;
+	t_sprt	*sprites;
 	t_play	player;
 	int		keys;
 	_Bool	rendered;
