@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:18:42 by emis              #+#    #+#             */
-/*   Updated: 2023/06/18 20:02:29 by emis             ###   ########.fr       */
+/*   Updated: 2023/06/19 17:11:38 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,10 +130,48 @@ void	gui_init(t_gui *gui, int ac, char **av)
 	gui->textures.floor_col = (50 << 0) | (100 << 8) | (50 << 16);
 	gui->textures.arrsize = 4;
 	gui->textures.walls = NULL;
-	load_texture_arr(gui, &gui->textures.walls, "textures/solong/40.xpm", 4);
-	load_texture_arr(gui, &gui->textures.walls, "textures/solong/41.xpm", 4);
-	load_texture_arr(gui, &gui->textures.walls, "textures/solong/42.xpm", 4);
-	load_texture_arr(gui, &gui->textures.walls, "textures/solong/43.xpm", 4);
+	load_texture_arr(gui, &gui->textures.walls, "textures/solong/00.xpm", 4);
+	load_texture_arr(gui, &gui->textures.walls, "textures/solong/10.xpm", 4);
+	load_texture_arr(gui, &gui->textures.walls, "textures/solong/20.xpm", 4);
+	load_texture_arr(gui, &gui->textures.walls, "textures/solong/30.xpm", 4);
+#define SPRITES 2
+	gui->textures.spnb = SPRITES;
+	gui->textures.sporder = trymalloc(sizeof(int) * SPRITES, 1);
+	gui->textures.sporder[0] = 0;
+	gui->textures.sporder[1] = 1;
+	gui->textures.spdist = trymalloc(sizeof(double) * SPRITES, 1);
+	gui->textures.spdist[0] = 0;
+	gui->textures.spdist[1] = 0;
+	gui->textures.sprites = trymalloc(sizeof(t_sprt) * SPRITES, 1);
+
+	gui->textures.sprites[0].posi = (t_vect){12, 14};
+	gui->textures.sprites[0].solid = 1;
+	gui->textures.sprites[0].type = STATIONARY;
+	gui->textures.sprites[0].fcur = 0;
+	gui->textures.sprites[0].fnum = 8;
+	load_texture_arr(gui, &gui->textures.sprites[0].frames, "textures/solong/slime0.xpm", 8);
+	load_texture_arr(gui, &gui->textures.sprites[0].frames, "textures/solong/slime1.xpm", 8);
+	load_texture_arr(gui, &gui->textures.sprites[0].frames, "textures/solong/slime2.xpm", 8);
+	load_texture_arr(gui, &gui->textures.sprites[0].frames, "textures/solong/slime3.xpm", 8);
+	load_texture_arr(gui, &gui->textures.sprites[0].frames, "textures/solong/slime4.xpm", 8);
+	load_texture_arr(gui, &gui->textures.sprites[0].frames, "textures/solong/slime5.xpm", 8);
+	load_texture_arr(gui, &gui->textures.sprites[0].frames, "textures/solong/slime6.xpm", 8);
+	load_texture_arr(gui, &gui->textures.sprites[0].frames, "textures/solong/slime7.xpm", 8);
+
+	gui->textures.sprites[1].posi = (t_vect){12, 12};
+	gui->textures.sprites[1].solid = 1;
+	gui->textures.sprites[1].type = STATIONARY;
+	gui->textures.sprites[1].fcur = 0;
+	gui->textures.sprites[1].fnum = 8;
+	load_texture_arr(gui, &gui->textures.sprites[1].frames, "textures/solong/slime0.xpm", 8);
+	load_texture_arr(gui, &gui->textures.sprites[1].frames, "textures/solong/slime1.xpm", 8);
+	load_texture_arr(gui, &gui->textures.sprites[1].frames, "textures/solong/slime2.xpm", 8);
+	load_texture_arr(gui, &gui->textures.sprites[1].frames, "textures/solong/slime3.xpm", 8);
+	load_texture_arr(gui, &gui->textures.sprites[1].frames, "textures/solong/slime4.xpm", 8);
+	load_texture_arr(gui, &gui->textures.sprites[1].frames, "textures/solong/slime5.xpm", 8);
+	load_texture_arr(gui, &gui->textures.sprites[1].frames, "textures/solong/slime6.xpm", 8);
+	load_texture_arr(gui, &gui->textures.sprites[1].frames, "textures/solong/slime7.xpm", 8);
+
 }
 
 int	main(int ac, char **av)

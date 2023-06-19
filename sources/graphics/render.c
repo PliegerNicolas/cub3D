@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 14:03:16 by emis              #+#    #+#             */
-/*   Updated: 2023/06/18 19:25:52 by emis             ###   ########.fr       */
+/*   Updated: 2023/06/19 16:29:08 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,9 @@ int	render(t_gui *gui)
 			zoom(&gui->player, -1);
 		move(gui);
 	}
-	// t_img	*rend = 
+
+	//1D Zbuffer
+	double ZBuffer[SCRWIDTH];
 
 	for(int x = 0; x < SCRWIDTH; x++)
 	{
@@ -141,7 +143,7 @@ int	render(t_gui *gui)
 		//Calculate height of line to draw on screen
 		int lineHeight = (int)(SCRHEIGHT / perpWallDist);
 
-		int pitch = 100;
+		int pitch = 0; //100 fucks up sprites
 
 		//calculate lowest and highest pixel to fill in current stripe
 		int drawStart = -lineHeight / 2 + SCRHEIGHT / 2 + (pitch * SIMPLE);
@@ -149,24 +151,25 @@ int	render(t_gui *gui)
 		int drawEnd = lineHeight / 2 + SCRHEIGHT / 2 + (pitch * SIMPLE);
 		if(drawEnd >= SCRHEIGHT) drawEnd = SCRHEIGHT - 1;
 #if SIMPLE == 0
-		//choose wall color
-		int color;
-		switch(gui->map->map[mapX][mapY])
-		{
-			case 1:  color = (255 << 16);    break; //red
-			case 2:  color = (255 << 8);  break; //green
-			case 3:  color = (255 << 0);   break; //blue
-			case 4:  color = (255 << 16) | (255 << 8) | (255 << 0);  break; //white
-			default: color = (255 << 16) | (255 << 8); break; //yellow
-		}
+	// 	//choose wall color
+	// 	int color;
+	// 	switch(gui->map->map[mapX][mapY])
+	// 	{
+	// 		case 1:  color = (255 << 16);    break; //red
+	// 		case 2:  color = (255 << 8);  break; //green
+	// 		case 3:  color = (255 << 0);   break; //blue
+	// 		case 4:  color = (255 << 16) | (255 << 8) | (255 << 0);  break; //white
+	// 		default: color = (255 << 16) | (255 << 8); break; //yellow
+	// 	}
 
-		//give x and y sides different brightness
-		if(side == 1) {color = color / 2;}
+	// 	//give x and y sides different brightness
+	// 	if(side == 1) {color = color / 2;}
 
-		//draw the pixels of the stripe as a vertical line
-		// verLine(x, drawStart, drawEnd, color);
-		for (int y = drawStart; y < drawEnd; y++)
-			pixput(rend, x, y, color);
+	// 	//draw the pixels of the stripe as a vertical line
+	// 	// verLine(x, drawStart, drawEnd, color);
+	// 	for (int y = drawStart; y < drawEnd; y++)
+	// 		pixput(rend, x, y, color);
+	// }
 #else
 		//texturing calculations
 		int texNum = gui->map->map[mapX][mapY] - 1; //1 subtracted from it so that texture 0 can be used!
@@ -206,8 +209,13 @@ int	render(t_gui *gui)
 				pixput(gui->buffer, x, y, color);
 			}
 		}
-#endif
+		//SET THE ZBUFFER FOR THE SPRITE CASTING
+		ZBuffer[x] = perpWallDist; //perpendicular distance is used
 	}
+
+	sprite_cast(gui, ZBuffer);
+#endif
+
 	mlx_put_image_to_window(gui->mlx, gui->mlx->win_list, gui->buffer, 0, 0);
 	gui->rendered = 1;
 	printf("x%fy%fdirx%fdiry%f\n", gui->player.posi.x, gui->player.posi.y,

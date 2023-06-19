@@ -1,5 +1,6 @@
 SOURCES += ./sources/graphics/render.c
 SOURCES += ./sources/graphics/controls.c
+SOURCES += ./sources/graphics/sprite_casting.c
 SOURCES += ./sources/graphics/textures.c
 SOURCES += ./sources/main.c
 SOURCES += ./sources/garbaj/wrappers.c

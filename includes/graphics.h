@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/06/18 20:05:58 by emis             ###   ########.fr       */
+/*   Updated: 2023/06/19 16:31:12 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,22 +65,34 @@ typedef struct s_player
 }	t_play;
  // plane = (t_vect){0, 0.66};
 
-	// t_vect	dir;
 typedef struct s_sprite
 {
+	enum e_type
+	{
+		STATIONARY,
+		MOVING,
+		ALIVE,
+		DEAD
+	}		type;
+	_Bool	solid;
 	t_vect	posi;
-	t_img	img;
+	int		fcur;
+	int		fnum;
+	t_img	**frames;
 }	t_sprt;
 
 typedef struct s_textures
 {
 	int		width;
 	int		height;
-	// t_img	*textures;
-	int		arrsize;
-	t_img	**walls;
 	int		floor_col;
 	int		ceil_col;
+	int		arrsize;
+	t_img	**walls;
+	int		spnb;
+	int		*sporder;
+	double	*spdist;
+	t_sprt	*sprites;
 }	t_tex;
 
 typedef struct s_map
@@ -97,7 +109,6 @@ typedef struct s_gui
 	t_img	*buffer;
 	t_map	*map;
 	t_tex	textures;
-	t_sprt	*sprites;
 	t_play	player;
 	int		keys;
 	_Bool	rendered;
@@ -105,7 +116,9 @@ typedef struct s_gui
 
 /* RENDER */
 
-int	render(t_gui *gui);
+int		pixget(t_img *img, int x, int y);
+void	pixput(t_img *img, int x, int y, int color);
+int		render(t_gui *gui);
 
 /* CONTROLS */
 
@@ -119,5 +132,10 @@ int		key_rel(int keycode, t_gui *gui);
 
 t_img	*load_texture(t_gui *gui, char *path);
 void	load_texture_arr(t_gui *gui, t_img ***where, char *path, int size);
+// void	sort_sprites(t_tex *tex, t_vect *from);
+
+/* SPRITE CASTING */
+
+void	sprite_cast(t_gui *gui, double ZBuffer[SCRWIDTH]);
 
 #endif
