@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/06/19 16:31:12 by emis             ###   ########.fr       */
+/*   Updated: 2023/06/19 17:45:21 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,10 +132,14 @@ int		key_rel(int keycode, t_gui *gui);
 
 t_img	*load_texture(t_gui *gui, char *path);
 void	load_texture_arr(t_gui *gui, t_img ***where, char *path, int size);
-// void	sort_sprites(t_tex *tex, t_vect *from);
+
+/* WALL CASTING */
+
+void	wall_cast(t_gui *gui, double ZBuffer[SCRWIDTH]);
 
 /* SPRITE CASTING */
 
 void	sprite_cast(t_gui *gui, double ZBuffer[SCRWIDTH]);
+// void	sort_sprites(t_tex *tex, t_vect *from);
 
 #endif

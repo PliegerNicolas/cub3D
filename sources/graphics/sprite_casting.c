@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 16:26:04 by emis              #+#    #+#             */
-/*   Updated: 2023/06/19 17:08:25 by emis             ###   ########.fr       */
+/*   Updated: 2023/06/19 18:24:28 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,11 @@
 
 static void	sort_sprites(t_tex *tex, t_vect *from)
 {
-	for(int i = 0; i < tex->spnb; i++)
+	int	i;
+	int	tmp;
+
+	i = -1;
+	while (++i < tex->spnb)
 	{
 		tex->sporder[i] = i;
 		tex->spdist[i] = ((from->x - tex->sprites[i].posi.x)
@@ -22,8 +26,17 @@ static void	sort_sprites(t_tex *tex, t_vect *from)
 			+ (from->y - tex->sprites[i].posi.y)
 			* (from->y - tex->sprites[i].posi.y)); //sqrt not taken, unneeded
 	}
-
-	// do the sorting of sporder
+	i = -1;
+	while (++i < tex->spnb - 1)
+	{
+		if (tex->spdist[tex->sporder[i]] < tex->spdist[tex->sporder[i + 1]])
+		{
+			tmp = tex->sporder[i];
+			tex->sporder[i] = tex->sporder[i + 1];
+			tex->sporder[i + 1] = tmp;
+			i = -1;
+		}
+	}
 }
 
 // translate sprite position to relative to camera
@@ -38,10 +51,13 @@ t_vect	transform(t_tex *tex, t_play *play, int i)
 
 	sprite = (t_vect){tex->sprites[tex->sporder[i]].posi.x - play->posi.x,
 		tex->sprites[tex->sporder[i]].posi.y - play->posi.y};
-	invDet = 1.0 / (play->plane.x * play->dir.y - play->dir.x * play->plane.y);
+	invDet = 1.0 / (play->plane.x * (play->dir.y * play->zoom)
+		- (play->dir.x * play->zoom) * play->plane.y);
 	return ((t_vect){
-		invDet * (play->dir.y * sprite.x - play->dir.x * sprite.y),
-		invDet * (-play->plane.y * sprite.x + play->plane.x * sprite.y)
+		invDet * ((play->dir.y * play->zoom) * sprite.x
+		- (play->dir.x * play->zoom) * sprite.y),
+		invDet * (-play->plane.y * sprite.x
+		+ play->plane.x * sprite.y)
 		});
 }
 
@@ -69,11 +85,14 @@ void	sprite_cast(t_gui *gui, double ZBuffer[SCRWIDTH])
 
 		//calculate height of the sprite on screen
 		int spriteHeight = abs((int)(SCRHEIGHT / (transf.y))); //using 'transformY' instead of the real distance prevents fisheye
+		
+		int pitch = 100;
+
 		//calculate lowest and highest pixel to fill in current stripe
-		int drawStartY = bind(-spriteHeight / 2 + SCRHEIGHT / 2, 0, SCRHEIGHT);
+		int drawStartY = bind(-spriteHeight / 2 + SCRHEIGHT / 2 + pitch, 0, SCRHEIGHT);
 		// if (drawStartY < 0)
 		// 	drawStartY = 0;
-		int drawEndY = bind(spriteHeight / 2 + SCRHEIGHT / 2, 0, SCRHEIGHT);
+		int drawEndY = bind(spriteHeight / 2 + SCRHEIGHT / 2 + pitch, 0, SCRHEIGHT);
 		// if (drawEndY >= SCRHEIGHT)
 		// 	drawEndY = SCRHEIGHT - 1;
 
@@ -98,7 +117,7 @@ void	sprite_cast(t_gui *gui, double ZBuffer[SCRWIDTH])
 			if (transf.y > 0 && stripe > 0 && stripe < SCRWIDTH && transf.y < ZBuffer[stripe])
 			for(int y = drawStartY; y < drawEndY; y++) //for every pixel of the current stripe
 			{
-				int d = (y) * 256 - SCRHEIGHT * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
+				int d = (y - pitch) * 256 - SCRHEIGHT * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
 				int texY = ((d * gui->textures.height) / spriteHeight) / 256;
 				int color = pixget(gui->textures.sprites[gui->textures.sporder[i]].frames[0], gui->textures.width * texY + texX, 0); //get current color from the texture texture[sprite[spriteOrder[i]].texture][gui->textures.width * texY + texX]
 				if ((color & 0x00FFFFFF) != 0)

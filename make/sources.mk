@@ -1,3 +1,4 @@
+SOURCES += ./sources/graphics/wall_casting.c
 SOURCES += ./sources/graphics/render.c
 SOURCES += ./sources/graphics/controls.c
 SOURCES += ./sources/graphics/sprite_casting.c
