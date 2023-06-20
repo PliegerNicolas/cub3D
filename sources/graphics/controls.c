@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 15:49:02 by emis              #+#    #+#             */
-/*   Updated: 2023/06/18 17:52:58 by emis             ###   ########.fr       */
+/*   Updated: 2023/06/20 14:13:30 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,27 +35,27 @@ void	rotate(t_play	*play, int dir)
 
 int	move(t_gui *gui)
 {
-	double moveSpeed = 0.20 * gui->player.speed; //frameTime * 5.0 //the constant value is in squares/second
+	double moveSpeed = 0.20 * gui->cam.speed; //frameTime * 5.0 //the constant value is in squares/second
 
 	if (gui->keys & (1 << KP_forth))
 	{
-		if(gui->map->map[(int)(gui->player.posi.x + gui->player.dir.x * moveSpeed)][(int)(gui->player.posi.y)] == 0) gui->player.posi.x += gui->player.dir.x * moveSpeed;
-		if(gui->map->map[(int)(gui->player.posi.x)][(int)(gui->player.posi.y + gui->player.dir.y * moveSpeed)] == 0) gui->player.posi.y += gui->player.dir.y * moveSpeed;
+		if(gui->map->map[(int)(gui->cam.posi.x + gui->cam.dir.x * moveSpeed)][(int)(gui->cam.posi.y)] == 0) gui->cam.posi.x += gui->cam.dir.x * moveSpeed;
+		if(gui->map->map[(int)(gui->cam.posi.x)][(int)(gui->cam.posi.y + gui->cam.dir.y * moveSpeed)] == 0) gui->cam.posi.y += gui->cam.dir.y * moveSpeed;
 	}
 	else if (gui->keys & (1 << KP_back))
 	{
-		if(gui->map->map[(int)(gui->player.posi.x - gui->player.dir.x * moveSpeed)][(int)(gui->player.posi.y)] == 0) gui->player.posi.x -= gui->player.dir.x * moveSpeed;
-		if(gui->map->map[(int)(gui->player.posi.x)][(int)(gui->player.posi.y - gui->player.dir.y * moveSpeed)] == 0) gui->player.posi.y -= gui->player.dir.y * moveSpeed;
+		if(gui->map->map[(int)(gui->cam.posi.x - gui->cam.dir.x * moveSpeed)][(int)(gui->cam.posi.y)] == 0) gui->cam.posi.x -= gui->cam.dir.x * moveSpeed;
+		if(gui->map->map[(int)(gui->cam.posi.x)][(int)(gui->cam.posi.y - gui->cam.dir.y * moveSpeed)] == 0) gui->cam.posi.y -= gui->cam.dir.y * moveSpeed;
 	}
 	if (gui->keys & (1 << KP_right))
 	{
-		if(gui->map->map[(int)(gui->player.posi.x + gui->player.plane.x * moveSpeed)][(int)(gui->player.posi.y)] == 0) gui->player.posi.x += gui->player.plane.x * moveSpeed;
-		if(gui->map->map[(int)(gui->player.posi.x)][(int)(gui->player.posi.y + gui->player.plane.y * moveSpeed)] == 0) gui->player.posi.y += gui->player.plane.y * moveSpeed;
+		if(gui->map->map[(int)(gui->cam.posi.x + gui->cam.plane.x * moveSpeed)][(int)(gui->cam.posi.y)] == 0) gui->cam.posi.x += gui->cam.plane.x * moveSpeed;
+		if(gui->map->map[(int)(gui->cam.posi.x)][(int)(gui->cam.posi.y + gui->cam.plane.y * moveSpeed)] == 0) gui->cam.posi.y += gui->cam.plane.y * moveSpeed;
 	}
 	else if (gui->keys & (1 << KP_left))
 	{
-		if(gui->map->map[(int)(gui->player.posi.x - gui->player.plane.x * moveSpeed)][(int)(gui->player.posi.y)] == 0) gui->player.posi.x -= gui->player.plane.x * moveSpeed;
-		if(gui->map->map[(int)(gui->player.posi.x)][(int)(gui->player.posi.y - gui->player.plane.y * moveSpeed)] == 0) gui->player.posi.y -= gui->player.plane.y * moveSpeed;
+		if(gui->map->map[(int)(gui->cam.posi.x - gui->cam.plane.x * moveSpeed)][(int)(gui->cam.posi.y)] == 0) gui->cam.posi.x -= gui->cam.plane.x * moveSpeed;
+		if(gui->map->map[(int)(gui->cam.posi.x)][(int)(gui->cam.posi.y - gui->cam.plane.y * moveSpeed)] == 0) gui->cam.posi.y -= gui->cam.plane.y * moveSpeed;
 	}
 	return (0);
 }

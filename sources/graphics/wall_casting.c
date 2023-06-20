@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 17:41:41 by emis              #+#    #+#             */
-/*   Updated: 2023/06/19 18:25:57 by emis             ###   ########.fr       */
+/*   Updated: 2023/06/20 14:13:30 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ void	wall_cast(t_gui *gui, double ZBuffer[SCRWIDTH])
 	{
 		//calculate ray position and direction
 		double cameraX = 2 * x / (double)SCRWIDTH - 1; //x-coordinate in camera space
-		double rayDirX = (gui->player.dir.x * gui->player.zoom) + gui->player.plane.x * cameraX;
-		double rayDirY = (gui->player.dir.y * gui->player.zoom) + gui->player.plane.y * cameraX;
+		double rayDirX = (gui->cam.dir.x * gui->cam.zoom) + gui->cam.plane.x * cameraX;
+		double rayDirY = (gui->cam.dir.y * gui->cam.zoom) + gui->cam.plane.y * cameraX;
 		//which box of the map we're in
-		int mapX = (int)(gui->player.posi.x);
-		int mapY = (int)(gui->player.posi.y);
+		int mapX = (int)(gui->cam.posi.x);
+		int mapY = (int)(gui->cam.posi.y);
 
 		//length of ray from current position to next x or y-side
 		double sideDistX;
@@ -56,22 +56,22 @@ void	wall_cast(t_gui *gui, double ZBuffer[SCRWIDTH])
 		if(rayDirX < 0)
 		{
 			stepX = -1;
-			sideDistX = (gui->player.posi.x - mapX) * deltaDistX;
+			sideDistX = (gui->cam.posi.x - mapX) * deltaDistX;
 		}
 		else
 		{
 			stepX = 1;
-			sideDistX = (mapX + 1.0 - gui->player.posi.x) * deltaDistX;
+			sideDistX = (mapX + 1.0 - gui->cam.posi.x) * deltaDistX;
 		}
 		if(rayDirY < 0)
 		{
 			stepY = -1;
-			sideDistY = (gui->player.posi.y - mapY) * deltaDistY;
+			sideDistY = (gui->cam.posi.y - mapY) * deltaDistY;
 		}
 		else
 		{
 			stepY = 1;
-			sideDistY = (mapY + 1.0 - gui->player.posi.y) * deltaDistY;
+			sideDistY = (mapY + 1.0 - gui->cam.posi.y) * deltaDistY;
 		}
 		//perform DDA
 		while(hit == 0)
@@ -107,12 +107,12 @@ void	wall_cast(t_gui *gui, double ZBuffer[SCRWIDTH])
 		//Calculate height of line to draw on screen
 		int lineHeight = (int)(SCRHEIGHT / perpWallDist);
 
-		int pitch = 100;
+		// int pitch = 100;
 
 		//calculate lowest and highest pixel to fill in current stripe
-		int drawStart = -lineHeight / 2 + SCRHEIGHT / 2 + (pitch * SIMPLE);
+		int drawStart = -lineHeight / 2 + SCRHEIGHT / 2 + gui->cam.pitch;
 		if(drawStart < 0) drawStart = 0;
-		int drawEnd = lineHeight / 2 + SCRHEIGHT / 2 + (pitch * SIMPLE);
+		int drawEnd = lineHeight / 2 + SCRHEIGHT / 2 + gui->cam.pitch;
 		if(drawEnd >= SCRHEIGHT) drawEnd = SCRHEIGHT - 1;
 #if SIMPLE == 0
 		(void)ZBuffer;
@@ -141,8 +141,8 @@ void	wall_cast(t_gui *gui, double ZBuffer[SCRWIDTH])
 
 		//calculate value of wallX
 		double wallX; //where exactly the wall was hit
-		if(side == 0) wallX = gui->player.posi.y + perpWallDist * rayDirY;
-		else          wallX = gui->player.posi.x + perpWallDist * rayDirX;
+		if(side == 0) wallX = gui->cam.posi.y + perpWallDist * rayDirY;
+		else          wallX = gui->cam.posi.x + perpWallDist * rayDirX;
 		wallX -= floor((wallX));
 
 		//x coordinate on the texture
@@ -154,7 +154,7 @@ void	wall_cast(t_gui *gui, double ZBuffer[SCRWIDTH])
 		// How much to increase the texture coordinate per screen pixel
 		double step = 1.0 * gui->textures.width / lineHeight;
 		// Starting texture coordinate
-		double texPos = (drawStart - pitch - SCRHEIGHT / 2 + lineHeight / 2) * step;
+		double texPos = (drawStart - gui->cam.pitch - SCRHEIGHT / 2 + lineHeight / 2) * step;
 		for(int y = 0; y < SCRHEIGHT; y++)
 		{
 			if (y < drawStart)

@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 16:26:04 by emis              #+#    #+#             */
-/*   Updated: 2023/06/19 18:24:28 by emis             ###   ########.fr       */
+/*   Updated: 2023/06/20 15:18:21 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,25 +74,25 @@ void	sprite_cast(t_gui *gui, double ZBuffer[SCRWIDTH])
 {
 	t_vect	transf;
 
-	sort_sprites(&gui->textures, &gui->player.posi);
+	sort_sprites(&gui->textures, &gui->cam.posi);
 
 	//after sorting the sprites, do the projection and draw them
 	for(int i = 0; i < gui->textures.spnb; i++)
 	{
-		transf = transform(&gui->textures, &gui->player, i);
+		transf = transform(&gui->textures, &gui->cam, i);
 
 		int spriteScreenX = (int)((SCRWIDTH / 2) * (1 + transf.x / transf.y));
 
 		//calculate height of the sprite on screen
 		int spriteHeight = abs((int)(SCRHEIGHT / (transf.y))); //using 'transformY' instead of the real distance prevents fisheye
 		
-		int pitch = 100;
+		// int pitch = 100;
 
 		//calculate lowest and highest pixel to fill in current stripe
-		int drawStartY = bind(-spriteHeight / 2 + SCRHEIGHT / 2 + pitch, 0, SCRHEIGHT);
+		int drawStartY = bind(-spriteHeight / 2 + SCRHEIGHT / 2 + gui->cam.pitch, 0, SCRHEIGHT);
 		// if (drawStartY < 0)
 		// 	drawStartY = 0;
-		int drawEndY = bind(spriteHeight / 2 + SCRHEIGHT / 2 + pitch, 0, SCRHEIGHT);
+		int drawEndY = bind(spriteHeight / 2 + SCRHEIGHT / 2 + gui->cam.pitch, 0, SCRHEIGHT);
 		// if (drawEndY >= SCRHEIGHT)
 		// 	drawEndY = SCRHEIGHT - 1;
 
@@ -117,11 +117,11 @@ void	sprite_cast(t_gui *gui, double ZBuffer[SCRWIDTH])
 			if (transf.y > 0 && stripe > 0 && stripe < SCRWIDTH && transf.y < ZBuffer[stripe])
 			for(int y = drawStartY; y < drawEndY; y++) //for every pixel of the current stripe
 			{
-				int d = (y - pitch) * 256 - SCRHEIGHT * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
+				int d = (y - gui->cam.pitch) * 256 - SCRHEIGHT * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
 				int texY = ((d * gui->textures.height) / spriteHeight) / 256;
 				int color = pixget(gui->textures.sprites[gui->textures.sporder[i]].frames[0], gui->textures.width * texY + texX, 0); //get current color from the texture texture[sprite[spriteOrder[i]].texture][gui->textures.width * texY + texX]
-				if ((color & 0x00FFFFFF) != 0)
-					pixput(gui->buffer, stripe, y, color); //buffer[y][stripe] = color paint pixel if it isn't black, black is the invisible color
+				if ((color & 0x00FFFFFF) != 0) // use alpha
+					pixput(gui->buffer, stripe, y, color | (200 << 24)); //buffer[y][stripe] = color paint pixel if it isn't black, black is the invisible color
 			}
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/06/19 17:45:21 by emis             ###   ########.fr       */
+/*   Updated: 2023/06/20 15:17:18 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct s_player
 	t_vect	posi;
 	t_vect	dir;
 	t_vect	plane;
+	int		pitch;
 	double	zoom;
 	double	speed;
 }	t_play;
@@ -76,6 +77,7 @@ typedef struct s_sprite
 	}		type;
 	_Bool	solid;
 	t_vect	posi;
+	int		alpha;
 	int		fcur;
 	int		fnum;
 	t_img	**frames;
@@ -109,7 +111,7 @@ typedef struct s_gui
 	t_img	*buffer;
 	t_map	*map;
 	t_tex	textures;
-	t_play	player;
+	t_play	cam;
 	int		keys;
 	_Bool	rendered;
 }	t_gui;

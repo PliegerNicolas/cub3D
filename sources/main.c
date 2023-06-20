@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:18:42 by emis              #+#    #+#             */
-/*   Updated: 2023/06/19 17:11:38 by emis             ###   ########.fr       */
+/*   Updated: 2023/06/20 14:21:15 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@
 // 		gui = trymalloc(sizeof(t_gui), 0);
 // 		gui->mlx = mlx_init();
 // 		mkorbrk(gui->mlx, mlxwrap, !gui->mlx, 0);
-// 		// gui->player = trymalloc(sizeof(t_play), 0);
-// 		gui->player.posi = (t_vect){22, 12};
-// 		gui->player.dir = (t_vect){0, 0};
-// 		gui->player.plane = (t_vect){0, 0.66};
+// 		// gui->cam = trymalloc(sizeof(t_play), 0);
+// 		gui->cam.posi = (t_vect){22, 12};
+// 		gui->cam.dir = (t_vect){0, 0};
+// 		gui->cam.plane = (t_vect){0, 0.66};
 
 // 	}
 // 	return (gui);
@@ -86,6 +86,7 @@ void	map_init(t_map	*map, char *filename)
 void	player_init(t_play *player, t_vect posi, int orient)
 {
 	player->posi = posi;
+	player->pitch = 100;
 	player->zoom = 1;
 	player->speed = 1;
 	if (orient == NORTH)
@@ -116,7 +117,7 @@ void	gui_init(t_gui *gui, int ac, char **av)
 		exit(garbaj(NULL, NULL, 0) + 1);
 	gui->mlx = mlx_init();
 	mkorbrk(gui->mlx, mlxwrap, !gui->mlx, 0);
-	player_init(&gui->player, (t_vect){22, 12}, 'N');
+	player_init(&gui->cam, (t_vect){22, 12}, 'N');
 	gui->map = trymalloc(sizeof(t_map), 0);
 	map_init(gui->map, av[1]);
 	gui->keys = 0;
@@ -144,7 +145,7 @@ void	gui_init(t_gui *gui, int ac, char **av)
 	gui->textures.spdist[1] = 0;
 	gui->textures.sprites = trymalloc(sizeof(t_sprt) * SPRITES, 1);
 
-	gui->textures.sprites[0].posi = (t_vect){12, 14};
+	gui->textures.sprites[0].posi = (t_vect){10, 10};
 	gui->textures.sprites[0].solid = 1;
 	gui->textures.sprites[0].type = STATIONARY;
 	gui->textures.sprites[0].fcur = 0;
@@ -158,7 +159,7 @@ void	gui_init(t_gui *gui, int ac, char **av)
 	load_texture_arr(gui, &gui->textures.sprites[0].frames, "textures/solong/slime6.xpm", 8);
 	load_texture_arr(gui, &gui->textures.sprites[0].frames, "textures/solong/slime7.xpm", 8);
 
-	gui->textures.sprites[1].posi = (t_vect){12, 12};
+	gui->textures.sprites[1].posi = (t_vect){9, 9};
 	gui->textures.sprites[1].solid = 1;
 	gui->textures.sprites[1].type = STATIONARY;
 	gui->textures.sprites[1].fcur = 0;
