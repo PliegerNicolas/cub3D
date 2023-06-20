@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/06/20 15:17:18 by emis             ###   ########.fr       */
+/*   Updated: 2023/06/20 17:47:48 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ typedef struct s_textures
 	int		height;
 	int		floor_col;
 	int		ceil_col;
+	t_img	**floorceil;
 	int		arrsize;
 	t_img	**walls;
 	int		spnb;
@@ -118,9 +119,13 @@ typedef struct s_gui
 
 /* RENDER */
 
+int		render(t_gui *gui);
+
+/* IMAGE */
+
 int		pixget(t_img *img, int x, int y);
 void	pixput(t_img *img, int x, int y, int color);
-int		render(t_gui *gui);
+void	erase(t_img *img);
 
 /* CONTROLS */
 
@@ -134,6 +139,10 @@ int		key_rel(int keycode, t_gui *gui);
 
 t_img	*load_texture(t_gui *gui, char *path);
 void	load_texture_arr(t_gui *gui, t_img ***where, char *path, int size);
+
+/* FLOOR CASTING */
+
+void	floor_cast(t_gui *gui);
 
 /* WALL CASTING */
 

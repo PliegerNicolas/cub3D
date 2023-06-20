@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:18:42 by emis              #+#    #+#             */
-/*   Updated: 2023/06/20 14:21:15 by emis             ###   ########.fr       */
+/*   Updated: 2023/06/20 18:54:54 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	map_init(t_map	*map, char *filename)
 void	player_init(t_play *player, t_vect posi, int orient)
 {
 	player->posi = posi;
-	player->pitch = 100;
+	player->pitch = 0;//100;
 	player->zoom = 1;
 	player->speed = 1;
 	if (orient == NORTH)
@@ -129,6 +129,9 @@ void	gui_init(t_gui *gui, int ac, char **av)
 	// gui->textures.textures = load_texture(&gui, "textures/shrek.xpm");
 	gui->textures.ceil_col = (200 << 0) | (50 << 8) | (50 << 16);
 	gui->textures.floor_col = (50 << 0) | (100 << 8) | (50 << 16);
+	gui->textures.floorceil = NULL;
+	load_texture_arr(gui, &gui->textures.floorceil, "textures/solong/00.xpm", 4);
+	load_texture_arr(gui, &gui->textures.floorceil, "textures/solong/10.xpm", 4);
 	gui->textures.arrsize = 4;
 	gui->textures.walls = NULL;
 	load_texture_arr(gui, &gui->textures.walls, "textures/solong/00.xpm", 4);
