@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 16:26:04 by emis              #+#    #+#             */
-/*   Updated: 2023/06/22 18:31:09 by emis             ###   ########.fr       */
+/*   Updated: 2023/06/22 19:38:08 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void	sprite_cast(t_gui *gui, double ZBuffer[SCRWIDTH])
 	for(int i = 0; i < gui->textures.spnb; i++)
 	{
 		check_and_move(gui->map, &gui->textures.sprites[i].posi, 
-			delta(gui->textures.sprites[i].posi, gui->cam.posi), 0.05);
+			delta(gui->textures.sprites[i].posi, gui->cam.posi), 0.025 + i / 100.0);
 		transf = transform(&gui->textures, &gui->cam, i);
 
 		int spriteScreenX = (int)((SCRWIDTH / 2) * (1 + transf.x / transf.y));

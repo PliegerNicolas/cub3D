@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/06/22 18:30:44 by emis             ###   ########.fr       */
+/*   Updated: 2023/06/22 19:05:31 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,5 +166,9 @@ void	wall_cast(t_gui *gui, double ZBuffer[SCRWIDTH]);
 
 void	sprite_cast(t_gui *gui, double ZBuffer[SCRWIDTH]);
 // void	sort_sprites(t_tex *tex, t_vect *from);
+
+/* MINIMAP */
+
+void	minimap(t_gui *gui);
 
 #endif
