@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/06/20 17:47:48 by emis             ###   ########.fr       */
+/*   Updated: 2023/06/22 18:30:44 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,13 @@ typedef struct s_vect
 
 typedef struct s_player
 {
+	enum e_render_level
+	{
+		BASICWALLS,
+		TEXTUWALLS,
+		SPRITES,
+		FLOORCEIL
+	}		rndr;
 	t_vect	posi;
 	t_vect	dir;
 	t_vect	plane;
@@ -131,6 +138,7 @@ void	erase(t_img *img);
 
 void	zoom(t_play	*play, int dir);
 void	rotate(t_play	*play, int dir);
+void	check_and_move(t_map *map, t_vect *posi, t_vect dxdy, double magn);
 int		move(t_gui *gui);
 int		key_press(int keycode, t_gui *gui);
 int		key_rel(int keycode, t_gui *gui);
@@ -139,6 +147,12 @@ int		key_rel(int keycode, t_gui *gui);
 
 t_img	*load_texture(t_gui *gui, char *path);
 void	load_texture_arr(t_gui *gui, t_img ***where, char *path, int size);
+
+/* MINIMATH */
+
+int		bind(int val, int min, int max);
+double	invSafe(double x);
+t_vect	delta(t_vect from, t_vect to);
 
 /* FLOOR CASTING */
 

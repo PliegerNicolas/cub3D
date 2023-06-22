@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 15:49:02 by emis              #+#    #+#             */
-/*   Updated: 2023/06/20 19:24:36 by emis             ###   ########.fr       */
+/*   Updated: 2023/06/22 18:13:05 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ void	zoom(t_play	*play, int dir)
 	double zoomRate = 0.025;
 
 	zoomRate *= dir;
-	// play->zoom += zoomRate;
-	play->pitch += dir;
+	play->zoom += zoomRate;
+	// play->pitch += dir;
 }
 
 void	rotate(t_play	*play, int dir)
@@ -34,30 +34,26 @@ void	rotate(t_play	*play, int dir)
 	play->plane.y = oldPlaneX * sin(rotSpeed) + play->plane.y * cos(rotSpeed);
 }
 
+void	check_and_move(t_map *map, t_vect *posi, t_vect dxdy, double magn)
+{
+	if (map->map[(int)(posi->x + dxdy.x * magn)][(int)(posi->y)] == 0)
+		posi->x += dxdy.x * magn;
+	if (map->map[(int)(posi->x)][(int)(posi->y + dxdy.y * magn)] == 0)
+		posi->y += dxdy.y * magn;
+}
+
 int	move(t_gui *gui)
 {
 	double moveSpeed = 0.20 * gui->cam.speed; //frameTime * 5.0 //the constant value is in squares/second
 
 	if (gui->keys & (1 << KP_forth))
-	{
-		if(gui->map->map[(int)(gui->cam.posi.x + gui->cam.dir.x * moveSpeed)][(int)(gui->cam.posi.y)] == 0) gui->cam.posi.x += gui->cam.dir.x * moveSpeed;
-		if(gui->map->map[(int)(gui->cam.posi.x)][(int)(gui->cam.posi.y + gui->cam.dir.y * moveSpeed)] == 0) gui->cam.posi.y += gui->cam.dir.y * moveSpeed;
-	}
+		check_and_move(gui->map, &gui->cam.posi, gui->cam.dir, moveSpeed);
 	else if (gui->keys & (1 << KP_back))
-	{
-		if(gui->map->map[(int)(gui->cam.posi.x - gui->cam.dir.x * moveSpeed)][(int)(gui->cam.posi.y)] == 0) gui->cam.posi.x -= gui->cam.dir.x * moveSpeed;
-		if(gui->map->map[(int)(gui->cam.posi.x)][(int)(gui->cam.posi.y - gui->cam.dir.y * moveSpeed)] == 0) gui->cam.posi.y -= gui->cam.dir.y * moveSpeed;
-	}
+		check_and_move(gui->map, &gui->cam.posi, gui->cam.dir, -moveSpeed);
 	if (gui->keys & (1 << KP_right))
-	{
-		if(gui->map->map[(int)(gui->cam.posi.x + gui->cam.plane.x * moveSpeed)][(int)(gui->cam.posi.y)] == 0) gui->cam.posi.x += gui->cam.plane.x * moveSpeed;
-		if(gui->map->map[(int)(gui->cam.posi.x)][(int)(gui->cam.posi.y + gui->cam.plane.y * moveSpeed)] == 0) gui->cam.posi.y += gui->cam.plane.y * moveSpeed;
-	}
+		check_and_move(gui->map, &gui->cam.posi, gui->cam.plane, moveSpeed);
 	else if (gui->keys & (1 << KP_left))
-	{
-		if(gui->map->map[(int)(gui->cam.posi.x - gui->cam.plane.x * moveSpeed)][(int)(gui->cam.posi.y)] == 0) gui->cam.posi.x -= gui->cam.plane.x * moveSpeed;
-		if(gui->map->map[(int)(gui->cam.posi.x)][(int)(gui->cam.posi.y - gui->cam.plane.y * moveSpeed)] == 0) gui->cam.posi.y -= gui->cam.plane.y * moveSpeed;
-	}
+		check_and_move(gui->map, &gui->cam.posi, gui->cam.plane, -moveSpeed);
 	return (0);
 }
 

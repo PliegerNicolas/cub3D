@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:18:42 by emis              #+#    #+#             */
-/*   Updated: 2023/06/20 18:54:54 by emis             ###   ########.fr       */
+/*   Updated: 2023/06/22 17:25:55 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ void	player_init(t_play *player, t_vect posi, int orient)
 	player->pitch = 0;//100;
 	player->zoom = 1;
 	player->speed = 1;
+	player->rndr = FLOORCEIL;
 	if (orient == NORTH)
 	{
 		player->dir = (t_vect){-1, 0};
@@ -151,7 +152,7 @@ void	gui_init(t_gui *gui, int ac, char **av)
 	gui->textures.sprites[0].posi = (t_vect){10, 10};
 	gui->textures.sprites[0].solid = 1;
 	gui->textures.sprites[0].type = STATIONARY;
-	gui->textures.sprites[0].fcur = 0;
+	gui->textures.sprites[0].fcur = 4;
 	gui->textures.sprites[0].fnum = 8;
 	load_texture_arr(gui, &gui->textures.sprites[0].frames, "textures/solong/slime0.xpm", 8);
 	load_texture_arr(gui, &gui->textures.sprites[0].frames, "textures/solong/slime1.xpm", 8);

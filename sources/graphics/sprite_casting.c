@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 16:26:04 by emis              #+#    #+#             */
-/*   Updated: 2023/06/20 15:18:21 by emis             ###   ########.fr       */
+/*   Updated: 2023/06/22 18:31:09 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,13 +61,21 @@ t_vect	transform(t_tex *tex, t_play *play, int i)
 		});
 }
 
-int	bind(int val, int min, int max)
+#include <time.h>
+
+void	frame_shift(t_tex *tex)
 {
-	if (val < min)
-		return (min);
-	if (val >= max)
-		return (max - 1);
-	return (val);
+	static clock_t	last;
+	clock_t			cur;
+	int				iter;
+
+	cur = clock();
+	if ((double)(cur - last) / (double)CLOCKS_PER_SEC < 0.1)
+		return;
+	last = cur;
+	iter = -1;
+	while (++iter < tex->spnb)
+		tex->sprites[iter].fcur = (tex->sprites[iter].fcur + 1) % tex->sprites[iter].fnum;
 }
 
 void	sprite_cast(t_gui *gui, double ZBuffer[SCRWIDTH])
@@ -75,10 +83,13 @@ void	sprite_cast(t_gui *gui, double ZBuffer[SCRWIDTH])
 	t_vect	transf;
 
 	sort_sprites(&gui->textures, &gui->cam.posi);
+	frame_shift(&gui->textures);
 
 	//after sorting the sprites, do the projection and draw them
 	for(int i = 0; i < gui->textures.spnb; i++)
 	{
+		check_and_move(gui->map, &gui->textures.sprites[i].posi, 
+			delta(gui->textures.sprites[i].posi, gui->cam.posi), 0.05);
 		transf = transform(&gui->textures, &gui->cam, i);
 
 		int spriteScreenX = (int)((SCRWIDTH / 2) * (1 + transf.x / transf.y));
@@ -119,7 +130,9 @@ void	sprite_cast(t_gui *gui, double ZBuffer[SCRWIDTH])
 			{
 				int d = (y - gui->cam.pitch) * 256 - SCRHEIGHT * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
 				int texY = ((d * gui->textures.height) / spriteHeight) / 256;
-				int color = pixget(gui->textures.sprites[gui->textures.sporder[i]].frames[0], gui->textures.width * texY + texX, 0); //get current color from the texture texture[sprite[spriteOrder[i]].texture][gui->textures.width * texY + texX]
+				int which = gui->textures.sporder[i];
+				int color = pixget(gui->textures.sprites[which].frames[gui->textures.sprites[which].fcur],
+					gui->textures.width * texY + texX, 0); //get current color from the texture texture[sprite[spriteOrder[i]].texture][gui->textures.width * texY + texX]
 				if ((color & 0x00FFFFFF) != 0) // use alpha
 					pixput(gui->buffer, stripe, y, color | (200 << 24)); //buffer[y][stripe] = color paint pixel if it isn't black, black is the invisible color
 			}

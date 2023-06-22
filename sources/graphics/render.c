@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 14:03:16 by emis              #+#    #+#             */
-/*   Updated: 2023/06/20 19:24:48 by emis             ###   ########.fr       */
+/*   Updated: 2023/06/22 17:25:02 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,15 @@ int	render(t_gui *gui)
 {
 	double ZBuffer[SCRWIDTH];
 
-	if (gui->rendered && !gui->keys)
+	if (gui->rendered && (!gui->keys && gui->cam.rndr < SPRITES))
 		return (0);
 	key_render(gui);
 	erase(gui->buffer);
-	floor_cast(gui);
+	if (gui->cam.rndr == FLOORCEIL)
+		floor_cast(gui);
 	wall_cast(gui, ZBuffer);
-	sprite_cast(gui, ZBuffer);
+	if (gui->cam.rndr >= SPRITES)
+		sprite_cast(gui, ZBuffer);
 	mlx_put_image_to_window(gui->mlx, gui->mlx->win_list, gui->buffer, 0, 0);
 	gui->rendered = 1;
 	return (0);
