@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:18:42 by emis              #+#    #+#             */
-/*   Updated: 2023/06/22 17:25:55 by emis             ###   ########.fr       */
+/*   Updated: 2023/06/23 17:14:22 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@
 #define mapWidth 24
 #define mapHeight 24
 
+/*
 int worldMap[mapWidth][mapHeight]=
 {
 	{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
@@ -63,12 +64,14 @@ int worldMap[mapWidth][mapHeight]=
 	{1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
 	{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 };
+*/
 
 int	hello(void *lol)
 {
 	return printf("hey! %p\n", lol);
 }
 
+/*
 void	map_init(t_map	*map, char *filename)
 {
 	(void)filename;
@@ -178,12 +181,15 @@ void	gui_init(t_gui *gui, int ac, char **av)
 	load_texture_arr(gui, &gui->textures.sprites[1].frames, "textures/solong/slime7.xpm", 8);
 
 }
+*/
 
 int	main(int ac, char **av)
 {
 	t_gui	gui;
 
-	gui_init(&gui, ac, av);
+	if (initialize(ac, av, &gui)) // parsing
+		return (1);
+	//gui_init(&gui, ac, av);
 	mlx_new_window(gui.mlx, SCRWIDTH, SCRHEIGHT, "cub3D my beloved");
 	mlx_loop_hook(gui.mlx, &render, &gui);
 	mlx_hook(gui.mlx->win_list, KeyPress, KeyPressMask, &key_press, &gui);

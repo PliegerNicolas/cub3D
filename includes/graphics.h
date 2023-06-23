@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/06/22 19:05:31 by emis             ###   ########.fr       */
+/*   Updated: 2023/06/23 16:27:18 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "../mlx/mlx_int.h"
 # include "../mlx/mlx.h"
 # include "garbaj.h"
+# include "parsing.h"
 
 #define SCRWIDTH 1200
 #define SCRHEIGHT 1000
@@ -170,5 +171,18 @@ void	sprite_cast(t_gui *gui, double ZBuffer[SCRWIDTH]);
 /* MINIMAP */
 
 void	minimap(t_gui *gui);
+
+
+
+
+
+
+
+/* ************************************** */
+/* * TEMP, NEEDED FOR PARSING			* */
+/* ************************************** */
+
+bool	initialize(int argc, char **argv, t_gui *gui);
+bool	initialize_gui(t_gui *gui);
 
 #endif

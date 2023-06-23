@@ -12,3 +12,8 @@ SOURCES += ./sources/garbaj/wrappers.c
 SOURCES += ./sources/garbaj/garbaj.c
 SOURCES += ./sources/garbaj/error.c
 SOURCES += ./sources/garbaj/free.c
+
+SOURCES += ./sources/parsing/initialize.c
+SOURCES += ./sources/parsing/initialize_gui.c
+SOURCES += ./sources/parsing/verify_arguments.c
+SOURCES += ./sources/parsing/parsing_errors.c

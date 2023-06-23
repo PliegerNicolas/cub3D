@@ -6,12 +6,27 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:34:04 by emis              #+#    #+#             */
-/*   Updated: 2023/06/18 19:52:42 by emis             ###   ########.fr       */
+/*   Updated: 2023/06/23 15:13:03 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #ifndef PARSING_H
 # define PARSING_H
+
+/* ************************************** */
+/* * INCLUDES							* */
+/* ************************************** */
+
+# include <stdbool.h>
+# include <unistd.h>
+# include <fcntl.h>
+
+/* ************************************** */
+/* * ENUMERATORS						* */
+/* ************************************** */
+
+/* ************************************** */
+/* * TYPEDEFS							* */
+/* ************************************** */
 
 typedef enum e_map_symbols
 {
@@ -23,7 +38,22 @@ typedef enum e_map_symbols
 	WALL = '1'
 }	t_sym;
 
+/* ************************************** */
+/* * GLOBAL VAR							* */
+/* ************************************** */
+
+/* ************************************** */
+/* * MACRO								* */
+/* ************************************** */
+
 # define SYMBOLS ((t_sym[]){NORTH, SOUTH, EAST, WEST, FLOOR, WALL})
 # define SYMSTR ("NSEW01") // to check map use strchr on this string ?
+
+/* ************************************** */
+/* * FUNCTIONS							* */
+/* ************************************** */
+
+bool	verify_arguments(int argc, char **argv);
+void	put_parsing_err(char *err_msg);
 
 #endif
