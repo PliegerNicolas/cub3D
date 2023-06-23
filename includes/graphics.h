@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/06/23 16:06:04 by emis             ###   ########.fr       */
+/*   Updated: 2023/06/23 19:21:33 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,7 @@ int		render(t_gui *gui);
 int		pixget(t_img *img, int x, int y);
 void	pixput(t_img *img, int x, int y, int color);
 void	erase(t_img *img);
+void	imgput(t_img *dest, int x, int y, t_img *img);
 
 /* CONTROLS */
 
@@ -176,5 +177,9 @@ void	sprite_cast(t_gui *gui, double ZBuffer[SCRWIDTH]);
 /* MINIMAP */
 
 void	minimap(t_gui *gui);
+
+/* WEAPON */
+
+void	weapon(t_gui *gui);
 
 #endif

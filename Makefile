@@ -85,8 +85,10 @@ fclean: clean
 re:		fclean all
 
 val:
-	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes --suppressions=ignore_rl_leaks.supp ./cub3D
-# --trace-children=yes
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./cub3D
+
+# xpm:
+# 	mogrify -format xpm -- ${TXTS}
 
 gmk:
 		@mkdir -p make
