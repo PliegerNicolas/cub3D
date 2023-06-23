@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:18:42 by emis              #+#    #+#             */
-/*   Updated: 2023/06/22 17:25:55 by emis             ###   ########.fr       */
+/*   Updated: 2023/06/23 15:39:22 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int worldMap[mapWidth][mapHeight]=
 	{1,4,0,0,0,0,5,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
 	{1,4,0,4,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
 	{1,4,0,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,4,0,0,0,0,0,0,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
 	{1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
 	{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 };
@@ -188,6 +188,8 @@ int	main(int ac, char **av)
 	mlx_loop_hook(gui.mlx, &render, &gui);
 	mlx_hook(gui.mlx->win_list, KeyPress, KeyPressMask, &key_press, &gui);
 	mlx_hook(gui.mlx->win_list, KeyRelease, KeyReleaseMask, &key_rel, &gui);
+	mlx_hook(gui.mlx->win_list, ButtonPress, ButtonPressMask, &mouse_press, &gui);
+	mlx_hook(gui.mlx->win_list, MotionNotify, PointerMotionMask, &mouse_motion, &gui);
 	mlx_hook(gui.mlx->win_list, DestroyNotify, 0L, &mlx_loop_end, gui.mlx);
 	mlx_hook(gui.mlx->win_list, Expose, 0L, hello, &gui);
 	mlx_loop(gui.mlx);

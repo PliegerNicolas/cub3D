@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/06/22 19:05:31 by emis             ###   ########.fr       */
+/*   Updated: 2023/06/23 16:06:04 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,11 +137,16 @@ void	erase(t_img *img);
 /* CONTROLS */
 
 void	zoom(t_play	*play, int dir);
-void	rotate(t_play	*play, int dir);
+void	rotate(t_play	*play, double dir);
 void	check_and_move(t_map *map, t_vect *posi, t_vect dxdy, double magn);
 int		move(t_gui *gui);
+
+/* EVENTS */
+
 int		key_press(int keycode, t_gui *gui);
 int		key_rel(int keycode, t_gui *gui);
+int		mouse_press(int keycode, int x, int y, t_gui *gui);
+int		mouse_motion(int x, int y, t_gui *gui);
 
 /* TEXTURES */
 
@@ -151,6 +156,7 @@ void	load_texture_arr(t_gui *gui, t_img ***where, char *path, int size);
 /* MINIMATH */
 
 int		bind(int val, int min, int max);
+int		loopbind(int val, int min, int max);
 double	invSafe(double x);
 t_vect	delta(t_vect from, t_vect to);
 

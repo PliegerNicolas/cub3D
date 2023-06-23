@@ -4,7 +4,7 @@
 -include make/sources.mk
 
 INCPATH		:=	includes/
-INC			:=	-I $(INCPATH)
+INC			:=	-I$(INCPATH)
 
 ################# FOLDER PATHS ##################
 
@@ -27,7 +27,7 @@ CC			:=	cc
 
 CFLAGS		:=	-Wall -Wextra -Werror
 
-CCFLAGS		:=	-Iincludes -I/usr/include -Imlx -g3
+CCFLAGS		:=	${INC} -I/usr/include -Imlx -g3
 
 LFLAGS		:=	-L/usr/lib -lXext -lX11 -lm -lz
 
@@ -54,7 +54,7 @@ all:	${NAME}
 
 .objects/%.o:	%.c
 		@mkdir -p $(dir $@)
-		${CC} ${CFLAGS} ${CCFLAGS} -c $< -o $@ ${INC}
+		${CC} ${CFLAGS} ${CCFLAGS} -c $< -o $@
 
 ${OBJPATH}:
 		mkdir -p ${OBJPATH}
