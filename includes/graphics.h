@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/06/23 16:27:18 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/06/26 07:13:32 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,6 +183,6 @@ void	minimap(t_gui *gui);
 /* ************************************** */
 
 bool	initialize(int argc, char **argv, t_gui *gui);
-bool	initialize_gui(t_gui *gui);
+bool	parse_cub_file(t_gui *gui, int fd);
 
 #endif

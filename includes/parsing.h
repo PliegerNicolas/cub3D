@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:34:04 by emis              #+#    #+#             */
-/*   Updated: 2023/06/23 15:13:03 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/06/26 07:08:29 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PARSING_H
@@ -55,5 +55,11 @@ typedef enum e_map_symbols
 
 bool	verify_arguments(int argc, char **argv);
 void	put_parsing_err(char *err_msg);
+int		ft_isspace(int c);
+
+/* text_filter.c */
+
+void	skip_whitespaces(char *line, size_t *index);
+int		skip_comments(char *line, size_t *index);
 
 #endif

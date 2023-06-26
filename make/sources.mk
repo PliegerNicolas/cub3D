@@ -14,6 +14,8 @@ SOURCES += ./sources/garbaj/error.c
 SOURCES += ./sources/garbaj/free.c
 
 SOURCES += ./sources/parsing/initialize.c
-SOURCES += ./sources/parsing/initialize_gui.c
 SOURCES += ./sources/parsing/verify_arguments.c
-SOURCES += ./sources/parsing/parsing_errors.c
+SOURCES += ./sources/parsing/put_parsing_err.c
+SOURCES += ./sources/parsing/parse_cub_file.c
+SOURCES += ./sources/parsing/ft_isspace.c
+SOURCES += ./sources/parsing/text_filter.c
