@@ -6,7 +6,7 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 06:09:00 by nicolas           #+#    #+#             */
-/*   Updated: 2023/06/27 16:52:38 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/06/27 17:58:21 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -30,7 +30,7 @@ static bool	parse_line(t_gui *gui, char *line, size_t *i, t_map_ctrl **map_ctrl)
 		else if (line[*i] && (line[*i] != '\n' || map_found))
 		{
 			map_found = true;
-			if (parse_map(gui, line, map_ctrl))
+			if (parse_map(line, map_ctrl))
 				return (free_map_ctrl(map_ctrl), true);
 			break ;
 		}
@@ -58,10 +58,12 @@ bool	parse_cub_file(t_gui *gui, int fd)
 			skip_whitespaces(line, &i);
 		(void)skip_comments(line, &i);
 		if (parse_line(gui, line, &i, &map_ctrl))
-			return (free(line), read_rest_of_file(fd), true);
+			return (free(line), goto_eof(fd), true);
 		free(line);
 	}
 	if (!map_ctrl)
 		return (true);
+	if (convert_map_ctrl_to_int_arr(gui, map_ctrl))
+		return (free_map_ctrl(&map_ctrl), true);
 	return (free_map_ctrl(&map_ctrl), false);
 }

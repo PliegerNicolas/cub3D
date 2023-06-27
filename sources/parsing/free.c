@@ -6,21 +6,27 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 02:36:49 by nicolas           #+#    #+#             */
-/*   Updated: 2023/06/27 16:43:55 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/06/27 18:22:42 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
 
-void	read_rest_of_file(int fd)
+void	free_map(t_gui *gui)
 {
-	char	*line;
+	size_t	i;
 
-	line = "";
-	while (line)
+	if (!gui->map.map)
+		return ;
+	i = 0;
+	while (i < gui->map.height)
 	{
-		line = get_next_line(fd);
-		free(line);
+		if (gui->map.map[i])
+			free(gui->map.map[i]);
+		else
+			break ;
+		i++;
 	}
+	free(gui->map.map);
 }
 
 void	free_map_ctrl(t_map_ctrl **map_ctrl)
@@ -40,7 +46,7 @@ void	free_map_ctrl(t_map_ctrl **map_ctrl)
 	*map_ctrl = NULL;
 }
 
-void	free_textures(t_gui *gui)
+static void	free_textures(t_gui *gui)
 {
 	size_t	i;
 
@@ -73,6 +79,7 @@ void	clear_parsing(t_gui *gui)
 	if (!gui->mlx)
 		return ;
 	free_textures(gui);
+	free_map(gui);
 	if (gui->buffer)
 		mlx_destroy_image(gui->mlx, gui->buffer);
 	mlx_destroy_display(gui->mlx);

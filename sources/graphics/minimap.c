@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 18:54:34 by emis              #+#    #+#             */
-/*   Updated: 2023/06/22 19:48:57 by emis             ###   ########.fr       */
+/*   Updated: 2023/06/27 17:35:02 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,29 +39,31 @@ static void	dot(t_img *img, int px, int py, int color)
 
 void	minimap(t_gui *gui)
 {
-	int	x;
-	int	y;
+	size_t	x;
+	size_t	y;
 
-	y = -1;
-	while (++y < gui->map->height * MINISIZE)
+	y = 0;
+	while (y < gui->map.height * MINISIZE)
 	{
-		x = -1;
-		while (++x < gui->map->width * MINISIZE)
+		x = 0;
+		while (x < gui->map.width * MINISIZE)
 		{
-			if (gui->map->map[x / MINISIZE][y / MINISIZE] == 1) //WALL
+			if (gui->map.map[x / MINISIZE][y / MINISIZE] == 1) //WALL
 				pixput(gui->buffer, x, y, BLACK);
-			else if (gui->map->map[x / MINISIZE][y / MINISIZE] == 0)//FLOOR
+			else if (gui->map.map[x / MINISIZE][y / MINISIZE] == 0)//FLOOR
 				pixput(gui->buffer, x, y, WHITE);
 			else
 				pixput(gui->buffer, x, y, BLACK);
+			x++;
 		}
+		y++;
 	}
 	dot(gui->buffer, gui->cam.posi.x * MINISIZE,
 		gui->cam.posi.y * MINISIZE, MAG);
 	dot(gui->buffer, gui->cam.posi.x * MINISIZE + gui->cam.dir.x * 4,
 		gui->cam.posi.y * MINISIZE + gui->cam.dir.y * 4, MAGF);
 	y = -1;
-	while (++y < gui->textures.spnb)
+	while (++y < (size_t)gui->textures.spnb)
 		dot(gui->buffer, gui->textures.sprites[y].posi.x * MINISIZE,
 			gui->textures.sprites[y].posi.y * MINISIZE, GREEN);
 }

@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/06/27 09:42:34 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/06/27 17:54:47 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,8 +108,8 @@ typedef struct s_textures
 
 typedef struct s_map
 {
-	int		width;
-	int		height;
+	size_t	width;
+	size_t	height;
 	int		**map;
 	// char	**map;
 }	t_map;
@@ -118,7 +118,7 @@ typedef struct s_gui
 {
 	t_xvar	*mlx;
 	t_img	*buffer;
-	t_map	*map;
+	t_map	map;
 	t_tex	textures;
 	t_play	cam;
 	int		keys;
@@ -139,7 +139,7 @@ void	erase(t_img *img);
 
 void	zoom(t_play	*play, int dir);
 void	rotate(t_play	*play, int dir);
-void	check_and_move(t_map *map, t_vect *posi, t_vect dxdy, double magn);
+void	check_and_move(t_map map, t_vect *posi, t_vect dxdy, double magn);
 int		move(t_gui *gui);
 int		key_press(int keycode, t_gui *gui);
 int		key_rel(int keycode, t_gui *gui);
@@ -195,12 +195,10 @@ bool	set_color(t_gui *gui, char *line, enum e_type_identifier ti);
 
 /* free.c */
 
-void	free_textures(t_gui *gui);
 void	clear_parsing(t_gui *gui);
-//void	free_map_constructor(t_map_constructor *map_constructor);
 
-/* parse_map.c */
+/* convert_map_ctrl_to_int_arr.c */
 
-bool	parse_map(t_gui *gui, char *line, t_map_ctrl **map_ctrl);
+bool	convert_map_ctrl_to_int_arr(t_gui *gui, t_map_ctrl *map_ctrl);
 
 #endif

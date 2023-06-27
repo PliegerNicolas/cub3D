@@ -6,7 +6,7 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 06:54:21 by nicolas           #+#    #+#             */
-/*   Updated: 2023/06/27 16:47:59 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/06/27 17:15:35 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -40,26 +40,39 @@ static bool	is_valid_map_line(char *line, char *charset)
 	return (true);
 }
 
-bool	parse_map(t_gui *gui, char *line, t_map_ctrl **map_ctrl)
+bool	add_to_map_ctrl(t_map_ctrl **map_ctrl, char *line)
+{
+	t_map_ctrl	*temp;
+	t_map_ctrl	*new_map_ctrl;
+
+	temp = malloc(1 * sizeof(*temp));
+	if (!temp)
+		return (put_parsing_err("Not enough memory."), true);
+	temp->line = ft_strdup(line);
+	if (!temp->line)
+		return (free(temp), put_parsing_err("Not enough memory."), true);
+	temp->len = ft_strlen(temp->line);
+	temp->next = NULL;
+	if (!*map_ctrl)
+		*map_ctrl = temp;
+	else
+	{
+		new_map_ctrl = *map_ctrl;
+		while (new_map_ctrl->next)
+			new_map_ctrl = new_map_ctrl->next;
+		new_map_ctrl->next = temp;
+	}
+	return (false);
+}
+
+bool	parse_map(char *line, t_map_ctrl **map_ctrl)
 {
 	if (!line)
 		return (true);
 	rm_eol(line);
 	if (!is_valid_map_line(line, "01NSWE"))
 		return (true);
-	if (!*map_ctrl)
-	{
-		*map_ctrl = malloc(1 * sizeof(**map_ctrl));
-		if (!*map_ctrl)
-			return (put_parsing_err("Not enough memory."), true);
-		(*map_ctrl)->line = ft_strdup(line);
-		if (!(*map_ctrl)->line)
-			return (put_parsing_err("Not enough memory."), true);
-		(*map_ctrl)->len = ft_strlen((*map_ctrl)->line);
-		(*map_ctrl)->next = NULL;
-	}
-	printf("%s\n", line);
-	(void)map_ctrl;
-	(void)gui;
+	if (add_to_map_ctrl(map_ctrl, line))
+		return (true);
 	return (false);
 }

@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 15:49:02 by emis              #+#    #+#             */
-/*   Updated: 2023/06/22 18:13:05 by emis             ###   ########.fr       */
+/*   Updated: 2023/06/27 17:30:01 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	zoom(t_play	*play, int dir)
 	// play->pitch += dir;
 }
 
-void	rotate(t_play	*play, int dir)
+void	rotate(t_play *play, int dir)
 {
 	double rotSpeed = 0.05; //frameTime * 3.0 //the constant value is in radians/second
 
@@ -34,11 +34,11 @@ void	rotate(t_play	*play, int dir)
 	play->plane.y = oldPlaneX * sin(rotSpeed) + play->plane.y * cos(rotSpeed);
 }
 
-void	check_and_move(t_map *map, t_vect *posi, t_vect dxdy, double magn)
+void	check_and_move(t_map map, t_vect *posi, t_vect dxdy, double magn)
 {
-	if (map->map[(int)(posi->x + dxdy.x * magn)][(int)(posi->y)] == 0)
+	if (map.map[(int)(posi->x + dxdy.x * magn)][(int)(posi->y)] == 0)
 		posi->x += dxdy.x * magn;
-	if (map->map[(int)(posi->x)][(int)(posi->y + dxdy.y * magn)] == 0)
+	if (map.map[(int)(posi->x)][(int)(posi->y + dxdy.y * magn)] == 0)
 		posi->y += dxdy.y * magn;
 }
 
