@@ -6,15 +6,73 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 06:54:21 by nicolas           #+#    #+#             */
-/*   Updated: 2023/06/27 07:41:22 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/06/27 13:53:26 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
 
-bool	parse_map(t_gui *gui, char *line)
+static void	rm_eol(char *line)
 {
-	printf("%s", line);
+	size_t	i;
+
+	i = 0;
+	while (line[i] && line[i] != '\n')
+		i++;
+	if (line[i] == '\n')
+		line[i] = '\0';
+}
+
+static bool	is_valid_map_line(char *line, char *charset)
+{
+	size_t	i;
+	size_t	j;
+
+	if (!line)
+		return (true);
+	i = 0;
+	while (line[i])
+	{
+		if (ft_isspace(line[i]))
+		{
+			i++;
+			continue ;
+		}
+		j = 0;
+		while (charset[j])
+		{
+			if (line[i] == charset[j++])
+			{
+				i++;
+				break ;
+			}
+		}
+		if (!charset[j])
+			return (put_parsing_err("Invalid character in given map."), false);
+	}
+	return (true);
+}
+
+bool	parse_map(t_gui *gui, char *line, t_map_ctrl **map_ctrl)
+{
+	if (!line)
+		return (true);
+	rm_eol(line);
+	if (!is_valid_map_line(line, "01NSWE"))
+		return (true);
+	if (!*map_ctrl)
+	{
+		*map_ctrl = malloc(1 * sizeof(**map_ctrl));
+		if (!*map_ctrl)
+			return (put_parsing_err("Not enough memory."), true);
+		(*map_ctrl)->line = ft_strdup(line);
+		if (!(*map_ctrl)->line)
+			return (put_parsing_err("Not enough memory."), true);
+		(*map_ctrl)->len = ft_strlen((*map_ctrl)->line);
+		(*map_ctrl)->next = NULL;
+
+	}
+	printf("%s\n", line);
+	(void)map_ctrl;
 	(void)gui;
-	(void)line;
 	return (false);
 }

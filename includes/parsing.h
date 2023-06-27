@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:34:04 by emis              #+#    #+#             */
-/*   Updated: 2023/06/27 07:11:15 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/06/27 13:22:07 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PARSING_H
@@ -50,12 +50,12 @@ typedef enum e_map_symbols
 	WALL = '1'
 }	t_sym;
 
-typedef struct s_map_constructor
+typedef struct s_map_ctrl
 {
-	char						*line;
-	size_t						len;
-	struct s_map_constructor	*next;
-}	t_map_constructor;
+	char				*line;
+	size_t				len;
+	struct s_map_ctrl	*next;
+}	t_map_ctrl;
 
 /* ************************************** */
 /* * GLOBAL VAR							* */
@@ -86,5 +86,9 @@ int						skip_comments(char *line, size_t *index);
 /* type_identifiers.c */
 
 enum e_type_identifier	set_type_identifier(char *line, size_t *index);
+
+/* free.c */
+
+void					free_map_ctrl(t_map_ctrl **map_ctrl);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: nplieger <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 13:17:24 by nplieger          #+#    #+#             */
-/*   Updated: 2023/06/27 07:14:40 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/06/27 09:21:25 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -76,10 +76,13 @@ bool	initialize(int argc, char **argv, t_gui *gui)
 		return (true);
 	fd = open(argv[1], O_RDONLY);
 	if (fd < 0)
-		return (put_parsing_err("Unable to open file."), true);
+	{
+		put_parsing_err("Unable to open file.");
+		return (clear_parsing(gui), true);
+	}
 	if (initialize_gui(gui))
-		return (close(fd), true);
+		return (clear_parsing(gui), close(fd), true);
 	if (parse_cub_file(gui, fd))
-		return (close(fd), true);
+		return (clear_parsing(gui), close(fd), true);
 	return (close(fd), false);
 }

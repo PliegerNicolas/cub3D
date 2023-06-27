@@ -6,7 +6,7 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 03:27:14 by nicolas           #+#    #+#             */
-/*   Updated: 2023/06/27 03:31:23 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/06/27 09:08:03 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -27,7 +27,7 @@ static bool	set_wall_texture(t_gui *gui, char *path, int idx)
 	return (false);
 }
 
-bool	set_texture(t_gui *gui, char *line, enum type_identifier ti)
+bool	set_texture(t_gui *gui, char *line, enum e_type_identifier ti)
 {
 	char	*path;
 
@@ -45,7 +45,7 @@ bool	set_texture(t_gui *gui, char *line, enum type_identifier ti)
 	return (free(path), false);
 }
 
-bool	set_color(t_gui *gui, char *line, enum type_identifier ti)
+bool	set_color(t_gui *gui, char *line, enum e_type_identifier ti)
 {
 	(void)gui;
 	(void)line;

@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/06/27 07:42:25 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/06/27 09:42:34 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,10 +197,10 @@ bool	set_color(t_gui *gui, char *line, enum e_type_identifier ti);
 
 void	free_textures(t_gui *gui);
 void	clear_parsing(t_gui *gui);
-void	free_map_constructor(t_map_constructor *map_constructor);
+//void	free_map_constructor(t_map_constructor *map_constructor);
 
 /* parse_map.c */
 
-bool	parse_map(t_gui *gui, char *line);
+bool	parse_map(t_gui *gui, char *line, t_map_ctrl **map_ctrl);
 
 #endif

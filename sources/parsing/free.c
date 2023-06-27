@@ -6,24 +6,26 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 02:36:49 by nicolas           #+#    #+#             */
-/*   Updated: 2023/06/27 07:25:29 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/06/27 13:23:21 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
 
-void	free_map_constructor(t_map_constructor *map_constructor)
+void	free_map_ctrl(t_map_ctrl **map_ctrl)
 {
-	t_map_constructor *temp;
+	t_map_ctrl *temp;
 
-	while (map_constructor->next)
+	if (!*map_ctrl)
+		return ;
+	while (*map_ctrl)
 	{
-		temp = map_constructor->next;
-		if (map_constructor->line)
-			free(map_constructor->line);
-		free(map_constructor);
-		map_constructor = temp;
+		temp = (*map_ctrl)->next;
+		if ((*map_ctrl)->line)
+			free((*map_ctrl)->line);
+		free(*map_ctrl);
+		*map_ctrl = temp;
 	}
-	map_constructor = NULL;
+	*map_ctrl = NULL;
 }
 
 void	free_textures(t_gui *gui)
