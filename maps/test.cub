@@ -9,10 +9,10 @@
 /* * TEXTURES							* */
 /* ************************************** */
 
-NO ./path_to_the_north_texture
-SO ./path_to_the_south_texture
-WE ./path_to_the_west_texture
-EA ./path_to_the_east_texture
+NO ./textures/sol/*test*/ong/00.xpm
+SO ./textures/solong/10.xpm
+WE ./textures/solong/20.xpm
+EA ./textures/solong/30.xpm
 
 F 200,100,0
 C 225,30,0

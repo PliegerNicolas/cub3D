@@ -6,34 +6,43 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 06:09:00 by nicolas           #+#    #+#             */
-/*   Updated: 2023/06/26 07:09:35 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/06/26 09:14:07 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
 
-bool	is_type_identifier(char *line, size_t index)
+static bool	parse_line(t_gui *gui, char *line, size_t *i)
 {
-	if (!line)
-		return (false);
-	if (ft_strncmp(line + index, "NO", 2) == 0)
-		return (true);
-	else if (ft_strncmp(line + index, "SO", 2) == 0)
-		return (true);
-	else if (ft_strncmp(line + index, "WE", 2) == 0)
-		return (true);
-	else if (ft_strncmp(line + index, "EA", 2) == 0)
-		return (true);
-	else if (ft_strncmp(line +index, "F", 1) == 0)
-		return (true);
-	else if (ft_strncmp(line + index, "C", 1) == 0)
-		return (true);
+	enum type_identifier	ti;
+
+	while (line[*i])
+	{
+		if (skip_comments(line, i))
+			continue ;
+		ti = set_type_identifier(line, i);
+		if (ti != not_found)
+		{
+			if (act_on_type_identifier(gui, line + *i, ti))
+				return (true);
+			break ;
+		}
+		else if (line[*i] != '\n')
+		{
+			*i = 0;
+			// parse map
+			printf("%s", line + *i);
+			break ;
+		}
+		else
+			(*i)++;
+	}
 	return (false);
 }
 
 bool	parse_cub_file(t_gui *gui, int fd)
 {	
-	char	*line;
-	size_t	i;
+	char					*line;
+	size_t					i;
 
 	line = "";
 	while (line)
@@ -44,27 +53,9 @@ bool	parse_cub_file(t_gui *gui, int fd)
 			break ;
 		skip_whitespaces(line, &i);
 		(void)skip_comments(line, &i);
-		while (line[i])
-		{
-			if (skip_comments(line, &i))
-				continue ;
-			else if (is_type_identifier(line, i))
-			{
-				// set identifier
-				printf("%s", line + i);
-				break ;
-			}
-			else if (line[i] != '\n')
-			{
-				i = 0;
-				// parse map
-				printf("%s", line + i);
-				break ;
-			}
-			i++;
-		}
+		if (parse_line(gui, line, &i))
+			return (free(line), true);
 		free(line);
 	}
-	(void)gui;
 	return (false);
 }

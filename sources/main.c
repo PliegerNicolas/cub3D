@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:18:42 by emis              #+#    #+#             */
-/*   Updated: 2023/06/26 07:17:24 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/06/27 02:57:29 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,12 +189,7 @@ int	main(int ac, char **av)
 
 	if (initialize(ac, av, &gui)) // parsing
 		return (1);
-	// test
-	if (gui.buffer)
-		mlx_destroy_image(gui.mlx, gui.buffer);
-	mlx_destroy_display(gui.mlx);
-	free(gui.mlx);
-	return (0);
+	return (clear_parsing(&gui), 0);
 	// test
 	//gui_init(&gui, ac, av);
 	mlx_new_window(gui.mlx, SCRWIDTH, SCRHEIGHT, "cub3D my beloved");

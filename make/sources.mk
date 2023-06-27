@@ -19,3 +19,7 @@ SOURCES += ./sources/parsing/put_parsing_err.c
 SOURCES += ./sources/parsing/parse_cub_file.c
 SOURCES += ./sources/parsing/ft_isspace.c
 SOURCES += ./sources/parsing/text_filter.c
+SOURCES += ./sources/parsing/type_identifiers.c
+SOURCES += ./sources/parsing/get_type_identifier_data.c
+SOURCES += ./sources/parsing/free.c
+SOURCES += ./sources/parsing/set_texture.c

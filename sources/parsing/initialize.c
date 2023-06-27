@@ -6,27 +6,63 @@
 /*   By: nplieger <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 13:17:24 by nplieger          #+#    #+#             */
-/*   Updated: 2023/06/26 07:12:24 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/06/27 03:04:32 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
 
+static bool	initialize_sprites(t_gui *gui)
+{
+	(void)gui;
+	return (false);
+}
+
+static bool initialize_textures(t_gui *gui)
+{
+	size_t	i;
+
+	gui->textures.height = 32;
+	gui->textures.width = 32;
+	gui->textures.arrsize = 4;
+	gui->textures.floor_color = 0;
+	gui->textures.ceil_color = 0;
+	gui->textures.walls = NULL;
+	gui->textures.floorceil = NULL;
+	gui->textures.walls = malloc(4 * sizeof(*gui->textures.walls));
+	if (!gui->textures.walls)
+		return (put_parsing_err("Not enough memory."), true);
+	i = 0;
+	while (i < 4)
+		gui->textures.walls[i++] = NULL;
+	gui->textures.floorceil = malloc(2 * sizeof(*gui->textures.floorceil));
+	if (!gui->textures.floorceil)
+		return (put_parsing_err("Not enough memory."), true);
+	i = 0;
+	while (i < 2)
+		gui->textures.floorceil[i++] = NULL;
+	return (false);
+}
+
 static bool	initialize_gui(t_gui *gui)
 {
-	// define mlx
 	gui->mlx = mlx_init();
 	if (!gui->mlx)
-		return (put_parsing_err("Couldn't initialize graphical driver."), true);
-
-	// Image buffer for screen size def
+	{
+		put_parsing_err("Couldn't initialize graphical driver.");
+		return (clear_parsing(gui), true);
+	}
 	gui->buffer = mlx_new_image(gui->mlx, SCRWIDTH, SCRHEIGHT);
 	if (!gui->buffer)
 	{
-		mlx_destroy_display(gui->mlx);
-		free(gui->mlx);
-		return (put_parsing_err("Couldn't build image."), true);
+		put_parsing_err("Couldn't build image.");
+		return (clear_parsing(gui), put_parsing_err("Couldn't build image."), true);
 	}
-
+	if (initialize_sprites(gui))
+		return (clear_parsing(gui), true);
+	if (initialize_textures(gui))
+		return (clear_parsing(gui), true);
+	gui->keys = 0;
+	gui->rendered = 0;
 	return (false);
 }
 
