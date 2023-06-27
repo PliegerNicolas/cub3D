@@ -6,7 +6,7 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 06:54:21 by nicolas           #+#    #+#             */
-/*   Updated: 2023/06/27 13:53:26 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/06/27 14:03:46 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -25,29 +25,15 @@ static void	rm_eol(char *line)
 static bool	is_valid_map_line(char *line, char *charset)
 {
 	size_t	i;
-	size_t	j;
 
 	if (!line)
 		return (true);
 	i = 0;
 	while (line[i])
 	{
-		if (ft_isspace(line[i]))
-		{
-			i++;
-			continue ;
-		}
-		j = 0;
-		while (charset[j])
-		{
-			if (line[i] == charset[j++])
-			{
-				i++;
-				break ;
-			}
-		}
-		if (!charset[j])
+		if (!is_incharset(line[i], charset) && !ft_isspace(line[i]))
 			return (put_parsing_err("Invalid character in given map."), false);
+		i++;
 	}
 	return (true);
 }
@@ -69,7 +55,6 @@ bool	parse_map(t_gui *gui, char *line, t_map_ctrl **map_ctrl)
 			return (put_parsing_err("Not enough memory."), true);
 		(*map_ctrl)->len = ft_strlen((*map_ctrl)->line);
 		(*map_ctrl)->next = NULL;
-
 	}
 	printf("%s\n", line);
 	(void)map_ctrl;

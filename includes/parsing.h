@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:34:04 by emis              #+#    #+#             */
-/*   Updated: 2023/06/27 13:22:07 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/06/27 13:58:44 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PARSING_H
@@ -90,5 +90,9 @@ enum e_type_identifier	set_type_identifier(char *line, size_t *index);
 /* free.c */
 
 void					free_map_ctrl(t_map_ctrl **map_ctrl);
+
+/* is_incharset.c */
+
+int						is_incharset(unsigned char c, char *charset);
 
 #endif

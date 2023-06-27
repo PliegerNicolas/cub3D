@@ -6,7 +6,7 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 06:09:00 by nicolas           #+#    #+#             */
-/*   Updated: 2023/06/27 13:39:22 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/06/27 14:05:49 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -30,7 +30,6 @@ static bool	parse_line(t_gui *gui, char *line, size_t *i, t_map_ctrl **map_ctrl)
 		else if (line[*i] && line[*i] != '\n')
 		{
 			map_found = true;
-			*i = 0;
 			if (parse_map(gui, line, map_ctrl))
 				return (free_map_ctrl(map_ctrl), true);
 			break ;

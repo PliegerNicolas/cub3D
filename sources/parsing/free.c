@@ -6,14 +6,14 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 02:36:49 by nicolas           #+#    #+#             */
-/*   Updated: 2023/06/27 13:23:21 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/06/27 14:04:25 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
 
 void	free_map_ctrl(t_map_ctrl **map_ctrl)
 {
-	t_map_ctrl *temp;
+	t_map_ctrl	*temp;
 
 	if (!*map_ctrl)
 		return ;
