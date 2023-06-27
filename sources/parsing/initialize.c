@@ -6,7 +6,7 @@
 /*   By: nplieger <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 13:17:24 by nplieger          #+#    #+#             */
-/*   Updated: 2023/06/27 03:04:32 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/06/27 03:31:00 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -17,7 +17,7 @@ static bool	initialize_sprites(t_gui *gui)
 	return (false);
 }
 
-static bool initialize_textures(t_gui *gui)
+static bool	initialize_textures(t_gui *gui)
 {
 	size_t	i;
 
@@ -55,7 +55,7 @@ static bool	initialize_gui(t_gui *gui)
 	if (!gui->buffer)
 	{
 		put_parsing_err("Couldn't build image.");
-		return (clear_parsing(gui), put_parsing_err("Couldn't build image."), true);
+		return (clear_parsing(gui), true);
 	}
 	if (initialize_sprites(gui))
 		return (clear_parsing(gui), true);

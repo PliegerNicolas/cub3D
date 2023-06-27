@@ -6,7 +6,7 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 03:27:14 by nicolas           #+#    #+#             */
-/*   Updated: 2023/06/27 03:28:01 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/06/27 03:31:23 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -21,7 +21,7 @@ static bool	set_wall_texture(t_gui *gui, char *path, int idx)
 	if (gui->textures.walls[idx])
 		mlx_destroy_image(gui->mlx, gui->textures.walls[idx]);
 	gui->textures.walls[idx] = mlx_xpm_file_to_image(gui->mlx, path,
-		&width, &height);
+			&width, &height);
 	if (!gui->textures.walls[idx])
 		return (put_parsing_err("Not enough memory"), true);
 	return (false);
