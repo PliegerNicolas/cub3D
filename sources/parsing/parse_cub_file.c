@@ -6,31 +6,31 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 06:09:00 by nicolas           #+#    #+#             */
-/*   Updated: 2023/06/26 09:14:07 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/06/27 07:42:33 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
 
 static bool	parse_line(t_gui *gui, char *line, size_t *i)
 {
-	enum type_identifier	ti;
+	enum e_type_identifier	ti;
 
 	while (line[*i])
 	{
 		if (skip_comments(line, i))
 			continue ;
 		ti = set_type_identifier(line, i);
-		if (ti != not_found)
+		if (line[*i] && ti != not_found)
 		{
 			if (act_on_type_identifier(gui, line + *i, ti))
 				return (true);
 			break ;
 		}
-		else if (line[*i] != '\n')
+		else if (line[*i] && line[*i] != '\n')
 		{
 			*i = 0;
-			// parse map
-			printf("%s", line + *i);
+			if (parse_map(gui, line))
+				return (true);
 			break ;
 		}
 		else
@@ -41,8 +41,8 @@ static bool	parse_line(t_gui *gui, char *line, size_t *i)
 
 bool	parse_cub_file(t_gui *gui, int fd)
 {	
-	char					*line;
-	size_t					i;
+	char				*line;
+	size_t				i;
 
 	line = "";
 	while (line)

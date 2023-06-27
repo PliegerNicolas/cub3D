@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:34:04 by emis              #+#    #+#             */
-/*   Updated: 2023/06/27 02:43:31 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/06/27 07:11:15 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PARSING_H
@@ -25,7 +25,7 @@
 /* * ENUMERATORS						* */
 /* ************************************** */
 
-enum type_identifier
+enum e_type_identifier
 {
 	north_texture_path = 1,
 	south_texture_path = 2,
@@ -50,6 +50,13 @@ typedef enum e_map_symbols
 	WALL = '1'
 }	t_sym;
 
+typedef struct s_map_constructor
+{
+	char						*line;
+	size_t						len;
+	struct s_map_constructor	*next;
+}	t_map_constructor;
+
 /* ************************************** */
 /* * GLOBAL VAR							* */
 /* ************************************** */
@@ -58,8 +65,8 @@ typedef enum e_map_symbols
 /* * MACRO								* */
 /* ************************************** */
 
-# define SYMBOLS ((t_sym[]){NORTH, SOUTH, EAST, WEST, FLOOR, WALL})
-# define SYMSTR ("NSEW01") // to check map use strchr on this string ?
+//# define SYMBOLS ((t_sym[]){NORTH, SOUTH, EAST, WEST, FLOOR, WALL})
+//# define SYMSTR ("NSEW01") // to check map use strchr on this string ?
 
 /* ************************************** */
 /* * FUNCTIONS							* */
@@ -78,6 +85,6 @@ int						skip_comments(char *line, size_t *index);
 
 /* type_identifiers.c */
 
-enum type_identifier	set_type_identifier(char *line, size_t *index);
+enum e_type_identifier	set_type_identifier(char *line, size_t *index);
 
 #endif

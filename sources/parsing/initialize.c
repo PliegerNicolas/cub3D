@@ -6,10 +6,12 @@
 /*   By: nplieger <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 13:17:24 by nplieger          #+#    #+#             */
-/*   Updated: 2023/06/27 03:31:00 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/06/27 07:14:40 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
+
+#define SPRITES 2
 
 static bool	initialize_sprites(t_gui *gui)
 {

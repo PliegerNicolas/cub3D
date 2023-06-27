@@ -23,3 +23,4 @@ SOURCES += ./sources/parsing/type_identifiers.c
 SOURCES += ./sources/parsing/get_type_identifier_data.c
 SOURCES += ./sources/parsing/free.c
 SOURCES += ./sources/parsing/set_texture.c
+SOURCES += ./sources/parsing/parse_map.c

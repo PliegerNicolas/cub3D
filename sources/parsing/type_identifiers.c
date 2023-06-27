@@ -6,12 +6,12 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 07:20:02 by nicolas           #+#    #+#             */
-/*   Updated: 2023/06/27 03:29:17 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/06/27 07:11:02 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
 
-enum type_identifier	set_type_identifier(char *line, size_t *index)
+enum e_type_identifier	set_type_identifier(char *line, size_t *index)
 {
 	if (!line)
 		return (not_found);
@@ -32,7 +32,8 @@ enum type_identifier	set_type_identifier(char *line, size_t *index)
 
 /* This function should that "line + *i" as input given that the first */
 /* characters represent the type identifier. */
-bool	act_on_type_identifier(t_gui *gui, char *line, enum type_identifier ti)
+bool	act_on_type_identifier(t_gui *gui, char *line,
+	enum e_type_identifier ti)
 {
 	if (ti == not_found)
 		return (false);
