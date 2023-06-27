@@ -6,7 +6,7 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 06:09:00 by nicolas           #+#    #+#             */
-/*   Updated: 2023/06/27 14:05:49 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/06/27 16:52:38 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -27,7 +27,7 @@ static bool	parse_line(t_gui *gui, char *line, size_t *i, t_map_ctrl **map_ctrl)
 				return (true);
 			break ;
 		}
-		else if (line[*i] && line[*i] != '\n')
+		else if (line[*i] && (line[*i] != '\n' || map_found))
 		{
 			map_found = true;
 			if (parse_map(gui, line, map_ctrl))
@@ -54,10 +54,11 @@ bool	parse_cub_file(t_gui *gui, int fd)
 		line = get_next_line(fd);
 		if (!line)
 			break ;
-		skip_whitespaces(line, &i);
+		if (line[i] && line[i] != '\n')
+			skip_whitespaces(line, &i);
 		(void)skip_comments(line, &i);
 		if (parse_line(gui, line, &i, &map_ctrl))
-			return (free(line), true);
+			return (free(line), read_rest_of_file(fd), true);
 		free(line);
 	}
 	if (!map_ctrl)

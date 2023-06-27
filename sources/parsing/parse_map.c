@@ -6,7 +6,7 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 06:54:21 by nicolas           #+#    #+#             */
-/*   Updated: 2023/06/27 14:03:46 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/06/27 16:47:59 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -28,11 +28,13 @@ static bool	is_valid_map_line(char *line, char *charset)
 
 	if (!line)
 		return (true);
+	if (!*line)
+		return (put_parsing_err("Invalid map in *.cub file."), false);
 	i = 0;
 	while (line[i])
 	{
 		if (!is_incharset(line[i], charset) && !ft_isspace(line[i]))
-			return (put_parsing_err("Invalid character in given map."), false);
+			return (put_parsing_err("Invalid map in *.cub file."), false);
 		i++;
 	}
 	return (true);

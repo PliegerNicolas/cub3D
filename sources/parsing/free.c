@@ -6,10 +6,22 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 02:36:49 by nicolas           #+#    #+#             */
-/*   Updated: 2023/06/27 14:04:25 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/06/27 16:43:55 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
+
+void	read_rest_of_file(int fd)
+{
+	char	*line;
+
+	line = "";
+	while (line)
+	{
+		line = get_next_line(fd);
+		free(line);
+	}
+}
 
 void	free_map_ctrl(t_map_ctrl **map_ctrl)
 {
