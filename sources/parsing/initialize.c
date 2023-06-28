@@ -6,7 +6,7 @@
 /*   By: nplieger <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 13:17:24 by nplieger          #+#    #+#             */
-/*   Updated: 2023/06/27 09:21:25 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/06/28 17:55:00 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -65,6 +65,7 @@ static bool	initialize_gui(t_gui *gui)
 		return (clear_parsing(gui), true);
 	gui->keys = 0;
 	gui->rendered = 0;
+	gui->map.map = NULL;
 	return (false);
 }
 

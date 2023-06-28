@@ -6,7 +6,7 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 06:54:21 by nicolas           #+#    #+#             */
-/*   Updated: 2023/06/27 17:15:35 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/06/28 18:04:00 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -24,7 +24,8 @@ static void	rm_eol(char *line)
 
 static bool	is_valid_map_line(char *line, char *charset)
 {
-	size_t	i;
+	static bool	spawn_point_found;
+	size_t		i;
 
 	if (!line)
 		return (true);
@@ -34,7 +35,13 @@ static bool	is_valid_map_line(char *line, char *charset)
 	while (line[i])
 	{
 		if (!is_incharset(line[i], charset) && !ft_isspace(line[i]))
-			return (put_parsing_err("Invalid map in *.cub file."), false);
+			return (put_parsing_err("Invalid map in *.cub file : invalid charac\
+ter found."), false);
+		if (is_incharset(line[i], "NSWE") && !spawn_point_found)
+			spawn_point_found = true;
+		else
+			return (put_parsing_err("Invalid map in *.cub file : multiple spawn\
+ points found."), false);
 		i++;
 	}
 	return (true);
