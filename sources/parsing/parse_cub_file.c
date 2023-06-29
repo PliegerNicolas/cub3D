@@ -6,7 +6,7 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 06:09:00 by nicolas           #+#    #+#             */
-/*   Updated: 2023/06/29 06:28:52 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/06/29 06:33:11 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -40,6 +40,18 @@ static bool	parse_line(t_gui *gui, char *line, size_t *i, t_map_ctrl **map_ctrl)
 	return (false);
 }
 
+static bool	retrieve_map(t_gui *gui, t_map_ctrl *map_ctrl)
+{
+	if (!map_ctrl)
+		return (true);
+	if (convert_map_ctrl_to_int_arr(gui, map_ctrl))
+		return (free_map_ctrl(&map_ctrl), true);
+	free_map_ctrl(&map_ctrl);
+	if (!is_map_closed(gui))
+		return (true);
+	return (false);
+}
+
 bool	parse_cub_file(t_gui *gui, int fd)
 {
 	t_map_ctrl	*map_ctrl;
@@ -61,12 +73,7 @@ bool	parse_cub_file(t_gui *gui, int fd)
 			return (free(line), goto_eof(fd), true);
 		free(line);
 	}
-	if (!map_ctrl)
-		return (true);
-	if (convert_map_ctrl_to_int_arr(gui, map_ctrl))
-		return (free_map_ctrl(&map_ctrl), true);
-	free_map_ctrl(&map_ctrl);
-	if (!is_map_closed(gui))
+	if (retrieve_map(gui, map_ctrl))
 		return (true);
 	return (false);
 }
