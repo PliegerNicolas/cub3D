@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:34:04 by emis              #+#    #+#             */
-/*   Updated: 2023/06/27 18:49:05 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/06/29 06:27:42 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PARSING_H
@@ -39,18 +39,6 @@ enum e_type_identifier
 /* ************************************** */
 /* * TYPEDEFS							* */
 /* ************************************** */
-
-/*
-typedef enum e_map_symbols
-{
-	NORTH = 'N',
-	SOUTH = 'S',
-	EAST = 'E',
-	WEST = 'W',
-	FLOOR = '0',
-	WALL = '1'
-}	t_sym;
-*/
 
 typedef struct s_map_ctrl
 {

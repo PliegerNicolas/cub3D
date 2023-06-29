@@ -24,6 +24,7 @@ SOURCES += ./sources/parsing/free.c
 SOURCES += ./sources/parsing/set_texture.c
 SOURCES += ./sources/parsing/parse_map.c
 SOURCES += ./sources/parsing/convert_map_ctrl_to_int_arr.c
+SOURCES += ./sources/parsing/is_map_closed.c
 SOURCES += ./sources/parsing/utils/ft_isspace.c
 SOURCES += ./sources/parsing/utils/is_incharset.c
 SOURCES += ./sources/parsing/utils/goto_eof.c

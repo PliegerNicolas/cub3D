@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/06/27 17:54:47 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/06/29 06:28:12 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,5 +200,9 @@ void	clear_parsing(t_gui *gui);
 /* convert_map_ctrl_to_int_arr.c */
 
 bool	convert_map_ctrl_to_int_arr(t_gui *gui, t_map_ctrl *map_ctrl);
+
+/* is_map_closed.c */
+
+bool	is_map_closed(t_gui *gui);
 
 #endif

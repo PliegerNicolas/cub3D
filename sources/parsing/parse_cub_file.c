@@ -6,7 +6,7 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 06:09:00 by nicolas           #+#    #+#             */
-/*   Updated: 2023/06/27 17:58:21 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/06/29 06:28:52 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -65,5 +65,8 @@ bool	parse_cub_file(t_gui *gui, int fd)
 		return (true);
 	if (convert_map_ctrl_to_int_arr(gui, map_ctrl))
 		return (free_map_ctrl(&map_ctrl), true);
-	return (free_map_ctrl(&map_ctrl), false);
+	free_map_ctrl(&map_ctrl);
+	if (!is_map_closed(gui))
+		return (true);
+	return (false);
 }
