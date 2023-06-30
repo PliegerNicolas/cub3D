@@ -6,12 +6,12 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 17:13:03 by nicolas           #+#    #+#             */
-/*   Updated: 2023/06/28 18:02:58 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/06/30 15:57:48 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
 
-/*
+// temp
 static void	put_map(t_gui *gui, t_map_ctrl *map_ctrl)
 {
 	t_map_ctrl	*temp;
@@ -36,7 +36,6 @@ static void	put_map(t_gui *gui, t_map_ctrl *map_ctrl)
 		i++;
 	}
 }
-*/
 
 static int	convert_charmap_to_intmap(char c)
 {
@@ -125,5 +124,6 @@ bool	convert_map_ctrl_to_int_arr(t_gui *gui, t_map_ctrl *map_ctrl)
 	if (!gui->map.map)
 		return (true);
 	write_to_map(gui, map_ctrl);
+	put_map(gui, map_ctrl);
 	return (false);
 }

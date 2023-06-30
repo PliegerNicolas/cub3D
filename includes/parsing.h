@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:34:04 by emis              #+#    #+#             */
-/*   Updated: 2023/06/29 06:27:42 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/06/30 02:45:56 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PARSING_H
@@ -92,5 +92,11 @@ bool					parse_map(char *line, t_map_ctrl **map_ctrl);
 /* goto_eof.c */
 
 void					goto_eof(int fd);
+
+/* cpy_int_arr.c */
+
+int						**copy_int_arr(int **arr, size_t rowsize,
+							size_t colsize);
+void					free_int_arr(int **int_arr, size_t rowsize);
 
 #endif
