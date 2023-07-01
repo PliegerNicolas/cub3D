@@ -6,7 +6,7 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 16:15:01 by nicolas           #+#    #+#             */
-/*   Updated: 2023/06/29 16:47:24 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/01 22:55:07 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -59,7 +59,7 @@ static void	set_orientation(t_play *player, int val)
 	}
 }
 
-void	set_player(t_gui *gui)
+bool	set_player(t_gui *gui)
 {
 	size_t	row;
 	size_t	col;
@@ -75,10 +75,11 @@ void	set_player(t_gui *gui)
 				set_base_stats(&gui->cam);
 				set_vector(&gui->cam, row, col);
 				set_orientation(&gui->cam, gui->map.map[row][col]);
-				return ;
+				return (false);
 			}
 			col++;
 		}
 		row++;
 	}
+	return (put_parsing_err("No spawn point found in map."), true);
 }

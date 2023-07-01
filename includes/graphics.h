@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/06/30 14:52:08 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/01 22:54:47 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,6 +207,6 @@ bool	is_map_closed(const t_gui *gui);
 
 /* set_player.c */
 
-void	set_player(t_gui *gui);
+bool	set_player(t_gui *gui);
 
 #endif

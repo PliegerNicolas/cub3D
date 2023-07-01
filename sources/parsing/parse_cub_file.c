@@ -6,71 +6,70 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 06:09:00 by nicolas           #+#    #+#             */
-/*   Updated: 2023/06/29 16:51:05 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/01 23:12:14 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
 
-static bool	parse_line(t_gui *gui, char *line, size_t *i, t_map_ctrl **map_ctrl)
-{
-	enum e_type_identifier	ti;
-	static bool				map_found;
-
-	while (line[*i])
-	{
-		if (skip_comments(line, i))
-			continue ;
-		ti = set_type_identifier(line, i);
-		if (line[*i] && ti != not_found && !map_found)
-		{
-			if (act_on_type_identifier(gui, line + *i, ti))
-				return (true);
-			break ;
-		}
-		else if (line[*i] && (line[*i] != '\n' || map_found))
-		{
-			map_found = true;
-			if (parse_map(line, map_ctrl))
-				return (free_map_ctrl(map_ctrl), true);
-			break ;
-		}
-		else
-			(*i)++;
-	}
-	return (false);
-}
-
 static bool	retrieve_map(t_gui *gui, t_map_ctrl *map_ctrl)
 {
 	if (!map_ctrl)
-		return (true);
+		return (put_parsing_err("Map not found in *.cub file."), true);
 	if (convert_map_ctrl_to_int_arr(gui, map_ctrl))
 		return (free_map_ctrl(&map_ctrl), true);
 	free_map_ctrl(&map_ctrl);
-	set_player(gui);
+	if (set_player(gui))
+		return (true);
 	if (!is_map_closed(gui))
 		return (true);
 	return (false);
 }
 
+bool	parse_line(t_gui *gui, char *line, t_map_ctrl **map_ctrl,
+	bool *is_commented)
+{
+	size_t					i;
+	enum e_type_identifier	ti;
+	static bool				map_found;
+
+	if (!line)
+		return (false);
+	i = 0;
+	skip_whitespaces(line, &i);
+	skip_comments(line, &i, is_commented);
+	if (!line[i] || (line[i] == '\n' && !map_found))
+		return (false);
+	ti = set_type_identifier(line, &i);
+	if (line[i] && map_found == false && ti != not_found)
+	{
+		if (act_on_type_identifier(gui, line + i, ti))
+			return (true);
+	}
+	else if (line[i] || map_found)
+	{
+		if (!map_found)
+			map_found = true;
+		if (parse_map(line, map_ctrl))
+			return (free_map_ctrl(map_ctrl), true);
+	}
+	return (false);
+}
+
 bool	parse_cub_file(t_gui *gui, int fd)
 {
-	t_map_ctrl	*map_ctrl;
 	char		*line;
-	size_t		i;
+	t_map_ctrl	*map_ctrl;
+	bool		is_commented;
 
 	line = "";
 	map_ctrl = NULL;
+	is_commented = false;
 	while (line)
 	{
-		i = 0;
 		line = get_next_line(fd);
 		if (!line)
 			break ;
-		if (line[i] && line[i] != '\n')
-			skip_whitespaces(line, &i);
-		(void)skip_comments(line, &i);
-		if (parse_line(gui, line, &i, &map_ctrl))
+		if (parse_line(gui, line, &map_ctrl, &is_commented))
 			return (free(line), goto_eof(fd), true);
 		free(line);
 	}

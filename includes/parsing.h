@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:34:04 by emis              #+#    #+#             */
-/*   Updated: 2023/06/30 02:45:56 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/01 21:59:36 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PARSING_H
@@ -70,8 +70,12 @@ char					*get_type_identifier_data(char *line);
 
 /* text_filter.c */
 
-void					skip_whitespaces(char *line, size_t *index);
-int						skip_comments(char *line, size_t *index);
+//void					skip_whitespaces(char *line, size_t *index);
+//int						skip_comments(char *line, size_t *index);
+void					rm_eol(char *line);
+void					skip_whitespaces(char *line, size_t *i);
+void					skip_comments(char *line, size_t *i,
+							bool *is_commented);
 
 /* type_identifiers.c */
 

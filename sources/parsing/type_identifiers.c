@@ -6,7 +6,7 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 07:20:02 by nicolas           #+#    #+#             */
-/*   Updated: 2023/06/27 07:11:02 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/01 22:48:39 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -35,6 +35,7 @@ enum e_type_identifier	set_type_identifier(char *line, size_t *index)
 bool	act_on_type_identifier(t_gui *gui, char *line,
 	enum e_type_identifier ti)
 {
+	rm_eol(line);
 	if (ti == not_found)
 		return (false);
 	if (ti == north_texture_path || ti == south_texture_path

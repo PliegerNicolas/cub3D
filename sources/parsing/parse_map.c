@@ -6,21 +6,10 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 06:54:21 by nicolas           #+#    #+#             */
-/*   Updated: 2023/06/29 06:26:17 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/01 22:48:03 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
-
-static void	rm_eol(char *line)
-{
-	size_t	i;
-
-	i = 0;
-	while (line[i] && line[i] != '\n')
-		i++;
-	if (line[i] == '\n')
-		line[i] = '\0';
-}
 
 static bool	is_valid_map_line(char *line, char *charset)
 {
