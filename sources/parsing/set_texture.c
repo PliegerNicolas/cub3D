@@ -6,10 +6,22 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 03:27:14 by nicolas           #+#    #+#             */
-/*   Updated: 2023/06/27 09:08:03 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/07/02 01:52:21 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
+
+static void	free_str_arr(char **arr)
+{
+	size_t	i;
+
+	i = 0;
+	if (!arr)
+		return ;
+	while (arr[i])
+		free(arr[i++]);
+	free(arr);
+}
 
 static bool	set_wall_texture(t_gui *gui, char *path, int idx)
 {
@@ -45,10 +57,30 @@ bool	set_texture(t_gui *gui, char *line, enum e_type_identifier ti)
 	return (free(path), false);
 }
 
+static int	create_trgb(int t, int r, int g, int b)
+{
+	return (t << 24 | r << 16 | g << 8 | b);
+}
+
 bool	set_color(t_gui *gui, char *line, enum e_type_identifier ti)
 {
-	(void)gui;
-	(void)line;
-	(void)ti;
-	return (false);
+	char	**split;
+	size_t	i;
+	int		rgb[4];
+
+	split = ft_split(line, ',');
+	if (!split)
+		return (put_parsing_err("Not enough memory."), true);
+	i = 0;
+	rgb[i++] = 0;
+	while (split[i])
+	{
+		rgb[i] = ft_atoi(split[i]);
+		i++;
+	}
+	if (ti == ceiling_color)
+		gui->textures.ceil_color = create_trgb(rgb[0], rgb[1], rgb[2], rgb[3]);
+	else if (ti == floor_color)
+		gui->textures.floor_color = create_trgb(rgb[0], rgb[1], rgb[2], rgb[3]);
+	return (free_str_arr(split), false);
 }
