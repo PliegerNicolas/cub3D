@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:34:04 by emis              #+#    #+#             */
-/*   Updated: 2023/07/01 21:59:36 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/02 01:33:44 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PARSING_H
@@ -55,9 +55,6 @@ typedef struct s_map_ctrl
 /* * MACRO								* */
 /* ************************************** */
 
-//# define SYMBOLS ((t_sym[]){NORTH, SOUTH, EAST, WEST, FLOOR, WALL})
-//# define SYMSTR ("NSEW01") // to check map use strchr on this string ?
-
 /* ************************************** */
 /* * FUNCTIONS							* */
 /* ************************************** */
@@ -70,8 +67,6 @@ char					*get_type_identifier_data(char *line);
 
 /* text_filter.c */
 
-//void					skip_whitespaces(char *line, size_t *index);
-//int						skip_comments(char *line, size_t *index);
 void					rm_eol(char *line);
 void					skip_whitespaces(char *line, size_t *i);
 void					skip_comments(char *line, size_t *i,

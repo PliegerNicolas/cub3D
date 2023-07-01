@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:18:42 by emis              #+#    #+#             */
-/*   Updated: 2023/06/27 02:57:29 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/02 01:33:33 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,18 +36,30 @@
 #define mapWidth 24
 #define mapHeight 24
 
-/*
+typedef enum e_map_symbols
+{
+	NORTH = 'N',
+	SOUTH = 'S',
+	EAST = 'E',
+	WEST = 'W',
+	FLOOR = '0',
+	WALL = '1'
+}	t_sym;
+
+# define SYMBOLS ((t_sym[]){NORTH, SOUTH, EAST, WEST, FLOOR, WALL})
+# define SYMSTR ("NSEW01") // to check map use strchr on this string ?
+
 int worldMap[mapWidth][mapHeight]=
 {
 	{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
 	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
 	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
 	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,0,0,0,0,0,2,2,2,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1},
-	{1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,3,0,0,0,3,0,0,0,1},
-	{1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,0,0,0,0,0,2,2,0,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1},
+	{1,0,0,0,0,0,1,1,1,1,1,0,0,0,0,1,0,1,0,1,0,0,0,1},
+	{1,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,1,0,0,0,1,0,0,0,0,1,0,0,0,1,0,0,0,1},
+	{1,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,1,1,0,1,1,0,0,0,0,1,0,1,0,1,0,0,0,1},
 	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
 	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
 	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
@@ -55,33 +67,31 @@ int worldMap[mapWidth][mapHeight]=
 	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
 	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
 	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,4,0,4,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,4,0,0,0,0,5,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,4,0,4,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,4,0,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,1,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,1,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,1,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
 	{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 };
-*/
 
 int	hello(void *lol)
 {
 	return printf("hey! %p\n", lol);
 }
 
-/*
-void	map_init(t_map	*map, char *filename)
+void	map_init(t_map *map, char *filename)
 {
 	(void)filename;
 	map->width = mapWidth;
 	map->height = mapHeight;
 	map->map = trymalloc(sizeof(int *) * map->width, 0);
-	for(int x = 0; x < map->width; x++)
+	for(size_t x = 0; x < map->width; x++)
 	{
 		map->map[x] = trymalloc(sizeof(int) * map->height, 0);
-		for(int y = 0; y < map->height; y++)
+		for(size_t y = 0; y < map->height; y++)
 			map->map[x][y] = worldMap[x][y];
 	}
 }
@@ -122,8 +132,8 @@ void	gui_init(t_gui *gui, int ac, char **av)
 	gui->mlx = mlx_init();
 	mkorbrk(gui->mlx, mlxwrap, !gui->mlx, 0);
 	player_init(&gui->cam, (t_vect){22, 12}, 'N');
-	gui->map = trymalloc(sizeof(t_map), 0);
-	map_init(gui->map, av[1]);
+	//gui->map = trymalloc(sizeof(t_map), 0);
+	map_init(&gui->map, av[1]);
 	gui->keys = 0;
 	gui->rendered = 0;
 	gui->buffer = mlx_new_image(gui->mlx, SCRWIDTH, SCRHEIGHT);
@@ -131,8 +141,8 @@ void	gui_init(t_gui *gui, int ac, char **av)
 
 	gui->textures.height = gui->textures.width = 32; //64
 	// gui->textures.textures = load_texture(&gui, "textures/shrek.xpm");
-	gui->textures.ceil_col = (200 << 0) | (50 << 8) | (50 << 16);
-	gui->textures.floor_col = (50 << 0) | (100 << 8) | (50 << 16);
+	gui->textures.ceil_color = (200 << 0) | (50 << 8) | (50 << 16);
+	gui->textures.floor_color = (50 << 0) | (100 << 8) | (50 << 16);
 	gui->textures.floorceil = NULL;
 	load_texture_arr(gui, &gui->textures.floorceil, "textures/solong/00.xpm", 4);
 	load_texture_arr(gui, &gui->textures.floorceil, "textures/solong/10.xpm", 4);
@@ -181,7 +191,6 @@ void	gui_init(t_gui *gui, int ac, char **av)
 	load_texture_arr(gui, &gui->textures.sprites[1].frames, "textures/solong/slime7.xpm", 8);
 
 }
-*/
 
 int	main(int ac, char **av)
 {
@@ -191,7 +200,7 @@ int	main(int ac, char **av)
 		return (1);
 	return (clear_parsing(&gui), 0);
 	// test
-	//gui_init(&gui, ac, av);
+	gui_init(&gui, ac, av);
 	mlx_new_window(gui.mlx, SCRWIDTH, SCRHEIGHT, "cub3D my beloved");
 	mlx_loop_hook(gui.mlx, &render, &gui);
 	mlx_hook(gui.mlx->win_list, KeyPress, KeyPressMask, &key_press, &gui);
