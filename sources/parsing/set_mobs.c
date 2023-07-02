@@ -6,7 +6,7 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 05:11:31 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/02 05:34:59 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/02 05:56:09 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -50,8 +50,6 @@ static bool	set_frames(t_gui *gui, size_t nb, int width, int height)
 		path = get_mob_texture_path(i);
 		if (!path)
 			return (put_parsing_err("Not enough memory."), true);
-		if (frames[i])
-			mlx_destroy_image(gui->mlx, frames[i]);
 		frames[i] = mlx_xpm_file_to_image(gui->mlx, path, &width, &height);
 		if (!frames[i])
 			return (put_parsing_err("Not enough memory."), true);

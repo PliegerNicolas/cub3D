@@ -6,7 +6,7 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 02:36:49 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/02 05:52:08 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/02 05:56:25 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -75,7 +75,8 @@ static void	free_sprites(t_gui *gui)
 			while (i < 8)
 			{
 				if (gui->textures.sprites[nb].frames[i])
-					mlx_destroy_image(gui->mlx, gui->textures.sprites[nb].frames[i]);
+					mlx_destroy_image(gui->mlx,
+						gui->textures.sprites[nb].frames[i]);
 				i++;
 			}
 			free(gui->textures.sprites[nb].frames);

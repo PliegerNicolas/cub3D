@@ -6,7 +6,7 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 02:02:02 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/02 05:52:48 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/02 05:55:15 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -51,7 +51,8 @@ static bool	set_sporder(t_gui *gui)
 {
 	size_t	i;
 
-	gui->textures.sporder = malloc(gui->textures.spnb * sizeof(gui->textures.sporder));
+	gui->textures.sporder = malloc(gui->textures.spnb
+			* sizeof(gui->textures.sporder));
 	if (!gui->textures.sporder)
 		return (put_parsing_err("Not enough memory."), true);
 	i = 0;
@@ -67,7 +68,8 @@ static bool	set_spdist(t_gui *gui)
 {
 	size_t	i;
 
-	gui->textures.spdist = malloc(gui->textures.spnb * sizeof(gui->textures.spdist));
+	gui->textures.spdist = malloc(gui->textures.spnb
+			* sizeof(gui->textures.spdist));
 	if (!gui->textures.spdist)
 		return (put_parsing_err("Not enough memory."), true);
 	i = 0;
@@ -75,7 +77,6 @@ static bool	set_spdist(t_gui *gui)
 		gui->textures.sporder[i++] = 0;
 	return (false);
 }
-
 
 bool	set_sprites(t_gui *gui)
 {
