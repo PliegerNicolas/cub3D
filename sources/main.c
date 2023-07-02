@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:18:42 by emis              #+#    #+#             */
-/*   Updated: 2023/07/02 02:01:38 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/02 05:53:03 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 // 	return (gui);
 // }
 
+/*
 #define mapWidth 24
 #define mapHeight 24
 
@@ -76,12 +77,13 @@ int worldMap[mapWidth][mapHeight]=
 	{1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
 	{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 };
-
+*/
 int	hello(void *lol)
 {
 	return printf("hey! %p\n", lol);
 }
 
+/*
 void	map_init(t_map *map, char *filename)
 {
 	(void)filename;
@@ -191,6 +193,7 @@ void	gui_init(t_gui *gui, int ac, char **av)
 	load_texture_arr(gui, &gui->textures.sprites[1].frames, "textures/solong/slime7.xpm", 8);
 
 }
+*/
 
 int	main(int ac, char **av)
 {

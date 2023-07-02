@@ -6,7 +6,7 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 06:09:00 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/02 01:59:39 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/02 02:51:40 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -19,6 +19,8 @@ static bool	retrieve_map(t_gui *gui, t_map_ctrl *map_ctrl)
 		return (free_map_ctrl(&map_ctrl), true);
 	free_map_ctrl(&map_ctrl);
 	if (set_player(gui))
+		return (true);
+	if (set_sprites(gui))
 		return (true);
 	if (!is_map_closed(gui))
 		return (true);

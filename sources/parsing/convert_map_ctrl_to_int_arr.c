@@ -6,7 +6,7 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 17:13:03 by nicolas           #+#    #+#             */
-/*   Updated: 2023/06/30 17:13:30 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/02 02:54:17 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -47,14 +47,16 @@ static int	convert_charmap_to_intmap(char c)
 		return (0);
 	else if (c == '1')
 		return (1);
-	else if (c == 'N')
+	else if (c == 'M')
 		return (2);
-	else if (c == 'S')
+	else if (c == 'N')
 		return (3);
-	else if (c == 'W')
+	else if (c == 'S')
 		return (4);
-	else if (c == 'E')
+	else if (c == 'W')
 		return (5);
+	else if (c == 'E')
+		return (6);
 	return (-1);
 }
 

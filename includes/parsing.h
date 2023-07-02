@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:34:04 by emis              #+#    #+#             */
-/*   Updated: 2023/07/02 02:10:56 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/02 05:00:06 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PARSING_H
@@ -78,8 +78,9 @@ void					skip_comments(char *line, size_t *i,
 
 enum e_type_identifier	set_type_identifier(char *line, size_t *index);
 
-/* free.c */
+/* free_2.c */
 
+void					free_str_arr(char **arr);
 void					free_map_ctrl(t_map_ctrl **map_ctrl);
 
 /* is_incharset.c */

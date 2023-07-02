@@ -6,7 +6,7 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 06:54:21 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/01 22:48:03 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/02 02:50:21 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -69,7 +69,7 @@ bool	parse_map(char *line, t_map_ctrl **map_ctrl)
 	if (!line)
 		return (true);
 	rm_eol(line);
-	if (!is_valid_map_line(line, "01NSWE"))
+	if (!is_valid_map_line(line, "01NSWEM"))
 		return (true);
 	if (add_to_map_ctrl(map_ctrl, line))
 		return (true);
