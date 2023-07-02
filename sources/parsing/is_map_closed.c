@@ -6,7 +6,7 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 06:16:20 by nicolas           #+#    #+#             */
-/*   Updated: 2023/06/30 17:30:58 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/02 06:18:56 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -69,8 +69,8 @@ bool	is_map_closed(const t_gui *gui)
 
 	if (!gui || !(gui->map.map))
 		return (true);
-	row = gui->cam.posi.y;
-	col = gui->cam.posi.x;
+	row = gui->cam.posi.x;
+	col = gui->cam.posi.y;
 	map = copy_int_arr(gui->map.map, gui->map.height, gui->map.width);
 	if (!map)
 		return (put_parsing_err("Not enough memory."), true);

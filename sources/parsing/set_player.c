@@ -6,7 +6,7 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 16:15:01 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/02 02:33:59 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/02 06:16:50 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -30,8 +30,8 @@ static void	set_vector(t_play *player, size_t row, size_t col)
 {
 	t_vect	pos;
 
-	pos.x = col;
-	pos.y = row;
+	pos.x = row;
+	pos.y = col;
 	player->posi = pos;
 }
 

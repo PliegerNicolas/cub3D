@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:18:42 by emis              #+#    #+#             */
-/*   Updated: 2023/07/02 05:53:03 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/02 06:14:26 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,7 +201,7 @@ int	main(int ac, char **av)
 
 	if (initialize(ac, av, &gui))
 		return (1);
-	return (clear_parsing(&gui), 0);
+	//return (clear_parsing(&gui), 0);
 	// test
 	//gui_init(&gui, ac, av);
 	mlx_new_window(gui.mlx, SCRWIDTH, SCRHEIGHT, "cub3D my beloved");
@@ -213,5 +213,5 @@ int	main(int ac, char **av)
 	mlx_loop(gui.mlx);
 	mlx_destroy_window(gui.mlx, gui.mlx->win_list);
 	garbaj(NULL, NULL, 0);
-	return (0);
+	return (clear_parsing(&gui), 0);
 }
