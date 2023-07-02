@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 18:54:34 by emis              #+#    #+#             */
-/*   Updated: 2023/06/27 17:35:02 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/02 14:32:43 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,21 +42,19 @@ void	minimap(t_gui *gui)
 	size_t	x;
 	size_t	y;
 
-	y = 0;
-	while (y < gui->map.height * MINISIZE)
+	x = 0;
+	while (x < gui->map.height * MINISIZE)
 	{
-		x = 0;
-		while (x < gui->map.width * MINISIZE)
+		y = 0;
+		while (y < gui->map.width * MINISIZE)
 		{
-			if (gui->map.map[x / MINISIZE][y / MINISIZE] == 1) //WALL
+			if (gui->map.map[x / MINISIZE][y / MINISIZE] == 1)
 				pixput(gui->buffer, x, y, BLACK);
-			else if (gui->map.map[x / MINISIZE][y / MINISIZE] == 0)//FLOOR
+			else if (gui->map.map[x / MINISIZE][y / MINISIZE] == 0)
 				pixput(gui->buffer, x, y, WHITE);
-			else
-				pixput(gui->buffer, x, y, BLACK);
-			x++;
+			y++;
 		}
-		y++;
+		x++;
 	}
 	dot(gui->buffer, gui->cam.posi.x * MINISIZE,
 		gui->cam.posi.y * MINISIZE, MAG);

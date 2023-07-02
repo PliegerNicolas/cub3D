@@ -6,7 +6,7 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 02:02:02 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/02 06:55:55 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/02 14:30:54 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -16,7 +16,7 @@ static void	initialize_mob(t_gui *gui, size_t nb)
 	gui->textures.sprites[nb].posi.y = 0;
 	gui->textures.sprites[nb].posi.x = 0;
 	gui->textures.sprites[nb].solid = 1;
-	gui->textures.sprites[nb].type = STATIONARY;
+	gui->textures.sprites[nb].type = ALIVE;
 	gui->textures.sprites[nb].alpha = 0;
 	gui->textures.sprites[nb].fcur = rand() % 8;
 	gui->textures.sprites[nb].fnum = 8;
