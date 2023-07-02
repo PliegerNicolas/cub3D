@@ -6,6 +6,7 @@ SOURCES += ./sources/graphics/weapon.c
 SOURCES += ./sources/graphics/image.c
 SOURCES += ./sources/graphics/controls.c
 SOURCES += ./sources/graphics/sprite_casting.c
+SOURCES += ./sources/graphics/vector.c
 SOURCES += ./sources/graphics/floor_casting.c
 SOURCES += ./sources/graphics/minimap.c
 SOURCES += ./sources/graphics/textures.c

@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 15:18:25 by emis              #+#    #+#             */
-/*   Updated: 2023/06/23 16:43:32 by emis             ###   ########.fr       */
+/*   Updated: 2023/06/27 16:07:51 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,12 @@ int	key_rel(int keycode, t_gui *gui)
 int	mouse_press(int keycode, int x, int y, t_gui *gui)
 {
 	static _Bool	capture;
-	
+	int	i;
+
+	i = -1;
+	while ((__u_int)++i < sizeof(BTNS) / sizeof(*BTNS))
+		if (keycode == (int)BTNS[i])
+			gui->btns |= (1 << i);
 	if (!keycode)
 		return (capture);
 	if (keycode == 2)
@@ -52,8 +57,20 @@ int	mouse_press(int keycode, int x, int y, t_gui *gui)
 	}
 	if (keycode == 3)
 		gui->cam.rndr = (gui->cam.rndr + 1) % (FLOORCEIL + 1), gui->rendered = 0;
-	printf("hey %d @ %d.%d!\n", keycode, x, y);
+	printf("h%dey %d @ %d.%d!\n",gui->btns, keycode, x, y);
 	return (capture);
+}
+
+int	mouse_rel(int keycode, int x, int y, t_gui *gui)
+{
+	int	i;
+
+	(void)(x * y);
+	i = -1;
+	while ((__u_int)++i < sizeof(BTNS) / sizeof(*BTNS))
+		if (keycode == (int)BTNS[i])
+			gui->btns &= ~(1 << i);
+	return (0);
 }
 
 int	mouse_motion(int x, int y, t_gui *gui)

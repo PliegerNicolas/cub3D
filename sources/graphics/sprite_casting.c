@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 16:26:04 by emis              #+#    #+#             */
-/*   Updated: 2023/06/22 19:38:08 by emis             ###   ########.fr       */
+/*   Updated: 2023/07/01 15:19:19 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,8 @@ void	frame_shift(t_tex *tex)
 	last = cur;
 	iter = -1;
 	while (++iter < tex->spnb)
-		tex->sprites[iter].fcur = (tex->sprites[iter].fcur + 1) % tex->sprites[iter].fnum;
+		if (tex->sprites[iter].type != DEAD)
+			tex->sprites[iter].fcur = (tex->sprites[iter].fcur + 1) % tex->sprites[iter].fnum;
 }
 
 void	sprite_cast(t_gui *gui, double ZBuffer[SCRWIDTH])
@@ -88,7 +89,8 @@ void	sprite_cast(t_gui *gui, double ZBuffer[SCRWIDTH])
 	//after sorting the sprites, do the projection and draw them
 	for(int i = 0; i < gui->textures.spnb; i++)
 	{
-		check_and_move(gui->map, &gui->textures.sprites[i].posi, 
+		if (gui->textures.sprites[i].type == ALIVE)
+			check_and_move(gui->map, &gui->textures.sprites[i].posi, 
 			delta(gui->textures.sprites[i].posi, gui->cam.posi), 0.025 + i / 100.0);
 		transf = transform(&gui->textures, &gui->cam, i);
 

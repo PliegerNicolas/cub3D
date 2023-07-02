@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/06/23 19:21:33 by emis             ###   ########.fr       */
+/*   Updated: 2023/07/01 15:31:33 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,17 @@ typedef enum e_keypresses
 	KP_zoom_in,
 	KP_zoom_out,
 }	t_kprs;
+
+typedef enum e_btnpresses
+{
+	left_click = 1,
+	mid_click,
+	right_click,
+	scroll_up,
+	scroll_down,
+}	t_bprs;
+
+# define BTNS ((t_bprs[]){0, left_click, mid_click, right_click, scroll_up, scroll_down})
 
 typedef struct s_vect
 {
@@ -121,6 +132,7 @@ typedef struct s_gui
 	t_tex	textures;
 	t_play	cam;
 	int		keys;
+	int		btns;
 	_Bool	rendered;
 }	t_gui;
 
@@ -147,6 +159,7 @@ int		move(t_gui *gui);
 int		key_press(int keycode, t_gui *gui);
 int		key_rel(int keycode, t_gui *gui);
 int		mouse_press(int keycode, int x, int y, t_gui *gui);
+int		mouse_rel(int keycode, int x, int y, t_gui *gui);
 int		mouse_motion(int x, int y, t_gui *gui);
 
 /* TEXTURES */
@@ -159,6 +172,10 @@ void	load_texture_arr(t_gui *gui, t_img ***where, char *path, int size);
 int		bind(int val, int min, int max);
 int		loopbind(int val, int min, int max);
 double	invSafe(double x);
+
+/* VECTOR */
+
+double	angle(t_vect v1, t_vect v2);
 t_vect	delta(t_vect from, t_vect to);
 
 /* FLOOR CASTING */

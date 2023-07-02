@@ -1,38 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minimath.c                                         :+:      :+:    :+:   */
+/*   vector.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/22 15:39:56 by emis              #+#    #+#             */
-/*   Updated: 2023/07/01 15:23:07 by emis             ###   ########.fr       */
+/*   Created: 2023/07/01 15:22:49 by emis              #+#    #+#             */
+/*   Updated: 2023/07/01 15:40:18 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../../includes/graphics.h"
 
-int	bind(int val, int min, int max)
+double	magnitude(t_vect v)
 {
-	if (val < min)
-		return (min);
-	if (val >= max)
-		return (max - 1);
-	return (val);
+	return (sqrt(v.x * v.x + v.y * v.y));
 }
 
-int	loopbind(int val, int min, int max)
+double	angle(t_vect v1, t_vect v2)
 {
-	if (val < min)
-		return (max - 1);
-	if (val >= max)
-		return (min);
-	return (val);
+	return (acos((v1.x * v2.x + v1.y * v2.y)
+		/ (magnitude(v1) * magnitude(v2))));
 }
 
-double	invSafe(double x)
+t_vect	delta(t_vect from, t_vect to)
 {
-	if (x == 0)
-		return (1e30);
-	return (fabs(1 / x));
+	t_vect	d;
+	double	mag;
+
+	d.x = to.x - from.x;
+	d.y = to.y - from.y;
+	mag = magnitude(d);
+	if (!mag)
+		return (d);
+	d.x /= mag;
+	d.y /= mag;
+	return (d);
 }
