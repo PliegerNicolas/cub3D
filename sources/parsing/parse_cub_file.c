@@ -6,7 +6,7 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 06:09:00 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/01 23:12:14 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/02 01:59:39 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -22,6 +22,19 @@ static bool	retrieve_map(t_gui *gui, t_map_ctrl *map_ctrl)
 		return (true);
 	if (!is_map_closed(gui))
 		return (true);
+	return (false);
+}
+
+static bool	textures_set(t_gui *gui)
+{
+	size_t	i;
+
+	if (!gui->textures.walls)
+		return (put_parsing_err("Missing wall textures."), true);
+	i = 0;
+	while (i < 4)
+		if (!gui->textures.walls[i++])
+			return (put_parsing_err("Missing wall textures."), true);
 	return (false);
 }
 
@@ -74,6 +87,8 @@ bool	parse_cub_file(t_gui *gui, int fd)
 		free(line);
 	}
 	if (retrieve_map(gui, map_ctrl))
+		return (true);
+	if (textures_set(gui))
 		return (true);
 	return (false);
 }

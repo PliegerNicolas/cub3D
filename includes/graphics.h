@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/07/01 22:54:47 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/02 02:38:08 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,10 +192,10 @@ bool	act_on_type_identifier(t_gui *gui, char *line,
 bool	set_texture(t_gui *gui, char *line, enum e_type_identifier ti);
 bool	set_color(t_gui *gui, char *line, enum e_type_identifier ti);
 
-
 /* free.c */
 
 void	clear_parsing(t_gui *gui);
+void	free_str_arr(char **arr);
 
 /* convert_map_ctrl_to_int_arr.c */
 

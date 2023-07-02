@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:18:42 by emis              #+#    #+#             */
-/*   Updated: 2023/07/02 01:33:33 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/02 02:01:38 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,11 +196,11 @@ int	main(int ac, char **av)
 {
 	t_gui	gui;
 
-	if (initialize(ac, av, &gui)) // parsing
+	if (initialize(ac, av, &gui))
 		return (1);
 	return (clear_parsing(&gui), 0);
 	// test
-	gui_init(&gui, ac, av);
+	//gui_init(&gui, ac, av);
 	mlx_new_window(gui.mlx, SCRWIDTH, SCRHEIGHT, "cub3D my beloved");
 	mlx_loop_hook(gui.mlx, &render, &gui);
 	mlx_hook(gui.mlx->win_list, KeyPress, KeyPressMask, &key_press, &gui);

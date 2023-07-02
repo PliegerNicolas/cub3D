@@ -2,13 +2,17 @@
 /* * TEXTURES							* */
 /* ************************************** */
 
-NO ./textures/sol/*test*/ong/00.xpm
-SO ./textures/solong/10.xpm
-WE ./textures/solong/20.xpm
-EA ./textures/solong/30.xpm
+NO ./textures/sol/*test*/ong/00.xpm // north wall texture
+SO ./textures/solong/10.xpm // south wall texture
+WE ./textures/solong/20.xpm // west wall texture
+EA ./textures/solong/30.xpm // east wall texture
+
 
 F 200,100,0
 C 225,30,0
+
+FL ./textures/solong/00.xpm // floor texture
+CE ./textures/solong/10.xpm // ceiling texture
 
 /* ************************************** */
 /* * MAP								* */
