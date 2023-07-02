@@ -6,7 +6,7 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 03:27:14 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/02 02:38:18 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/02 07:27:20 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -79,23 +79,27 @@ static int	create_trgb(int t, int r, int g, int b)
 
 bool	set_color(t_gui *gui, char *line, enum e_type_identifier ti)
 {
+	char	*path;
 	char	**split;
 	size_t	i;
-	int		rgb[4];
+	int		rgb[3];
 
-	split = ft_split(line, ',');
+	path = get_type_identifier_data(line);
+	if (!path)
+		return (put_parsing_err("Not enough memory."), true);
+	split = ft_split(path, ',');
+	free(path);
 	if (!split)
 		return (put_parsing_err("Not enough memory."), true);
 	i = 0;
-	rgb[i++] = 0;
 	while (split[i])
 	{
 		rgb[i] = ft_atoi(split[i]);
 		i++;
 	}
 	if (ti == ceiling_color)
-		gui->textures.ceil_color = create_trgb(rgb[0], rgb[1], rgb[2], rgb[3]);
+		gui->textures.ceil_color = create_trgb(0, rgb[0], rgb[1], rgb[2]);
 	else if (ti == floor_color)
-		gui->textures.floor_color = create_trgb(rgb[0], rgb[1], rgb[2], rgb[3]);
+		gui->textures.floor_color = create_trgb(0, rgb[0], rgb[1], rgb[2]);
 	return (free_str_arr(split), false);
 }

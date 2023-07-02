@@ -6,7 +6,7 @@
 /*   By: nplieger <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 13:17:24 by nplieger          #+#    #+#             */
-/*   Updated: 2023/07/02 02:15:05 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/02 07:13:25 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -36,12 +36,6 @@ static bool	initialize_textures(t_gui *gui)
 	i = 0;
 	while (i < 5)
 		gui->textures.walls[i++] = NULL;
-	gui->textures.floorceil = malloc(2 * sizeof(*gui->textures.floorceil));
-	if (!gui->textures.floorceil)
-		return (put_parsing_err("Not enough memory."), true);
-	i = 0;
-	while (i < 2)
-		gui->textures.floorceil[i++] = NULL;
 	return (false);
 }
 

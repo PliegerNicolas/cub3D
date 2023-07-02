@@ -8,11 +8,11 @@ WE ./textures/solong/20.xpm // west wall texture
 EA ./textures/solong/30.xpm // east wall texture
 
 
-F 200,100,0
-C 225,30,0
+F 226,113,162 // pink
+C 87,226,212 // light blue
 
 FL ./textures/solong/00.xpm // floor texture
-CE ./textures/solong/10.xpm // ceiling texture
+//CE ./textures/solong/10.xpm // ceiling texture
 
 /* ************************************** */
 /* * MAP								* */
