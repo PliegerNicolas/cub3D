@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 16:10:07 by emis              #+#    #+#             */
-/*   Updated: 2023/06/20 16:14:44 by emis             ###   ########.fr       */
+/*   Updated: 2023/06/23 19:27:20 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,26 @@ void	erase(t_img *img)
 			*(unsigned int*)dst = 0;
 		}
 	}
+}
+
+void	imgput(t_img *dest, int x, int y, t_img *img)
+{
+	char	*dst;
+	char	*frm;
+	int		dx;
+	int		dy;
+
+	dy = -1;
+	while (++dy < img->height && y + dy < dest->height)
+	{
+		dx = -1;
+		while (++dx < img->width && x + dx < dest->width)
+		{
+			frm = img->data + (dy * img->size_line + dx * (img->bpp / 8));
+			dst = dest->data + ((y + dy) * dest->size_line + (x + dx) * (dest->bpp / 8));
+			if ((*(unsigned int*)frm & 0x00FFFFFF) != 0)
+				*(unsigned int*)dst = *(unsigned int*)frm;
+		}
+	}
+
 }

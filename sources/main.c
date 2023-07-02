@@ -75,6 +75,13 @@ int worldMap[mapWidth][mapHeight]=
 	{1,1,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
 	{1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
 	{1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+// 	{1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+// 	{1,4,0,4,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+// 	{1,4,0,0,0,0,5,0,4,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1},
+// 	{1,4,0,4,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0},
+// 	{1,4,0,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1},
+// 	{1,4,0,0,0,0,0,0,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+// 	{1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
 	{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 };
 */
@@ -137,6 +144,7 @@ void	gui_init(t_gui *gui, int ac, char **av)
 	//gui->map = trymalloc(sizeof(t_map), 0);
 	map_init(&gui->map, av[1]);
 	gui->keys = 0;
+	gui->btns = 0;
 	gui->rendered = 0;
 	gui->buffer = mlx_new_image(gui->mlx, SCRWIDTH, SCRHEIGHT);
 	mkorbrk(gui->buffer, mlximgwrap, !gui->buffer, 1);
@@ -180,7 +188,7 @@ void	gui_init(t_gui *gui, int ac, char **av)
 
 	gui->textures.sprites[1].posi = (t_vect){9, 9};
 	gui->textures.sprites[1].solid = 1;
-	gui->textures.sprites[1].type = STATIONARY;
+	gui->textures.sprites[1].type = ALIVE;
 	gui->textures.sprites[1].fcur = 0;
 	gui->textures.sprites[1].fnum = 8;
 	load_texture_arr(gui, &gui->textures.sprites[1].frames, "textures/solong/slime0.xpm", 8);
@@ -208,6 +216,9 @@ int	main(int ac, char **av)
 	mlx_loop_hook(gui.mlx, &render, &gui);
 	mlx_hook(gui.mlx->win_list, KeyPress, KeyPressMask, &key_press, &gui);
 	mlx_hook(gui.mlx->win_list, KeyRelease, KeyReleaseMask, &key_rel, &gui);
+	mlx_hook(gui.mlx->win_list, ButtonPress, ButtonPressMask, &mouse_press, &gui);
+	mlx_hook(gui.mlx->win_list, ButtonRelease, ButtonReleaseMask, &mouse_rel, &gui);
+	mlx_hook(gui.mlx->win_list, MotionNotify, PointerMotionMask, &mouse_motion, &gui);
 	mlx_hook(gui.mlx->win_list, DestroyNotify, 0L, &mlx_loop_end, gui.mlx);
 	mlx_hook(gui.mlx->win_list, Expose, 0L, hello, &gui);
 	mlx_loop(gui.mlx);

@@ -21,7 +21,7 @@ void	zoom(t_play	*play, int dir)
 	// play->pitch += dir;
 }
 
-void	rotate(t_play *play, int dir)
+void	rotate(t_play	*play, double dir)
 {
 	double rotSpeed = 0.05; //frameTime * 3.0 //the constant value is in radians/second
 
@@ -54,29 +54,5 @@ int	move(t_gui *gui)
 		check_and_move(gui->map, &gui->cam.posi, gui->cam.plane, moveSpeed);
 	else if (gui->keys & (1 << KP_left))
 		check_and_move(gui->map, &gui->cam.posi, gui->cam.plane, -moveSpeed);
-	return (0);
-}
-
-int	key_press(int keycode, t_gui *gui)
-{
-	int	i;
-
-	if (keycode == XK_Escape)
-		return (mlx_loop_end(gui->mlx));
-	i = -1;
-	while ((__u_int)++i < sizeof(KEYS) / sizeof(*KEYS))
-		if (keycode == (int)KEYS[i])
-			gui->keys |= (1 << i);
-	return (0);
-}
-
-int	key_rel(int keycode, t_gui *gui)
-{
-	int	i;
-
-	i = -1;
-	while ((__u_int)++i < sizeof(KEYS) / sizeof(*KEYS))
-		if (keycode == (int)KEYS[i])
-			gui->keys &= ~(1 << i);
 	return (0);
 }

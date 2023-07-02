@@ -43,8 +43,12 @@ int	render(t_gui *gui)
 		floor_cast(gui);
 	wall_cast(gui, ZBuffer);
 	if (gui->cam.rndr >= SPRITES)
+	{
 		sprite_cast(gui, ZBuffer);
-	//minimap(gui);
+	  // minimap(gui);
+		weapon(gui);
+	}
+	minimap(gui);
 	mlx_put_image_to_window(gui->mlx, gui->mlx->win_list, gui->buffer, 0, 0);
 	gui->rendered = 1;
 	return (0);

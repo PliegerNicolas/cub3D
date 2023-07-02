@@ -50,6 +50,17 @@ typedef enum e_keypresses
 	KP_zoom_out,
 }	t_kprs;
 
+typedef enum e_btnpresses
+{
+	left_click = 1,
+	mid_click,
+	right_click,
+	scroll_up,
+	scroll_down,
+}	t_bprs;
+
+# define BTNS ((t_bprs[]){0, left_click, mid_click, right_click, scroll_up, scroll_down})
+
 typedef struct s_vect
 {
 	double	x;
@@ -122,6 +133,7 @@ typedef struct s_gui
 	t_tex	textures;
 	t_play	cam;
 	int		keys;
+	int		btns;
 	_Bool	rendered;
 }	t_gui;
 
@@ -134,15 +146,22 @@ int		render(t_gui *gui);
 int		pixget(t_img *img, int x, int y);
 void	pixput(t_img *img, int x, int y, int color);
 void	erase(t_img *img);
+void	imgput(t_img *dest, int x, int y, t_img *img);
 
 /* CONTROLS */
 
 void	zoom(t_play	*play, int dir);
-void	rotate(t_play	*play, int dir);
+void	rotate(t_play	*play, double dir);
 void	check_and_move(t_map map, t_vect *posi, t_vect dxdy, double magn);
 int		move(t_gui *gui);
+
+/* EVENTS */
+
 int		key_press(int keycode, t_gui *gui);
 int		key_rel(int keycode, t_gui *gui);
+int		mouse_press(int keycode, int x, int y, t_gui *gui);
+int		mouse_rel(int keycode, int x, int y, t_gui *gui);
+int		mouse_motion(int x, int y, t_gui *gui);
 
 /* TEXTURES */
 
@@ -152,7 +171,12 @@ void	load_texture_arr(t_gui *gui, t_img ***where, char *path, int size);
 /* MINIMATH */
 
 int		bind(int val, int min, int max);
+int		loopbind(int val, int min, int max);
 double	invSafe(double x);
+
+/* VECTOR */
+
+double	angle(t_vect v1, t_vect v2);
 t_vect	delta(t_vect from, t_vect to);
 
 /* FLOOR CASTING */
@@ -172,11 +196,9 @@ void	sprite_cast(t_gui *gui, double ZBuffer[SCRWIDTH]);
 
 void	minimap(t_gui *gui);
 
+/* WEAPON */
 
-
-
-
-
+void	weapon(t_gui *gui);
 
 /* ************************************** */
 /* * TEMP, NEEDED FOR PARSING			* */
@@ -218,3 +240,4 @@ bool	set_sprites(t_gui *gui);
 bool	set_mobs(t_gui *gui);
 
 #endif
+

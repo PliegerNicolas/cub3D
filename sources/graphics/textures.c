@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 16:23:46 by emis              #+#    #+#             */
-/*   Updated: 2023/06/19 16:30:41 by emis             ###   ########.fr       */
+/*   Updated: 2023/06/23 19:23:19 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ t_img	*load_texture(t_gui *gui, char *path)
 	img = mlx_xpm_file_to_image(gui->mlx, path, &w, &h);
 	if (!img)
 		return (errno = 1, eerror("Failure to load texture."), NULL);
-	else if (w != gui->textures.width
-		|| h != gui->textures.height)
-		return (mlx_destroy_image(gui->mlx, img), errno = 1,
-			eerror("Texture dimensions mismatch."), NULL);
+	// else if (w != gui->textures.width
+	// 	|| h != gui->textures.height)
+	// 	return (mlx_destroy_image(gui->mlx, img), errno = 1,
+	// 		eerror("Texture dimensions mismatch."), NULL);
 	mlximgwrap(gui->mlx);
 	garbaj(img, mlximgwrap, 1);
 	return (img);
