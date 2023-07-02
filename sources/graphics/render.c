@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 14:03:16 by emis              #+#    #+#             */
-/*   Updated: 2023/06/23 19:21:10 by emis             ###   ########.fr       */
+/*   Updated: 2023/07/02 06:23:26 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ int	render(t_gui *gui)
 	if (gui->cam.rndr >= SPRITES)
 	{
 		sprite_cast(gui, ZBuffer);
+	  // minimap(gui);
 		weapon(gui);
 	}
 	minimap(gui);

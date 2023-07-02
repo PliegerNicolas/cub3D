@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 15:49:02 by emis              #+#    #+#             */
-/*   Updated: 2023/06/23 15:58:30 by emis             ###   ########.fr       */
+/*   Updated: 2023/06/27 17:30:01 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,11 @@ void	rotate(t_play	*play, double dir)
 	play->plane.y = oldPlaneX * sin(rotSpeed) + play->plane.y * cos(rotSpeed);
 }
 
-void	check_and_move(t_map *map, t_vect *posi, t_vect dxdy, double magn)
+void	check_and_move(t_map map, t_vect *posi, t_vect dxdy, double magn)
 {
-	if (map->map[(int)(posi->x + dxdy.x * magn)][(int)(posi->y)] == 0)
+	if (map.map[(int)(posi->x + dxdy.x * magn)][(int)(posi->y)] == 0)
 		posi->x += dxdy.x * magn;
-	if (map->map[(int)(posi->x)][(int)(posi->y + dxdy.y * magn)] == 0)
+	if (map.map[(int)(posi->x)][(int)(posi->y + dxdy.y * magn)] == 0)
 		posi->y += dxdy.y * magn;
 }
 

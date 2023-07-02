@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 16:25:33 by emis              #+#    #+#             */
-/*   Updated: 2023/06/20 19:49:54 by emis             ###   ########.fr       */
+/*   Updated: 2023/07/02 07:28:56 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,18 @@ void	floor_cast(t_gui *gui)
 			int color;
 
 			// floor
-			color = pixget(gui->textures.floorceil[0], gui->textures.width * ty + tx, 0);
+			if (gui->textures.floorceil && gui->textures.floorceil[0])
+				color = pixget(gui->textures.floorceil[0], gui->textures.width * ty + tx, 0);
+			else
+				color = gui->textures.floor_color;
 			color = (color >> 1) & 8355711; // make a bit darker
 			pixput(gui->buffer, x, y, color);
 
 			//ceiling (symmetrical, at screenHeight - y - 1 instead of y)
-			color = pixget(gui->textures.floorceil[1], gui->textures.width * ty + tx, 0);
+			if (gui->textures.floorceil && gui->textures.floorceil[1])
+				color = pixget(gui->textures.floorceil[1], gui->textures.width * ty + tx, 0);
+			else
+				color = gui->textures.ceil_color;
 			color = (color >> 1) & 8355711; // make a bit darker
 			if (y > rowDistance)
 				pixput(gui->buffer, x, SCRHEIGHT - y - 1, color);

@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/07/01 15:31:33 by emis             ###   ########.fr       */
+/*   Updated: 2023/07/02 05:13:58 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "../mlx/mlx_int.h"
 # include "../mlx/mlx.h"
 # include "garbaj.h"
+# include "parsing.h"
 
 #define SCRWIDTH 1200
 #define SCRHEIGHT 1000
@@ -105,8 +106,8 @@ typedef struct s_textures
 {
 	int		width;
 	int		height;
-	int		floor_col;
-	int		ceil_col;
+	int		floor_color;
+	int		ceil_color;
 	t_img	**floorceil;
 	int		arrsize;
 	t_img	**walls;
@@ -118,8 +119,8 @@ typedef struct s_textures
 
 typedef struct s_map
 {
-	int		width;
-	int		height;
+	size_t	width;
+	size_t	height;
 	int		**map;
 	// char	**map;
 }	t_map;
@@ -128,7 +129,7 @@ typedef struct s_gui
 {
 	t_xvar	*mlx;
 	t_img	*buffer;
-	t_map	*map;
+	t_map	map;
 	t_tex	textures;
 	t_play	cam;
 	int		keys;
@@ -151,7 +152,7 @@ void	imgput(t_img *dest, int x, int y, t_img *img);
 
 void	zoom(t_play	*play, int dir);
 void	rotate(t_play	*play, double dir);
-void	check_and_move(t_map *map, t_vect *posi, t_vect dxdy, double magn);
+void	check_and_move(t_map map, t_vect *posi, t_vect dxdy, double magn);
 int		move(t_gui *gui);
 
 /* EVENTS */
@@ -199,4 +200,44 @@ void	minimap(t_gui *gui);
 
 void	weapon(t_gui *gui);
 
+/* ************************************** */
+/* * TEMP, NEEDED FOR PARSING			* */
+/* ************************************** */
+
+bool	initialize(int argc, char **argv, t_gui *gui);
+bool	parse_cub_file(t_gui *gui, int fd);
+bool	act_on_type_identifier(t_gui *gui, char *line,
+			enum e_type_identifier ti);
+
+/* set_texture.c */
+
+bool	set_texture(t_gui *gui, char *line, enum e_type_identifier ti);
+bool	set_color(t_gui *gui, char *line, enum e_type_identifier ti);
+
+/* free.c */
+
+void	clear_parsing(t_gui *gui);
+void	free_str_arr(char **arr);
+
+/* convert_map_ctrl_to_int_arr.c */
+
+bool	convert_map_ctrl_to_int_arr(t_gui *gui, t_map_ctrl *map_ctrl);
+
+/* is_map_closed.c */
+
+bool	is_map_closed(const t_gui *gui);
+
+/* set_player.c */
+
+bool	set_player(t_gui *gui);
+
+/* set_sprites.c */
+
+bool	set_sprites(t_gui *gui);
+
+/* set_mobs.c */
+
+bool	set_mobs(t_gui *gui);
+
 #endif
+

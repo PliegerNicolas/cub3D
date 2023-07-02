@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 17:41:41 by emis              #+#    #+#             */
-/*   Updated: 2023/06/22 16:35:18 by emis             ###   ########.fr       */
+/*   Updated: 2023/07/02 05:45:59 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static void	rays(t_gui *gui, t_rc *rc)
 static void	cast(t_gui *gui, t_rc *rc)
 {
 	rays(gui, rc);
-	while(gui->map->map[rc->mapX][rc->mapY] == 0)
+	while(gui->map.map[rc->mapX][rc->mapY] == 0)
 	{
 		if (rc->sideDist.x < rc->sideDist.y)
 		{
@@ -87,7 +87,7 @@ void	wall_color(t_gui *gui, t_rc *rc)
 {
 	//choose wall color
 	int color;
-	switch(gui->map->map[rc->mapX][rc->mapY])
+	switch(gui->map.map[rc->mapX][rc->mapY])
 	{
 		case 1:  color = (255 << 16);    break; //red
 		case 2:  color = (255 << 8);  break; //green
@@ -108,7 +108,7 @@ void	wall_color(t_gui *gui, t_rc *rc)
 void	wall_texture(t_gui *gui, t_rc *rc)
 {
 	//texturing calculations
-	int texNum = gui->map->map[rc->mapX][rc->mapY] - 1; //1 subtracted from it so that texture 0 can be used!
+	int texNum = gui->map.map[rc->mapX][rc->mapY] - 1; //1 subtracted from it so that texture 0 can be used!
 	int	texInd = (texNum * gui->textures.arrsize + rc->side * 2 + ((rc->side == 0 && rc->rayDir.x > 0) || (rc->side == 1 && rc->rayDir.y < 0))) % gui->textures.arrsize;
 
 	//calculate value of wallX
