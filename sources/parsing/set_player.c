@@ -6,14 +6,15 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 16:15:01 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/02 06:16:50 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/03 05:16:56 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
 
 static bool	is_spawn_point(int val)
 {
-	if (val == 2 || val == 3 || val == 4 || val == 5)
+	if (val == spawn_north_tile || val == spawn_south_tile
+		|| val == spawn_west_tile || val == spawn_east_tile)
 		return (true);
 	return (false);
 }
@@ -37,25 +38,25 @@ static void	set_vector(t_play *player, size_t row, size_t col)
 
 static void	set_orientation(t_play *player, int val)
 {
-	if (val == 2)
+	if (val == spawn_north_tile)
 	{
 		player->dir = (t_vect){-1, 0};
 		player->plane = (t_vect){0, 0.66};
 	}
-	else if (val == 3)
+	else if (val == spawn_south_tile)
 	{
 		player->dir = (t_vect){1, 0};
 		player->plane = (t_vect){0, -0.66};
 	}
-	else if (val == 4)
-	{
-		player->dir = (t_vect){0, 1};
-		player->plane = (t_vect){0.66, 0};
-	}
-	else if (val == 5)
+	else if (val == spawn_west_tile)
 	{
 		player->dir = (t_vect){0, -1};
 		player->plane = (t_vect){-0.66, 0};
+	}
+	else if (val == spawn_east_tile)
+	{
+		player->dir = (t_vect){0, 1};
+		player->plane = (t_vect){0.66, 0};
 	}
 }
 

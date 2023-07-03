@@ -6,7 +6,7 @@
 /*   By: nplieger <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 13:17:24 by nplieger          #+#    #+#             */
-/*   Updated: 2023/07/02 07:13:25 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/03 05:25:55 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -15,7 +15,10 @@
 
 static bool	initialize_sprites(t_gui *gui)
 {
-	(void)gui;
+	gui->textures.spnb = 0;
+	gui->textures.sprites = NULL;
+	gui->textures.sporder = NULL;
+	gui->textures.spdist = NULL;
 	return (false);
 }
 
@@ -59,6 +62,7 @@ static bool	initialize_gui(t_gui *gui)
 		return (clear_parsing(gui), true);
 	gui->keys = 0;
 	gui->rendered = 0;
+	gui->btns = 0;
 	gui->map.map = NULL;
 	return (false);
 }

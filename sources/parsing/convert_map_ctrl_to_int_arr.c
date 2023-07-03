@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 17:13:03 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/02 15:00:04 by emis             ###   ########.fr       */
+/*   Updated: 2023/07/03 04:50:46 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,22 +44,22 @@ static void	put_map(t_gui *gui, t_map_ctrl *map_ctrl)
 static int	convert_charmap_to_intmap(char c)
 {
 	if (c == ' ')
-		return (-1);
+		return (invalid_tile);
 	else if (c == '0')
-		return (0);
+		return (floor_tile);
 	else if (c == '1')
-		return (1);
+		return (wall_tile);
 	else if (c == 'M')
-		return (2);
+		return (mob_tile);
 	else if (c == 'N')
-		return (3);
+		return (spawn_north_tile);
 	else if (c == 'S')
-		return (4);
+		return (spawn_south_tile);
 	else if (c == 'W')
-		return (5);
+		return (spawn_west_tile);
 	else if (c == 'E')
-		return (6);
-	return (-1);
+		return (spawn_east_tile);
+	return (invalid_tile);
 }
 
 static void	set_map_sizes(t_gui *gui, t_map_ctrl *map_ctrl)

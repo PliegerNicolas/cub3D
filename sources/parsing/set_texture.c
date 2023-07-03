@@ -6,7 +6,7 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 03:27:14 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/02 07:27:20 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/03 05:15:46 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -30,8 +30,9 @@ static bool	set_wall_texture(t_gui *gui, char *path, int idx)
 // floor == 0 && ceil == 0
 static bool	set_ceilfloor_texture(t_gui *gui, char *path, int idx)
 {
-	int	width;
-	int	height;
+	size_t	i;
+	int		width;
+	int		height;
 
 	width = 0;
 	height = 0;
@@ -40,6 +41,9 @@ static bool	set_ceilfloor_texture(t_gui *gui, char *path, int idx)
 		gui->textures.floorceil = malloc(3 * sizeof(*gui->textures.floorceil));
 		if (!gui->textures.floorceil)
 			return (put_parsing_err("Not enough memory."), true);
+		i = 0;
+		while (i < 3)
+			gui->textures.floorceil[i++] = NULL;
 	}
 	else if (gui->textures.floorceil[idx])
 		mlx_destroy_image(gui->mlx, gui->textures.floorceil[idx]);

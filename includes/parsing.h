@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:34:04 by emis              #+#    #+#             */
-/*   Updated: 2023/07/02 05:00:06 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/03 04:47:58 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PARSING_H
@@ -24,6 +24,18 @@
 /* ************************************** */
 /* * ENUMERATORS						* */
 /* ************************************** */
+
+enum e_map_tile
+{
+	floor_tile = 0,
+	wall_tile = 1,
+	mob_tile = 2,
+	spawn_north_tile = 3,
+	spawn_south_tile = 4,
+	spawn_west_tile = 5,
+	spawn_east_tile = 6,
+	invalid_tile = -1
+};
 
 enum e_type_identifier
 {
