@@ -3,12 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   convert_map_ctrl_to_int_arr.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 17:13:03 by nicolas           #+#    #+#             */
 /*   Updated: 2023/07/03 04:50:46 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "parsing.h"
 #include "graphics.h"
 
 // temp
@@ -76,6 +78,7 @@ static void	set_map_sizes(t_gui *gui, t_map_ctrl *map_ctrl)
 		temp = temp->next;
 	}
 	gui->map.height = nodes;
+	printf("h%zuw%zu\n", gui->map.height, gui->map.width);
 }
 
 static int	**malloc_map(t_gui *gui)
