@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:34:04 by emis              #+#    #+#             */
-/*   Updated: 2023/07/03 04:47:58 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/03 18:35:37 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PARSING_H
@@ -25,7 +25,7 @@
 /* * ENUMERATORS						* */
 /* ************************************** */
 
-enum e_map_tile
+typedef enum e_map_tile
 {
 	floor_tile = 0,
 	wall_tile = 1,
@@ -35,20 +35,20 @@ enum e_map_tile
 	spawn_west_tile = 5,
 	spawn_east_tile = 6,
 	invalid_tile = -1
-};
+}	t_maptile;
 
-enum e_type_identifier
+typedef enum e_type_identifier
 {
-	north_texture_path = 1,
-	south_texture_path = 2,
-	east_texture_path = 3,
-	west_texture_path = 4,
-	floor_texture_path = 5,
-	ceiling_texture_path = 6,
+	north_texture = 1,
+	south_texture = 2,
+	west_texture = 3,
+	east_texture = 4,
+	floor_texture = 5,
+	ceiling_texture = 6,
 	floor_color = 7,
 	ceiling_color = 8,
 	not_found = 0
-};
+}	t_type_id;
 
 /* ************************************** */
 /* * TYPEDEFS							* */

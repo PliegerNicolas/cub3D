@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 17:13:03 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/03 04:50:46 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/03 16:59:39 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ static void	set_map_sizes(t_gui *gui, t_map_ctrl *map_ctrl)
 		temp = temp->next;
 	}
 	gui->map.height = nodes;
-	printf("h%zuw%zu\n", gui->map.height, gui->map.width);
 }
 
 static int	**malloc_map(t_gui *gui)

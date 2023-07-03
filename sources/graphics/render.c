@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 14:03:16 by emis              #+#    #+#             */
-/*   Updated: 2023/07/02 14:59:28 by emis             ###   ########.fr       */
+/*   Updated: 2023/07/03 16:45:17 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ int	render(t_gui *gui)
 	if (gui->cam.rndr >= SPRITES)
 	{
 		sprite_cast(gui, ZBuffer);
-		// minimap(gui);
 		weapon(gui);
 	}
+	minimap(gui);
 	mlx_put_image_to_window(gui->mlx, gui->mlx->win_list, gui->buffer, 0, 0);
 	gui->rendered = 1;
 	return (0);
