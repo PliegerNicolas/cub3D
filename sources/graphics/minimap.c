@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 18:54:34 by emis              #+#    #+#             */
-/*   Updated: 2023/07/02 14:32:43 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/03 04:42:39 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,19 +49,19 @@ void	minimap(t_gui *gui)
 		while (y < gui->map.width * MINISIZE)
 		{
 			if (gui->map.map[x / MINISIZE][y / MINISIZE] == 1)
-				pixput(gui->buffer, x, y, BLACK);
+				pixput(gui->buffer, y, x, BLACK);
 			else if (gui->map.map[x / MINISIZE][y / MINISIZE] == 0)
-				pixput(gui->buffer, x, y, WHITE);
+				pixput(gui->buffer, y, x, WHITE);
 			y++;
 		}
 		x++;
 	}
-	dot(gui->buffer, gui->cam.posi.x * MINISIZE,
-		gui->cam.posi.y * MINISIZE, MAG);
-	dot(gui->buffer, gui->cam.posi.x * MINISIZE + gui->cam.dir.x * 4,
-		gui->cam.posi.y * MINISIZE + gui->cam.dir.y * 4, MAGF);
+	dot(gui->buffer, gui->cam.posi.y * MINISIZE,
+		gui->cam.posi.x * MINISIZE, MAG);
+	dot(gui->buffer, gui->cam.posi.y * MINISIZE + gui->cam.dir.y * 4,
+		gui->cam.posi.x * MINISIZE + gui->cam.dir.x * 4, MAGF);
 	y = -1;
 	while (++y < (size_t)gui->textures.spnb)
-		dot(gui->buffer, gui->textures.sprites[y].posi.x * MINISIZE,
-			gui->textures.sprites[y].posi.y * MINISIZE, GREEN);
+		dot(gui->buffer, gui->textures.sprites[y].posi.y * MINISIZE,
+			gui->textures.sprites[y].posi.x * MINISIZE, GREEN);
 }

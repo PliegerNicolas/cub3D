@@ -6,7 +6,7 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 16:15:01 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/02 06:16:50 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/03 04:45:00 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -37,22 +37,22 @@ static void	set_vector(t_play *player, size_t row, size_t col)
 
 static void	set_orientation(t_play *player, int val)
 {
-	if (val == 2)
+	if (val == 3)
 	{
 		player->dir = (t_vect){-1, 0};
 		player->plane = (t_vect){0, 0.66};
 	}
-	else if (val == 3)
+	else if (val == 4)
 	{
 		player->dir = (t_vect){1, 0};
 		player->plane = (t_vect){0, -0.66};
 	}
-	else if (val == 4)
+	else if (val == 5)
 	{
 		player->dir = (t_vect){0, 1};
 		player->plane = (t_vect){0.66, 0};
 	}
-	else if (val == 5)
+	else if (val == 6)
 	{
 		player->dir = (t_vect){0, -1};
 		player->plane = (t_vect){-0.66, 0};
