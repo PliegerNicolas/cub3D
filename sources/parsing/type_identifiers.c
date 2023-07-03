@@ -6,12 +6,12 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 07:20:02 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/03 19:41:56 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/03 19:56:48 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
 
-static void	set(t_str_to_ti *strti)
+static void	set_strti(t_str_to_ti *strti)
 {
 	strti[0].str = "NO";
 	strti[0].ti = north_texture;
@@ -29,21 +29,19 @@ static void	set(t_str_to_ti *strti)
 	strti[6].ti = floor_color;
 	strti[7].str = "C";
 	strti[7].ti = ceiling_color;
-	strti[8].str = NULL;
-	strti[8].ti = not_found;
 }
 
 t_type_id	set_type_identifier(char *line, size_t *index)
 {
 	size_t		i;
 	size_t		len;
-	t_str_to_ti	strti[9];
+	t_str_to_ti	strti[8];
 
 	if (!line)
 		return (not_found);
-	set(strti);
+	set_strti(strti);
 	i = 0;
-	while (strti[i].str && strti[i].ti)
+	while (i < 8)
 	{
 		len = ft_strlen(strti[i].str);
 		if (ft_strncmp(line + *index, strti[i].str, len) == 0)
@@ -53,8 +51,9 @@ t_type_id	set_type_identifier(char *line, size_t *index)
 	return (not_found);
 }
 
-/* This function should that "line + *i" as input given that the first */
-/* characters represent the type identifier. */
+/* This function takes "line + *i" as argument. The first given characters of */
+/* line + i should be the type identifier characters represent the type */
+/* identifier. */
 bool	act_on_type_identifier(t_gui *gui, char *line, t_type_id ti)
 {
 	rm_eol(line);
