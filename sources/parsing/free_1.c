@@ -6,7 +6,7 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 02:36:49 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/02 05:56:25 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/03 05:33:56 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -57,33 +57,33 @@ static void	free_textures(t_gui *gui)
 	}
 }
 
-static void	free_sprites(t_gui *gui)
+static void	free_sprites(t_gui *gui, int nb, size_t i)
 {
-	int		nb;
-	size_t	i;
-
 	if (gui->textures.spdist)
 		free(gui->textures.spdist);
 	if (gui->textures.sporder)
 		free(gui->textures.sporder);
-	nb = 0;
-	while (nb < gui->textures.spnb)
+	if (gui->textures.sprites)
 	{
-		if (gui->textures.sprites[nb].frames)
+		nb = 0;
+		while (nb < gui->textures.spnb)
 		{
-			i = 0;
-			while (i < 8)
+			if (gui->textures.sprites[nb].frames)
 			{
-				if (gui->textures.sprites[nb].frames[i])
-					mlx_destroy_image(gui->mlx,
-						gui->textures.sprites[nb].frames[i]);
-				i++;
+				i = 0;
+				while (i < 8)
+				{
+					if (gui->textures.sprites[nb].frames[i])
+						mlx_destroy_image(gui->mlx,
+							gui->textures.sprites[nb].frames[i]);
+					i++;
+				}
+				free(gui->textures.sprites[nb].frames);
 			}
-			free(gui->textures.sprites[nb].frames);
+			nb++;
 		}
-		nb++;
+		free(gui->textures.sprites);
 	}
-	free(gui->textures.sprites);
 }
 
 void	clear_parsing(t_gui *gui)
@@ -92,7 +92,7 @@ void	clear_parsing(t_gui *gui)
 		return ;
 	free_textures(gui);
 	free_map(gui);
-	free_sprites(gui);
+	free_sprites(gui, 0, 0);
 	if (gui->buffer)
 		mlx_destroy_image(gui->mlx, gui->buffer);
 	mlx_destroy_display(gui->mlx);
