@@ -6,31 +6,50 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 07:20:02 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/03 18:19:12 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/03 19:41:56 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
 
+static void	set(t_str_to_ti *strti)
+{
+	strti[0].str = "NO";
+	strti[0].ti = north_texture;
+	strti[1].str = "SO";
+	strti[1].ti = south_texture;
+	strti[2].str = "WE";
+	strti[2].ti = west_texture;
+	strti[3].str = "EA";
+	strti[3].ti = east_texture;
+	strti[4].str = "FL";
+	strti[4].ti = floor_texture;
+	strti[5].str = "CE";
+	strti[5].ti = ceiling_texture;
+	strti[6].str = "F";
+	strti[6].ti = floor_color;
+	strti[7].str = "C";
+	strti[7].ti = ceiling_color;
+	strti[8].str = NULL;
+	strti[8].ti = not_found;
+}
+
 t_type_id	set_type_identifier(char *line, size_t *index)
 {
+	size_t		i;
+	size_t		len;
+	t_str_to_ti	strti[9];
+
 	if (!line)
 		return (not_found);
-	if (ft_strncmp(line + *index, "NO", 2) == 0)
-		return (*index += 2, north_texture);
-	else if (ft_strncmp(line + *index, "SO", 2) == 0)
-		return (*index += 2, south_texture);
-	else if (ft_strncmp(line + *index, "WE", 2) == 0)
-		return (*index += 2, west_texture);
-	else if (ft_strncmp(line + *index, "EA", 2) == 0)
-		return (*index += 2, east_texture);
-	else if (ft_strncmp(line + *index, "FL", 2) == 0)
-		return (*index += 2, floor_texture);
-	else if (ft_strncmp(line + *index, "CE", 2) == 0)
-		return (*index += 2, ceiling_texture);
-	else if (ft_strncmp(line + *index, "F", 1) == 0)
-		return (*index += 1, floor_color);
-	else if (ft_strncmp(line + *index, "C", 1) == 0)
-		return (*index += 1, ceiling_color);
+	set(strti);
+	i = 0;
+	while (strti[i].str && strti[i].ti)
+	{
+		len = ft_strlen(strti[i].str);
+		if (ft_strncmp(line + *index, strti[i].str, len) == 0)
+			return ((*index) += len, strti[i].ti);
+		i++;
+	}
 	return (not_found);
 }
 

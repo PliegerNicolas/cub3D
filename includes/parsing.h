@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:34:04 by emis              #+#    #+#             */
-/*   Updated: 2023/07/03 18:35:37 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/03 19:41:49 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PARSING_H
@@ -60,6 +60,12 @@ typedef struct s_map_ctrl
 	size_t				len;
 	struct s_map_ctrl	*next;
 }	t_map_ctrl;
+
+typedef struct	str_to_type_identifier
+{
+	char		*str;
+	t_type_id	ti;
+}	t_str_to_ti;
 
 /* ************************************** */
 /* * GLOBAL VAR							* */
