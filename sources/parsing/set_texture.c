@@ -6,20 +6,33 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 03:27:14 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/03 05:15:46 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/03 18:36:08 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
 
 static bool	set_wall_texture(t_gui *gui, char *path, int idx)
 {
-	int	width;
-	int	height;
+	size_t	i;
+	int		width;
+	int		height;
 
 	width = 0;
 	height = 0;
+	if (!gui->textures.walls)
+	{
+		gui->textures.walls = malloc(5 * sizeof(*gui->textures.walls));
+		if (!gui->textures.walls)
+			return (put_parsing_err("Not enough memory."), true);
+		i = 0;
+		while (i < 5)
+			gui->textures.walls[i++] = NULL;
+	}
 	if (gui->textures.walls[idx])
+	{
 		mlx_destroy_image(gui->mlx, gui->textures.walls[idx]);
+		gui->textures.walls[idx] = NULL;
+	}
 	gui->textures.walls[idx] = mlx_xpm_file_to_image(gui->mlx, path,
 			&width, &height);
 	if (!gui->textures.walls[idx])
@@ -27,8 +40,7 @@ static bool	set_wall_texture(t_gui *gui, char *path, int idx)
 	return (false);
 }
 
-// floor == 0 && ceil == 0
-static bool	set_ceilfloor_texture(t_gui *gui, char *path, int idx)
+static bool	set_floorceil_texture(t_gui *gui, char *path, int idx)
 {
 	size_t	i;
 	int		width;
@@ -46,7 +58,10 @@ static bool	set_ceilfloor_texture(t_gui *gui, char *path, int idx)
 			gui->textures.floorceil[i++] = NULL;
 	}
 	else if (gui->textures.floorceil[idx])
+	{
 		mlx_destroy_image(gui->mlx, gui->textures.floorceil[idx]);
+		gui->textures.floorceil[idx] = NULL;
+	}
 	gui->textures.floorceil[idx] = mlx_xpm_file_to_image(gui->mlx, path,
 			&width, &height);
 	if (!gui->textures.floorceil[idx])
@@ -54,56 +69,45 @@ static bool	set_ceilfloor_texture(t_gui *gui, char *path, int idx)
 	return (false);
 }
 
-bool	set_texture(t_gui *gui, char *line, enum e_type_identifier ti)
+static void	initialize_walls_enum_tab(t_type_id *type_ids)
 {
-	char	*path;
+	type_ids[0] = north_texture;
+	type_ids[1] = south_texture;
+	type_ids[2] = west_texture;
+	type_ids[3] = east_texture;
+}
+
+static void	initialize_floorceil_enum_tab(t_type_id *type_ids)
+{
+	type_ids[0] = floor_texture;
+	type_ids[1] = ceiling_texture;
+}
+
+bool	set_texture(t_gui *gui, char *line, t_type_id ti)
+{
+	char		*path;
+	size_t		i;
+	t_type_id	walls[4];
+	t_type_id	floor_and_ceiling[2];
 
 	path = get_type_identifier_data(line);
 	if (!path)
 		return (true);
-	if (ti == north_texture_path && set_wall_texture(gui, path, 0))
-		return (true);
-	else if (ti == south_texture_path && set_wall_texture(gui, path, 1))
-		return (true);
-	else if (ti == east_texture_path && set_wall_texture(gui, path, 2))
-		return (true);
-	else if (ti == west_texture_path && set_wall_texture(gui, path, 3))
-		return (true);
-	else if (ti == floor_texture_path && set_ceilfloor_texture(gui, path, 0))
-		return (true);
-	else if (ti == ceiling_texture_path && set_ceilfloor_texture(gui, path, 1))
-		return (true);
-	return (free(path), false);
-}
-
-static int	create_trgb(int t, int r, int g, int b)
-{
-	return (t << 24 | r << 16 | g << 8 | b);
-}
-
-bool	set_color(t_gui *gui, char *line, enum e_type_identifier ti)
-{
-	char	*path;
-	char	**split;
-	size_t	i;
-	int		rgb[3];
-
-	path = get_type_identifier_data(line);
-	if (!path)
-		return (put_parsing_err("Not enough memory."), true);
-	split = ft_split(path, ',');
-	free(path);
-	if (!split)
-		return (put_parsing_err("Not enough memory."), true);
+	initialize_walls_enum_tab(walls);
+	initialize_floorceil_enum_tab(floor_and_ceiling);
 	i = 0;
-	while (split[i])
+	while (i < sizeof(walls) / sizeof(*walls))
 	{
-		rgb[i] = ft_atoi(split[i]);
+		if (ti == walls[i] && set_wall_texture(gui, path, i))
+			return (free(path), true);
 		i++;
 	}
-	if (ti == ceiling_color)
-		gui->textures.ceil_color = create_trgb(0, rgb[0], rgb[1], rgb[2]);
-	else if (ti == floor_color)
-		gui->textures.floor_color = create_trgb(0, rgb[0], rgb[1], rgb[2]);
-	return (free_str_arr(split), false);
+	i = 0;
+	while (i < sizeof(floor_and_ceiling) / sizeof(*floor_and_ceiling))
+	{
+		if (ti == floor_and_ceiling[i] && set_floorceil_texture(gui, path, i))
+			return (free(path), true);
+		i++;
+	}
+	return (free(path), false);
 }

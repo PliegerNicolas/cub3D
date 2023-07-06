@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/07/02 05:13:58 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/03 18:17:43 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,13 +206,12 @@ void	weapon(t_gui *gui);
 
 bool	initialize(int argc, char **argv, t_gui *gui);
 bool	parse_cub_file(t_gui *gui, int fd);
-bool	act_on_type_identifier(t_gui *gui, char *line,
-			enum e_type_identifier ti);
+bool	act_on_type_identifier(t_gui *gui, char *line, t_type_id ti);
 
 /* set_texture.c */
 
-bool	set_texture(t_gui *gui, char *line, enum e_type_identifier ti);
-bool	set_color(t_gui *gui, char *line, enum e_type_identifier ti);
+bool	set_texture(t_gui *gui, char *line, t_type_id ti);
+bool	set_color(t_gui *gui, char *line, t_type_id ti);
 
 /* free.c */
 
@@ -240,4 +239,3 @@ bool	set_sprites(t_gui *gui);
 bool	set_mobs(t_gui *gui);
 
 #endif
-

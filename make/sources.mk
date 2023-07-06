@@ -24,6 +24,7 @@ SOURCES += ./sources/parsing/type_identifiers.c
 SOURCES += ./sources/parsing/get_type_identifier_data.c
 SOURCES += ./sources/parsing/free_1.c
 SOURCES += ./sources/parsing/free_2.c
+SOURCES += ./sources/parsing/set_color.c
 SOURCES += ./sources/parsing/set_texture.c
 SOURCES += ./sources/parsing/set_sprites.c
 SOURCES += ./sources/parsing/set_mobs.c

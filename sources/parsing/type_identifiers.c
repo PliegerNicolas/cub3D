@@ -6,45 +6,62 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 07:20:02 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/02 02:35:12 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/03 19:56:48 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
 
-enum e_type_identifier	set_type_identifier(char *line, size_t *index)
+static void	set_strti(t_str_to_ti *strti)
 {
+	strti[0].str = "NO";
+	strti[0].ti = north_texture;
+	strti[1].str = "SO";
+	strti[1].ti = south_texture;
+	strti[2].str = "WE";
+	strti[2].ti = west_texture;
+	strti[3].str = "EA";
+	strti[3].ti = east_texture;
+	strti[4].str = "FL";
+	strti[4].ti = floor_texture;
+	strti[5].str = "CE";
+	strti[5].ti = ceiling_texture;
+	strti[6].str = "F";
+	strti[6].ti = floor_color;
+	strti[7].str = "C";
+	strti[7].ti = ceiling_color;
+}
+
+t_type_id	set_type_identifier(char *line, size_t *index)
+{
+	size_t		i;
+	size_t		len;
+	t_str_to_ti	strti[8];
+
 	if (!line)
 		return (not_found);
-	if (ft_strncmp(line + *index, "NO", 2) == 0)
-		return (*index += 2, north_texture_path);
-	else if (ft_strncmp(line + *index, "SO", 2) == 0)
-		return (*index += 2, south_texture_path);
-	else if (ft_strncmp(line + *index, "WE", 2) == 0)
-		return (*index += 2, west_texture_path);
-	else if (ft_strncmp(line + *index, "EA", 2) == 0)
-		return (*index += 2, east_texture_path);
-	else if (ft_strncmp(line + *index, "FL", 2) == 0)
-		return (*index += 2, floor_texture_path);
-	else if (ft_strncmp(line + *index, "CE", 2) == 0)
-		return (*index += 2, ceiling_texture_path);
-	else if (ft_strncmp(line + *index, "F", 1) == 0)
-		return (*index += 1, floor_color);
-	else if (ft_strncmp(line + *index, "C", 1) == 0)
-		return (*index += 1, ceiling_color);
+	set_strti(strti);
+	i = 0;
+	while (i < 8)
+	{
+		len = ft_strlen(strti[i].str);
+		if (ft_strncmp(line + *index, strti[i].str, len) == 0)
+			return ((*index) += len, strti[i].ti);
+		i++;
+	}
 	return (not_found);
 }
 
-/* This function should that "line + *i" as input given that the first */
-/* characters represent the type identifier. */
-bool	act_on_type_identifier(t_gui *gui, char *line,
-	enum e_type_identifier ti)
+/* This function takes "line + *i" as argument. The first given characters of */
+/* line + i should be the type identifier characters represent the type */
+/* identifier. */
+bool	act_on_type_identifier(t_gui *gui, char *line, t_type_id ti)
 {
 	rm_eol(line);
 	if (ti == not_found)
 		return (false);
-	if (ti == north_texture_path || ti == south_texture_path
-		|| ti == east_texture_path || ti == west_texture_path
-		|| ti == floor_texture_path || ti == ceiling_texture_path)
+	if (ti == north_texture || ti == south_texture
+		|| ti == east_texture || ti == west_texture
+		|| ti == floor_texture || ti == ceiling_texture)
 	{
 		if (set_texture(gui, line, ti))
 			return (true);
