@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 15:49:02 by emis              #+#    #+#             */
-/*   Updated: 2023/06/27 17:30:01 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/06 13:03:44 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ void	zoom(t_play	*play, int dir)
 	double zoomRate = 0.025;
 
 	zoomRate *= dir;
-	play->zoom += zoomRate;
-	// play->pitch += dir;
+	//play->zoom += zoomRate;
+	play->pitch += 4 * dir;
 }
 
 void	rotate(t_play	*play, double dir)
