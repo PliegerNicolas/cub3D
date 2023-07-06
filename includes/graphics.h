@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/07/03 18:17:43 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/06 16:04:39 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ typedef struct s_textures
 	t_img	**floorceil;
 	int		arrsize;
 	t_img	**walls;
+	t_img	**doors;
 	int		spnb;
 	int		*sporder;
 	double	*spdist;

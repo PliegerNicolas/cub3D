@@ -6,10 +6,11 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 17:13:03 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/03 18:40:50 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/06 16:09:14 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "graphics.h"
+
+# include "../../includes/graphics.h"
 
 // temp
 /*
@@ -57,6 +58,8 @@ static int	convert_charmap_to_intmap(char c)
 		return (spawn_west_tile);
 	else if (c == 'E')
 		return (spawn_east_tile);
+	else if (c == 'D')
+		return (door_tile);
 	return (invalid_tile);
 }
 

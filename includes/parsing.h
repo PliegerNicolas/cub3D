@@ -6,9 +6,10 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:34:04 by emis              #+#    #+#             */
-/*   Updated: 2023/07/03 19:41:49 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/06 16:07:55 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #ifndef PARSING_H
 # define PARSING_H
 
@@ -34,7 +35,8 @@ typedef enum e_map_tile
 	spawn_south_tile = 4,
 	spawn_west_tile = 5,
 	spawn_east_tile = 6,
-	invalid_tile = -1
+	invalid_tile = -1,
+	door_tile = 42
 }	t_maptile;
 
 typedef enum e_type_identifier
@@ -47,6 +49,7 @@ typedef enum e_type_identifier
 	ceiling_texture = 6,
 	floor_color = 7,
 	ceiling_color = 8,
+	door_texture_path = 9,
 	not_found = 0
 }	t_type_id;
 

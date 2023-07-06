@@ -3,12 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 06:54:21 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/02 02:50:21 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/03 15:22:59 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "parsing.h"
 #include "graphics.h"
 
 static bool	is_valid_map_line(char *line, char *charset)
@@ -69,7 +71,7 @@ bool	parse_map(char *line, t_map_ctrl **map_ctrl)
 	if (!line)
 		return (true);
 	rm_eol(line);
-	if (!is_valid_map_line(line, "01NSWEM"))
+	if (!is_valid_map_line(line, "01NSWEMD"))
 		return (true);
 	if (add_to_map_ctrl(map_ctrl, line))
 		return (true);

@@ -3,13 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   set_mobs.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 05:11:31 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/02 05:56:09 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/03 15:05:59 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "graphics.h"
+
+# include "../../includes/parsing.h"
+# include "../../includes/graphics.h"
 
 static char	*get_mob_texture_path(size_t i)
 {
@@ -80,7 +82,7 @@ bool	set_mobs(t_gui *gui)
 		col = 0;
 		while (col < gui->map.width)
 		{
-			if (gui->map.map[row][col] == 2)
+			if (gui->map.map[row][col] == mob_tile)
 			{
 				set_mob_pos(gui, nb, row, col);
 				if (set_frames(gui, nb++, 0, 0))
