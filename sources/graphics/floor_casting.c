@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 16:25:33 by emis              #+#    #+#             */
-/*   Updated: 2023/07/06 13:58:10 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/07/06 15:32:31 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,10 @@ void	floor_cast(t_gui *gui)
 
 		// -1 to 1. Distance current Y from the player's horizon
 		float	row_distance;
-		if (p)
+		if (p && y > horizon)
 			row_distance = screen_center / p;
+		else if (p && y <= horizon)
+			row_distance = screen_center / -p;
 		else
 			row_distance = 0;
 
