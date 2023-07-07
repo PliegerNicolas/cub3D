@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 14:03:16 by emis              #+#    #+#             */
-/*   Updated: 2023/07/03 16:45:17 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/06 15:38:01 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ static void	key_render(t_gui *gui)
 	if (!gui->keys)
 		return;
 	if (gui->keys & (1 << KP_sprint))
-		gui->cam.speed = 2;
+		gui->cam.speed = 0.6;
 	else
-		gui->cam.speed = 1;
+		gui->cam.speed = 0.30;
 	if (gui->keys & (1 << KP_rot_left))
 		rotate(&gui->cam, 1);
 	else if (gui->keys & (1 << KP_rot_right))
