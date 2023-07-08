@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/07/06 16:04:39 by emis             ###   ########.fr       */
+/*   Updated: 2023/07/08 03:25:27 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,11 @@ typedef enum e_keybinds
 	sprint = XK_Shift_L,
 	rot_left = XK_Left,
 	rot_right = XK_Right,
-	zoom_in = XK_Up,
-	zoom_out = XK_Down,
+	rot_up = XK_Up,
+	rot_down = XK_Down,
 }	t_kbind;
 
-# define KEYS ((t_kbind[]){forth, back, left, right, sprint, rot_left, rot_right, zoom_in, zoom_out})
+# define KEYS ((t_kbind[]){forth, back, left, right, sprint, rot_left, rot_right, rot_up, rot_down})
 
 typedef enum e_keypresses
 {
@@ -46,8 +46,8 @@ typedef enum e_keypresses
 	KP_sprint,
 	KP_rot_left,
 	KP_rot_right,
-	KP_zoom_in,
-	KP_zoom_out,
+	KP_rot_up,
+	KP_rot_down,
 }	t_kprs;
 
 typedef enum e_btnpresses
@@ -81,7 +81,9 @@ typedef struct s_player
 	t_vect	plane;
 	int		pitch;
 	double	zoom;
-	double	speed;
+	t_vect	speed;
+	t_vect	speed_target;
+	t_vect	acceleration_rate;
 }	t_play;
  // plane = (t_vect){0, 0.66};
 
@@ -123,7 +125,6 @@ typedef struct s_map
 	size_t	width;
 	size_t	height;
 	int		**map;
-	// char	**map;
 }	t_map;
 
 typedef struct s_gui

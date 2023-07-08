@@ -6,16 +6,68 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 14:03:16 by emis              #+#    #+#             */
-/*   Updated: 2023/07/07 14:07:48 by emis             ###   ########.fr       */
+/*   Updated: 2023/07/08 03:28:48 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../../includes/graphics.h"
 
+static void	update_speed(double *current, double target, double rate)
+{
+	if (target < 0.0)
+	{
+		if (*current - rate > target)
+			*current -= rate;
+		else
+			*current = target;
+	}
+	else if (target > 0.0)
+	{
+		if (*current + rate < target)
+			*current += rate;
+		else
+			*current = target;
+	}
+	else if (target == 0.0)
+	{
+		if  (*current - rate > target)
+			*current -= rate;
+		else if (*current + rate < target)
+			*current += rate;
+		else
+			*current = target;
+	}
+}
+
 static void	key_render(t_gui *gui)
 {
 	if (!gui->keys)
-		return;
+	{
+		update_speed(&gui->cam.speed.x, 0, gui->cam.rate.x);
+		update_speed(&gui->cam.speed.y, 0, gui->cam.rate.y);
+	}
+	if (gui->keys & (1 << KP_forth))
+		update_speed(&gui->cam.speed.x, gui->cam.speed_target.x, gui->cam.rate.x);
+	else if (gui->keys & (1 << KP_back))
+		update_speed(&gui->cam.speed.x, -gui->cam.speed_target.x, gui->cam.rate.x);
+	else
+		update_speed(&gui->cam.speed.x, 0, gui->cam.rate.x);
+	if (gui->keys & (1 << KP_right))
+		update_speed(&gui->cam.speed.y, gui->cam.speed_target.y, gui->cam.rate.y);
+	else if (gui->keys & (1 << KP_left))
+		update_speed(&gui->cam.speed.y, -gui->cam.speed_target.y, gui->cam.rate.y);
+	else
+		update_speed(&gui->cam.speed.y, 0, gui->cam.rate.y);
+	if (gui->keys & (1 << KP_Left))
+		;
+	else if (gui->keys & (1 << KP_Right))
+		;
+	if (gui->keys & (1 << KP_Up))
+		;
+	else if (gui->keys & (1 << KP_Down))
+		;
+	move(gui);
+	/*
 	if (gui->keys & (1 << KP_sprint))
 		gui->cam.speed = 0.6;
 	else
@@ -29,13 +81,26 @@ static void	key_render(t_gui *gui)
 	else if (gui->keys & (1 << KP_zoom_out))
 		zoom(&gui->cam, -1);
 	move(gui);
+	*/
 }
+
+/*
+static bool	double_is_zero(double num)
+{
+    double epsilon;
+
+ 	epsilon = 1e-9;
+    if (num >= -epsilon && num <= epsilon)
+        return (true);
+    return (false);
+}
+*/
 
 int	render(t_gui *gui)
 {
 	double ZBuffer[SCRWIDTH];
 
-	if (gui->rendered && (!gui->keys && gui->cam.rndr < SPRITES))
+	if (gui->rendered && gui->cam.rndr < SPRITES)
 		return (0);
 	key_render(gui);
 	erase(gui->buffer);

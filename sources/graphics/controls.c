@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 15:49:02 by emis              #+#    #+#             */
-/*   Updated: 2023/07/06 15:38:58 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/07/08 03:22:29 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,7 @@ void	check_and_move(t_map map, t_vect *posi, t_vect dxdy, double magn)
 
 int	move(t_gui *gui)
 {
-	double moveSpeed = 0.20 * gui->cam.speed; //frameTime * 5.0 //the constant value is in squares/second
-
-	if (gui->keys & (1 << KP_forth))
-		check_and_move(gui->map, &gui->cam.posi, gui->cam.dir, moveSpeed);
-	else if (gui->keys & (1 << KP_back))
-		check_and_move(gui->map, &gui->cam.posi, gui->cam.dir, -moveSpeed);
-	if (gui->keys & (1 << KP_right))
-		check_and_move(gui->map, &gui->cam.posi, gui->cam.plane, moveSpeed);
-	else if (gui->keys & (1 << KP_left))
-		check_and_move(gui->map, &gui->cam.posi, gui->cam.plane, -moveSpeed);
+	check_and_move(gui->map, &gui->cam.posi, gui->cam.dir, gui->cam.speed.x);
+	check_and_move(gui->map, &gui->cam.posi, gui->cam.plane, gui->cam.speed.y);
 	return (0);
 }
