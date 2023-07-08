@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/07/08 03:25:27 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/08 03:49:16 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ typedef struct s_player
 	t_vect	speed;
 	t_vect	speed_target;
 	t_vect	acceleration_rate;
+	t_vect	rotation_speed;
 }	t_play;
  // plane = (t_vect){0, 0.66};
 
@@ -153,6 +154,7 @@ void	imgput(t_img *dest, int x, int y, t_img *img);
 /* CONTROLS */
 
 void	zoom(t_play	*play, int dir);
+void	pitch(t_play *play, int dir);
 void	rotate(t_play	*play, double dir);
 void	check_and_move(t_map map, t_vect *posi, t_vect dxdy, double magn);
 int		move(t_gui *gui);

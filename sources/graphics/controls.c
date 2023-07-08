@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 15:49:02 by emis              #+#    #+#             */
-/*   Updated: 2023/07/08 03:22:29 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/08 03:49:57 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,17 @@ void	zoom(t_play	*play, int dir)
 	double zoomRate = 0.025;
 
 	zoomRate *= dir;
-	//play->zoom += zoomRate;
-	play->pitch += 4 * dir;
+	play->zoom += zoomRate;
+}
+
+void	pitch(t_play *play, int dir)
+{
+	play->pitch += play->rotation_speed.y * 100 * dir;
 }
 
 void	rotate(t_play	*play, double dir)
 {
-	double rotSpeed = 0.05; //frameTime * 3.0 //the constant value is in radians/second
+	double rotSpeed = play->rotation_speed.x;
 
 	double oldDirX = play->dir.x;
 	rotSpeed *= dir;
