@@ -6,13 +6,13 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 15:49:02 by emis              #+#    #+#             */
-/*   Updated: 2023/07/07 19:07:41 by emis             ###   ########.fr       */
+/*   Updated: 2023/07/08 11:34:04 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../../includes/graphics.h"
 
-void	pitch(t_play	*play, int dir)
+void	pitch(t_play	*play, double dir)
 {
 	double pRate = 0.025;
 

@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:18:42 by emis              #+#    #+#             */
-/*   Updated: 2023/07/02 06:14:26 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/08 11:43:04 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,6 +221,8 @@ int	main(int ac, char **av)
 	mlx_hook(gui.mlx->win_list, MotionNotify, PointerMotionMask, &mouse_motion, &gui);
 	mlx_hook(gui.mlx->win_list, DestroyNotify, 0L, &mlx_loop_end, gui.mlx);
 	mlx_hook(gui.mlx->win_list, Expose, 0L, hello, &gui);
+	XWarpPointer(gui.mlx->display, None, gui.mlx->win_list->window,
+			0, 0, 0, 0, SCRWIDTH / 2, SCRHEIGHT / 2);
 	mlx_loop(gui.mlx);
 	mlx_destroy_window(gui.mlx, gui.mlx->win_list);
 	garbaj(NULL, NULL, 0);
