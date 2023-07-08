@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 14:03:16 by emis              #+#    #+#             */
-/*   Updated: 2023/07/08 03:28:48 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/08 03:43:56 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,29 +43,29 @@ static void	key_render(t_gui *gui)
 {
 	if (!gui->keys)
 	{
-		update_speed(&gui->cam.speed.x, 0, gui->cam.rate.x);
-		update_speed(&gui->cam.speed.y, 0, gui->cam.rate.y);
+		update_speed(&gui->cam.speed.x, 0, gui->cam.acceleration_rate.x);
+		update_speed(&gui->cam.speed.y, 0, gui->cam.acceleration_rate.y);
 	}
 	if (gui->keys & (1 << KP_forth))
-		update_speed(&gui->cam.speed.x, gui->cam.speed_target.x, gui->cam.rate.x);
+		update_speed(&gui->cam.speed.x, gui->cam.speed_target.x, gui->cam.acceleration_rate.x);
 	else if (gui->keys & (1 << KP_back))
-		update_speed(&gui->cam.speed.x, -gui->cam.speed_target.x, gui->cam.rate.x);
+		update_speed(&gui->cam.speed.x, -gui->cam.speed_target.x, gui->cam.acceleration_rate.x);
 	else
-		update_speed(&gui->cam.speed.x, 0, gui->cam.rate.x);
+		update_speed(&gui->cam.speed.x, 0, gui->cam.acceleration_rate.x);
 	if (gui->keys & (1 << KP_right))
-		update_speed(&gui->cam.speed.y, gui->cam.speed_target.y, gui->cam.rate.y);
+		update_speed(&gui->cam.speed.y, gui->cam.speed_target.y, gui->cam.acceleration_rate.y);
 	else if (gui->keys & (1 << KP_left))
-		update_speed(&gui->cam.speed.y, -gui->cam.speed_target.y, gui->cam.rate.y);
+		update_speed(&gui->cam.speed.y, -gui->cam.speed_target.y, gui->cam.acceleration_rate.y);
 	else
-		update_speed(&gui->cam.speed.y, 0, gui->cam.rate.y);
-	if (gui->keys & (1 << KP_Left))
-		;
-	else if (gui->keys & (1 << KP_Right))
-		;
-	if (gui->keys & (1 << KP_Up))
-		;
-	else if (gui->keys & (1 << KP_Down))
-		;
+		update_speed(&gui->cam.speed.y, 0, gui->cam.acceleration_rate.y);
+	if (gui->keys & (1 << KP_rot_left))
+		rotate(&gui->cam, 1);
+	else if (gui->keys & (1 << KP_rot_right))
+		rotate(&gui->cam, -1);
+	if (gui->keys & (1 << KP_rot_up))
+		(void)gui;
+	else if (gui->keys & (1 << KP_rot_down))
+		(void)gui;
 	move(gui);
 	/*
 	if (gui->keys & (1 << KP_sprint))
