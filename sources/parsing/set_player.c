@@ -6,7 +6,7 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 16:15:01 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/08 03:49:30 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/08 03:56:04 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -29,8 +29,8 @@ static void	set_base_stats(t_play *player)
 	player->speed_target.y = 0.5;
 	player->acceleration_rate.x = player->speed_target.x * 0.25;
 	player->acceleration_rate.y = player->speed_target.y * 0.25;
-	player->rotation_speed.x = 0.3;
-	player->rotation_speed.y = 0.5;
+	player->rotation_speed.x = 0.15;
+	player->rotation_speed.y = 0.3;
 	player->rndr = FLOORCEIL;
 }
 

@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 14:03:16 by emis              #+#    #+#             */
-/*   Updated: 2023/07/08 03:45:53 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/08 03:55:10 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,34 +67,7 @@ static void	key_render(t_gui *gui)
 	else if (gui->keys & (1 << KP_rot_down))
 		pitch(&gui->cam, -1);
 	move(gui);
-	/*
-	if (gui->keys & (1 << KP_sprint))
-		gui->cam.speed = 0.6;
-	else
-		gui->cam.speed = 0.30;
-	if (gui->keys & (1 << KP_rot_left))
-		rotate(&gui->cam, 1);
-	else if (gui->keys & (1 << KP_rot_right))
-		rotate(&gui->cam, -1);
-	if (gui->keys & (1 << KP_zoom_in))
-		zoom(&gui->cam, 1);
-	else if (gui->keys & (1 << KP_zoom_out))
-		zoom(&gui->cam, -1);
-	move(gui);
-	*/
 }
-
-/*
-static bool	double_is_zero(double num)
-{
-    double epsilon;
-
- 	epsilon = 1e-9;
-    if (num >= -epsilon && num <= epsilon)
-        return (true);
-    return (false);
-}
-*/
 
 int	render(t_gui *gui)
 {
