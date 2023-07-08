@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 14:03:16 by emis              #+#    #+#             */
-/*   Updated: 2023/07/07 14:07:48 by emis             ###   ########.fr       */
+/*   Updated: 2023/07/07 19:01:51 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ static void	key_render(t_gui *gui)
 	else if (gui->keys & (1 << KP_rot_right))
 		rotate(&gui->cam, -1);
 	if (gui->keys & (1 << KP_zoom_in))
-		zoom(&gui->cam, 1);
+		pitch(&gui->cam, 1);
 	else if (gui->keys & (1 << KP_zoom_out))
-		zoom(&gui->cam, -1);
+		pitch(&gui->cam, -1);
 	move(gui);
 }
 

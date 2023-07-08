@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/07/06 16:04:39 by emis             ###   ########.fr       */
+/*   Updated: 2023/07/07 19:07:12 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,8 @@ typedef struct s_sprite
 	t_img	**frames;
 }	t_sprt;
 
+# define DOOR 42
+
 typedef struct s_textures
 {
 	int		width;
@@ -151,7 +153,7 @@ void	imgput(t_img *dest, int x, int y, t_img *img);
 
 /* CONTROLS */
 
-void	zoom(t_play	*play, int dir);
+void	pitch(t_play	*play, int dir);
 void	rotate(t_play	*play, double dir);
 void	check_and_move(t_map map, t_vect *posi, t_vect dxdy, double magn);
 int		move(t_gui *gui);

@@ -6,19 +6,18 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 15:49:02 by emis              #+#    #+#             */
-/*   Updated: 2023/07/06 15:38:58 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/07/07 19:07:41 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../../includes/graphics.h"
 
-void	zoom(t_play	*play, int dir)
+void	pitch(t_play	*play, int dir)
 {
-	double zoomRate = 0.025;
+	double pRate = 0.025;
 
-	zoomRate *= dir;
-	//play->zoom += zoomRate;
-	play->pitch += 4 * dir;
+	pRate *= dir;
+	play->pitch += 8 * dir;
 }
 
 void	rotate(t_play	*play, double dir)
@@ -36,9 +35,9 @@ void	rotate(t_play	*play, double dir)
 
 void	check_and_move(t_map map, t_vect *posi, t_vect dxdy, double magn)
 {
-	if (map.map[(int)(posi->x + dxdy.x * magn)][(int)(posi->y)] == 0)
+	if (map.map[(int)(posi->x + dxdy.x * magn)][(int)(posi->y)] % DOOR == 0)
 		posi->x += dxdy.x * magn;
-	if (map.map[(int)(posi->x)][(int)(posi->y + dxdy.y * magn)] == 0)
+	if (map.map[(int)(posi->x)][(int)(posi->y + dxdy.y * magn)] % DOOR == 0)
 		posi->y += dxdy.y * magn;
 }
 
