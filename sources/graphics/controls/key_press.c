@@ -6,7 +6,7 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 05:50:41 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/08 09:03:05 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/08 09:11:53 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -30,7 +30,7 @@ static void	act_on_move(t_gui *gui)
 	else if (gui->keys & (1 << KP_back))
 		update_speed(&p->speed.x, -p->speed_target.x * p->sprint_multiplicator,
 			p->acceleration_rate.x);
-	else if (p->speed.x != 0.0)
+	else
 		update_speed(&gui->cam.speed.x, 0, gui->cam.acceleration_rate.x * 1.5);
 	if (gui->keys & (1 << KP_right))
 		update_speed(&p->speed.y, p->speed_target.y * p->sprint_multiplicator,
@@ -38,7 +38,7 @@ static void	act_on_move(t_gui *gui)
 	else if (gui->keys & (1 << KP_left))
 		update_speed(&p->speed.y, -p->speed_target.y * p->sprint_multiplicator,
 			p->acceleration_rate.y);
-	else if (p->speed.y != 0.0)
+	else
 		update_speed(&gui->cam.speed.y, 0, gui->cam.acceleration_rate.y * 1.5);
 }
 

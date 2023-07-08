@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/07/08 09:06:10 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/08 09:40:15 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ typedef struct s_player
 	t_vect	speed_target;
 	t_vect	acceleration_rate;
 	t_vect	rotation_speed;
+	t_vect	hit_box;
 	double	sprint_multiplicator;
 }	t_play;
 
