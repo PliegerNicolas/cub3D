@@ -6,12 +6,11 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 14:03:16 by emis              #+#    #+#             */
-/*   Updated: 2023/07/08 04:34:35 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/08 05:53:18 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-# include "../../includes/graphics.h"
-
+# include "graphics.h"
+/*
 static void	update_speed(double *current, double target, double rate)
 {
 	if (target < 0.0)
@@ -90,6 +89,7 @@ static void	key_render(t_gui *gui)
 
 	move(gui);
 }
+*/
 
 int	render(t_gui *gui)
 {

@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:34:04 by emis              #+#    #+#             */
-/*   Updated: 2023/07/06 16:07:55 by emis             ###   ########.fr       */
+/*   Updated: 2023/07/08 08:47:23 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ typedef struct s_map_ctrl
 	struct s_map_ctrl	*next;
 }	t_map_ctrl;
 
-typedef struct	str_to_type_identifier
+typedef struct str_to_type_identifier
 {
 	char		*str;
 	t_type_id	ti;

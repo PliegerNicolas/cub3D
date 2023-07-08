@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/07/08 03:49:16 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/08 09:06:10 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,12 +81,13 @@ typedef struct s_player
 	t_vect	plane;
 	int		pitch;
 	double	zoom;
+	double	zoom_rate;
 	t_vect	speed;
 	t_vect	speed_target;
 	t_vect	acceleration_rate;
 	t_vect	rotation_speed;
+	double	sprint_multiplicator;
 }	t_play;
- // plane = (t_vect){0, 0.66};
 
 typedef struct s_sprite
 {
@@ -153,11 +154,17 @@ void	imgput(t_img *dest, int x, int y, t_img *img);
 
 /* CONTROLS */
 
-void	zoom(t_play	*play, int dir);
-void	pitch(t_play *play, int dir);
-void	rotate(t_play	*play, double dir);
+void	key_render(t_gui *gui);
+
+void	move(t_gui *gui);
 void	check_and_move(t_map map, t_vect *posi, t_vect dxdy, double magn);
-int		move(t_gui *gui);
+
+void	zoom(t_play	*player, double dir);
+void	pitch(t_play *player, double dir);
+void	rotate(t_play *player, double dir);
+
+void	update_speed(double *current_speed, double target_speed,
+			double acceleration_rate);
 
 /* EVENTS */
 
