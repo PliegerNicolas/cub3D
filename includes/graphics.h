@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/07/08 09:40:15 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/09 06:27:05 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,11 @@ typedef enum e_keybinds
 	rot_right = XK_Right,
 	rot_up = XK_Up,
 	rot_down = XK_Down,
+	zoom_in = XK_KP_Add,
+	zoom_out = XK_KP_Subtract,
 }	t_kbind;
 
-# define KEYS ((t_kbind[]){forth, back, left, right, sprint, rot_left, rot_right, rot_up, rot_down})
+# define KEYS ((t_kbind[]){forth, back, left, right, sprint, rot_left, rot_right, rot_up, rot_down, zoom_in, zoom_out})
 
 typedef enum e_keypresses
 {
@@ -48,6 +50,8 @@ typedef enum e_keypresses
 	KP_rot_right,
 	KP_rot_up,
 	KP_rot_down,
+	KP_zoom_in,
+	KP_zoom_out,
 }	t_kprs;
 
 typedef enum e_btnpresses

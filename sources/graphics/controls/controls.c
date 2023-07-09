@@ -6,15 +6,18 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 15:49:02 by emis              #+#    #+#             */
-/*   Updated: 2023/07/08 22:31:42 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/09 06:23:08 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
 
 void	zoom(t_play *player, double dir)
 {
-	player->zoom_rate *= dir;
-	player->zoom += player->zoom_rate;
+	double	target_zoom;
+
+	target_zoom = player->zoom + player->zoom_rate * dir;
+	if (target_zoom > 0.5 && target_zoom < 3.0)
+		player->zoom = target_zoom;
 }
 
 void	pitch(t_play *player, double dir)

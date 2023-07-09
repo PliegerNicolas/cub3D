@@ -6,7 +6,7 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 05:50:41 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/08 09:11:53 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/09 06:25:18 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -56,7 +56,10 @@ static void	act_on_camera_rotation(t_gui *gui)
 
 static void	act_on_zoom(t_gui *gui)
 {
-	(void)gui;
+	if (gui->keys & (1 << KP_zoom_in))
+		zoom(&gui->cam, 1);
+	if (gui->keys & (1 << KP_zoom_out))
+		zoom(&gui->cam, -1);
 }
 
 void	key_render(t_gui *gui)
