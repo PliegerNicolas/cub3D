@@ -18,6 +18,8 @@ SOURCES += ./sources/graphics/controls/key_press.c
 SOURCES += ./sources/graphics/controls/events.c
 SOURCES += ./sources/graphics/controls/controls.c
 SOURCES += ./sources/graphics/controls/utils/update_speed.c
+SOURCES += ./sources/graphics/controls/utils/check_and_move.c
+SOURCES += ./sources/graphics/controls/utils/set_keys_and_btns_arr.c
 
 SOURCES += ./sources/parsing/initialize.c
 SOURCES += ./sources/parsing/verify_arguments.c

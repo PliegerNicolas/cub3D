@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 15:49:02 by emis              #+#    #+#             */
-/*   Updated: 2023/07/09 06:23:08 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/09 06:49:49 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -43,35 +43,19 @@ void	rotate(t_play *player, double dir)
 		+ player->plane.y * cos(rot_speed);
 }
 
-
-void	check_and_move(t_map map, t_vect *posi, t_vect dxdy, double magn)
-{
-	int		x;
-	int		y;
-
-	x = posi->x + dxdy.x * magn;
-	y = posi->y;
-	if (map.map[x][y] == floor_tile)
-		posi->x += dxdy.x * magn;
-	x = posi->x;
-	y = posi->y + dxdy.y * magn;
-	if (map.map[x][y] == floor_tile)
-		posi->y += dxdy.y * magn;
-}
-
 static void	check_and_move_player(t_gui *gui, t_vect dxdy, double magn,
 	double magn_target)
 {
-	int		x;
-	int		y;
+	t_vect	xy_1;
+	t_vect	xy_2;
 
-	x = gui->cam.posi.x + dxdy.x * magn_target;
-	y = gui->cam.posi.y;
-	if (gui->map.map[x][y] == floor_tile)
+	xy_1.x = gui->cam.posi.x + dxdy.x * magn_target;
+	xy_1.y = gui->cam.posi.y;
+	xy_2.x = gui->cam.posi.x;
+	xy_2.y = gui->cam.posi.y + dxdy.y * magn_target;
+	if (gui->map.map[(int)xy_1.x][(int)xy_1.y] == floor_tile)
 		gui->cam.posi.x += dxdy.x * magn;
-	x = gui->cam.posi.x;
-	y = gui->cam.posi.y + dxdy.y * magn_target;
-	if (gui->map.map[x][y] == floor_tile)
+	if (gui->map.map[(int)xy_2.x][(int)xy_2.y] == floor_tile)
 		gui->cam.posi.y += dxdy.y * magn;
 }
 

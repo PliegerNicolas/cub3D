@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/07/09 06:27:05 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/09 07:22:40 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@ typedef enum e_keybinds
 	zoom_out = XK_KP_Subtract,
 }	t_kbind;
 
-# define KEYS ((t_kbind[]){forth, back, left, right, sprint, rot_left, rot_right, rot_up, rot_down, zoom_in, zoom_out})
-
 typedef enum e_keypresses
 {
 	KP_forth,
@@ -62,8 +60,6 @@ typedef enum e_btnpresses
 	scroll_up,
 	scroll_down,
 }	t_bprs;
-
-# define BTNS ((t_bprs[]){0, left_click, mid_click, right_click, scroll_up, scroll_down})
 
 typedef struct s_vect
 {
@@ -160,16 +156,19 @@ void	imgput(t_img *dest, int x, int y, t_img *img);
 /* CONTROLS */
 
 void	key_render(t_gui *gui);
-
 void	move(t_gui *gui);
-void	check_and_move(t_map map, t_vect *posi, t_vect dxdy, double magn);
-
 void	zoom(t_play	*player, double dir);
 void	pitch(t_play *player, double dir);
 void	rotate(t_play *player, double dir);
 
+//utils
+
+void	check_and_move(t_map map, t_vect *posi, t_vect dxdy, double magn);
 void	update_speed(double *current_speed, double target_speed,
 			double acceleration_rate);
+void	set_keys_arr(t_kbind *keys);
+void	set_btns_arr(t_bprs *mouse_btns);
+
 
 /* EVENTS */
 
