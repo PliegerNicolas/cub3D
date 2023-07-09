@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/07/09 07:22:40 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/09 07:38:18 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@
 # include "garbaj.h"
 # include "parsing.h"
 
-#define SCRWIDTH 1200
-#define SCRHEIGHT 1000
+# define SCRWIDTH 1200
+# define SCRHEIGHT 1000
 
 typedef enum e_keybinds
 {
@@ -69,7 +69,7 @@ typedef struct s_vect
 
 typedef struct s_player
 {
-	enum e_render_level
+	enum	e_render_level
 	{
 		BASICWALLS,
 		TEXTUWALLS,
@@ -92,7 +92,7 @@ typedef struct s_player
 
 typedef struct s_sprite
 {
-	enum e_type
+	enum	e_type
 	{
 		STATIONARY,
 		MOVING,
@@ -106,6 +106,8 @@ typedef struct s_sprite
 	int		fnum;
 	t_img	**frames;
 }	t_sprt;
+
+# define DOOR 42
 
 typedef struct s_textures
 {
@@ -168,7 +170,6 @@ void	update_speed(double *current_speed, double target_speed,
 			double acceleration_rate);
 void	set_keys_arr(t_kbind *keys);
 void	set_btns_arr(t_bprs *mouse_btns);
-
 
 /* EVENTS */
 
