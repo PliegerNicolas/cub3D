@@ -6,7 +6,7 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 05:50:41 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/09 06:25:18 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/10 16:13:07 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -64,7 +64,9 @@ static void	act_on_zoom(t_gui *gui)
 
 void	key_render(t_gui *gui)
 {
-	if (!gui->keys)
+	if (!nextframe(RATE_MOVE))
+		return ;
+	else if (!gui->keys)
 	{
 		update_speed(&gui->cam.speed.x, 0, gui->cam.acceleration_rate.x * 1.5);
 		update_speed(&gui->cam.speed.y, 0, gui->cam.acceleration_rate.y * 1.5);
