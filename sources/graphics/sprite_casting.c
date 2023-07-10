@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 16:26:04 by emis              #+#    #+#             */
-/*   Updated: 2023/07/01 15:19:19 by emis             ###   ########.fr       */
+/*   Updated: 2023/07/08 15:30:13 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,18 +61,12 @@ t_vect	transform(t_tex *tex, t_play *play, int i)
 		});
 }
 
-#include <time.h>
-
 void	frame_shift(t_tex *tex)
 {
-	static clock_t	last;
-	clock_t			cur;
 	int				iter;
 
-	cur = clock();
-	if ((double)(cur - last) / (double)CLOCKS_PER_SEC < 0.1)
+	if (!nextframe(RATE_MOB))
 		return;
-	last = cur;
 	iter = -1;
 	while (++iter < tex->spnb)
 		if (tex->sprites[iter].type != DEAD)

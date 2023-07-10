@@ -6,10 +6,30 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 14:03:16 by emis              #+#    #+#             */
-/*   Updated: 2023/07/09 07:41:15 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/10 15:00:11 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-# include "graphics.h"
+
+# include "../../includes/graphics.h"
+
+// static void	key_render(t_gui *gui)
+// {
+// 	if (!gui->keys || !nextframe(RATE_MOVE))
+// 		return;
+// 	if (gui->keys & (1 << KP_sprint))
+// 		gui->cam.speed = 0.6;
+// 	else
+// 		gui->cam.speed = 0.30;
+// 	if (gui->keys & (1 << KP_rot_left))
+// 		rotate(&gui->cam, 1);
+// 	else if (gui->keys & (1 << KP_rot_right))
+// 		rotate(&gui->cam, -1);
+// 	if (gui->keys & (1 << KP_zoom_in))
+// 		pitch(&gui->cam, 1);
+// 	else if (gui->keys & (1 << KP_zoom_out))
+// 		pitch(&gui->cam, -1);
+// 	move(gui);
+// }
 
 int	render(t_gui *gui)
 {

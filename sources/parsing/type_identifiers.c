@@ -3,13 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   type_identifiers.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 07:20:02 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/03 19:56:48 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/08 15:39:56 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "graphics.h"
+
+# include "parsing.h"
+# include "graphics.h"
 
 static void	set_strti(t_str_to_ti *strti)
 {
@@ -29,19 +31,21 @@ static void	set_strti(t_str_to_ti *strti)
 	strti[6].ti = floor_color;
 	strti[7].str = "C";
 	strti[7].ti = ceiling_color;
+	strti[8].str = "D";
+	strti[8].ti = door_texture;
 }
 
 t_type_id	set_type_identifier(char *line, size_t *index)
 {
 	size_t		i;
 	size_t		len;
-	t_str_to_ti	strti[8];
+	t_str_to_ti	strti[9];
 
 	if (!line)
 		return (not_found);
 	set_strti(strti);
 	i = 0;
-	while (i < 8)
+	while (i < 9)
 	{
 		len = ft_strlen(strti[i].str);
 		if (ft_strncmp(line + *index, strti[i].str, len) == 0)
