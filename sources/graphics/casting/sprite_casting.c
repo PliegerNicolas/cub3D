@@ -6,11 +6,10 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 16:26:04 by emis              #+#    #+#             */
-/*   Updated: 2023/07/01 15:19:19 by emis             ###   ########.fr       */
+/*   Updated: 2023/07/10 14:16:56 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "../../includes/graphics.h"
+#include "graphics.h"
 
 static void	sort_sprites(t_tex *tex, t_vect *from)
 {

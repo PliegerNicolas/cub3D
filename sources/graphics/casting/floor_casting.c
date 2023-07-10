@@ -6,12 +6,10 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 16:25:33 by emis              #+#    #+#             */
-/*   Updated: 2023/07/06 15:32:31 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/07/10 14:16:44 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
-# include "../../includes/graphics.h"
+#include "graphics.h"
 
 void	floor_cast(t_gui *gui)
 {

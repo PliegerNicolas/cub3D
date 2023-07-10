@@ -6,22 +6,21 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 18:54:34 by emis              #+#    #+#             */
-/*   Updated: 2023/07/03 04:42:39 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/10 13:45:00 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../../includes/graphics.h"
-# include "../../includes/parsing.h"
+#include "graphics.h"
 
-# define MINISIZE 10
-# define BLACK 0xAA010101
-# define WHITE 0xAAFFFFFF
-# define GREY 0xAAAAAAAA
-# define RED 0xFF0000
-# define GREEN 0x00FF00
-# define BLUE 0x0000FF
-# define MAG 0xFF11FF
-# define MAGF 0xEEFF4444
+#define MINISIZE 10
+#define BLACK 0xAA010101
+#define WHITE 0xAAFFFFFF
+#define GREY 0xAAAAAAAA
+#define RED 0xFF0000
+#define GREEN 0x00FF00
+#define BLUE 0x0000FF
+#define MAG 0xFF11FF
+#define MAGF 0xEEFF4444
 
 static void	dot(t_img *img, int px, int py, int color)
 {
