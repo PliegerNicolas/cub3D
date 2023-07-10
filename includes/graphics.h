@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/07/09 07:38:18 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/10 13:33:01 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,6 +202,18 @@ void	floor_cast(t_gui *gui);
 /* WALL CASTING */
 
 void	wall_cast(t_gui *gui, double ZBuffer[SCRWIDTH]);
+
+/* FRAMERATE */
+
+enum e_rates
+{
+	RATE_MOVE,
+	RATE_MOB,
+	RATE_ITEM,
+	RATE_DOOR,
+};
+
+int		nextframe(int frnb);
 
 /* SPRITE CASTING */
 
