@@ -6,7 +6,7 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 16:15:01 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/06 15:38:10 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/07/10 05:07:30 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -23,7 +23,18 @@ static void	set_base_stats(t_play *player)
 {
 	player->pitch = 0;
 	player->zoom = 1;
-	player->speed = 0.3;
+	player->zoom_rate = 0.025;
+	player->speed.x = 0;
+	player->speed.y = 0;
+	player->speed_target.x = 0.15;
+	player->speed_target.y = 0.15;
+	player->acceleration_rate.x = player->speed_target.x * 0.1;
+	player->acceleration_rate.y = player->speed_target.y * 0.1;
+	player->rotation_speed.x = 0.05;
+	player->rotation_speed.y = 0.05;
+	player->sprint_multiplicator = 2.0;
+	player->hit_box.x = 0.1;
+	player->hit_box.y = 0.1;
 	player->rndr = FLOORCEIL;
 }
 
