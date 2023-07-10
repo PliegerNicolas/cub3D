@@ -6,11 +6,10 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 17:13:03 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/06 16:09:14 by emis             ###   ########.fr       */
+/*   Updated: 2023/07/10 05:13:18 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-# include "../../includes/graphics.h"
+#include "graphics.h"
 
 // temp
 /*

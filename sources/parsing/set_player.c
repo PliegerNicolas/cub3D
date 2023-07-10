@@ -6,7 +6,7 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 16:15:01 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/08 10:56:54 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/10 05:07:30 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -26,8 +26,8 @@ static void	set_base_stats(t_play *player)
 	player->zoom_rate = 0.025;
 	player->speed.x = 0;
 	player->speed.y = 0;
-	player->speed_target.x = 0.25;
-	player->speed_target.y = 0.25;
+	player->speed_target.x = 0.15;
+	player->speed_target.y = 0.15;
 	player->acceleration_rate.x = player->speed_target.x * 0.1;
 	player->acceleration_rate.y = player->speed_target.y * 0.1;
 	player->rotation_speed.x = 0.05;

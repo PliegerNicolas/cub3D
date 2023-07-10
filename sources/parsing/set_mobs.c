@@ -6,12 +6,10 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 05:11:31 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/03 15:05:59 by emis             ###   ########.fr       */
+/*   Updated: 2023/07/10 05:13:31 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-# include "../../includes/parsing.h"
-# include "../../includes/graphics.h"
+#include "graphics.h"
 
 static char	*get_mob_texture_path(size_t i)
 {
