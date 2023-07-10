@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/07/13 15:14:24 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/07/15 17:05:16 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -265,6 +265,18 @@ void	wall_color(t_gui *gui, t_rc *rc);
 void	wall_texture(t_gui *gui, t_rc *rc);
 
 /* FRAMERATE */
+
+int		nextframe(int frnb);
+
+/* FRAMERATE */
+
+enum e_rates
+{
+	RATE_MOVE,
+	RATE_MOB,
+	RATE_ITEM,
+	RATE_DOOR,
+};
 
 int		nextframe(int frnb);
 
