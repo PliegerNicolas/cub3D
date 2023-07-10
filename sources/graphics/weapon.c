@@ -6,13 +6,13 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 19:16:31 by emis              #+#    #+#             */
-/*   Updated: 2023/07/01 15:50:07 by emis             ###   ########.fr       */
+/*   Updated: 2023/07/10 15:55:00 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../../includes/graphics.h"
+#include "graphics.h"
 
-# define FRAMENUMB 20
+#define FRAMENUMB 20
 
 static void	projectile(t_img *img, t_vect p, int size, int color)
 {
@@ -62,7 +62,8 @@ void	weapon(t_gui *gui)
 	if (frame == FRAMENUMB)
 		frame = 0;
 	if (frame)
-		attack(gui, frame++ / (float)FRAMENUMB, (t_vect){SCRWIDTH / 2, SCRHEIGHT / 2},
+		attack(gui, frame++ / (float)FRAMENUMB,
+			(t_vect){SCRWIDTH / 2, SCRHEIGHT / 2},
 			(t_vect){SCRWIDTH - wpn[0]->width - 1,
 			SCRHEIGHT - wpn[0]->height - 1});
 	imgput(gui->buffer, SCRWIDTH - wpn[0]->width - (FRAMENUMB - frame),
