@@ -4,6 +4,7 @@ SOURCES += ./sources/graphics/render.c
 SOURCES += ./sources/graphics/weapon.c
 SOURCES += ./sources/graphics/framerate.c
 SOURCES += ./sources/graphics/image.c
+SOURCES += ./sources/graphics/interact.c
 SOURCES += ./sources/graphics/sprite_casting.c
 SOURCES += ./sources/graphics/vector.c
 SOURCES += ./sources/graphics/controls/events.c

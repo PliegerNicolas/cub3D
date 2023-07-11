@@ -6,9 +6,10 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 15:49:02 by emis              #+#    #+#             */
-/*   Updated: 2023/07/10 05:44:08 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/10 17:09:00 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "graphics.h"
 
 void	zoom(t_play *player, double dir)
@@ -49,16 +50,16 @@ static void	check_and_move_player(t_map map, t_play *player)
 	double	target_y;
 
 	target_x = player->posi.x + player->speed.x * player->dir.x;
-	if (map.map[(int)target_x][(int)player->posi.y] % DOOR == floor_tile)
+	if (map.map[(int)target_x][(int)player->posi.y] % DOOR_OPEN == floor_tile)
 		player->posi.x += player->speed.x * player->dir.x;
 	target_y = player->posi.y + player->speed.x * player->dir.y;
-	if (map.map[(int)player->posi.x][(int)target_y] % DOOR == floor_tile)
+	if (map.map[(int)player->posi.x][(int)target_y] % DOOR_OPEN == floor_tile)
 		player->posi.y += player->speed.x * player->dir.y;
 	target_x = player->posi.x + player->speed.y * player->plane.x;
-	if (map.map[(int)target_x][(int)player->posi.y] % DOOR == floor_tile)
+	if (map.map[(int)target_x][(int)player->posi.y] % DOOR_OPEN == floor_tile)
 		player->posi.x += player->speed.y * player->plane.x;
 	target_y = player->posi.y + player->speed.y * player->plane.y;
-	if (map.map[(int)player->posi.x][(int)target_y] % DOOR == floor_tile)
+	if (map.map[(int)player->posi.x][(int)target_y] % DOOR_OPEN == floor_tile)
 		player->posi.y += player->speed.y * player->plane.y;
 }
 

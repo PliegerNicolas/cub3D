@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:34:04 by emis              #+#    #+#             */
-/*   Updated: 2023/07/10 13:33:19 by emis             ###   ########.fr       */
+/*   Updated: 2023/07/10 17:05:38 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ typedef enum e_map_tile
 	spawn_west_tile = 5,
 	spawn_east_tile = 6,
 	invalid_tile = -1,
-	door_tile = 42
+	door_tile = 43
 }	t_maptile;
 
 typedef enum e_type_identifier

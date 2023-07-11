@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   set_keys_and_btns_arr.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 07:02:41 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/09 07:15:37 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/10 18:11:59 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "graphics.h"
+
+# include "graphics.h"
 
 void	set_keys_arr(t_kbind *keys)
 {
@@ -24,6 +25,7 @@ void	set_keys_arr(t_kbind *keys)
 	keys[8] = rot_down;
 	keys[9] = zoom_in;
 	keys[10] = zoom_out;
+	keys[11] = interactkey;
 }
 
 void	set_btns_arr(t_bprs *mouse_btns)

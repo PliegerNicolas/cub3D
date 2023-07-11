@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 18:54:34 by emis              #+#    #+#             */
-/*   Updated: 2023/07/08 15:36:04 by emis             ###   ########.fr       */
+/*   Updated: 2023/07/11 18:55:29 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,33 +37,44 @@ static void	dot(t_img *img, int px, int py, int color)
 	}
 }
 
+static int	color_from_tile(t_maptile tile)
+{
+	if (tile == 1)
+		return (BLACK);
+	else if (tile == 0)
+		return (WHITE);
+	else if (tile == DOOR_OPEN)
+		return (GREEN);
+	else if (tile == DOOR_CLOSED)
+		return (RED);
+	return (0x01000000);
+}
+
 void	minimap(t_gui *gui)
 {
 	size_t	x;
 	size_t	y;
+	size_t	size;
 
+	size = gui->map.height * gui->map.width / 100;
 	x = 0;
-	while (x < gui->map.height * MINISIZE)
+	while (x < gui->map.height * size)
 	{
 		y = 0;
-		while (y < gui->map.width * MINISIZE)
+		while (y < gui->map.width * size)
 		{
-			if (gui->map.map[x / MINISIZE][y / MINISIZE] == 1)
-				pixput(gui->buffer, y, x, BLACK);
-			else if (gui->map.map[x / MINISIZE][y / MINISIZE] == 0)
-				pixput(gui->buffer, y, x, WHITE);
-			else if (gui->map.map[x / MINISIZE][y / MINISIZE] == DOOR)
-				pixput(gui->buffer, y, x, 0xDEADBEEF);
+			pixput(gui->buffer, y, x,
+				color_from_tile(gui->map.map[x / size][y / size]));
 			y++;
 		}
 		x++;
 	}
-	dot(gui->buffer, gui->cam.posi.y * MINISIZE,
-		gui->cam.posi.x * MINISIZE, MAG);
-	dot(gui->buffer, gui->cam.posi.y * MINISIZE + gui->cam.dir.y * 4,
-		gui->cam.posi.x * MINISIZE + gui->cam.dir.x * 4, MAGF);
+	dot(gui->buffer, gui->cam.posi.y * size,
+		gui->cam.posi.x * size, MAG);
+	dot(gui->buffer, gui->cam.posi.y * size + gui->cam.dir.y * 4,
+		gui->cam.posi.x * size + gui->cam.dir.x * 4, MAGF);
 	y = -1;
 	while (++y < (size_t)gui->textures.spnb)
-		dot(gui->buffer, gui->textures.sprites[y].posi.y * MINISIZE,
-			gui->textures.sprites[y].posi.x * MINISIZE, GREEN);
+		dot(gui->buffer, gui->textures.sprites[y].posi.y * size,
+			gui->textures.sprites[y].posi.x * size, GREEN);
 }

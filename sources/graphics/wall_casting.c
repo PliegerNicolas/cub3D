@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 17:41:41 by emis              #+#    #+#             */
-/*   Updated: 2023/07/07 19:47:02 by emis             ###   ########.fr       */
+/*   Updated: 2023/07/10 17:10:26 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static void	rays(t_gui *gui, t_rc *rc)
 static void	cast(t_gui *gui, t_rc *rc)
 {
 	rays(gui, rc);
-	while(gui->map.map[rc->mapX][rc->mapY] % DOOR == 0)
+	while(gui->map.map[rc->mapX][rc->mapY] % DOOR_OPEN == 0)
 	{
 		if (rc->sideDist.x < rc->sideDist.y)
 		{

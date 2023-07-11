@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/07/10 13:33:01 by emis             ###   ########.fr       */
+/*   Updated: 2023/07/10 18:11:29 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef enum e_keybinds
 	rot_down = XK_Down,
 	zoom_in = XK_KP_Add,
 	zoom_out = XK_KP_Subtract,
+	interactkey = XK_e,
 }	t_kbind;
 
 typedef enum e_keypresses
@@ -50,6 +51,7 @@ typedef enum e_keypresses
 	KP_rot_down,
 	KP_zoom_in,
 	KP_zoom_out,
+	KP_interact,
 }	t_kprs;
 
 typedef enum e_btnpresses
@@ -107,7 +109,8 @@ typedef struct s_sprite
 	t_img	**frames;
 }	t_sprt;
 
-# define DOOR 42
+# define DOOR_OPEN 42
+# define DOOR_CLOSED 43
 
 typedef struct s_textures
 {
@@ -227,6 +230,10 @@ void	minimap(t_gui *gui);
 /* WEAPON */
 
 void	weapon(t_gui *gui);
+
+/* INTERACT */
+
+int	interact(t_gui *gui);
 
 /* ************************************** */
 /* * TEMP, NEEDED FOR PARSING			* */
