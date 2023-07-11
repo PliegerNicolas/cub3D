@@ -1,6 +1,7 @@
 SOURCES += ./sources/graphics/minimath.c
 SOURCES += ./sources/graphics/render.c
 SOURCES += ./sources/graphics/weapon.c
+SOURCES += ./sources/graphics/framerate.c
 SOURCES += ./sources/graphics/image.c
 SOURCES += ./sources/graphics/vector.c
 SOURCES += ./sources/graphics/minimap.c

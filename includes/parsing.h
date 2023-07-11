@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:34:04 by emis              #+#    #+#             */
-/*   Updated: 2023/07/08 08:47:23 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/10 13:33:19 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ typedef enum e_type_identifier
 	ceiling_texture = 6,
 	floor_color = 7,
 	ceiling_color = 8,
-	door_texture_path = 9,
+	door_texture = 9,
 	not_found = 0
 }	t_type_id;
 

@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 18:54:34 by emis              #+#    #+#             */
-/*   Updated: 2023/07/10 13:45:00 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/07/11 08:45:04 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ void	minimap(t_gui *gui)
 				pixput(gui->buffer, y, x, BLACK);
 			else if (gui->map.map[x / MINISIZE][y / MINISIZE] == 0)
 				pixput(gui->buffer, y, x, WHITE);
+			else if (gui->map.map[x / MINISIZE][y / MINISIZE] == DOOR)
+				pixput(gui->buffer, y, x, 0xDEADBEEF);
 			y++;
 		}
 		x++;

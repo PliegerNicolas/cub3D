@@ -6,10 +6,11 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 15:18:25 by emis              #+#    #+#             */
-/*   Updated: 2023/07/10 13:48:16 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/07/11 08:45:39 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "graphics.h"
+
+# include "graphics.h"
 
 int	key_press(int keycode, t_gui *gui)
 {
