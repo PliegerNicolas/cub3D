@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 18:54:34 by emis              #+#    #+#             */
-/*   Updated: 2023/07/11 08:45:04 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/07/13 15:03:06 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,23 @@ static void	dot(t_img *img, int px, int py, int color)
 	}
 }
 
+static void	draw_entities_on_map(t_gui *gui)
+{
+	size_t	y;
+
+	dot(gui->buffer, gui->cam.posi.y * MINISIZE,
+		gui->cam.posi.x * MINISIZE, MAG);
+	dot(gui->buffer, gui->cam.posi.y * MINISIZE + gui->cam.dir.y * 4,
+		gui->cam.posi.x * MINISIZE + gui->cam.dir.x * 4, MAGF);
+	y = 0;
+	while (y < (size_t)gui->textures.spnb)
+	{
+		dot(gui->buffer, gui->textures.sprites[y].posi.y * MINISIZE,
+			gui->textures.sprites[y].posi.x * MINISIZE, GREEN);
+		y++;
+	}
+}
+
 void	minimap(t_gui *gui)
 {
 	size_t	x;
@@ -47,9 +64,9 @@ void	minimap(t_gui *gui)
 		y = 0;
 		while (y < gui->map.width * MINISIZE)
 		{
-			if (gui->map.map[x / MINISIZE][y / MINISIZE] == 1)
+			if (gui->map.map[x / MINISIZE][y / MINISIZE] == wall_tile)
 				pixput(gui->buffer, y, x, BLACK);
-			else if (gui->map.map[x / MINISIZE][y / MINISIZE] == 0)
+			else if (gui->map.map[x / MINISIZE][y / MINISIZE] == floor_tile)
 				pixput(gui->buffer, y, x, WHITE);
 			else if (gui->map.map[x / MINISIZE][y / MINISIZE] == DOOR)
 				pixput(gui->buffer, y, x, 0xDEADBEEF);
@@ -57,12 +74,5 @@ void	minimap(t_gui *gui)
 		}
 		x++;
 	}
-	dot(gui->buffer, gui->cam.posi.y * MINISIZE,
-		gui->cam.posi.x * MINISIZE, MAG);
-	dot(gui->buffer, gui->cam.posi.y * MINISIZE + gui->cam.dir.y * 4,
-		gui->cam.posi.x * MINISIZE + gui->cam.dir.x * 4, MAGF);
-	y = -1;
-	while (++y < (size_t)gui->textures.spnb)
-		dot(gui->buffer, gui->textures.sprites[y].posi.y * MINISIZE,
-			gui->textures.sprites[y].posi.x * MINISIZE, GREEN);
+	draw_entities_on_map(gui);
 }

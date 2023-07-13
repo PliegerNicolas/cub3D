@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 19:16:31 by emis              #+#    #+#             */
-/*   Updated: 2023/07/11 08:44:45 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/07/13 14:58:06 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ static void	attack(t_gui *gui, float frame, t_vect target, t_vect origin)
 	where.x = frame * target.x + (1 - frame) * origin.x;
 	where.y = frame * target.y + (1 - frame) * origin.y;
 	projectile(gui->buffer, where, 20 * (1 - frame), 0xCAFEBEBE);
-	// hitscan for enemies
 	iter = -1;
 	while (frame >= 0.93 && ++iter < gui->textures.spnb)
 	{
