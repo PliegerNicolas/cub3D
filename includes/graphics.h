@@ -6,12 +6,16 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/07/11 08:42:20 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/07/13 15:14:24 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GRAPHICS_H
 # define GRAPHICS_H
+
+/* ************************************** */
+/* * INCLUDES							* */
+/* ************************************** */
 
 # include <math.h>
 # include "../mlx/mlx_int.h"
@@ -21,6 +25,10 @@
 
 # define SCRWIDTH 1200
 # define SCRHEIGHT 1000
+
+/* ************************************** */
+/* * ENUMERATORS						* */
+/* ************************************** */
 
 typedef enum e_keybinds
 {
@@ -61,12 +69,6 @@ typedef enum e_btnpresses
 	scroll_down,
 }	t_bprs;
 
-typedef struct s_vect
-{
-	double	x;
-	double	y;
-}	t_vect;
-
 typedef enum e_render_level
 {
 	BASICWALLS,
@@ -74,6 +76,54 @@ typedef enum e_render_level
 	SPRITES,
 	FLOORCEIL
 }	t_rndr;
+
+typedef enum e_type
+{
+	STATIONARY,
+	MOVING,
+	ALIVE,
+	DEAD
+}	t_type;
+
+enum e_rates
+{
+	RATE_MOVE,
+	RATE_MOB,
+	RATE_ITEM,
+	RATE_DOOR,
+};
+
+/* ************************************** */
+/* * TYPEDEFS							* */
+/* ************************************** */
+
+/* Maths */
+
+typedef struct s_vect
+{
+	double	x;
+	double	y;
+}	t_vect;
+
+typedef struct s_ray_caster
+{
+	int		x;
+	int		y;
+	int		map_x;
+	int		map_y;
+	int		step_x;
+	int		step_y;
+	t_vect	ray_dir;
+	t_vect	side_dist;
+	t_vect	delta_dist;
+	double	perp_wall_dist;
+	int		side;
+	int		line_height;
+	int		draw_start;
+	int		draw_end;
+}	t_rc;
+
+/* Game data */
 
 typedef struct s_player
 {
@@ -92,14 +142,6 @@ typedef struct s_player
 	double	sprint_multiplicator;
 }	t_play;
 
-typedef enum e_type
-{
-	STATIONARY,
-	MOVING,
-	ALIVE,
-	DEAD
-}	t_type;
-
 typedef struct s_sprite
 {
 	t_type	type;
@@ -110,8 +152,6 @@ typedef struct s_sprite
 	int		fnum;
 	t_img	**frames;
 }	t_sprt;
-
-# define DOOR 42
 
 typedef struct s_textures
 {
@@ -149,23 +189,19 @@ typedef struct s_gui
 	_Bool	rendered;
 }	t_gui;
 
-typedef struct s_ray_caster
-{
-	int		x;
-	int		y;
-	int		map_x;
-	int		map_y;
-	int		step_x;
-	int		step_y;
-	t_vect	ray_dir;
-	t_vect	side_dist;
-	t_vect	delta_dist;
-	double	perp_wall_dist;
-	int		side;
-	int		line_height;
-	int		draw_start;
-	int		draw_end;
-}	t_rc;
+/* ************************************** */
+/* * GLOBAL VAR							* */
+/* ************************************** */
+
+/* ************************************** */
+/* * MACRO								* */
+/* ************************************** */
+
+# define DOOR 42
+
+/* ************************************** */
+/* * FUNCTIONS							* */
+/* ************************************** */
 
 /* RENDER */
 
@@ -229,14 +265,6 @@ void	wall_color(t_gui *gui, t_rc *rc);
 void	wall_texture(t_gui *gui, t_rc *rc);
 
 /* FRAMERATE */
-
-enum e_rates
-{
-	RATE_MOVE,
-	RATE_MOB,
-	RATE_ITEM,
-	RATE_DOOR,
-};
 
 int		nextframe(int frnb);
 
