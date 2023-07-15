@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/07/15 17:05:16 by emis             ###   ########.fr       */
+/*   Updated: 2023/07/15 17:13:18 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef enum e_keybinds
 	rot_down = XK_Down,
 	zoom_in = XK_KP_Add,
 	zoom_out = XK_KP_Subtract,
+	interactkey = XK_e,
 }	t_kbind;
 
 typedef enum e_keypresses
@@ -58,6 +59,7 @@ typedef enum e_keypresses
 	KP_rot_down,
 	KP_zoom_in,
 	KP_zoom_out,
+	KP_interact,
 }	t_kprs;
 
 typedef enum e_btnpresses
@@ -152,6 +154,9 @@ typedef struct s_sprite
 	int		fnum;
 	t_img	**frames;
 }	t_sprt;
+
+# define DOOR_OPEN 42
+# define DOOR_CLOSED 43
 
 typedef struct s_textures
 {
@@ -251,6 +256,7 @@ double	inv_safe(double x);
 
 /* VECTOR */
 
+double	magnitude(t_vect v);
 double	angle(t_vect v1, t_vect v2);
 t_vect	delta(t_vect from, t_vect to);
 
@@ -280,6 +286,18 @@ enum e_rates
 
 int		nextframe(int frnb);
 
+/* FRAMERATE */
+
+enum e_rates
+{
+	RATE_MOVE,
+	RATE_MOB,
+	RATE_ITEM,
+	RATE_DOOR,
+};
+
+int		nextframe(int frnb);
+
 /* SPRITE CASTING */
 
 void	sprite_cast(t_gui *gui, double ZBuffer[SCRWIDTH]);
@@ -292,6 +310,10 @@ void	minimap(t_gui *gui);
 /* WEAPON */
 
 void	weapon(t_gui *gui);
+
+/* INTERACT */
+
+int	interact(t_gui *gui);
 
 /* ************************************** */
 /* * TEMP, NEEDED FOR PARSING			* */

@@ -6,9 +6,10 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 15:49:02 by emis              #+#    #+#             */
-/*   Updated: 2023/07/15 09:00:35 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/15 17:19:00 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "graphics.h"
 
 void	zoom(t_play *player, double dir)
@@ -55,9 +56,9 @@ static void	check_and_move_player(t_map map, t_play *player)
 	lateral_step.y = player->speed.y * player->plane.y;
 	next_pos.x = player->posi.x + forward_step.x + forward_step.y;
 	next_pos.y = player->posi.y + lateral_step.x + lateral_step.y;
-	if (map.map[(int)next_pos.x][(int)player->posi.y] % DOOR == floor_tile)
+	if (map.map[(int)next_pos.x][(int)player->posi.y] % DOOR_OPEN == floor_tile)
 		player->posi.x += forward_step.x + forward_step.y;
-	if (map.map[(int)player->posi.x][(int)next_pos.y] % DOOR == floor_tile)
+	if (map.map[(int)player->posi.x][(int)next_pos.y] % DOOR_OPEN == floor_tile)
 		player->posi.y += lateral_step.x + lateral_step.y;
 }
 

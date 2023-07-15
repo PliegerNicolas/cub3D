@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   key_press.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 05:50:41 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/10 16:13:07 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/07/15 17:19:28 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "graphics.h"
+
+# include "graphics.h"
 
 static void	act_on_sprint(t_gui *gui)
 {
@@ -77,6 +78,8 @@ void	key_render(t_gui *gui)
 		act_on_move(gui);
 		act_on_camera_rotation(gui);
 		act_on_zoom(gui);
+		if (gui->keys & (1 << KP_interact))
+			interact(gui);
 	}
 	move(gui);
 }

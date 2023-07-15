@@ -6,9 +6,10 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 17:41:41 by emis              #+#    #+#             */
-/*   Updated: 2023/07/10 14:42:17 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/07/15 17:21:14 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "graphics.h"
 
 static void	rays(t_play *p, t_rc *rc)
@@ -38,7 +39,7 @@ static void	rays(t_play *p, t_rc *rc)
 static void	cast(t_gui *gui, t_rc *rc)
 {
 	rays(&gui->cam, rc);
-	while (gui->map.map[rc->map_x][rc->map_y] % DOOR == floor_tile)
+	while (gui->map.map[rc->map_x][rc->map_y] % DOOR_OPEN == floor_tile)
 	{
 		if (rc->side_dist.x < rc->side_dist.y)
 		{
