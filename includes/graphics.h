@@ -6,12 +6,16 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/07/15 14:50:58 by emis             ###   ########.fr       */
+/*   Updated: 2023/07/15 17:13:18 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GRAPHICS_H
 # define GRAPHICS_H
+
+/* ************************************** */
+/* * INCLUDES							* */
+/* ************************************** */
 
 # include <math.h>
 # include "../mlx/mlx_int.h"
@@ -21,6 +25,10 @@
 
 # define SCRWIDTH 1200
 # define SCRHEIGHT 1000
+
+/* ************************************** */
+/* * ENUMERATORS						* */
+/* ************************************** */
 
 typedef enum e_keybinds
 {
@@ -63,21 +71,65 @@ typedef enum e_btnpresses
 	scroll_down,
 }	t_bprs;
 
+typedef enum e_render_level
+{
+	BASICWALLS,
+	TEXTUWALLS,
+	SPRITES,
+	FLOORCEIL
+}	t_rndr;
+
+typedef enum e_type
+{
+	STATIONARY,
+	MOVING,
+	ALIVE,
+	DEAD
+}	t_type;
+
+enum e_rates
+{
+	RATE_MOVE,
+	RATE_MOB,
+	RATE_ITEM,
+	RATE_DOOR,
+};
+
+/* ************************************** */
+/* * TYPEDEFS							* */
+/* ************************************** */
+
+/* Maths */
+
 typedef struct s_vect
 {
 	double	x;
 	double	y;
 }	t_vect;
 
+typedef struct s_ray_caster
+{
+	int		x;
+	int		y;
+	int		map_x;
+	int		map_y;
+	int		step_x;
+	int		step_y;
+	t_vect	ray_dir;
+	t_vect	side_dist;
+	t_vect	delta_dist;
+	double	perp_wall_dist;
+	int		side;
+	int		line_height;
+	int		draw_start;
+	int		draw_end;
+}	t_rc;
+
+/* Game data */
+
 typedef struct s_player
 {
-	enum	e_render_level
-	{
-		BASICWALLS,
-		TEXTUWALLS,
-		SPRITES,
-		FLOORCEIL
-	}		rndr;
+	t_rndr	rndr;
 	t_vect	posi;
 	t_vect	dir;
 	t_vect	plane;
@@ -94,13 +146,7 @@ typedef struct s_player
 
 typedef struct s_sprite
 {
-	enum	e_type
-	{
-		STATIONARY,
-		MOVING,
-		ALIVE,
-		DEAD
-	}		type;
+	t_type	type;
 	_Bool	solid;
 	t_vect	posi;
 	int		alpha;
@@ -138,6 +184,7 @@ typedef struct s_map
 typedef struct s_gui
 {
 	t_xvar	*mlx;
+	void	*win;
 	t_img	*buffer;
 	t_map	map;
 	t_tex	textures;
@@ -146,6 +193,20 @@ typedef struct s_gui
 	int		btns;
 	_Bool	rendered;
 }	t_gui;
+
+/* ************************************** */
+/* * GLOBAL VAR							* */
+/* ************************************** */
+
+/* ************************************** */
+/* * MACRO								* */
+/* ************************************** */
+
+# define DOOR 42
+
+/* ************************************** */
+/* * FUNCTIONS							* */
+/* ************************************** */
 
 /* RENDER */
 
@@ -190,8 +251,8 @@ void	load_texture_arr(t_gui *gui, t_img ***where, char *path, int size);
 /* MINIMATH */
 
 int		bind(int val, int min, int max);
-int		loopbind(int val, int min, int max);
-double	invSafe(double x);
+int		loop_bind(int val, int min, int max);
+double	inv_safe(double x);
 
 /* VECTOR */
 
@@ -205,7 +266,25 @@ void	floor_cast(t_gui *gui);
 
 /* WALL CASTING */
 
-void	wall_cast(t_gui *gui, double ZBuffer[SCRWIDTH]);
+void	wall_cast(t_gui *gui, double z_buffer[SCRWIDTH]);
+void	wall_color(t_gui *gui, t_rc *rc);
+void	wall_texture(t_gui *gui, t_rc *rc);
+
+/* FRAMERATE */
+
+int		nextframe(int frnb);
+
+/* FRAMERATE */
+
+enum e_rates
+{
+	RATE_MOVE,
+	RATE_MOB,
+	RATE_ITEM,
+	RATE_DOOR,
+};
+
+int		nextframe(int frnb);
 
 /* FRAMERATE */
 

@@ -6,12 +6,15 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 18:54:34 by emis              #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/07/15 16:37:42 by emis             ###   ########.fr       */
+=======
+/*   Updated: 2023/07/15 17:06:41 by emis             ###   ########.fr       */
+>>>>>>> main
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../../includes/graphics.h"
-# include "../../includes/parsing.h"
+#include "graphics.h"
 
 # define MINISIZE 10
 # define BLACK 0x010101
@@ -50,6 +53,23 @@ static int	color_from_tile(t_maptile tile)
 	return (0x01000000);
 }
 
+static void	draw_entities_on_map(t_gui *gui)
+{
+	size_t	y;
+
+	dot(gui->buffer, gui->cam.posi.y * MINISIZE,
+		gui->cam.posi.x * MINISIZE, MAG);
+	dot(gui->buffer, gui->cam.posi.y * MINISIZE + gui->cam.dir.y * 4,
+		gui->cam.posi.x * MINISIZE + gui->cam.dir.x * 4, MAGF);
+	y = 0;
+	while (y < (size_t)gui->textures.spnb)
+	{
+		dot(gui->buffer, gui->textures.sprites[y].posi.y * MINISIZE,
+			gui->textures.sprites[y].posi.x * MINISIZE, GREEN);
+		y++;
+	}
+}
+
 void	minimap(t_gui *gui)
 {
 	size_t	x;
@@ -79,12 +99,5 @@ void	minimap(t_gui *gui)
 		}
 		x++;
 	}
-	dot(gui->buffer, gui->cam.posi.y * size,
-		gui->cam.posi.x * size, MAG);
-	dot(gui->buffer, gui->cam.posi.y * size + gui->cam.dir.y * 4,
-		gui->cam.posi.x * size + gui->cam.dir.x * 4, MAGF);
-	y = -1;
-	while (++y < (size_t)gui->textures.spnb)
-		dot(gui->buffer, gui->textures.sprites[y].posi.y * size,
-			gui->textures.sprites[y].posi.x * size, GREEN);
+	draw_entities_on_map(gui);
 }

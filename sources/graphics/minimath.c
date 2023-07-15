@@ -6,11 +6,11 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 15:39:56 by emis              #+#    #+#             */
-/*   Updated: 2023/07/01 15:23:07 by emis             ###   ########.fr       */
+/*   Updated: 2023/07/10 13:45:51 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../../includes/graphics.h"
+#include "graphics.h"
 
 int	bind(int val, int min, int max)
 {
@@ -21,7 +21,7 @@ int	bind(int val, int min, int max)
 	return (val);
 }
 
-int	loopbind(int val, int min, int max)
+int	loop_bind(int val, int min, int max)
 {
 	if (val < min)
 		return (max - 1);
@@ -30,7 +30,7 @@ int	loopbind(int val, int min, int max)
 	return (val);
 }
 
-double	invSafe(double x)
+double	inv_safe(double x)
 {
 	if (x == 0)
 		return (1e30);
