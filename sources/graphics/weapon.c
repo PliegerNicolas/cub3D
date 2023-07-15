@@ -6,13 +6,13 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 19:16:31 by emis              #+#    #+#             */
-/*   Updated: 2023/07/08 13:38:31 by emis             ###   ########.fr       */
+/*   Updated: 2023/07/13 14:58:06 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../../includes/graphics.h"
+#include "graphics.h"
 
-# define FRAMENUMB 20
+#define FRAMENUMB 20
 
 static void	projectile(t_img *img, t_vect p, int size, int color)
 {
@@ -38,7 +38,6 @@ static void	attack(t_gui *gui, float frame, t_vect target, t_vect origin)
 	where.x = frame * target.x + (1 - frame) * origin.x;
 	where.y = frame * target.y + (1 - frame) * origin.y;
 	projectile(gui->buffer, where, 20 * (1 - frame), 0xCAFEBEBE);
-	// hitscan for enemies
 	iter = -1;
 	while (frame >= 0.93 && ++iter < gui->textures.spnb)
 	{
@@ -62,7 +61,8 @@ void	weapon(t_gui *gui)
 	if (frame == FRAMENUMB)
 		frame = 0;
 	if (frame)
-		attack(gui, frame++ / (float)FRAMENUMB, (t_vect){SCRWIDTH / 2, SCRHEIGHT / 2},
+		attack(gui, frame++ / (float)FRAMENUMB,
+			(t_vect){SCRWIDTH / 2, SCRHEIGHT / 2},
 			(t_vect){SCRWIDTH - wpn[0]->width - 1,
 			SCRHEIGHT - wpn[0]->height - 1});
 	imgput(gui->buffer, SCRWIDTH - wpn[0]->width - (FRAMENUMB - frame),

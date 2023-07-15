@@ -6,12 +6,10 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 07:20:02 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/08 15:39:56 by emis             ###   ########.fr       */
+/*   Updated: 2023/07/11 08:46:48 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-# include "parsing.h"
-# include "graphics.h"
+#include "graphics.h"
 
 static void	set_strti(t_str_to_ti *strti)
 {

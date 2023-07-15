@@ -6,11 +6,10 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 16:26:04 by emis              #+#    #+#             */
-/*   Updated: 2023/07/08 15:30:13 by emis             ###   ########.fr       */
+/*   Updated: 2023/07/11 09:22:13 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "../../includes/graphics.h"
+#include "graphics.h"
 
 static void	sort_sprites(t_tex *tex, t_vect *from)
 {
@@ -127,8 +126,13 @@ void	sprite_cast(t_gui *gui, double ZBuffer[SCRWIDTH])
 				int d = (y - gui->cam.pitch) * 256 - SCRHEIGHT * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
 				int texY = ((d * gui->textures.height) / spriteHeight) / 256;
 				int which = gui->textures.sporder[i];
-				int color = pixget(gui->textures.sprites[which].frames[gui->textures.sprites[which].fcur],
-					gui->textures.width * texY + texX, 0); //get current color from the texture texture[sprite[spriteOrder[i]].texture][gui->textures.width * texY + texX]
+				int	color;
+
+				if (gui->textures.width * texY + texX < 0)
+					color = 0x00FFFFFF;
+				else
+					color = pixget(gui->textures.sprites[which].frames[gui->textures.sprites[which].fcur],
+				gui->textures.width * texY + texX, 0); //get current color from the texture texture[sprite[spriteOrder[i]].texture][gui->textures.width * texY + texX]
 				if ((color & 0x00FFFFFF) != 0) // use alpha
 					pixput(gui->buffer, stripe, y, color | (200 << 24)); //buffer[y][stripe] = color paint pixel if it isn't black, black is the invisible color
 			}

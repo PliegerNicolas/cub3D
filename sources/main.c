@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:18:42 by emis              #+#    #+#             */
-/*   Updated: 2023/07/09 07:45:55 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/10 11:35:01 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 #include "graphics.h"
 #include "parsing.h"
 
-int	hello(void *lol)
+static void	initialize_mouse(t_gui *gui)
 {
-	return (printf("hey! %p\n", lol));
+	mlx_mouse_move(gui->mlx, gui->mlx->win_list, SCRWIDTH / 2, SCRHEIGHT / 2);
 }
 
 int	main(int ac, char **av)
@@ -25,21 +25,15 @@ int	main(int ac, char **av)
 
 	if (initialize(ac, av, &gui))
 		return (1);
-	//gui_init(&gui, ac, av);
-	mlx_new_window(gui.mlx, SCRWIDTH, SCRHEIGHT, "cub3D my beloved");
+	gui.win = mlx_new_window(gui.mlx, SCRWIDTH, SCRHEIGHT, "cub3D my beloved");
+	initialize_mouse(&gui);
 	mlx_loop_hook(gui.mlx, &render, &gui);
-	mlx_hook(gui.mlx->win_list, KeyPress, KeyPressMask, &key_press, &gui);
-	mlx_hook(gui.mlx->win_list, KeyRelease, KeyReleaseMask, &key_rel, &gui);
-	mlx_hook(gui.mlx->win_list, ButtonPress, ButtonPressMask,
-		&mouse_press, &gui);
-	mlx_hook(gui.mlx->win_list, ButtonRelease, ButtonReleaseMask,
-		&mouse_rel, &gui);
-	mlx_hook(gui.mlx->win_list, MotionNotify, PointerMotionMask,
-		&mouse_motion, &gui);
-	mlx_hook(gui.mlx->win_list, DestroyNotify, 0L, &mlx_loop_end, gui.mlx);
-	mlx_hook(gui.mlx->win_list, Expose, 0L, hello, &gui);
-	XWarpPointer(gui.mlx->display, None, gui.mlx->win_list->window,
-		0, 0, 0, 0, SCRWIDTH / 2, SCRHEIGHT / 2);
+	mlx_hook(gui.win, KeyPress, KeyPressMask, &key_press, &gui);
+	mlx_hook(gui.win, KeyRelease, KeyReleaseMask, &key_rel, &gui);
+	mlx_hook(gui.win, ButtonPress, ButtonPressMask, &mouse_press, &gui);
+	mlx_hook(gui.win, ButtonRelease, ButtonReleaseMask, &mouse_rel, &gui);
+	mlx_hook(gui.win, MotionNotify, PointerMotionMask, &mouse_motion, &gui);
+	mlx_hook(gui.win, DestroyNotify, 0L, &mlx_loop_end, gui.mlx);
 	mlx_loop(gui.mlx);
 	mlx_destroy_window(gui.mlx, gui.mlx->win_list);
 	garbaj(NULL, NULL, 0);

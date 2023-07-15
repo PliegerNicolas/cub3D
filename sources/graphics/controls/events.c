@@ -6,11 +6,10 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 15:18:25 by emis              #+#    #+#             */
-/*   Updated: 2023/07/10 13:36:39 by emis             ###   ########.fr       */
+/*   Updated: 2023/07/11 08:47:07 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-# include "graphics.h"
+#include "graphics.h"
 
 int	key_press(int keycode, t_gui *gui)
 {
@@ -111,16 +110,12 @@ int	mouse_motion(int x, int y, t_gui *gui)
 	last[1] = y;
 	if (mouse_press(0, 0, 0, gui))
 	{
-		x = loopbind(x, 30, SCRWIDTH - 30);
-		// mlx_mouse_show(gui->mlx, gui->mlx->win_list);
-		// printf("hey %d.%d!\n", x, y);
+		x = loop_bind(x, 30, SCRWIDTH - 30);
 		if (x != bind(last[0], 20, SCRWIDTH - 20))
 		{
-			XWarpPointer(gui->mlx->display, None, gui->mlx->win_list->window,
-				0, 0, 0, 0, x, y);
+			mlx_mouse_move(gui->mlx, gui->win, x, y);
 			last[0] = x;
 		}
-		// mlx_mouse_hide(gui->mlx, gui->mlx->win_list);
 	}
 	return (0);
 }

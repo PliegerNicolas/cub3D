@@ -6,18 +6,17 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 16:10:07 by emis              #+#    #+#             */
-/*   Updated: 2023/06/23 19:27:20 by emis             ###   ########.fr       */
+/*   Updated: 2023/07/10 13:50:59 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-# include "../../includes/graphics.h"
+#include "graphics.h"
 
 int	pixget(t_img *img, int x, int y)
 {
 	char	*dst;
 
 	dst = img->data + (y * img->size_line + x * (img->bpp / 8));
-	return (*(unsigned int*)dst);
+	return (*(unsigned int *)dst);
 }
 
 static int	color_mixer(int from, int to, int alpha)
@@ -44,9 +43,9 @@ void	pixput(t_img *img, int x, int y, int color)
 	dst = img->data + (y * img->size_line + x * (img->bpp / 8));
 	alpha = (color >> 24) & 255;
 	if (alpha)
-		*(unsigned int*)dst = color_mixer(*(unsigned int*)dst, color, alpha);
+		*(unsigned int *)dst = color_mixer(*(unsigned int *)dst, color, alpha);
 	else
-		*(unsigned int*)dst = color;
+		*(unsigned int *)dst = color;
 }
 
 void	erase(t_img *img)
@@ -62,7 +61,7 @@ void	erase(t_img *img)
 		while (++x < img->width)
 		{
 			dst = img->data + (y * img->size_line + x * (img->bpp / 8));
-			*(unsigned int*)dst = 0;
+			*(unsigned int *)dst = 0;
 		}
 	}
 }
@@ -81,10 +80,10 @@ void	imgput(t_img *dest, int x, int y, t_img *img)
 		while (++dx < img->width && x + dx < dest->width)
 		{
 			frm = img->data + (dy * img->size_line + dx * (img->bpp / 8));
-			dst = dest->data + ((y + dy) * dest->size_line + (x + dx) * (dest->bpp / 8));
-			if ((*(unsigned int*)frm & 0x00FFFFFF) != 0)
-				*(unsigned int*)dst = *(unsigned int*)frm;
+			dst = dest->data;
+			dst += ((y + dy) * dest->size_line + (x + dx) * (dest->bpp / 8));
+			if ((*(unsigned int *)frm & 0x00FFFFFF) != 0)
+				*(unsigned int *)dst = *(unsigned int *)frm;
 		}
 	}
-
 }

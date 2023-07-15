@@ -6,25 +6,26 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 14:03:16 by emis              #+#    #+#             */
-/*   Updated: 2023/07/10 15:48:45 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/07/11 08:44:33 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
 
 int	render(t_gui *gui)
 {
-	double ZBuffer[SCRWIDTH];
+	double	z_buffer[SCRWIDTH];
 
-	if (gui->rendered && ((!gui->keys && !gui->cam.speed.x && !gui->cam.speed.y) && gui->cam.rndr < SPRITES))
+	if (gui->rendered && ((!gui->keys && !gui->cam.speed.x && !gui->cam.speed.y)
+			&& gui->cam.rndr < SPRITES))
 		return (0);
 	key_render(gui);
 	erase(gui->buffer);
 	if (gui->cam.rndr == FLOORCEIL)
 		floor_cast(gui);
-	wall_cast(gui, ZBuffer);
+	wall_cast(gui, z_buffer);
 	if (gui->cam.rndr >= SPRITES)
 	{
-		sprite_cast(gui, ZBuffer);
+		sprite_cast(gui, z_buffer);
 		weapon(gui);
 	}
 	minimap(gui);
