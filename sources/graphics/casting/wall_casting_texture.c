@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   wall_casting_texture.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nplieger <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:15:05 by nplieger          #+#    #+#             */
-/*   Updated: 2023/07/10 15:19:40 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/07/15 17:38:04 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "graphics.h"
 
 typedef struct texture_data
@@ -28,9 +29,9 @@ static int	get_texture_id(t_gui *gui, t_rc *rc)
 	tex_num = gui->map.map[rc->map_x][rc->map_y] - 1;
 	tex_id = tex_num * gui->textures.arrsize;
 	tex_id += rc->side * 2;
-	tex_id += ((rc->side == 0 && rc->ray_dir.x > 0)
-			|| (rc->side == 1 && rc->ray_dir.y < 0)) % gui->textures.arrsize;
-	return (tex_id);
+	tex_id += (rc->side == 0 && rc->ray_dir.x > 0)
+			|| (rc->side == 1 && rc->ray_dir.y < 0);
+	return (tex_id % gui->textures.arrsize);
 }
 
 static int	get_texture_x(t_gui *gui, t_rc *rc)

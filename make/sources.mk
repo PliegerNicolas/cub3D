@@ -1,5 +1,4 @@
 SOURCES += ./sources/graphics/minimath.c
-SOURCES += ./sources/graphics/wall_casting.c
 SOURCES += ./sources/graphics/casting/wall_casting_texture.c
 SOURCES += ./sources/graphics/casting/wall_casting.c
 SOURCES += ./sources/graphics/casting/sprite_casting.c
