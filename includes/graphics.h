@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/07/10 18:11:29 by emis             ###   ########.fr       */
+/*   Updated: 2023/07/15 14:50:58 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,6 +195,7 @@ double	invSafe(double x);
 
 /* VECTOR */
 
+double	magnitude(t_vect v);
 double	angle(t_vect v1, t_vect v2);
 t_vect	delta(t_vect from, t_vect to);
 
