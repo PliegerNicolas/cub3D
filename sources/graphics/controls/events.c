@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 15:18:25 by emis              #+#    #+#             */
-/*   Updated: 2023/07/16 07:18:35 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/16 17:18:11 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -96,6 +96,8 @@ int	mouse_motion(int x, int y, t_gui *gui)
 {
 	static int	last[2];
 
+	gui->cam.rot_speed.x = gui->cam.rot_speed_target.x;
+	gui->cam.rot_speed.y = gui->cam.rot_speed_target.y;
 	if (x != last[0])
 	{
 		rotate(&gui->cam, (last[0] - x) / 4.0);
