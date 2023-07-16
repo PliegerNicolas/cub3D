@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/07/15 17:26:20 by emis             ###   ########.fr       */
+/*   Updated: 2023/07/16 11:47:57 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,7 @@ typedef struct s_player
 	t_vect	dir;
 	t_vect	plane;
 	int		pitch;
+	int		dark;
 	double	zoom;
 	double	zoom_rate;
 	t_vect	speed;
@@ -154,9 +155,6 @@ typedef struct s_sprite
 	int		fnum;
 	t_img	**frames;
 }	t_sprt;
-
-# define DOOR_OPEN 42
-# define DOOR_CLOSED 43
 
 typedef struct s_textures
 {
@@ -202,7 +200,11 @@ typedef struct s_gui
 /* * MACRO								* */
 /* ************************************** */
 
-# define DOOR 42
+# define DOOR_OPEN 42
+# define DOOR_CLOSED 43
+# define DARK 0x20
+# define VERY_DARK 0x32
+# define DARKNESS 0x50
 
 /* ************************************** */
 /* * FUNCTIONS							* */
@@ -215,6 +217,7 @@ int		render(t_gui *gui);
 /* IMAGE */
 
 int		pixget(t_img *img, int x, int y);
+int		color_mixer(int from, int to, int alpha);
 void	pixput(t_img *img, int x, int y, int color);
 void	erase(t_img *img);
 void	imgput(t_img *dest, int x, int y, t_img *img);

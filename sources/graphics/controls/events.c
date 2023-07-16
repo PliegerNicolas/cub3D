@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 15:18:25 by emis              #+#    #+#             */
-/*   Updated: 2023/07/15 17:19:05 by emis             ###   ########.fr       */
+/*   Updated: 2023/07/16 11:50:49 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,10 @@ int	mouse_press(int keycode, int x, int y, t_gui *gui)
 		gui->cam.rndr = (gui->cam.rndr + 1) % (FLOORCEIL + 1);
 		gui->rendered = 0;
 	}
+	else if (keycode == 4)
+		gui->cam.dark = bind(gui->cam.dark + 1, 0, 0xFF);
+	else if (keycode == 5)
+		gui->cam.dark = bind(gui->cam.dark - 1, 0, 0xFF);
 	return ((void)x, (void)y, capture);
 }
 

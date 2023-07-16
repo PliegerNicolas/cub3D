@@ -6,9 +6,10 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 16:10:07 by emis              #+#    #+#             */
-/*   Updated: 2023/07/10 13:50:59 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/07/16 11:04:37 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "graphics.h"
 
 int	pixget(t_img *img, int x, int y)
@@ -19,7 +20,7 @@ int	pixget(t_img *img, int x, int y)
 	return (*(unsigned int *)dst);
 }
 
-static int	color_mixer(int from, int to, int alpha)
+int	color_mixer(int from, int to, int alpha)
 {
 	int	color;
 

@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   set_player.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 16:15:01 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/10 11:36:16 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/07/16 11:57:20 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "graphics.h"
 
 static bool	is_spawn_point(int val)
@@ -22,6 +23,7 @@ static bool	is_spawn_point(int val)
 static void	set_base_stats(t_play *player)
 {
 	player->pitch = 0;
+	player->dark = VERY_DARK;
 	player->zoom = 1;
 	player->zoom_rate = 0.025;
 	player->speed.x = 0;
