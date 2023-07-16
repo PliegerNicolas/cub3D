@@ -6,10 +6,9 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 05:50:41 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/16 07:12:14 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/16 17:12:24 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "graphics.h"
 
 static void	act_on_sprint(t_gui *gui)
@@ -43,42 +42,31 @@ static void	act_on_move(t_gui *gui)
 		update_speed(&gui->cam.speed.y, 0, gui->cam.accel_rate.y * 1.5);
 }
 
-static void	act_on_camera_rotation(t_gui *gui)
+static void	act_on_camera_rotation(t_gui *gui, t_play *p)
 {
-	t_play	*p;
-
-	p = &gui->cam;
 	if (gui->keys & (1 << KP_rot_left))
 	{
-		if (p->rot_speed.x < 0.0)
-			p->rot_speed.x = 0.0;
-		else
-			update_speed(&p->rot_speed.x, p->rot_speed_target.x, p->rot_accel_rate.x);
+		update_rotation_speed(&p->rot_speed.x, p->rot_speed_target.x,
+			p->rot_accel_rate.x, 1);
 		rotate(p, 1);
 	}
 	else if (gui->keys & (1 << KP_rot_right))
 	{
-		if (p->rot_speed.x > 0.0)
-			p->rot_speed.x = 0.0;
-		else
-			update_speed(&p->rot_speed.x, -p->rot_speed_target.x, p->rot_accel_rate.x);
+		update_rotation_speed(&p->rot_speed.x, -p->rot_speed_target.x,
+			p->rot_accel_rate.x, -1);
 		rotate(p, 1);
 	}
 	if (gui->keys & (1 << KP_rot_up))
 	{
-		if (p->rot_speed.y < 0.0)
-			p->rot_speed.y = 0.0;
-		else
-			update_speed(&p->rot_speed.y, p->rot_speed_target.y, p->rot_accel_rate.y);
-		pitch(&gui->cam, 1);
+		update_rotation_speed(&p->rot_speed.y, p->rot_speed_target.y,
+			p->rot_accel_rate.y, 1);
+		pitch(p, 1);
 	}
 	else if (gui->keys & (1 << KP_rot_down))
 	{
-		if (p->rot_speed.y > 0.0)
-			p->rot_speed.y = 0.0;
-		else
-			update_speed(&p->rot_speed.y, -p->rot_speed_target.y, p->rot_accel_rate.y);
-		pitch(&gui->cam, 1);
+		update_rotation_speed(&p->rot_speed.y, -p->rot_speed_target.y,
+			p->rot_accel_rate.y, -1);
+		pitch(p, 1);
 	}
 }
 
@@ -98,12 +86,14 @@ void	key_render(t_gui *gui)
 	{
 		update_speed(&gui->cam.speed.x, 0, gui->cam.accel_rate.x * 1.5);
 		update_speed(&gui->cam.speed.y, 0, gui->cam.accel_rate.y * 1.5);
+		gui->cam.rot_speed.x = 0;
+		gui->cam.rot_speed.y = 0;
 	}
 	else
 	{
 		act_on_sprint(gui);
 		act_on_move(gui);
-		act_on_camera_rotation(gui);
+		act_on_camera_rotation(gui, &gui->cam);
 		act_on_zoom(gui);
 		if (gui->keys & (1 << KP_interact))
 			interact(gui);
