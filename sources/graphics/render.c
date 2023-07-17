@@ -6,11 +6,11 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 14:03:16 by emis              #+#    #+#             */
-/*   Updated: 2023/07/15 17:17:43 by emis             ###   ########.fr       */
+/*   Updated: 2023/07/16 06:58:36 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../../includes/graphics.h"
+#include "graphics.h"
 
 void	specs(t_gui *gui, t_vect where)
 {
@@ -34,7 +34,8 @@ int	render(t_gui *gui)
 {
 	double	z_buffer[SCRWIDTH];
 
-	if (gui->rendered && ((!gui->keys && !gui->cam.speed.x && !gui->cam.speed.y)
+	if (gui->rendered && ((!gui->keys && !gui->cam.speed.x && !gui->cam.speed.y
+				&& !gui->cam.rot_speed.x && !gui->cam.rot_speed.y)
 			&& gui->cam.rndr < SPRITES))
 		return (0);
 	key_render(gui);

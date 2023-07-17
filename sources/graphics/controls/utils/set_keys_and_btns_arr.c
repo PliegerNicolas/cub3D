@@ -6,11 +6,11 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 07:02:41 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/10 18:11:59 by emis             ###   ########.fr       */
+/*   Updated: 2023/07/16 07:11:55 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "graphics.h"
+#include "graphics.h"
 
 void	set_keys_arr(t_kbind *keys)
 {
