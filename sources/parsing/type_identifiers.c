@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 07:20:02 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/15 17:19:34 by emis             ###   ########.fr       */
+/*   Updated: 2023/07/17 17:24:39 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,8 @@ bool	act_on_type_identifier(t_gui *gui, char *line, t_type_id ti)
 		return (false);
 	if (ti == north_texture || ti == south_texture
 		|| ti == east_texture || ti == west_texture
-		|| ti == floor_texture || ti == ceiling_texture)
+		|| ti == floor_texture || ti == ceiling_texture
+		|| ti == door_texture)
 	{
 		if (set_texture(gui, line, ti))
 			return (true);

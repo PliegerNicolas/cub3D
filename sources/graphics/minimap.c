@@ -6,13 +6,12 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 18:54:34 by emis              #+#    #+#             */
-/*   Updated: 2023/07/16 12:02:31 by emis             ###   ########.fr       */
+/*   Updated: 2023/07/16 15:53:01 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "graphics.h"
 
-# define MINISIZE 10
 # define BLACK 0x010101
 # define WHITE 0xFFFFFF
 # define GREY 0xAAAAAA
@@ -73,7 +72,7 @@ void	minimap(t_gui *gui)
 	size_t	size;
 	double	dist;
 
-	size = gui->map.height * gui->map.width / 100;
+	size = 15 - (sqrt(gui->map.height * gui->map.width) / 10);
 	x = 0;
 	while (x < gui->map.height * size)
 	{

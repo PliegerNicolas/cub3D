@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 16:25:33 by emis              #+#    #+#             */
-/*   Updated: 2023/07/16 11:54:14 by emis             ###   ########.fr       */
+/*   Updated: 2023/07/16 15:23:31 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ static void	draw_pixel(t_gui *gui, t_rc_floor *rc, size_t x, size_t y)
 	// color = (color >> 1) & 8355711;
 	// IN THE DARK !
 	if (gui->cam.dark)
-		color = color_mixer(color, 0, bind(gui->cam.dark * (rc->row_distance + 1.0), 0, 255));
+		color |= (255 - bind(gui->cam.dark * (rc->row_distance + 1.0), 0, 255)) << 24;
 	pixput(gui->buffer, x, y, color);
 }
 
