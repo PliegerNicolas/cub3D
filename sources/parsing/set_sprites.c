@@ -6,7 +6,7 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 02:02:02 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/18 09:43:28 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/07/18 09:47:58 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -51,7 +51,7 @@ static bool	set_sporder(t_gui *gui)
 {
 	size_t	i;
 
-	if (!gui->textures.sporder)
+	if (!gui->textures.spnb)
 		gui->textures.sporder = NULL;
 	else
 	{
@@ -59,12 +59,12 @@ static bool	set_sporder(t_gui *gui)
 				* sizeof(gui->textures.sporder));
 		if (!gui->textures.sporder)
 			return (put_parsing_err("Not enough memory."), true);
-	}
-	i = 0;
-	while (i < (size_t)gui->textures.spnb)
-	{
-		gui->textures.sporder[i] = i;
-		i++;
+		i = 0;
+		while (i < (size_t)gui->textures.spnb)
+		{
+			gui->textures.sporder[i] = i;
+			i++;
+		}
 	}
 	return (false);
 }
@@ -73,7 +73,7 @@ static bool	set_spdist(t_gui *gui)
 {
 	size_t	i;
 
-	if (!gui->textures.sporder)
+	if (!gui->textures.spnb)
 		gui->textures.sporder = NULL;
 	else
 	{
@@ -81,10 +81,10 @@ static bool	set_spdist(t_gui *gui)
 				* sizeof(gui->textures.spdist));
 		if (!gui->textures.spdist)
 			return (put_parsing_err("Not enough memory."), true);
+		i = 0;
+		while (i < (size_t)gui->textures.spnb)
+			gui->textures.sporder[i++] = 0;
 	}
-	i = 0;
-	while (i < (size_t)gui->textures.spnb)
-		gui->textures.sporder[i++] = 0;
 	return (false);
 }
 
