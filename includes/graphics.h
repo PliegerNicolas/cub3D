@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/07/18 10:05:11 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/07/18 15:02:34 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -292,6 +292,7 @@ void	minimap(t_gui *gui);
 /* WEAPON */
 
 void	weapon(t_gui *gui);
+void	draw_crosshair(t_gui *gui, int color);
 
 /* INTERACT */
 
