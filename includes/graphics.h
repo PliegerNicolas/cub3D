@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/07/16 16:56:56 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/18 04:15:41 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -238,6 +238,7 @@ void	update_rotation_speed(double *current_speed, double target_speed,
 			double acceleration_rate, double direction);
 void	set_keys_arr(t_kbind *keys);
 void	set_btns_arr(t_bprs *mouse_btns);
+void	initialize_mouse_motion(t_gui *gui, int last[2]);
 
 /* EVENTS */
 

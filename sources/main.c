@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:18:42 by emis              #+#    #+#             */
-/*   Updated: 2023/07/10 11:35:01 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/07/18 03:58:53 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 static void	initialize_mouse(t_gui *gui)
 {
-	mlx_mouse_move(gui->mlx, gui->mlx->win_list, SCRWIDTH / 2, SCRHEIGHT / 2);
+	mlx_mouse_move(gui->mlx, gui->win, SCRWIDTH / 2, SCRHEIGHT / 2);
 }
 
 int	main(int ac, char **av)
