@@ -6,50 +6,29 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 19:16:31 by emis              #+#    #+#             */
-/*   Updated: 2023/07/18 15:03:40 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/07/18 16:02:10 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
 
-#define WALK_AMPLITUDE 8
-#define WALK_FREQUENCY 30
-#define SHOOTING_FREQUENCY 30
-
-static int	calculate_next_frame(t_gui *gui, int frame)
+static void	attack(t_gui *gui, int *frame, t_vect from, t_vect target)
 {
-	if (gui->cam.speed.x || gui->cam.speed.y)
-		return ((frame + 1) % WALK_FREQUENCY);
-	else if (frame != 0 && frame != (WALK_FREQUENCY * 0.5))
-		return ((frame + 1) % WALK_FREQUENCY);
-	return (0);
-}
+	static t_vect	origin;
+	t_vect			projectile;
 
-static void	set_weapon_position(t_gui *gui, int *x, int *y, int frame)
-{
-	int		x_offset;
-	int		y_offset;
-	float	walk_angle;
-
-	x_offset = gui->textures.weapon->width * 0.2;
-	y_offset = gui->textures.weapon->height * 0.2;
-	if (gui->cam.speed.x || gui->cam.speed.y || frame)
-	{
-		walk_angle = (frame / (float)WALK_FREQUENCY * gui->cam.sprint_multiplicator) * 2 * M_PI;
-		x_offset += (int)(sin(walk_angle) * WALK_AMPLITUDE);
-		y_offset -= (int)(fabs(cos(walk_angle)) * WALK_AMPLITUDE / 2);
-	}
-	*x = SCRWIDTH - gui->textures.weapon->width + x_offset;
-	*y = SCRHEIGHT - gui->textures.weapon->height + y_offset;
-}
-
-static void	attack(t_gui *gui, int *frame, int x, int y)
-{
 	// SKIP
 	if (*frame == 0)
 		return ;
+	// INITIALIZE
+	if (*frame == 1)
+		origin = from;
+	// ACT
 
-	printf("shooting = %d, x = %d, y = %d\n", *frame, x, y);
+	(void)projectile;
+	printf("shooting = %d, x = %f, y = %f\n", *frame, origin.x, origin.y);
+	printf("shooting = %d, x = %f, y = %f\n", *frame, projectile.x, projectile.y);
 	(void)gui;
+	(void)target;
 
 	// END
 	if (*frame >= SHOOTING_FREQUENCY)
@@ -67,14 +46,15 @@ void	weapon(t_gui *gui)
 
 	if (!gui->textures.weapon)
 		return ;
-	draw_crosshair(gui, 16448250);
+	draw_crosshair(gui, 0xE4E6EB);
 	x = 0;
 	y = 0;
-	frame = calculate_next_frame(gui, frame);
+	frame = calculate_next_walk_frame(gui, frame);
 	set_weapon_position(gui, &x, &y, frame);
 	if (!shooting && (gui->btns & (1 << left_click)))
 		shooting = 1;
-	attack(gui, &shooting, x, y);
+	attack(gui, &shooting, (t_vect){x, y},
+		(t_vect){SCRWIDTH * 0.5, SCRHEIGHT * 0.5});
 	imgput(gui->buffer, x, y, gui->textures.weapon);
 }
 

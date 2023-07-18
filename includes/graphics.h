@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/07/18 15:02:34 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/07/18 15:58:10 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,9 +157,6 @@ typedef struct s_sprite
 	t_img	**frames;
 }	t_sprt;
 
-# define DOOR_OPEN 42
-# define DOOR_CLOSED 43
-
 typedef struct s_textures
 {
 	int		width;
@@ -205,7 +202,14 @@ typedef struct s_gui
 /* * MACRO								* */
 /* ************************************** */
 
-# define DOOR 42
+# define DOOR_OPEN 42
+# define DOOR_CLOSED 43
+
+// weapon
+
+# define WALK_AMPLITUDE 8
+# define WALK_FREQUENCY 30
+# define SHOOTING_FREQUENCY 30
 
 /* ************************************** */
 /* * FUNCTIONS							* */
@@ -293,6 +297,8 @@ void	minimap(t_gui *gui);
 
 void	weapon(t_gui *gui);
 void	draw_crosshair(t_gui *gui, int color);
+int		calculate_next_walk_frame(t_gui *gui, int frame);
+void	set_weapon_position(t_gui *gui, int *x, int *y, int frame);
 
 /* INTERACT */
 
