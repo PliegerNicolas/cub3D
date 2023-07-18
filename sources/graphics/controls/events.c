@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 15:18:25 by emis              #+#    #+#             */
-/*   Updated: 2023/07/16 17:18:11 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/18 04:16:13 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -45,11 +45,6 @@ int	key_rel(int keycode, t_gui *gui)
 	return (0);
 }
 
-// After line 70 (under else if (keycode == 2)
-		// if (capture)
-		// 	mlx_mouse_hide(gui->mlx, gui->mlx->win_list);
-		// else
-		// 	mlx_mouse_show(gui->mlx, gui->mlx->win_list);
 int	mouse_press(int keycode, int x, int y, t_gui *gui)
 {
 	t_bprs		btns[6];
@@ -96,14 +91,13 @@ int	mouse_motion(int x, int y, t_gui *gui)
 {
 	static int	last[2];
 
-	gui->cam.rot_speed.x = gui->cam.rot_speed_target.x;
-	gui->cam.rot_speed.y = gui->cam.rot_speed_target.y;
+	initialize_mouse_motion(gui, last);
 	if (x != last[0])
 	{
 		rotate(&gui->cam, (last[0] - x) / 4.0);
 		gui->rendered = 0;
 	}
-	if (y != last[1] && last[1])
+	if (y != last[1])
 	{
 		pitch(&gui->cam, (last[1] - y) / 4.0);
 		gui->rendered = 0;
