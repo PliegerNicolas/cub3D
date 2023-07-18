@@ -6,14 +6,14 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 19:16:31 by emis              #+#    #+#             */
-/*   Updated: 2023/07/15 17:18:16 by emis             ###   ########.fr       */
+/*   Updated: 2023/07/18 09:21:59 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "graphics.h"
 
 #define FRAMENUMB 20
 
+/*
 static void	projectile(t_img *img, t_vect p, int size, int color)
 {
 	int	x;
@@ -48,9 +48,12 @@ static void	attack(t_gui *gui, float frame, t_vect target, t_vect origin)
 		printf("vomidupipi %d %f\n", sprite->type, angle(gui->cam.dir, towards));
 	}
 }
+*/
 
 void	weapon(t_gui *gui)
 {
+	(void)gui;
+/*
 	static t_img	**wpn;
 	static int		frame;
 
@@ -67,4 +70,5 @@ void	weapon(t_gui *gui)
 			SCRHEIGHT - wpn[0]->height - 1});
 	imgput(gui->buffer, SCRWIDTH - wpn[0]->width - (FRAMENUMB - frame),
 		SCRHEIGHT - wpn[0]->height - (FRAMENUMB - frame), wpn[0]);
+*/
 }

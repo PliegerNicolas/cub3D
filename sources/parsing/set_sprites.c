@@ -6,7 +6,7 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 02:02:02 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/02 14:30:54 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/18 09:43:28 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -51,10 +51,15 @@ static bool	set_sporder(t_gui *gui)
 {
 	size_t	i;
 
-	gui->textures.sporder = malloc(gui->textures.spnb
-			* sizeof(gui->textures.sporder));
 	if (!gui->textures.sporder)
-		return (put_parsing_err("Not enough memory."), true);
+		gui->textures.sporder = NULL;
+	else
+	{
+		gui->textures.sporder = malloc(gui->textures.spnb
+				* sizeof(gui->textures.sporder));
+		if (!gui->textures.sporder)
+			return (put_parsing_err("Not enough memory."), true);
+	}
 	i = 0;
 	while (i < (size_t)gui->textures.spnb)
 	{
@@ -68,10 +73,15 @@ static bool	set_spdist(t_gui *gui)
 {
 	size_t	i;
 
-	gui->textures.spdist = malloc(gui->textures.spnb
-			* sizeof(gui->textures.spdist));
-	if (!gui->textures.spdist)
-		return (put_parsing_err("Not enough memory."), true);
+	if (!gui->textures.sporder)
+		gui->textures.sporder = NULL;
+	else
+	{
+		gui->textures.spdist = malloc(gui->textures.spnb
+				* sizeof(gui->textures.spdist));
+		if (!gui->textures.spdist)
+			return (put_parsing_err("Not enough memory."), true);
+	}
 	i = 0;
 	while (i < (size_t)gui->textures.spnb)
 		gui->textures.sporder[i++] = 0;
@@ -83,10 +93,15 @@ bool	set_sprites(t_gui *gui)
 	int	i;
 
 	gui->textures.spnb = count_mobs(gui);
-	gui->textures.sprites = malloc(gui->textures.spnb
-			* sizeof(*gui->textures.sprites));
-	if (!gui->textures.sprites)
-		return (put_parsing_err("Not enough memory."), true);
+	if (!gui->textures.spnb)
+		gui->textures.sprites = NULL;
+	else
+	{
+		gui->textures.sprites = malloc(gui->textures.spnb
+				* sizeof(*gui->textures.sprites));
+		if (!gui->textures.sprites)
+			return (put_parsing_err("Not enough memory."), true);
+	}
 	i = 0;
 	while (i < gui->textures.spnb)
 		initialize_mob(gui, i++);

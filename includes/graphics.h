@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/07/18 04:15:41 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/18 09:24:58 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,7 @@ typedef struct s_textures
 	int		arrsize;
 	t_img	**walls;
 	t_img	**doors;
+	t_img	*weapon;
 	int		spnb;
 	int		*sporder;
 	double	*spdist;
@@ -333,5 +334,9 @@ bool	set_sprites(t_gui *gui);
 /* set_mobs.c */
 
 bool	set_mobs(t_gui *gui);
+
+/* set_weapon.c */
+
+bool	set_weapon(t_gui *gui);
 
 #endif

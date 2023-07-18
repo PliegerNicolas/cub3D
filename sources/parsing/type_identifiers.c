@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 07:20:02 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/16 06:55:57 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/18 09:37:35 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,19 +33,21 @@ static void	set_strti(t_str_to_ti *strti)
 	strti[7].ti = ceiling_color;
 	strti[8].str = "D";
 	strti[8].ti = door_texture;
+	strti[9].str = "WP";
+	strti[9].ti = weapon_texture;
 }
 
 t_type_id	set_type_identifier(char *line, size_t *index)
 {
 	size_t		i;
 	size_t		len;
-	t_str_to_ti	strti[9];
+	t_str_to_ti	strti[10];
 
 	if (!line)
 		return (not_found);
 	set_strti(strti);
 	i = 0;
-	while (i < 9)
+	while (i < sizeof(strti) / sizeof(*strti))
 	{
 		len = ft_strlen(strti[i].str);
 		if (ft_strncmp(line + *index, strti[i].str, len) == 0)
@@ -73,6 +75,11 @@ bool	act_on_type_identifier(t_gui *gui, char *line, t_type_id ti)
 	else if (ti == floor_color || ti == ceiling_color)
 	{
 		if (set_color(gui, line, ti))
+			return (true);
+	}
+	else if (ti == weapon_texture)
+	{
+		if (set_weapon(gui))
 			return (true);
 	}
 	return (false);
