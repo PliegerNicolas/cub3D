@@ -6,14 +6,13 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 19:16:31 by emis              #+#    #+#             */
-/*   Updated: 2023/07/18 09:21:59 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/07/18 10:18:52 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
 
 #define FRAMENUMB 20
 
-/*
 static void	projectile(t_img *img, t_vect p, int size, int color)
 {
 	int	x;
@@ -48,17 +47,14 @@ static void	attack(t_gui *gui, float frame, t_vect target, t_vect origin)
 		printf("vomidupipi %d %f\n", sprite->type, angle(gui->cam.dir, towards));
 	}
 }
-*/
 
 void	weapon(t_gui *gui)
 {
 	(void)gui;
-/*
-	static t_img	**wpn;
 	static int		frame;
 
-	if (!wpn)
-		load_texture_arr(gui, &wpn, "textures/wand.xpm", 1);
+	if (!gui->textures.weapon)
+		return ;
 	if ((gui->btns & (1 << left_click)) && !frame)
 		frame = 1;
 	if (frame == FRAMENUMB)
@@ -66,9 +62,8 @@ void	weapon(t_gui *gui)
 	if (frame)
 		attack(gui, frame++ / (float)FRAMENUMB,
 			(t_vect){SCRWIDTH / 2, SCRHEIGHT / 2},
-			(t_vect){SCRWIDTH - wpn[0]->width - 1,
-			SCRHEIGHT - wpn[0]->height - 1});
-	imgput(gui->buffer, SCRWIDTH - wpn[0]->width - (FRAMENUMB - frame),
-		SCRHEIGHT - wpn[0]->height - (FRAMENUMB - frame), wpn[0]);
-*/
+			(t_vect){SCRWIDTH - gui->textures.weapon[0].width - 1,
+			SCRHEIGHT - gui->textures.weapon[0].height - 1});
+	imgput(gui->buffer, SCRWIDTH - gui->textures.weapon[0].width - (FRAMENUMB - frame),
+		SCRHEIGHT - gui->textures.weapon[0].height - (FRAMENUMB - frame), gui->textures.weapon);
 }

@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 07:20:02 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/18 09:37:35 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/07/18 10:05:21 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ bool	act_on_type_identifier(t_gui *gui, char *line, t_type_id ti)
 	}
 	else if (ti == weapon_texture)
 	{
-		if (set_weapon(gui))
+		if (set_weapon(gui, line))
 			return (true);
 	}
 	return (false);

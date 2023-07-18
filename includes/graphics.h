@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/07/18 09:24:58 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/07/18 10:05:11 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -337,6 +337,6 @@ bool	set_mobs(t_gui *gui);
 
 /* set_weapon.c */
 
-bool	set_weapon(t_gui *gui);
+bool	set_weapon(t_gui *gui, char *line);
 
 #endif
