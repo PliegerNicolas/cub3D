@@ -6,29 +6,36 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 19:16:31 by emis              #+#    #+#             */
-/*   Updated: 2023/07/18 16:02:10 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/07/19 11:14:35 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
 
-static void	attack(t_gui *gui, int *frame, t_vect from, t_vect target)
+static void	attack(t_gui *gui, int *frame)
 {
-	static t_vect	origin;
-	t_vect			projectile;
+	static t_3dvect	projectile;
+	static t_3dvect	direction;
 
-	// SKIP
-	if (*frame == 0)
-		return ;
 	// INITIALIZE
 	if (*frame == 1)
-		origin = from;
+	{
+		projectile.x = gui->cam.posi.x;
+		projectile.y = gui->cam.posi.y;
+		projectile.z = 0.66;
+		direction.x = gui->cam.dir.x;
+		direction.y = gui->cam.dir.y;
+		direction.z = (gui->cam.pitch * 100) / SCRHEIGHT;
+	}
 	// ACT
 
+	projectile.x += direction.x * 1;
+	projectile.y += direction.y * 1;
+	projectile.z += direction.z * 1;
+	printf("pitch ... %d\n", gui->cam.pitch);
+	printf("facing ... %f, %f, %f\n", direction.x, direction.y, direction.z);
 	(void)projectile;
-	printf("shooting = %d, x = %f, y = %f\n", *frame, origin.x, origin.y);
-	printf("shooting = %d, x = %f, y = %f\n", *frame, projectile.x, projectile.y);
+	(void)direction;
 	(void)gui;
-	(void)target;
 
 	// END
 	if (*frame >= SHOOTING_FREQUENCY)
@@ -53,8 +60,8 @@ void	weapon(t_gui *gui)
 	set_weapon_position(gui, &x, &y, frame);
 	if (!shooting && (gui->btns & (1 << left_click)))
 		shooting = 1;
-	attack(gui, &shooting, (t_vect){x, y},
-		(t_vect){SCRWIDTH * 0.5, SCRHEIGHT * 0.5});
+	if (shooting)
+		attack(gui, &shooting);
 	imgput(gui->buffer, x, y, gui->textures.weapon);
 }
 
