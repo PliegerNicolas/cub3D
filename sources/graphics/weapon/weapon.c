@@ -6,15 +6,15 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 19:16:31 by emis              #+#    #+#             */
-/*   Updated: 2023/07/19 11:14:35 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/07/19 12:56:45 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
 
 static void	attack(t_gui *gui, int *frame)
 {
-	static t_3dvect	projectile;
-	static t_3dvect	direction;
+	static t_vect	projectile;
+	static t_vect	direction;
 
 	// INITIALIZE
 	if (*frame == 1)
@@ -24,14 +24,13 @@ static void	attack(t_gui *gui, int *frame)
 		projectile.z = 0.66;
 		direction.x = gui->cam.dir.x;
 		direction.y = gui->cam.dir.y;
-		direction.z = (gui->cam.pitch * 100) / SCRHEIGHT;
+		direction.z = gui->cam.posi.z;
 	}
 	// ACT
 
 	projectile.x += direction.x * 1;
 	projectile.y += direction.y * 1;
 	projectile.z += direction.z * 1;
-	printf("pitch ... %d\n", gui->cam.pitch);
 	printf("facing ... %f, %f, %f\n", direction.x, direction.y, direction.z);
 	(void)projectile;
 	(void)direction;

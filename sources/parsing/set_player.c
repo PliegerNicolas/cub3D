@@ -6,7 +6,7 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 16:15:01 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/16 06:58:12 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/19 12:59:23 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -28,13 +28,12 @@ static void	set_base_stats(t_play *player)
 	player->rot_speed.x = 0.0;
 	player->rot_speed.y = 0.0;
 	player->rot_speed_target.x = 0.05;
-	player->rot_speed_target.y = 0.05;
+	player->rot_speed_target.y = 0.03;
 	player->accel_rate.x = player->speed_target.x * 0.1;
 	player->accel_rate.y = player->speed_target.y * 0.1;
 	player->rot_accel_rate.x = player->rot_speed_target.x * 0.15;
 	player->rot_accel_rate.y = player->rot_speed_target.y * 0.15;
 	player->sprint_multiplicator = 2.0;
-	player->pitch = 0;
 	player->zoom = 1;
 	player->zoom_rate = 0.025;
 	player->hit_box.x = 0.1;
@@ -48,6 +47,7 @@ static void	set_vector(t_play *player, size_t row, size_t col)
 
 	pos.x = row;
 	pos.y = col;
+	pos.z = 0.0;
 	player->posi = pos;
 }
 
@@ -55,23 +55,23 @@ static void	set_orientation(t_play *player, int val)
 {
 	if (val == spawn_north_tile)
 	{
-		player->dir = (t_vect){-1, 0};
-		player->plane = (t_vect){0, 0.66};
+		player->dir = (t_vect){-1, 0, 0};
+		player->plane = (t_vect){0, 0.66, 0};
 	}
 	else if (val == spawn_south_tile)
 	{
-		player->dir = (t_vect){1, 0};
-		player->plane = (t_vect){0, -0.66};
+		player->dir = (t_vect){1, 0, 0};
+		player->plane = (t_vect){0, -0.66, 0};
 	}
 	else if (val == spawn_west_tile)
 	{
-		player->dir = (t_vect){0, -1};
-		player->plane = (t_vect){-0.66, 0};
+		player->dir = (t_vect){0, -1, 0};
+		player->plane = (t_vect){-0.66, 0, 0};
 	}
 	else if (val == spawn_east_tile)
 	{
-		player->dir = (t_vect){0, 1};
-		player->plane = (t_vect){0.66, 0};
+		player->dir = (t_vect){0, 1, 0};
+		player->plane = (t_vect){0.66, 0, 0};
 	}
 }
 

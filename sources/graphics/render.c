@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 14:03:16 by emis              #+#    #+#             */
-/*   Updated: 2023/07/16 06:58:36 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/19 12:57:24 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	render(t_gui *gui)
 	}
 	minimap(gui);
 	mlx_put_image_to_window(gui->mlx, gui->mlx->win_list, gui->buffer, 0, 0);
-	specs(gui, (t_vect){SCRWIDTH / 2, 30});
+	specs(gui, (t_vect){SCRWIDTH / 2, 30, 0});
 	gui->rendered = 1;
 	return (0);
 }

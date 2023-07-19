@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 18:54:34 by emis              #+#    #+#             */
-/*   Updated: 2023/07/15 17:45:14 by emis             ###   ########.fr       */
+/*   Updated: 2023/07/19 12:57:48 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,13 +81,13 @@ void	minimap(t_gui *gui)
 		while (y < gui->map.width * size)
 		{
 			// ONLY SEE AROUND THE PLAYER UP TO A CERTAIN RADIUS
-			dist = magnitude((t_vect){x - gui->cam.posi.x * size, y - gui->cam.posi.y * size});
+			dist = magnitude((t_vect){x - gui->cam.posi.x * size, y - gui->cam.posi.y * size, 0.0});
 			// // // LASER
 			// // dist *= angle(gui->cam.dir, delta(gui->cam.posi,
 			// // (t_vect){x / (double)size, y / (double)size})) * 10;
 			// FLASHLIGHT
 			dist *= 1 + 100 * (angle(gui->cam.dir, delta(gui->cam.posi,
-				(t_vect){x / (double)size, y / (double)size})) > 0.5);
+				(t_vect){x / (double)size, y / (double)size, 0.0})) > 0.5);
 			pixput(gui->buffer, y, x,
 				color_from_tile(gui->map.map[x / size][y / size]) //);
 				| (bind(240 - dist * 2, 1, 255) << 24));

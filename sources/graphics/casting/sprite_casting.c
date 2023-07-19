@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 16:26:04 by emis              #+#    #+#             */
-/*   Updated: 2023/07/15 17:18:21 by emis             ###   ########.fr       */
+/*   Updated: 2023/07/19 12:56:01 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,15 +50,15 @@ t_vect	transform(t_tex *tex, t_play *play, int i)
 	double	invDet;
 
 	sprite = (t_vect){tex->sprites[tex->sporder[i]].posi.x - play->posi.x,
-		tex->sprites[tex->sporder[i]].posi.y - play->posi.y};
+		tex->sprites[tex->sporder[i]].posi.y - play->posi.y, 0.0};
 	invDet = 1.0 / (play->plane.x * (play->dir.y * play->zoom)
 		- (play->dir.x * play->zoom) * play->plane.y);
 	return ((t_vect){
 		invDet * ((play->dir.y * play->zoom) * sprite.x
 		- (play->dir.x * play->zoom) * sprite.y),
 		invDet * (-play->plane.y * sprite.x
-		+ play->plane.x * sprite.y)
-		});
+		+ play->plane.x * sprite.y),
+		0.0});
 }
 
 void	frame_shift(t_tex *tex)
@@ -84,7 +84,7 @@ void	sprite_cast(t_gui *gui, double ZBuffer[SCRWIDTH])
 	for(int i = 0; i < gui->textures.spnb; i++)
 	{
 		if (gui->textures.sprites[i].type == ALIVE)
-			check_and_move(gui->map, &gui->textures.sprites[i].posi, 
+			check_and_move(gui->map, &gui->textures.sprites[i].posi,
 			delta(gui->textures.sprites[i].posi, gui->cam.posi), 0.025 + i / 100.0);
 		transf = transform(&gui->textures, &gui->cam, i);
 
@@ -92,14 +92,14 @@ void	sprite_cast(t_gui *gui, double ZBuffer[SCRWIDTH])
 
 		//calculate height of the sprite on screen
 		int spriteHeight = abs((int)(SCRHEIGHT / (transf.y))); //using 'transformY' instead of the real distance prevents fisheye
-		
+
 		// int pitch = 100;
 
 		//calculate lowest and highest pixel to fill in current stripe
-		int drawStartY = bind(-spriteHeight / 2 + SCRHEIGHT / 2 + gui->cam.pitch, 0, SCRHEIGHT);
+		int drawStartY = bind(-spriteHeight / 2 + SCRHEIGHT / 2 + (gui->cam.posi.z * SCRHEIGHT), 0, SCRHEIGHT);
 		// if (drawStartY < 0)
 		// 	drawStartY = 0;
-		int drawEndY = bind(spriteHeight / 2 + SCRHEIGHT / 2 + gui->cam.pitch, 0, SCRHEIGHT);
+		int drawEndY = bind(spriteHeight / 2 + SCRHEIGHT / 2 + (gui->cam.posi.z * SCRHEIGHT), 0, SCRHEIGHT);
 		// if (drawEndY >= SCRHEIGHT)
 		// 	drawEndY = SCRHEIGHT - 1;
 
@@ -124,7 +124,7 @@ void	sprite_cast(t_gui *gui, double ZBuffer[SCRWIDTH])
 			if (transf.y > 0 && stripe > 0 && stripe < SCRWIDTH && transf.y < ZBuffer[stripe])
 			for(int y = drawStartY; y < drawEndY; y++) //for every pixel of the current stripe
 			{
-				int d = (y - gui->cam.pitch) * 256 - SCRHEIGHT * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
+				int d = (y - (gui->cam.posi.z * SCRHEIGHT)) * 256 - SCRHEIGHT * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
 				int texY = ((d * gui->textures.height) / spriteHeight) / 256;
 				int which = gui->textures.sporder[i];
 				int	color;
