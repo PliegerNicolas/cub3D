@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/07/19 12:53:27 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/07/19 13:00:45 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,6 @@ typedef struct s_player
 	t_vect	posi;
 	t_vect	dir;
 	t_vect	plane;
-	//int	pitch;
 	double	zoom;
 	double	zoom_rate;
 	t_vect	speed;
@@ -303,7 +302,7 @@ void	set_weapon_position(t_gui *gui, int *x, int *y, int frame);
 
 /* INTERACT */
 
-int	interact(t_gui *gui);
+int		interact(t_gui *gui);
 
 /* ************************************** */
 /* * TEMP, NEEDED FOR PARSING			* */
