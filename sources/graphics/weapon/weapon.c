@@ -6,15 +6,49 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 19:16:31 by emis              #+#    #+#             */
-/*   Updated: 2023/07/19 12:56:45 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/07/19 13:45:03 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
+
+static void	draw_projectile(t_play *p, t_vect projectile, int color)
+{
+	(void)p;
+	(void)projectile;
+	(void)color;
+}
+
+static int	check_contact(t_gui *gui, t_vect projectile)
+{
+	t_vect	sprite_pos;
+	int		i;
+
+	if (gui->map.map[(int)projectile.x][(int)projectile.y] % DOOR_OPEN != floor_tile)
+		return (1);
+	i = 0;
+	printf("projectile.x = %f, projectile.y = %f\n", projectile.x, projectile.y);
+	while (i < gui->textures.spnb)
+	{
+		sprite_pos = gui->textures.sprites->posi;
+		// height not considered. 0.25 is virtual hitbox of sprite
+		printf("sprite.x = %f, sprite.y = %f\n", sprite_pos.x, sprite_pos.y);
+		if (projectile.x < sprite_pos.x - 0.5 && projectile.x > sprite_pos.x + 0.5)
+		{
+			printf("x ok\n");
+			if (projectile.y < sprite_pos.y - 0.5 && projectile.y > sprite_pos.y + 0.5)
+				return (1);
+		}
+		i++;
+	}
+	printf("\n");
+	return (0);
+}
 
 static void	attack(t_gui *gui, int *frame)
 {
 	static t_vect	projectile;
 	static t_vect	direction;
+	double			projectile_speed;
 
 	// INITIALIZE
 	if (*frame == 1)
@@ -28,13 +62,18 @@ static void	attack(t_gui *gui, int *frame)
 	}
 	// ACT
 
-	projectile.x += direction.x * 1;
-	projectile.y += direction.y * 1;
-	projectile.z += direction.z * 1;
-	printf("facing ... %f, %f, %f\n", direction.x, direction.y, direction.z);
-	(void)projectile;
-	(void)direction;
-	(void)gui;
+	projectile_speed = 0.25;
+	projectile.x += direction.x * projectile_speed;
+	projectile.y += direction.y * projectile_speed;
+	projectile.z += direction.z * projectile_speed;
+	if (check_contact(gui, projectile))
+	{
+		printf("Contact !\n");
+		*frame = 0;
+		return ;
+	}
+	//printf("facing ... %f, %f, %f\n", direction.x, direction.y, direction.z);
+	draw_projectile(&gui->cam, projectile, 0xE4E6EB);
 
 	// END
 	if (*frame >= SHOOTING_FREQUENCY)
