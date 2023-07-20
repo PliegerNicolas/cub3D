@@ -6,86 +6,99 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 19:16:31 by emis              #+#    #+#             */
-/*   Updated: 2023/07/19 13:45:03 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/07/20 18:07:51 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
 
+/*
 static void	draw_projectile(t_play *p, t_vect projectile, int color)
 {
 	(void)p;
 	(void)projectile;
 	(void)color;
 }
+*/
 
-static int	check_contact(t_gui *gui, t_vect projectile)
+static void	move_projectile(t_play *player, t_vect *projectile,
+	t_vect *direction, int *projectile_life_cycle)
 {
-	t_vect	sprite_pos;
-	int		i;
+	if (*projectile_life_cycle <= 1)
+	{
+		projectile->x = player->posi.x;
+		projectile->y = player->posi.y;
+		projectile->z = 0.66;
+		direction->x = player->dir.x;
+		direction->y = player->dir.y;
+		direction->z = player->posi.z;
+	}
+	else
+	{
+		projectile->x += direction->x * (double)PROJECTILE_SPEED;
+		// slow down relatif to pitch
+		projectile->y += direction->y * (double)PROJECTILE_SPEED;
+		// slow down relative to pitch
+		//projectile->z += direction->z * (double)PROJECTILE_SPEED;
+	}
+}
 
-	if (gui->map.map[(int)projectile.x][(int)projectile.y] % DOOR_OPEN != floor_tile)
+static void	end_projectile(t_vect *projectile, t_vect *direction,
+	int *projectile_life_cycle)
+{
+	if (*projectile_life_cycle < MAX_PROJECTILE_LIFE_CYCLE)
+		(*projectile_life_cycle)++;
+	else
+	{
+		*projectile_life_cycle = 0;
+		projectile->x = 0;
+		projectile->y = 0;
+		projectile->z = 0;
+		direction->x = 0;
+		direction->y = 0;
+		direction->z = 0;
+	}
+}
+
+static bool	projectile_hit(t_gui *gui, t_vect *proj)
+{
+	size_t	i;
+	t_sprt	*sprite;
+
+	if (gui->map.map[(int)proj->x][(int)proj->y] % DOOR_OPEN != floor_tile)
 		return (1);
 	i = 0;
-	printf("projectile.x = %f, projectile.y = %f\n", projectile.x, projectile.y);
-	while (i < gui->textures.spnb)
+	while (i < (size_t)gui->textures.spnb)
 	{
-		sprite_pos = gui->textures.sprites->posi;
-		// height not considered. 0.25 is virtual hitbox of sprite
-		printf("sprite.x = %f, sprite.y = %f\n", sprite_pos.x, sprite_pos.y);
-		if (projectile.x < sprite_pos.x - 0.5 && projectile.x > sprite_pos.x + 0.5)
+		sprite = &gui->textures.sprites[i];
+		if (sprite->posi.x - 0.25 < proj->x
+			&& sprite->posi.x + 0.25 > proj->x
+			&& sprite->posi.y - 0.25 < proj->y
+			&& sprite->posi.y + 0.25 > proj->y)
 		{
-			printf("x ok\n");
-			if (projectile.y < sprite_pos.y - 0.5 && projectile.y > sprite_pos.y + 0.5)
-				return (1);
+			sprite->type = DEAD;
+			return (1);
 		}
 		i++;
 	}
-	printf("\n");
 	return (0);
 }
 
-static void	attack(t_gui *gui, int *frame)
+static void	attack(t_gui *gui, int *projectile_life_cycle)
 {
 	static t_vect	projectile;
 	static t_vect	direction;
-	double			projectile_speed;
 
-	// INITIALIZE
-	if (*frame == 1)
-	{
-		projectile.x = gui->cam.posi.x;
-		projectile.y = gui->cam.posi.y;
-		projectile.z = 0.66;
-		direction.x = gui->cam.dir.x;
-		direction.y = gui->cam.dir.y;
-		direction.z = gui->cam.posi.z;
-	}
-	// ACT
-
-	projectile_speed = 0.25;
-	projectile.x += direction.x * projectile_speed;
-	projectile.y += direction.y * projectile_speed;
-	projectile.z += direction.z * projectile_speed;
-	if (check_contact(gui, projectile))
-	{
-		printf("Contact !\n");
-		*frame = 0;
-		return ;
-	}
-	//printf("facing ... %f, %f, %f\n", direction.x, direction.y, direction.z);
-	draw_projectile(&gui->cam, projectile, 0xE4E6EB);
-
-	// END
-	if (*frame >= SHOOTING_FREQUENCY)
-		*frame = 0;
-	else
-		(*frame)++;
+	move_projectile(&gui->cam, &projectile, &direction, projectile_life_cycle);
+	if (projectile_hit(gui, &projectile))
+		*projectile_life_cycle = MAX_PROJECTILE_LIFE_CYCLE;
+	//draw_projectile();
+	end_projectile(&projectile, &direction, projectile_life_cycle);
 }
 
 void	weapon(t_gui *gui)
 {
 	static int	frame;
-	static int	shooting;
+	static int	projectile_life_cycle;
 	int			x;
 	int			y;
 
@@ -96,10 +109,10 @@ void	weapon(t_gui *gui)
 	y = 0;
 	frame = calculate_next_walk_frame(gui, frame);
 	set_weapon_position(gui, &x, &y, frame);
-	if (!shooting && (gui->btns & (1 << left_click)))
-		shooting = 1;
-	if (shooting)
-		attack(gui, &shooting);
+	if (!projectile_life_cycle && (gui->btns & (1 << left_click)))
+		projectile_life_cycle = 1;
+	if (projectile_life_cycle)
+		attack(gui, &projectile_life_cycle);
 	imgput(gui->buffer, x, y, gui->textures.weapon);
 }
 
