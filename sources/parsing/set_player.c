@@ -22,19 +22,23 @@ static bool	is_spawn_point(int val)
 
 static void	set_base_stats(t_play *player)
 {
-	player->pitch = 0;
-	player->dark = VERY_DARK;
-	player->zoom = 1;
-	player->zoom_rate = 0.025;
 	player->speed.x = 0;
 	player->speed.y = 0;
 	player->speed_target.x = 0.075;
 	player->speed_target.y = 0.075;
-	player->acceleration_rate.x = player->speed_target.x * 0.1;
-	player->acceleration_rate.y = player->speed_target.y * 0.1;
-	player->rotation_speed.x = 0.05;
-	player->rotation_speed.y = 0.05;
+	player->rot_speed.x = 0.0;
+	player->rot_speed.y = 0.0;
+	player->rot_speed_target.x = 0.05;
+	player->rot_speed_target.y = 0.05;
+	player->accel_rate.x = player->speed_target.x * 0.1;
+	player->accel_rate.y = player->speed_target.y * 0.1;
+	player->rot_accel_rate.x = player->rot_speed_target.x * 0.15;
+	player->rot_accel_rate.y = player->rot_speed_target.y * 0.15;
 	player->sprint_multiplicator = 2.0;
+	player->pitch = 0;
+  player->dark = 0;
+	player->zoom = 1;
+	player->zoom_rate = 0.025;
 	player->hit_box.x = 0.1;
 	player->hit_box.y = 0.1;
 	player->rndr = FLOORCEIL;

@@ -10,32 +10,39 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "graphics.h"
+#include "graphics.h"
 
 // proof of concept
 int	interact(t_gui *gui)
 {
-	int	mapX;
-	int	mapY;
-	int	x;
-	int	y;
+	int		map_x;
+	int		map_y;
+	int		i;
+	int		j;
 
-	mapX = (int)gui->cam.posi.x;
-	mapY = (int)gui->cam.posi.y;
-	x = mapX - (mapX > 0) - 1;
-	while (++x < mapX + 2)
+	map_x = (int)gui->cam.posi.x;
+	map_y = (int)gui->cam.posi.y;
+	i = map_x - (map_x > 0) - 1;
+	while (++i < map_x + 2)
 	{
-		y = mapY - (mapY > 0) - 1;
-		while (++y < mapY + 2)
+		j = map_y - (map_y > 0) - 1;
+		while (++j < map_y + 2)
 		{
-			if (gui->map.map[bind(x, 0, gui->map.height)][bind(y, 0, gui->map.width)] == DOOR_CLOSED)
-				gui->map.map[bind(x, 0, gui->map.height)][bind(y, 0, gui->map.width)] = DOOR_OPEN;
-			else if (gui->map.map[bind(x, 0, gui->map.height)][bind(y, 0, gui->map.width)] == DOOR_OPEN
-				&& ((int)gui->cam.posi.x != x || (int)gui->cam.posi.y != y))
-				gui->map.map[bind(x, 0, gui->map.height)][bind(y, 0, gui->map.width)] = DOOR_CLOSED;
+			if (gui->map.map[bind(i, 0, gui->map.height)]
+				[bind(j, 0, gui->map.width)] == DOOR_CLOSED)
+				gui->map.map[bind(i, 0, gui->map.height)]
+				[bind(j, 0, gui->map.width)] = DOOR_OPEN;
+			else if (gui->map.map[bind(i, 0, gui->map.height)]
+        [bind(j, 0, gui->map.width)] == DOOR_OPEN
+				&& ((int)gui->cam.posi.x != i || (int)gui->cam.posi.y != j))
+				gui->map.map[bind(i, 0, gui->map.height)]
+        [bind(j, 0, gui->map.width)] = DOOR_CLOSED;
 		}
 	}
 	return (0);
 }
-	// printf("--[%d|%d]==\n", mapX, mapY);
-//printf("[%d|%d]->%d\n", i, j, gui->map.map[j % gui->map.height][i % gui->map.width]), 
+/*
+// printf("--[%d|%d]==\n", mapX, mapY);
+//printf("[%d|%d]->%d\n", i, j,
+	gui->map.map[j % gui->map.height][i % gui->map.width])
+*/

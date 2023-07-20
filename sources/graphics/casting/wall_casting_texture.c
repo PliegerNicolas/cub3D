@@ -29,8 +29,10 @@ static int	get_texture_id(t_gui *gui, t_rc *rc)
 	tex_num = gui->map.map[rc->map_x][rc->map_y] - 1;
 	tex_id = tex_num * gui->textures.arrsize;
 	tex_id += rc->side * 2;
-	tex_id += (rc->side == 0 && rc->ray_dir.x > 0)
-			|| (rc->side == 1 && rc->ray_dir.y < 0);
+	if (rc->side == 0 && rc->ray_dir.x > 0)
+		tex_id += 1;
+	else if (rc->side == 1 && rc->ray_dir.y < 0)
+		tex_id += 1;
 	return (tex_id % gui->textures.arrsize);
 }
 

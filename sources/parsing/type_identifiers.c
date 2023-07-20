@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "parsing.h"
-# include "graphics.h"
+#include "parsing.h"
+#include "graphics.h"
 
 static void	set_strti(t_str_to_ti *strti)
 {

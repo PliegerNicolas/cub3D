@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/07/16 11:47:57 by emis             ###   ########.fr       */
+/*   Updated: 2023/07/18 04:15:41 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,10 +139,12 @@ typedef struct s_player
 	double	zoom_rate;
 	t_vect	speed;
 	t_vect	speed_target;
-	t_vect	acceleration_rate;
-	t_vect	rotation_speed;
-	t_vect	hit_box;
 	double	sprint_multiplicator;
+	t_vect	rot_speed;
+	t_vect	rot_speed_target;
+	t_vect	accel_rate;
+	t_vect	rot_accel_rate;
+	t_vect	hit_box;
 }	t_play;
 
 typedef struct s_sprite
@@ -235,8 +237,11 @@ void	rotate(t_play *player, double dir);
 void	check_and_move(t_map map, t_vect *posi, t_vect dxdy, double magn);
 void	update_speed(double *current_speed, double target_speed,
 			double acceleration_rate);
+void	update_rotation_speed(double *current_speed, double target_speed,
+			double acceleration_rate, double direction);
 void	set_keys_arr(t_kbind *keys);
 void	set_btns_arr(t_bprs *mouse_btns);
+void	initialize_mouse_motion(t_gui *gui, int last[2]);
 
 /* EVENTS */
 
