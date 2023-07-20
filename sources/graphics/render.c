@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 14:03:16 by emis              #+#    #+#             */
-/*   Updated: 2023/07/16 06:58:36 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/20 17:52:10 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	specs(t_gui *gui, t_vect where)
 	char	*tmp;
 
 	ft_bzero(buf, 30);
-	ft_strlcat(buf, "X", 2);
+	ft_strlcat(buf, "Pos X", 6);
 	tmp = ft_itoa(gui->cam.posi.x);
 	ft_strlcat(buf, tmp, ft_strlen(buf) + ft_strlen(tmp) + 1);
 	free(tmp);
@@ -27,6 +27,13 @@ void	specs(t_gui *gui, t_vect where)
 	ft_strlcat(buf, tmp, ft_strlen(buf) + ft_strlen(tmp) + 1);
 	free(tmp);
 	mlx_string_put(gui->mlx, gui->mlx->win_list, where.x, where.y,
+		0xFFFFFF, buf);
+	ft_bzero(buf, 30);
+	ft_strlcat(buf, "Pitch ", 7);
+	tmp = ft_itoa(gui->cam.pitch);
+	ft_strlcat(buf, tmp, ft_strlen(buf) + ft_strlen(tmp) + 1);
+	free(tmp);
+	mlx_string_put(gui->mlx, gui->mlx->win_list, where.x, where.y + 15,
 		0xFFFFFF, buf);
 }
 

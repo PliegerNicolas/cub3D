@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 16:26:04 by emis              #+#    #+#             */
-/*   Updated: 2023/07/16 11:53:06 by emis             ###   ########.fr       */
+/*   Updated: 2023/07/20 17:47:25 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,14 @@ void	sprite_cast(t_gui *gui, double ZBuffer[SCRWIDTH])
 	//after sorting the sprites, do the projection and draw them
 	for(int i = 0; i < gui->textures.spnb; i++)
 	{
-		if (gui->textures.sprites[i].type == ALIVE)
+		if (gui->textures.sprites[i].type == ALIVE
+			&& gui->textures.spdist[i] > .3)
 			check_and_move(gui->map, &gui->textures.sprites[i].posi, 
-			delta(gui->textures.sprites[i].posi, gui->cam.posi), 0.025 + i / 100.0);
+			delta(gui->textures.sprites[i].posi, gui->cam.posi), 0.025 + i / 400.0);
+		else if (gui->textures.sprites[i].type == DEAD)
+			gui->textures.sprites[i].alpha -= 8 * (gui->textures.sprites[i].alpha > 0);
+		// if (gui->textures.sprites[i].alpha < 0)
+			// delete sprite
 		transf = transform(&gui->textures, &gui->cam, i);
 
 		int spriteScreenX = (int)((SCRWIDTH / 2) * (1 + transf.x / transf.y));
@@ -112,7 +117,9 @@ void	sprite_cast(t_gui *gui, double ZBuffer[SCRWIDTH])
 		// if (drawEndX >= SCRWIDTH)
 		// 	drawEndX = SCRWIDTH - 1;
 		int which = gui->textures.sporder[i];
-		int	drk = bind(gui->cam.dark * (gui->textures.spdist[which] + 1) / 8.0, 0, 255);
+		int	drk = gui->textures.sprites[which].alpha;
+		if (gui->cam.dark)
+			drk = 255 - bind(gui->cam.dark * (gui->textures.spdist[which] + 1) / 8.0, 0, 255);
 		//loop through every vertical stripe of the sprite on screen
 		for(int stripe = drawStartX; stripe < drawEndX; stripe++)
 		{
@@ -135,7 +142,7 @@ void	sprite_cast(t_gui *gui, double ZBuffer[SCRWIDTH])
 					color = pixget(gui->textures.sprites[which].frames[gui->textures.sprites[which].fcur],
 				gui->textures.width * texY + texX, 0); //get current color from the texture texture[sprite[spriteOrder[i]].texture][gui->textures.width * texY + texX]
 				if ((color & 0x00FFFFFF) != 0) // use alpha
-					pixput(gui->buffer, stripe, y, color | ((255 - drk) << 24)); //buffer[y][stripe] = color paint pixel if it isn't black, black is the invisible color
+					pixput(gui->buffer, stripe, y, color | (drk << 24)); //buffer[y][stripe] = color paint pixel if it isn't black, black is the invisible color
 			}
 		}
 	}

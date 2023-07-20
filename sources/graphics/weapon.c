@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 19:16:31 by emis              #+#    #+#             */
-/*   Updated: 2023/07/15 17:18:16 by emis             ###   ########.fr       */
+/*   Updated: 2023/07/20 18:01:56 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,9 @@ static void	attack(t_gui *gui, float frame, t_vect target, t_vect origin)
 	{
 		sprite = &gui->textures.sprites[iter];
 		towards = delta(gui->cam.posi, sprite->posi);
-		if (angle(gui->cam.dir, towards) < 0.1)
-			sprite->type = (sprite->type + 1) % (DEAD + 1);
+		if (angle(gui->cam.dir, towards) < 0.1 && sprite->type == ALIVE
+			&& abs(gui->cam.pitch) < 1000.0 / (gui->textures.spdist[iter] + 1.0))
+			sprite->type = DEAD;
 		printf("vomidupipi %d %f\n", sprite->type, angle(gui->cam.dir, towards));
 	}
 }
@@ -55,7 +56,7 @@ void	weapon(t_gui *gui)
 	static int		frame;
 
 	if (!wpn)
-		load_texture_arr(gui, &wpn, "textures/wand.xpm", 1);
+		load_texture_arr(gui, &wpn, "textures/weapons/AK.xpm", 1);
 	if ((gui->btns & (1 << left_click)) && !frame)
 		frame = 1;
 	if (frame == FRAMENUMB)

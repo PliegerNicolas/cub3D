@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   check_and_move.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 06:49:04 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/09 06:49:18 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/20 16:11:14 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "graphics.h"
 
 void	check_and_move(t_map map, t_vect *posi, t_vect dxdy, double magn)
@@ -20,8 +21,8 @@ void	check_and_move(t_map map, t_vect *posi, t_vect dxdy, double magn)
 	xy_1.y = posi->y;
 	xy_2.x = posi->x;
 	xy_2.y = posi->y + dxdy.y * magn;
-	if (map.map[(int)xy_1.x][(int)xy_1.y] == floor_tile)
+	if (map.map[(int)xy_1.x][(int)xy_1.y] % DOOR_OPEN == floor_tile)
 		posi->x += dxdy.x * magn;
-	if (map.map[(int)xy_2.x][(int)xy_2.y] == floor_tile)
+	if (map.map[(int)xy_2.x][(int)xy_2.y] % DOOR_OPEN == floor_tile)
 		posi->y += dxdy.y * magn;
 }
