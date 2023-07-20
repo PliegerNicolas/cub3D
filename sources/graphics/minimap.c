@@ -6,13 +6,12 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 18:54:34 by emis              #+#    #+#             */
-/*   Updated: 2023/07/15 17:45:14 by emis             ###   ########.fr       */
+/*   Updated: 2023/07/16 15:53:01 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "graphics.h"
 
-# define MINISIZE 10
 # define BLACK 0x010101
 # define WHITE 0xFFFFFF
 # define GREY 0xAAAAAA
@@ -73,7 +72,7 @@ void	minimap(t_gui *gui)
 	size_t	size;
 	double	dist;
 
-	size = gui->map.height * gui->map.width / 100;
+	size = 15 - (sqrt(gui->map.height * gui->map.width) / 10);
 	x = 0;
 	while (x < gui->map.height * size)
 	{
@@ -82,15 +81,16 @@ void	minimap(t_gui *gui)
 		{
 			// ONLY SEE AROUND THE PLAYER UP TO A CERTAIN RADIUS
 			dist = magnitude((t_vect){x - gui->cam.posi.x * size, y - gui->cam.posi.y * size});
+			dist *= gui->cam.dark / 20.0;
 			// // // LASER
 			// // dist *= angle(gui->cam.dir, delta(gui->cam.posi,
 			// // (t_vect){x / (double)size, y / (double)size})) * 10;
 			// FLASHLIGHT
 			dist *= 1 + 100 * (angle(gui->cam.dir, delta(gui->cam.posi,
-				(t_vect){x / (double)size, y / (double)size})) > 0.5);
+				(t_vect){x / (double)size, y / (double)size})) > 0.6);
 			pixput(gui->buffer, y, x,
 				color_from_tile(gui->map.map[x / size][y / size]) //);
-				| (bind(240 - dist * 2, 1, 255) << 24));
+				| (bind(0xF8 - dist * 2, 1, 255) << 24));
 			y++;
 		}
 		x++;

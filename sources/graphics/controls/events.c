@@ -9,6 +9,7 @@
 /*   Updated: 2023/07/18 04:16:13 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "graphics.h"
 
 int	key_press(int keycode, t_gui *gui)
@@ -68,6 +69,10 @@ int	mouse_press(int keycode, int x, int y, t_gui *gui)
 		gui->cam.rndr = (gui->cam.rndr + 1) % (FLOORCEIL + 1);
 		gui->rendered = 0;
 	}
+	else if (keycode == 4)
+		gui->cam.dark = bind(gui->cam.dark + 1, 0, 0xFF);
+	else if (keycode == 5)
+		gui->cam.dark = bind(gui->cam.dark - 1, 0, 0xFF);
 	return ((void)x, (void)y, capture);
 }
 
