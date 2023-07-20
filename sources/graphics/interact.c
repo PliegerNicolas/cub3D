@@ -6,13 +6,21 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 18:02:07 by emis              #+#    #+#             */
-/*   Updated: 2023/07/17 18:24:57 by emis             ###   ########.fr       */
+/*   Updated: 2023/07/20 15:41:56 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "graphics.h"
 
-// proof of concept
+bool	check_press(bool press)
+{
+	static bool	last;
+
+	if (press != last)
+		return (last = press, press);
+	return (false);
+}
+
 int	interact(t_gui *gui)
 {
 	int		map_x;
@@ -33,10 +41,10 @@ int	interact(t_gui *gui)
 				gui->map.map[bind(i, 0, gui->map.height)]
 				[bind(j, 0, gui->map.width)] = DOOR_OPEN;
 			else if (gui->map.map[bind(i, 0, gui->map.height)]
-        [bind(j, 0, gui->map.width)] == DOOR_OPEN
+				[bind(j, 0, gui->map.width)] == DOOR_OPEN
 				&& ((int)gui->cam.posi.x != i || (int)gui->cam.posi.y != j))
 				gui->map.map[bind(i, 0, gui->map.height)]
-        [bind(j, 0, gui->map.width)] = DOOR_CLOSED;
+				[bind(j, 0, gui->map.width)] = DOOR_CLOSED;
 		}
 	}
 	return (0);

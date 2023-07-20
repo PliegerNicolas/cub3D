@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/07/18 04:15:41 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/20 15:41:38 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -297,7 +297,8 @@ void	weapon(t_gui *gui);
 
 /* INTERACT */
 
-int	interact(t_gui *gui);
+bool	check_press(bool press);
+int		interact(t_gui *gui);
 
 /* ************************************** */
 /* * TEMP, NEEDED FOR PARSING			* */
