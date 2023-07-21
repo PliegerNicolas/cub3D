@@ -44,6 +44,7 @@ SOURCES += ./sources/parsing/is_map_closed.c
 SOURCES += ./sources/parsing/parse_cub_file.c
 SOURCES += ./sources/parsing/set_mobs.c
 SOURCES += ./sources/parsing/set_player.c
+SOURCES += ./sources/parsing/calculate_fov.c
 SOURCES += ./sources/parsing/set_weapon.c
 SOURCES += ./sources/parsing/set_color.c
 SOURCES += ./sources/parsing/convert_map_ctrl_to_int_arr.c
