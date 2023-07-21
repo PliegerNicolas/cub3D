@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 19:16:31 by emis              #+#    #+#             */
-/*   Updated: 2023/07/21 05:53:31 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/21 06:47:07 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -78,6 +78,73 @@ static bool	projectile_hit(t_gui *gui, t_vect *proj)
 	return (0);
 }
 
+static void draw_projectile(t_gui *gui, t_vect *projectile)
+{
+    t_play *player = &gui->cam;
+    double projRayDirX = projectile->x - player->posi.x;
+    double projRayDirY = projectile->y - player->posi.y;
+    double projDist = sqrt(projRayDirX * projRayDirX + projRayDirY * projRayDirY);
+
+    // Check if the projectile is within the player's field of view
+    double dotProduct = player->dir.x * projRayDirX + player->dir.y * projRayDirY;
+    if (dotProduct > cos(player->fov / 2))
+    {
+        // The projectile is within the FOV, render it
+
+        // Calculate the height of the projectile slice
+        int projLineHeight = SCRHEIGHT / projDist;
+
+        // Calculate the start and end positions for rendering the projectile
+        int projDrawStart = -projLineHeight / 2 + SCRHEIGHT / 2;
+        int projDrawEnd = projLineHeight / 2 + SCRHEIGHT / 2;
+
+        // Convert world position of projectile to screen coordinates
+        double invDet = 1.0 / (player->plane.x * player->dir.y - player->dir.x * player->plane.y);
+        double transformX = invDet * (player->dir.y * (projectile->x - player->posi.x) - player->dir.x * (projectile->y - player->posi.y));
+        double transformY = invDet * (-player->plane.y * (projectile->x - player->posi.x) + player->plane.x * (projectile->y - player->posi.y));
+        int spriteScreenX = (int)((SCRWIDTH / 2) * (1 + transformX / transformY));
+
+        // Check if the projectile is within the screen boundaries before rendering
+        if (projDrawStart >= 0 && projDrawEnd >= 0 && spriteScreenX >= 0 && spriteScreenX < SCRWIDTH)
+            pixput(gui->buffer, spriteScreenX, projDrawEnd, 0xFFC0CB);
+    }
+}
+
+/*
+static void draw_projectile(t_gui *gui, t_vect *projectile)
+{
+    t_play *player = &gui->cam;
+    double projRayDirX = projectile->x - player->posi.x;
+    double projRayDirY = projectile->y - player->posi.y;
+    double projDist = sqrt(projRayDirX * projRayDirX + projRayDirY * projRayDirY);
+
+    // Check if the projectile is within the player's field of view
+    double dotProduct = player->dir.x * projRayDirX + player->dir.y * projRayDirY;
+    if (dotProduct > cos(player->fov / 2))
+    {
+        // The projectile is within the FOV, render it
+
+        // Calculate the height of the projectile slice
+        int projLineHeight = SCRHEIGHT / projDist;
+
+        // Calculate the start and end positions for rendering the projectile
+        int projDrawStart = -projLineHeight / 2 + SCRHEIGHT / 2;
+        int projDrawEnd = projLineHeight / 2 + SCRHEIGHT / 2;
+
+        // Convert world position of projectile to screen coordinates
+        double invDet = 1.0 / (player->plane.x * player->dir.y - player->dir.x * player->plane.y);
+        double transformX = invDet * (player->dir.y * (projectile->x - player->posi.x) - player->dir.x * (projectile->y - player->posi.y));
+        double transformY = invDet * (-player->plane.y * (projectile->x - player->posi.x) + player->plane.x * (projectile->y - player->posi.y));
+        int spriteScreenX = (int)((SCRWIDTH / 2) * (1 + transformX / transformY));
+
+        // Render the projectile as a vertical line on the screen
+        if (projDrawStart >= 0 && projDrawEnd >= 0)
+            pixput(gui->buffer, spriteScreenX, projDrawEnd, 0xFFC0CB);
+    }
+}
+*/
+
+/*
 static void	draw_projectile(t_gui *gui, t_vect *projectile)
 {
 	t_play	*player;
@@ -88,25 +155,27 @@ static void	draw_projectile(t_gui *gui, t_vect *projectile)
     double projRayDirX = projectile->x - player->posi.x;
     double projRayDirY = projectile->y - player->posi.y;
     double projDist = sqrt(projRayDirX * projRayDirX + projRayDirY * projRayDirY);
-    projRayDirX /= projDist;
-    projRayDirY /= projDist;
 
 	double dotProduct = player->dir.x * projRayDirX + player->dir.y * projRayDirY;
-	printf("fov = %f\n", player->fov);
 	if (dotProduct > cos(player->fov / 2))
 	{
-		printf("INSIDE fov\n");
-	}
-	else
-	{
-		printf("OUTSIDE fov\n");
-	}
+            // The projectile is within the FOV, render it
+            // Calculate the height of the projectile slice
+            int projLineHeight = SCRHEIGHT / projDist;
 
-	(void)player;
-	(void)gui;
-	(void)projectile;
-	pixput(gui->buffer, SCRWIDTH / 2, SCRHEIGHT / 2 + 10, 0xFFC0CB);
+            // Calculate the start and end positions for rendering the projectile
+            int projDrawStart = -projLineHeight / 2 + SCRHEIGHT / 2;
+            int projDrawEnd = projLineHeight / 2 + SCRHEIGHT / 2;
+
+            // Render the projectile as a vertical line on the screen
+            // Using the drawPoint function to draw a single point at (projX, projDrawStart) with projColor
+			(void)projDrawEnd;
+			if (projDrawStart >= 0 && projDrawEnd >= 0)
+            	pixput(gui->buffer, projDrawStart, projDrawEnd, 0xFFC0CB);
+	}
+	//pixput(gui->buffer, SCRWIDTH / 2, SCRHEIGHT / 2 + 10, 0xFFC0CB);
 }
+*/
 
 static void	attack(t_gui *gui, int *projectile_life_cycle)
 {
