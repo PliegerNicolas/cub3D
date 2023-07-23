@@ -3,24 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   set_sprites.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 02:02:02 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/02 14:30:54 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/23 17:06:58 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "graphics.h"
 
-static void	initialize_mob(t_gui *gui, size_t nb)
+t_sprt	*add_sprite(t_sprt **list, t_vect posi)
 {
-	gui->textures.sprites[nb].posi.y = 0;
-	gui->textures.sprites[nb].posi.x = 0;
-	gui->textures.sprites[nb].solid = 1;
-	gui->textures.sprites[nb].type = ALIVE;
-	gui->textures.sprites[nb].alpha = 0;
-	gui->textures.sprites[nb].fcur = rand() % 8;
-	gui->textures.sprites[nb].fnum = 8;
-	gui->textures.sprites[nb].frames = NULL;
+	t_sprt	*sprite;
+	t_sprt	*tmp;
+
+	sprite = trymalloc(sizeof(t_sprt), 1);
+	sprite->posi = posi;
+	sprite->solid = 1;
+	sprite->type = ALIVE;
+	sprite->alpha = 240;
+	sprite->fcur = rand() % 8;
+	sprite->fnum = 8;
+	sprite->frames = NULL;
+	sprite->dist = 1;
+	sprite->next = NULL;
+	if (!*list)
+		*list = sprite;
+	else
+	{
+		tmp = *list;
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = sprite;
+	}
+	return (sprite);
 }
 
 static size_t	count_mobs(t_gui *gui)
@@ -47,53 +63,52 @@ static size_t	count_mobs(t_gui *gui)
 	return (nb);
 }
 
-static bool	set_sporder(t_gui *gui)
-{
-	size_t	i;
+// static bool	set_sporder(t_gui *gui)
+// {
+// 	size_t	i;
 
-	gui->textures.sporder = malloc(gui->textures.spnb
-			* sizeof(gui->textures.sporder));
-	if (!gui->textures.sporder)
-		return (put_parsing_err("Not enough memory."), true);
-	i = 0;
-	while (i < (size_t)gui->textures.spnb)
-	{
-		gui->textures.sporder[i] = i;
-		i++;
-	}
-	return (false);
-}
+// 	gui->textures.sporder = malloc(gui->textures.spnb
+// 			* sizeof(gui->textures.sporder));
+// 	if (!gui->textures.sporder)
+// 		return (put_parsing_err("Not enough memory."), true);
+// 	i = 0;
+// 	while (i < (size_t)gui->textures.spnb)
+// 	{
+// 		gui->textures.sporder[i] = i;
+// 		i++;
+// 	}
+// 	return (false);
+// }
 
-static bool	set_spdist(t_gui *gui)
-{
-	size_t	i;
+// static bool	set_spdist(t_gui *gui)
+// {
+// 	size_t	i;
 
-	gui->textures.spdist = malloc(gui->textures.spnb
-			* sizeof(gui->textures.spdist));
-	if (!gui->textures.spdist)
-		return (put_parsing_err("Not enough memory."), true);
-	i = 0;
-	while (i < (size_t)gui->textures.spnb)
-		gui->textures.sporder[i++] = 0;
-	return (false);
-}
+// 	gui->textures.spdist = malloc(gui->textures.spnb
+// 			* sizeof(gui->textures.spdist));
+// 	if (!gui->textures.spdist)
+// 		return (put_parsing_err("Not enough memory."), true);
+// 	i = 0;
+// 	while (i < (size_t)gui->textures.spnb)
+// 		gui->textures.sporder[i++] = 0;
+// 	return (false);
+// }
 
 bool	set_sprites(t_gui *gui)
 {
-	int	i;
+	// int	i;
 
 	gui->textures.spnb = count_mobs(gui);
-	gui->textures.sprites = malloc(gui->textures.spnb
-			* sizeof(*gui->textures.sprites));
-	if (!gui->textures.sprites)
-		return (put_parsing_err("Not enough memory."), true);
-	i = 0;
-	while (i < gui->textures.spnb)
-		initialize_mob(gui, i++);
-	if (set_sporder(gui))
-		return (true);
-	if (set_spdist(gui))
-		return (true);
+	// gui->textures.sprites = trymalloc(1 * sizeof(*gui->textures.sprites), 1);
+	// if (!gui->textures.sprites)
+	// 	return (put_parsing_err("Not enough memory."), true);
+	// i = 0;
+	// while (i < gui->textures.spnb)
+	// 	add_sprite(gui, i++);
+	// if (set_sporder(gui))
+	// 	return (true);
+	// if (set_spdist(gui))
+	// 	return (true);
 	if (set_mobs(gui))
 		return (true);
 	return (false);

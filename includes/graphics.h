@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/07/20 15:41:38 by emis             ###   ########.fr       */
+/*   Updated: 2023/07/23 16:57:29 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,8 @@ typedef struct s_player
 	t_vect	hit_box;
 }	t_play;
 
+typedef struct s_sprite	t_sprt;
+
 typedef struct s_sprite
 {
 	t_type	type;
@@ -156,6 +158,8 @@ typedef struct s_sprite
 	int		fcur;
 	int		fnum;
 	t_img	**frames;
+	double	dist;
+	t_sprt	*next;
 }	t_sprt;
 
 typedef struct s_textures
@@ -169,10 +173,10 @@ typedef struct s_textures
 	t_img	**walls;
 	t_img	**doors;
 	int		spnb;
-	int		*sporder;
-	double	*spdist;
 	t_sprt	*sprites;
 }	t_tex;
+	// int		*sporder;
+	// double	*spdist;
 
 typedef struct s_map
 {
@@ -332,6 +336,7 @@ bool	set_player(t_gui *gui);
 
 /* set_sprites.c */
 
+t_sprt	*add_sprite(t_sprt **list, t_vect posi);
 bool	set_sprites(t_gui *gui);
 
 /* set_mobs.c */

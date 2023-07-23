@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 18:54:34 by emis              #+#    #+#             */
-/*   Updated: 2023/07/16 15:53:01 by emis             ###   ########.fr       */
+/*   Updated: 2023/07/20 16:27:56 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,11 @@ static void	draw_entities_on_map(t_gui *gui, size_t size)
 		gui->cam.posi.x * size, MAG);
 	dot(gui->buffer, gui->cam.posi.y * size + gui->cam.dir.y * 4,
 		gui->cam.posi.x * size + gui->cam.dir.x * 4, MAGF);
-	y = 0;
-	while (y < (size_t)gui->textures.spnb)
-	{
-		dot(gui->buffer, gui->textures.sprites[y].posi.y * size,
-			gui->textures.sprites[y].posi.x * size, GREEN);
-		y++;
-	}
+	y = -1;
+	while (++y < (size_t)gui->textures.spnb)
+		if (gui->textures.sprites[y].type == ALIVE)
+			dot(gui->buffer, gui->textures.sprites[y].posi.y * size,
+				gui->textures.sprites[y].posi.x * size, GREEN);
 }
 
 void	minimap(t_gui *gui)
