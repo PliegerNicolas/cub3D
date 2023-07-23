@@ -6,9 +6,10 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 05:11:31 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/10 05:13:31 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/23 17:01:10 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "graphics.h"
 
 static char	*get_mob_texture_path(size_t i)
@@ -31,41 +32,31 @@ static char	*get_mob_texture_path(size_t i)
 	return (path);
 }
 
-static bool	set_frames(t_gui *gui, size_t nb, int width, int height)
+static bool	set_frames(t_gui *gui, t_sprt *sprite)
 {
-	t_img	**frames;
 	size_t	i;
 	char	*path;
 
-	frames = malloc(8 * sizeof(*frames));
-	if (!frames)
-		return (put_parsing_err("Not enough memory."), true);
-	i = 0;
-	while (i < 8)
-		frames[i++] = NULL;
-	gui->textures.sprites[nb].frames = frames;
 	i = 0;
 	while (i < 8)
 	{
 		path = get_mob_texture_path(i);
 		if (!path)
 			return (put_parsing_err("Not enough memory."), true);
-		frames[i] = mlx_xpm_file_to_image(gui->mlx, path, &width, &height);
-		if (!frames[i])
-			return (put_parsing_err("Not enough memory."), true);
+		load_texture_arr(gui, &sprite->frames, path, 8);
 		free(path);
 		i++;
 	}
 	return (false);
 }
 
-static void	set_mob_pos(t_gui *gui, size_t nb, size_t row, size_t col)
-{
-	gui->textures.sprites[nb].posi.x = row;
-	gui->textures.sprites[nb].posi.y = col;
-	if (gui->map.map)
-		gui->map.map[row][col] = 0;
-}
+// static void	set_mob_pos(t_gui *gui, size_t nb, size_t row, size_t col)
+// {
+// 	gui->textures.sprites[nb].posi.x = row;
+// 	gui->textures.sprites[nb].posi.y = col;
+// 	if (gui->map.map)
+// 		gui->map.map[row][col] = 0;
+// }
 
 bool	set_mobs(t_gui *gui)
 {
@@ -82,9 +73,12 @@ bool	set_mobs(t_gui *gui)
 		{
 			if (gui->map.map[row][col] == mob_tile)
 			{
-				set_mob_pos(gui, nb, row, col);
-				if (set_frames(gui, nb++, 0, 0))
+				// set_mob_pos(gui, nb, row, col);
+				if (set_frames(gui, add_sprite(&gui->textures.sprites,
+					(t_vect){row, col})))
 					return (true);
+				if (gui->map.map)
+					gui->map.map[row][col] = 0;
 			}
 			col++;
 		}

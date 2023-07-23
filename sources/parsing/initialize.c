@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 13:17:24 by nplieger          #+#    #+#             */
-/*   Updated: 2023/07/17 17:30:36 by emis             ###   ########.fr       */
+/*   Updated: 2023/07/23 17:07:09 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ static bool	initialize_sprites(t_gui *gui)
 {
 	gui->textures.spnb = 0;
 	gui->textures.sprites = NULL;
-	gui->textures.sporder = NULL;
-	gui->textures.spdist = NULL;
+	// gui->textures.sporder = NULL;
+	// gui->textures.spdist = NULL;
 	return (false);
 }
 

@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 19:16:31 by emis              #+#    #+#             */
-/*   Updated: 2023/07/20 18:01:56 by emis             ###   ########.fr       */
+/*   Updated: 2023/07/23 17:21:00 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,20 +33,19 @@ static void	attack(t_gui *gui, float frame, t_vect target, t_vect origin)
 	t_vect	where;
 	t_vect	towards;
 	t_sprt	*sprite;
-	int		iter;
 
 	where.x = frame * target.x + (1 - frame) * origin.x;
 	where.y = frame * target.y + (1 - frame) * origin.y;
 	projectile(gui->buffer, where, 20 * (1 - frame), 0xCAFEBEBE);
-	iter = -1;
-	while (frame >= 0.93 && ++iter < gui->textures.spnb)
+	sprite = gui->textures.sprites;
+	while (frame >= 0.93 && sprite)
 	{
-		sprite = &gui->textures.sprites[iter];
 		towards = delta(gui->cam.posi, sprite->posi);
 		if (angle(gui->cam.dir, towards) < 0.1 && sprite->type == ALIVE
-			&& abs(gui->cam.pitch) < 1000.0 / (gui->textures.spdist[iter] + 1.0))
+			&& abs(gui->cam.pitch) < 1000.0 / (sprite->dist + 1.0))
 			sprite->type = DEAD;
 		printf("vomidupipi %d %f\n", sprite->type, angle(gui->cam.dir, towards));
+		sprite = sprite->next;
 	}
 }
 
