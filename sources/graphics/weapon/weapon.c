@@ -6,150 +6,130 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 19:16:31 by emis              #+#    #+#             */
-/*   Updated: 2023/07/25 10:15:44 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/25 21:27:04 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
 
-static void	move_projectile(t_play *player, t_vect *projectile,
-	t_vect *direction, int *projectile_life_cycle)
+static void	initialize_projectile(t_play *player, t_prj *projectile)
 {
-	if (*projectile_life_cycle <= 1)
-	{
-		// Add offset so it starts from the weapon
-		projectile->x = player->posi.x;
-		projectile->y = player->posi.y;
-		projectile->z = player->posi.z;
-		direction->x = player->dir.x;
-		direction->y = player->dir.y;
-		direction->z = player->posi.z;
-	}
-	else
-	{
-        // Calculate pitch angle in radians
-        double pitch_rad = direction->z / 1.5 * (M_PI / 180.0);
-        
-        // Calculate speed multipliers for x, y, and z directions
-        double speed_multiplier_x = cos(pitch_rad);
-        double speed_multiplier_y = cos(pitch_rad);
-        double speed_multiplier_z = sin(pitch_rad); // Accelerate more upwards
-        
-        // Apply the speed multipliers to the projectile's velocity
-        projectile->x += direction->x * (double)PROJECTILE_SPEED * speed_multiplier_x;
-        projectile->y += direction->y * (double)PROJECTILE_SPEED * speed_multiplier_y;
-        projectile->z += direction->z * (double)PROJECTILE_SPEED * speed_multiplier_z;
-	}
+	projectile->posi.x = player->posi.x;
+	projectile->posi.y = player->posi.y;
+	projectile->posi.z = player->posi.z;
+	projectile->direction.x = player->dir.x;
+	projectile->direction.y = player->dir.y;
+	projectile->direction.z = player->posi.z;
+	projectile->status = true;
 }
 
-static void	end_projectile(t_vect *projectile, t_vect *direction,
-	int *projectile_life_cycle)
+static void	clear_projectile(t_prj *projectile)
 {
-	if (*projectile_life_cycle < MAX_PROJECTILE_LIFE_CYCLE)
-		(*projectile_life_cycle)++;
-	else
-	{
-		*projectile_life_cycle = 0;
-		projectile->x = 0;
-		projectile->y = 0;
-		projectile->z = 0;
-		direction->x = 0;
-		direction->y = 0;
-		direction->z = 0;
-	}
+	projectile->posi.x = 0.0;
+	projectile->posi.y = 0.0;
+	projectile->posi.z = 0.0;
+	projectile->direction.x = 0.0;
+	projectile->direction.y = 0.0;
+	projectile->direction.z = 0.0;
+	projectile->status = false;
 }
 
-static bool	projectile_hit(t_gui *gui, t_vect *proj)
+static void	move_projectile(t_prj *projectile)
 {
-	size_t	i;
-	t_sprt	*sprite;
+	double	pitch_rad;
 
-	if (gui->map.map[(int)proj->x][(int)proj->y] % DOOR_OPEN != floor_tile
-		|| (proj->z <= -1.0 || proj->z >= 1.0))
-		return (1);
-	i = 0;
-	while (i < (size_t)gui->textures.spnb)
-	{
-		sprite = &gui->textures.sprites[i];
-		//printf("proj->z = %f\n", proj->z);
-		if (proj->z > -0.2 && proj->z < 0.0)
-		{
-			if (sprite->posi.x - 0.25 < proj->x && sprite->posi.x + 0.25 > proj->x)
-			{
-				if (sprite->posi.y - 0.25 < proj->y && sprite->posi.y + 0.25 > proj->y)
-				{
-					sprite->type = DEAD;
-					return (1);
-				}
-			}
-		}
-		i++;
-	}
-	return (0);
+	pitch_rad = (fabs(projectile->direction.z) / 1.5) * (M_PI / 180.0);
+	projectile->posi.x += projectile->direction.x
+			* (double)PROJECTILE_SPEED * cos(pitch_rad);
+	projectile->posi.y += projectile->direction.y
+			* (double)PROJECTILE_SPEED * cos(pitch_rad);
+	projectile->posi.z -= projectile->direction.z
+			* (double)PROJECTILE_SPEED * sin(pitch_rad);
 }
 
-static void draw_projectile(t_gui *gui, t_vect *projectile)
+static void	draw_projectile(t_gui *gui, int x, int y, double distance)
 {
-    t_play *player = &gui->cam;
-    double projRayDirX = projectile->x - player->posi.x;
-    double projRayDirY = projectile->y - player->posi.y;
+	(void)distance;
+	pixput(gui->buffer, x, y, 0xFFFFFF);
+}
 
-    // Check if the projectile is within the player's field of view
-    double dotProduct = player->dir.x * projRayDirX
-		+ player->dir.y * projRayDirY;
-    if (dotProduct > cos(player->fov / 2))
-    {
-        // The projectile is within the FOV, render it
+static bool raycast_projectile(t_gui *gui, t_prj *projectile)
+{
+	t_play	*player;
+	double	proj_ray_dir_x;
+	double	proj_ray_dir_y;
+	double	dot_product;
 
-        // Convert world position of projectile to screen coordinates
-        double invDet = 1.0 / (player->plane.x * player->dir.y
+	player = &gui->cam;
+	proj_ray_dir_x = projectile->posi.x - player->posi.x;
+	proj_ray_dir_y = projectile->posi.y - player->posi.y;
+	dot_product = player->dir.x * proj_ray_dir_x + player->dir.y * proj_ray_dir_y;
+	if (dot_product < cos(player->fov / 2))
+		return (false);
+	double	distance = sqrt(proj_ray_dir_x * proj_ray_dir_x + proj_ray_dir_y * proj_ray_dir_y);
+	double	step_x = proj_ray_dir_x / distance;
+	double	step_y = proj_ray_dir_y / distance;
+	double	current_x = player->posi.x;
+	double	current_y = player->posi.y;
+
+	while (current_x < projectile->posi.x && current_y < projectile->posi.y)
+	{
+		int cell_x = (int)(current_x + 0.5);
+        int cell_y = (int)(current_y + 0.5);
+		if (gui->map.map[(int)cell_x][(int)cell_y] % DOOR_OPEN != floor_tile)
+			return (false);
+        current_x += step_x;
+    	current_y += step_y;
+	}
+
+	double inv_det = 1.0 / (player->plane.x * player->dir.y
 			- player->dir.x * player->plane.y);
-        double transformX = invDet * (player->dir.y * (projectile->x
-			- player->posi.x) - player->dir.x * (projectile->y - player->posi.y));
-        double transformY = invDet * (-player->plane.y
-			* (projectile->x - player->posi.x) + player->plane.x
-			* (projectile->y - player->posi.y));
+	double transform_x = inv_det * (player->dir.y * (projectile->posi.x
+			- player->posi.x) - player->dir.x * (projectile->posi.y - player->posi.y));
+	double transform_y = inv_det * (-player->plane.y
+			* (projectile->posi.x - player->posi.x) + player->plane.x
+			* (projectile->posi.y - player->posi.y));
 
-        int spriteScreenX = (int)((SCRWIDTH / 2)
-			* (1 + transformX / transformY));
-		int	spriteScreenY = (int)(SCRHEIGHT / 2)
-			+ (SCRHEIGHT * player->posi.z) - (SCRHEIGHT * projectile->z);
+	int x = (int)((SCRWIDTH / 2) * (1 + transform_x / transform_y));
+	int	y = (int)(SCRHEIGHT / 2) + (SCRHEIGHT * player->posi.z) - (SCRHEIGHT * projectile->posi.z);
 
-        // Check if the projectile is within the screen boundaries before rendering
-        if (spriteScreenX >= 0 && spriteScreenX < SCRWIDTH
-			&& spriteScreenY >= 0 && spriteScreenY < SCRHEIGHT)
-            pixput(gui->buffer, spriteScreenX, spriteScreenY, 0xf59acf);
-    }
+	draw_projectile(gui, x, y, distance);
+
+	return (false);
 }
 
-static void	attack(t_gui *gui, int *projectile_life_cycle)
+static void	attack(t_gui *gui, t_prj *projectile)
 {
-	static t_vect	projectile;
-	static t_vect	direction;
-
-	move_projectile(&gui->cam, &projectile, &direction, projectile_life_cycle);
-	if (projectile_hit(gui, &projectile))
-		*projectile_life_cycle = MAX_PROJECTILE_LIFE_CYCLE;
-	draw_projectile(gui, &projectile);
-	end_projectile(&projectile, &direction, projectile_life_cycle);
+	move_projectile(projectile);
+	raycast_projectile(gui, projectile);
+	if (projectile_collision(gui, projectile))
+	{
+		// draw projectile collision
+		clear_projectile(projectile);
+	}
+	else
+	{
+		// draw projectile and move forward
+		(void)gui;
+	}
 }
 
 void	weapon(t_gui *gui)
 {
-	static int	frame;
-	static int	projectile_life_cycle;
-	int			x;
-	int			y;
+	static t_prj	projectile;
+	static int		walk_frame;
+	int				weapon_x;
+	int				weapon_y;
 
 	if (!gui->textures.weapon)
 		return ;
-	draw_crosshair(gui, 0xE4E6EB);
-	x = 0;
-	y = 0;
-	frame = calculate_next_walk_frame(gui, frame);
-	set_weapon_position(gui, &x, &y, frame);
-	if (!projectile_life_cycle && (gui->btns & (1 << left_click)))
-		projectile_life_cycle = 1;
-	if (projectile_life_cycle)
-		attack(gui, &projectile_life_cycle);
-	imgput(gui->buffer, x, y, gui->textures.weapon);
+	weapon_x = 0;
+	weapon_y = 0;
+	//draw_crosshair(gui, 0xE4E6Eb);
+	walk_frame = calculate_next_walk_frame(gui, walk_frame);
+	set_weapon_position(gui, &weapon_x, &weapon_y, walk_frame);
+	if (!projectile.status && (gui->btns & (1 << left_click)))
+		initialize_projectile(&gui->cam, &projectile);
+	if (projectile.status)
+		attack(gui, &projectile);
+	imgput(gui->buffer, weapon_x, weapon_y, gui->textures.weapon);
 }

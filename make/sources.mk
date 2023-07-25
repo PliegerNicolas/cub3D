@@ -6,6 +6,7 @@ SOURCES += ./sources/graphics/casting/floor_casting.c
 SOURCES += ./sources/graphics/weapon/walking_animation.c
 SOURCES += ./sources/graphics/weapon/weapon.c
 SOURCES += ./sources/graphics/weapon/crosshair.c
+SOURCES += ./sources/graphics/weapon/projectile_collision.c
 
 SOURCES += ./sources/graphics/controls/events.c
 SOURCES += ./sources/graphics/controls/key_press.c

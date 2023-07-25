@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/07/21 05:51:12 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/25 18:41:02 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,13 @@ typedef struct s_ray_caster
 
 /* Game data */
 
+typedef struct projectile
+{
+	t_vect	posi;
+	t_vect	direction;
+	bool	status;
+}	t_prj;
+
 typedef struct s_player
 {
 	t_rndr	rndr;
@@ -210,8 +217,8 @@ typedef struct s_gui
 
 # define WALK_AMPLITUDE 8
 # define WALK_FREQUENCY 30
-# define MAX_PROJECTILE_LIFE_CYCLE 30
 # define PROJECTILE_SPEED 0.25
+# define PROJECTILE_MAX_DISTANCE 10
 
 /* ************************************** */
 /* * FUNCTIONS							* */
@@ -301,6 +308,8 @@ void	weapon(t_gui *gui);
 void	draw_crosshair(t_gui *gui, int color);
 int		calculate_next_walk_frame(t_gui *gui, int frame);
 void	set_weapon_position(t_gui *gui, int *x, int *y, int frame);
+
+bool	projectile_collision(t_gui *gui, t_prj *projectile);
 
 /* INTERACT */
 
