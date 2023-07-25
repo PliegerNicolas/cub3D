@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 19:16:31 by emis              #+#    #+#             */
-/*   Updated: 2023/07/21 06:47:07 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/25 10:15:44 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -16,20 +16,28 @@ static void	move_projectile(t_play *player, t_vect *projectile,
 {
 	if (*projectile_life_cycle <= 1)
 	{
+		// Add offset so it starts from the weapon
 		projectile->x = player->posi.x;
 		projectile->y = player->posi.y;
-		projectile->z = 0.66;
+		projectile->z = player->posi.z;
 		direction->x = player->dir.x;
 		direction->y = player->dir.y;
 		direction->z = player->posi.z;
 	}
 	else
 	{
-		projectile->x += direction->x * (double)PROJECTILE_SPEED;
-		// slow down relatif to pitch
-		projectile->y += direction->y * (double)PROJECTILE_SPEED;
-		// slow down relative to pitch
-		projectile->z += direction->z * (double)PROJECTILE_SPEED;
+        // Calculate pitch angle in radians
+        double pitch_rad = direction->z / 1.5 * (M_PI / 180.0);
+        
+        // Calculate speed multipliers for x, y, and z directions
+        double speed_multiplier_x = cos(pitch_rad);
+        double speed_multiplier_y = cos(pitch_rad);
+        double speed_multiplier_z = sin(pitch_rad); // Accelerate more upwards
+        
+        // Apply the speed multipliers to the projectile's velocity
+        projectile->x += direction->x * (double)PROJECTILE_SPEED * speed_multiplier_x;
+        projectile->y += direction->y * (double)PROJECTILE_SPEED * speed_multiplier_y;
+        projectile->z += direction->z * (double)PROJECTILE_SPEED * speed_multiplier_z;
 	}
 }
 
@@ -56,13 +64,14 @@ static bool	projectile_hit(t_gui *gui, t_vect *proj)
 	t_sprt	*sprite;
 
 	if (gui->map.map[(int)proj->x][(int)proj->y] % DOOR_OPEN != floor_tile
-		|| (proj->z <= 0 || proj->z >= 1))
+		|| (proj->z <= -1.0 || proj->z >= 1.0))
 		return (1);
 	i = 0;
 	while (i < (size_t)gui->textures.spnb)
 	{
 		sprite = &gui->textures.sprites[i];
-		if (proj->z > 0 && proj->z < 0.75)
+		//printf("proj->z = %f\n", proj->z);
+		if (proj->z > -0.2 && proj->z < 0.0)
 		{
 			if (sprite->posi.x - 0.25 < proj->x && sprite->posi.x + 0.25 > proj->x)
 			{
@@ -83,99 +92,34 @@ static void draw_projectile(t_gui *gui, t_vect *projectile)
     t_play *player = &gui->cam;
     double projRayDirX = projectile->x - player->posi.x;
     double projRayDirY = projectile->y - player->posi.y;
-    double projDist = sqrt(projRayDirX * projRayDirX + projRayDirY * projRayDirY);
 
     // Check if the projectile is within the player's field of view
-    double dotProduct = player->dir.x * projRayDirX + player->dir.y * projRayDirY;
+    double dotProduct = player->dir.x * projRayDirX
+		+ player->dir.y * projRayDirY;
     if (dotProduct > cos(player->fov / 2))
     {
         // The projectile is within the FOV, render it
 
-        // Calculate the height of the projectile slice
-        int projLineHeight = SCRHEIGHT / projDist;
-
-        // Calculate the start and end positions for rendering the projectile
-        int projDrawStart = -projLineHeight / 2 + SCRHEIGHT / 2;
-        int projDrawEnd = projLineHeight / 2 + SCRHEIGHT / 2;
-
         // Convert world position of projectile to screen coordinates
-        double invDet = 1.0 / (player->plane.x * player->dir.y - player->dir.x * player->plane.y);
-        double transformX = invDet * (player->dir.y * (projectile->x - player->posi.x) - player->dir.x * (projectile->y - player->posi.y));
-        double transformY = invDet * (-player->plane.y * (projectile->x - player->posi.x) + player->plane.x * (projectile->y - player->posi.y));
-        int spriteScreenX = (int)((SCRWIDTH / 2) * (1 + transformX / transformY));
+        double invDet = 1.0 / (player->plane.x * player->dir.y
+			- player->dir.x * player->plane.y);
+        double transformX = invDet * (player->dir.y * (projectile->x
+			- player->posi.x) - player->dir.x * (projectile->y - player->posi.y));
+        double transformY = invDet * (-player->plane.y
+			* (projectile->x - player->posi.x) + player->plane.x
+			* (projectile->y - player->posi.y));
+
+        int spriteScreenX = (int)((SCRWIDTH / 2)
+			* (1 + transformX / transformY));
+		int	spriteScreenY = (int)(SCRHEIGHT / 2)
+			+ (SCRHEIGHT * player->posi.z) - (SCRHEIGHT * projectile->z);
 
         // Check if the projectile is within the screen boundaries before rendering
-        if (projDrawStart >= 0 && projDrawEnd >= 0 && spriteScreenX >= 0 && spriteScreenX < SCRWIDTH)
-            pixput(gui->buffer, spriteScreenX, projDrawEnd, 0xFFC0CB);
+        if (spriteScreenX >= 0 && spriteScreenX < SCRWIDTH
+			&& spriteScreenY >= 0 && spriteScreenY < SCRHEIGHT)
+            pixput(gui->buffer, spriteScreenX, spriteScreenY, 0xf59acf);
     }
 }
-
-/*
-static void draw_projectile(t_gui *gui, t_vect *projectile)
-{
-    t_play *player = &gui->cam;
-    double projRayDirX = projectile->x - player->posi.x;
-    double projRayDirY = projectile->y - player->posi.y;
-    double projDist = sqrt(projRayDirX * projRayDirX + projRayDirY * projRayDirY);
-
-    // Check if the projectile is within the player's field of view
-    double dotProduct = player->dir.x * projRayDirX + player->dir.y * projRayDirY;
-    if (dotProduct > cos(player->fov / 2))
-    {
-        // The projectile is within the FOV, render it
-
-        // Calculate the height of the projectile slice
-        int projLineHeight = SCRHEIGHT / projDist;
-
-        // Calculate the start and end positions for rendering the projectile
-        int projDrawStart = -projLineHeight / 2 + SCRHEIGHT / 2;
-        int projDrawEnd = projLineHeight / 2 + SCRHEIGHT / 2;
-
-        // Convert world position of projectile to screen coordinates
-        double invDet = 1.0 / (player->plane.x * player->dir.y - player->dir.x * player->plane.y);
-        double transformX = invDet * (player->dir.y * (projectile->x - player->posi.x) - player->dir.x * (projectile->y - player->posi.y));
-        double transformY = invDet * (-player->plane.y * (projectile->x - player->posi.x) + player->plane.x * (projectile->y - player->posi.y));
-        int spriteScreenX = (int)((SCRWIDTH / 2) * (1 + transformX / transformY));
-
-        // Render the projectile as a vertical line on the screen
-        if (projDrawStart >= 0 && projDrawEnd >= 0)
-            pixput(gui->buffer, spriteScreenX, projDrawEnd, 0xFFC0CB);
-    }
-}
-*/
-
-/*
-static void	draw_projectile(t_gui *gui, t_vect *projectile)
-{
-	t_play	*player;
-
-	player = &gui->cam;
-
-    // Calculate ray from player to projectile
-    double projRayDirX = projectile->x - player->posi.x;
-    double projRayDirY = projectile->y - player->posi.y;
-    double projDist = sqrt(projRayDirX * projRayDirX + projRayDirY * projRayDirY);
-
-	double dotProduct = player->dir.x * projRayDirX + player->dir.y * projRayDirY;
-	if (dotProduct > cos(player->fov / 2))
-	{
-            // The projectile is within the FOV, render it
-            // Calculate the height of the projectile slice
-            int projLineHeight = SCRHEIGHT / projDist;
-
-            // Calculate the start and end positions for rendering the projectile
-            int projDrawStart = -projLineHeight / 2 + SCRHEIGHT / 2;
-            int projDrawEnd = projLineHeight / 2 + SCRHEIGHT / 2;
-
-            // Render the projectile as a vertical line on the screen
-            // Using the drawPoint function to draw a single point at (projX, projDrawStart) with projColor
-			(void)projDrawEnd;
-			if (projDrawStart >= 0 && projDrawEnd >= 0)
-            	pixput(gui->buffer, projDrawStart, projDrawEnd, 0xFFC0CB);
-	}
-	//pixput(gui->buffer, SCRWIDTH / 2, SCRHEIGHT / 2 + 10, 0xFFC0CB);
-}
-*/
 
 static void	attack(t_gui *gui, int *projectile_life_cycle)
 {
@@ -209,61 +153,3 @@ void	weapon(t_gui *gui)
 		attack(gui, &projectile_life_cycle);
 	imgput(gui->buffer, x, y, gui->textures.weapon);
 }
-
-/*
-
-static void	projectile(t_img *img, t_vect p, int size, int color)
-{
-	int	x;
-	int	y;
-
-	y = p.y - size;
-	while (++y < p.y + size)
-	{
-		x = p.x - size;
-		while (++x < p.x + size)
-			pixput(img, x, y, color);
-	}
-}
-
-static void	attack(t_gui *gui, float frame, t_vect target, t_vect origin)
-{
-	t_vect	where;
-	t_vect	towards;
-	t_sprt	*sprite;
-	int		iter;
-
-	where.x = frame * target.x + (1 - frame) * origin.x;
-	where.y = frame * target.y + (1 - frame) * origin.y;
-	projectile(gui->buffer, where, 20 * (1 - frame), 0xCAFEBEBE);
-	iter = -1;
-	while (frame >= 0.93 && ++iter < gui->textures.spnb)
-	{
-		sprite = &gui->textures.sprites[iter];
-		towards = delta(gui->cam.posi, sprite->posi);
-		if (angle(gui->cam.dir, towards) < 0.1)
-			sprite->type = (sprite->type + 1) % (DEAD + 1);
-		printf("vomidupipi %d %f\n", sprite->type, angle(gui->cam.dir, towards));
-	}
-}
-
-void	weapon(t_gui *gui)
-{
-	(void)gui;
-	static int		frame;
-
-	if (!gui->textures.weapon)
-		return ;
-	if ((gui->btns & (1 << left_click)) && !frame)
-		frame = 1;
-	if (frame == FRAMENUMB)
-		frame = 0;
-	if (frame)
-		attack(gui, frame++ / (float)FRAMENUMB,
-			(t_vect){SCRWIDTH / 2, SCRHEIGHT / 2},
-			(t_vect){SCRWIDTH - gui->textures.weapon[0].width - 1,
-			SCRHEIGHT - gui->textures.weapon[0].height - 1});
-	imgput(gui->buffer, SCRWIDTH - gui->textures.weapon[0].width - (FRAMENUMB - frame),
-		SCRHEIGHT - gui->textures.weapon[0].height - (FRAMENUMB - frame), gui->textures.weapon);
-}
-*/
