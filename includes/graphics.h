@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/07/25 18:41:02 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/26 01:33:21 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,7 +217,7 @@ typedef struct s_gui
 
 # define WALK_AMPLITUDE 8
 # define WALK_FREQUENCY 30
-# define PROJECTILE_SPEED 0.25
+# define PROJECTILE_SPEED 0.15
 # define PROJECTILE_MAX_DISTANCE 10
 
 /* ************************************** */

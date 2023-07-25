@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 19:16:31 by emis              #+#    #+#             */
-/*   Updated: 2023/07/25 21:27:04 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/26 01:34:22 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -48,8 +48,25 @@ static void	move_projectile(t_prj *projectile)
 
 static void	draw_projectile(t_gui *gui, int x, int y, double distance)
 {
-	(void)distance;
-	pixput(gui->buffer, x, y, 0xFFFFFF);
+	int		color;
+	int		size;
+	int		i;
+	int		j;
+
+	color = 0x9183EB;
+	size = fmax(2, fmin(10, 10 - distance));
+	i = x - (size / 2);
+	while (i < x + (int)(size / 2))
+	{
+		j = y - size;
+		while (j < y + (int)(size / 2))
+		{
+			if ((i - x) * (i - x) + (j - y) * (j - y) <= size * size / 4)
+				pixput(gui->buffer, i, j, color);
+			j++;
+		}
+		i++;
+	}
 }
 
 static bool raycast_projectile(t_gui *gui, t_prj *projectile)
