@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/07/26 01:33:21 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/26 01:44:45 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -310,6 +310,9 @@ int		calculate_next_walk_frame(t_gui *gui, int frame);
 void	set_weapon_position(t_gui *gui, int *x, int *y, int frame);
 
 bool	projectile_collision(t_gui *gui, t_prj *projectile);
+
+void	draw_projectile(t_gui *gui, int x, int y, double distance);
+void	draw_projectile_impact(t_gui *gui, int x, int y, double distance);
 
 /* INTERACT */
 

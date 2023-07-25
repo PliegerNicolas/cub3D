@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 19:16:31 by emis              #+#    #+#             */
-/*   Updated: 2023/07/26 01:34:22 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/26 01:45:22 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -44,29 +44,6 @@ static void	move_projectile(t_prj *projectile)
 			* (double)PROJECTILE_SPEED * cos(pitch_rad);
 	projectile->posi.z -= projectile->direction.z
 			* (double)PROJECTILE_SPEED * sin(pitch_rad);
-}
-
-static void	draw_projectile(t_gui *gui, int x, int y, double distance)
-{
-	int		color;
-	int		size;
-	int		i;
-	int		j;
-
-	color = 0x9183EB;
-	size = fmax(2, fmin(10, 10 - distance));
-	i = x - (size / 2);
-	while (i < x + (int)(size / 2))
-	{
-		j = y - size;
-		while (j < y + (int)(size / 2))
-		{
-			if ((i - x) * (i - x) + (j - y) * (j - y) <= size * size / 4)
-				pixput(gui->buffer, i, j, color);
-			j++;
-		}
-		i++;
-	}
 }
 
 static bool raycast_projectile(t_gui *gui, t_prj *projectile)
@@ -109,7 +86,13 @@ static bool raycast_projectile(t_gui *gui, t_prj *projectile)
 	int x = (int)((SCRWIDTH / 2) * (1 + transform_x / transform_y));
 	int	y = (int)(SCRHEIGHT / 2) + (SCRHEIGHT * player->posi.z) - (SCRHEIGHT * projectile->posi.z);
 
-	draw_projectile(gui, x, y, distance);
+	if (projectile_collision(gui, projectile))
+	{
+		draw_projectile_impact(gui, x, y, distance);
+		clear_projectile(projectile);
+	}
+	else
+		draw_projectile(gui, x, y, distance);
 
 	return (false);
 }
