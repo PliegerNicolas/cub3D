@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/07/26 15:01:07 by emis             ###   ########.fr       */
+/*   Updated: 2023/07/26 16:40:14 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,6 +214,15 @@ typedef struct s_gui
 # define DARK 0x20
 # define VERY_DARK 0x32
 # define DARKNESS 0x50
+
+# define MAPBLACK 0x010101
+# define MAPWHITE 0xFFFFFF
+# define MAPGREY 0xAAAAAA
+# define MAPRED 0xFF0000
+# define MAPGREEN 0x00FF00
+# define MAPBLUE 0x0000FF
+# define MAPMAG 0xFF11FF
+# define MAPMAGF 0xAAFF44FF
 
 /* ************************************** */
 /* * FUNCTIONS							* */

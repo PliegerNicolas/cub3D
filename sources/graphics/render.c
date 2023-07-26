@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 14:03:16 by emis              #+#    #+#             */
-/*   Updated: 2023/07/26 16:02:53 by emis             ###   ########.fr       */
+/*   Updated: 2023/07/26 16:22:04 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	strputinfo(t_gui *gui, t_vect where, char *desc, int val)
 	char	*tmp;
 
 	if (!desc || ft_strlen(desc) > 20)
-		return;
+		return ;
 	ft_bzero(buf, 30);
 	ft_strlcat(buf, desc, ft_strlen(desc) + 1);
 	tmp = ft_itoa(val);
