@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 05:50:41 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/20 15:46:00 by emis             ###   ########.fr       */
+/*   Updated: 2023/07/25 14:38:54 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,12 @@ void	key_render(t_gui *gui)
 		act_on_camera_rotation(gui, &gui->cam);
 		act_on_zoom(gui);
 	}
-	if (check_press((gui->keys & (1 << KP_interact)) != 0))
+	if (check_press((gui->keys & (1 << KP_interact)) != 0, 0))
 		interact(gui);
+	if (check_press((gui->keys & (1 << KP_map)) != 0, 1))
+	{
+		gui->cam.rndr ^= (1 << MINIMAP);
+		gui->rendered = 0;
+	}
 	move(gui);
 }

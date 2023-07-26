@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 16:26:04 by emis              #+#    #+#             */
-/*   Updated: 2023/07/23 18:27:05 by emis             ###   ########.fr       */
+/*   Updated: 2023/07/26 16:13:16 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,8 @@ void	frame_shift(t_tex *tex)
 			else
 				old->next = sp->next;
 			garbaj(sp, NULL, -1);
-			printf("ded\n");
+			if (!--tex->spnb)
+				tex->sprites = NULL;
 		}
 		old = sp;
 		sp = sp->next;
@@ -170,7 +171,7 @@ void	sprite_cast(t_gui *gui, double ZBuffer[SCRWIDTH])
 		// int which = gui->textures.sporder[i];
 		int	drk = cur->alpha;
 		if (gui->cam.dark)
-			drk = 255 - bind(gui->cam.dark * (cur->dist + 1) / 8.0, 0, 255);
+			drk = bind(drk - (gui->cam.dark * (cur->dist + 1) / 8.0), 1, 255);
 		//loop through every vertical stripe of the sprite on screen
 		for(int stripe = drawStartX; stripe < drawEndX; stripe++)
 		{

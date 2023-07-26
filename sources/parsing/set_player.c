@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 16:15:01 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/16 11:57:20 by emis             ###   ########.fr       */
+/*   Updated: 2023/07/26 15:35:52 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,12 @@ static void	set_base_stats(t_play *player)
 	player->rot_accel_rate.y = player->rot_speed_target.y * 0.15;
 	player->sprint_multiplicator = 2.0;
 	player->pitch = 0;
-  player->dark = 0;
+	player->dark = 0;
 	player->zoom = 1;
 	player->zoom_rate = 0.025;
 	player->hit_box.x = 0.1;
 	player->hit_box.y = 0.1;
-	player->rndr = FLOORCEIL;
+	player->rndr = 0b111;
 }
 
 static void	set_vector(t_play *player, size_t row, size_t col)

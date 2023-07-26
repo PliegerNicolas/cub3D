@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/07/23 16:57:29 by emis             ###   ########.fr       */
+/*   Updated: 2023/07/26 16:40:14 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef enum e_keybinds
 	zoom_in = XK_KP_Add,
 	zoom_out = XK_KP_Subtract,
 	interactkey = XK_e,
+	mapkey = XK_Tab,
 }	t_kbind;
 
 typedef enum e_keypresses
@@ -60,6 +61,7 @@ typedef enum e_keypresses
 	KP_zoom_in,
 	KP_zoom_out,
 	KP_interact,
+	KP_map,
 }	t_kprs;
 
 typedef enum e_btnpresses
@@ -76,7 +78,8 @@ typedef enum e_render_level
 	BASICWALLS,
 	TEXTUWALLS,
 	SPRITES,
-	FLOORCEIL
+	FLOORCEIL,
+	MINIMAP
 }	t_rndr;
 
 typedef enum e_type
@@ -129,7 +132,7 @@ typedef struct s_ray_caster
 
 typedef struct s_player
 {
-	t_rndr	rndr;
+	int		rndr;
 	t_vect	posi;
 	t_vect	dir;
 	t_vect	plane;
@@ -212,6 +215,15 @@ typedef struct s_gui
 # define VERY_DARK 0x32
 # define DARKNESS 0x50
 
+# define MAPBLACK 0x010101
+# define MAPWHITE 0xFFFFFF
+# define MAPGREY 0xAAAAAA
+# define MAPRED 0xFF0000
+# define MAPGREEN 0x00FF00
+# define MAPBLUE 0x0000FF
+# define MAPMAG 0xFF11FF
+# define MAPMAGF 0xAAFF44FF
+
 /* ************************************** */
 /* * FUNCTIONS							* */
 /* ************************************** */
@@ -271,6 +283,15 @@ double	inv_safe(double x);
 double	magnitude(t_vect v);
 double	angle(t_vect v1, t_vect v2);
 t_vect	delta(t_vect from, t_vect to);
+t_vect	scale(t_vect v, double scalar);
+t_vect	perp(t_vect v);
+
+/* VECTOR2 */
+
+t_vect	v_add(t_vect v, t_vect w);
+t_vect	v_sub(t_vect v, t_vect w);
+t_vect	v_mul(t_vect v, t_vect w);
+t_vect	v_div(t_vect v, t_vect w);
 
 /* FLOOR CASTING */
 
@@ -291,9 +312,15 @@ int		nextframe(int frnb);
 void	sprite_cast(t_gui *gui, double ZBuffer[SCRWIDTH]);
 // void	sort_sprites(t_tex *tex, t_vect *from);
 
+/* DRAW */
+
+void	dot(t_img *img, int px, int py, int color);
+void	tri(t_img *img, t_vect at, t_vect dir, int color);
+
 /* MINIMAP */
 
 void	minimap(t_gui *gui);
+void	fullmap(t_gui *gui);
 
 /* WEAPON */
 
@@ -301,7 +328,7 @@ void	weapon(t_gui *gui);
 
 /* INTERACT */
 
-bool	check_press(bool press);
+bool	check_press(bool press, size_t i);
 int		interact(t_gui *gui);
 
 /* ************************************** */

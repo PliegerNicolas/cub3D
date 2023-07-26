@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 15:22:49 by emis              #+#    #+#             */
-/*   Updated: 2023/07/10 13:48:53 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/07/26 16:33:28 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,14 @@ t_vect	delta(t_vect from, t_vect to)
 	d.x /= mag;
 	d.y /= mag;
 	return (d);
+}
+
+t_vect	scale(t_vect v, double scalar)
+{
+	return ((t_vect){v.x * scalar, v.y * scalar});
+}
+
+t_vect	perp(t_vect v)
+{
+	return ((t_vect){v.y, -v.x});
 }
