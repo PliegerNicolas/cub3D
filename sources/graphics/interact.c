@@ -6,18 +6,18 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 18:02:07 by emis              #+#    #+#             */
-/*   Updated: 2023/07/20 15:41:56 by emis             ###   ########.fr       */
+/*   Updated: 2023/07/25 14:38:22 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "graphics.h"
 
-bool	check_press(bool press)
+bool	check_press(bool press, size_t i)
 {
-	static bool	last;
+	static bool	last[42];
 
-	if (press != last)
-		return (last = press, press);
+	if (press != last[i])
+		return (last[i] = press, press);
 	return (false);
 }
 
@@ -47,7 +47,7 @@ int	interact(t_gui *gui)
 				[bind(j, 0, gui->map.width)] = DOOR_CLOSED;
 		}
 	}
-	return (0);
+	return (gui->rendered = 0, 0);
 }
 /*
 // printf("--[%d|%d]==\n", mapX, mapY);

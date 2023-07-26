@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 15:18:25 by emis              #+#    #+#             */
-/*   Updated: 2023/07/18 04:16:13 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/26 15:36:52 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	key_press(int keycode, t_gui *gui)
 {
-	t_kbind	keys[12];
+	t_kbind	keys[13];
 	size_t	i;
 
 	if (keycode == XK_Escape)
@@ -32,7 +32,7 @@ int	key_press(int keycode, t_gui *gui)
 
 int	key_rel(int keycode, t_gui *gui)
 {
-	t_kbind	keys[12];
+	t_kbind	keys[13];
 	size_t	i;
 
 	set_keys_arr(keys);
@@ -66,7 +66,7 @@ int	mouse_press(int keycode, int x, int y, t_gui *gui)
 		capture = !capture;
 	else if (keycode == 3)
 	{
-		gui->cam.rndr = (gui->cam.rndr + 1) % (FLOORCEIL + 1);
+		gui->cam.rndr = ((gui->cam.rndr << (gui->cam.rndr & 1)) + !(gui->cam.rndr & 1)) % (0b11111);
 		gui->rendered = 0;
 	}
 	else if (keycode == 4)
