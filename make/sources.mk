@@ -8,6 +8,7 @@ SOURCES += ./sources/graphics/weapon/weapon.c
 SOURCES += ./sources/graphics/weapon/crosshair.c
 SOURCES += ./sources/graphics/weapon/projectile_collision.c
 SOURCES += ./sources/graphics/weapon/draw_projectile.c
+SOURCES += ./sources/graphics/weapon/setup_projectile.c
 
 SOURCES += ./sources/graphics/controls/events.c
 SOURCES += ./sources/graphics/controls/key_press.c
