@@ -6,7 +6,7 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 16:15:01 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/21 05:51:40 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/29 13:13:14 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -73,7 +73,6 @@ static void	set_orientation(t_play *player, int val)
 		player->dir = (t_vect){0, 1, 0};
 		player->plane = (t_vect){0.66, 0, 0};
 	}
-	player->fov = calculate_fov(player);
 }
 
 bool	set_player(t_gui *gui)

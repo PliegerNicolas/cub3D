@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 19:16:31 by emis              #+#    #+#             */
-/*   Updated: 2023/07/27 21:16:27 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/29 14:15:37 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -21,135 +21,43 @@ static void	move_projectile(t_prj *projectile)
 			* (projectile->direction.z / 1.5);
 }
 
-/*
-static bool raycast_projectile(t_gui *gui, t_prj *projectile)
+static void world_to_screen(const t_gui *gui, const t_prj *projectile, int *x, int *y)
 {
-	t_play	*player;
-	double	proj_ray_dir_x;
-	double	proj_ray_dir_y;
-	double	dot_product;
+    t_vect delta;
+    double inv_det;
+    double trans_x, trans_y;
 
-	player = &gui->cam;
-	proj_ray_dir_x = projectile->posi.x - player->posi.x;
-	proj_ray_dir_y = projectile->posi.y - player->posi.y;
-	dot_product = player->dir.x * proj_ray_dir_x + player->dir.y * proj_ray_dir_y;
-	if (dot_product < cos(player->fov / 2))
-		return (false);
-	double	distance = sqrt(proj_ray_dir_x * proj_ray_dir_x + proj_ray_dir_y * proj_ray_dir_y);
-	double	step_x = proj_ray_dir_x / distance;
-	double	step_y = proj_ray_dir_y / distance;
-	double	current_x = player->posi.x;
-	double	current_y = player->posi.y;
+    // Calculate the difference between the player's position and the projectile's position
+    delta.x = projectile->posi.x - gui->cam.posi.x;
+    delta.y = projectile->posi.y - gui->cam.posi.y;
 
-	while (current_x < projectile->posi.x && current_y < projectile->posi.y)
-	{
-		int cell_x = (int)(current_x + 0.5);
-        int cell_y = (int)(current_y + 0.5);
-		if (gui->map.map[(int)cell_x][(int)cell_y] % DOOR_OPEN != floor_tile)
-			return (false);
-        current_x += step_x;
-    	current_y += step_y;
-	}
+    // Calculate the inverse of the determinant to transform the coordinates
+    inv_det = 1.0 / (gui->cam.plane.x * gui->cam.dir.y - gui->cam.dir.x * gui->cam.plane.y);
 
-	double inv_det = 1.0 / (player->plane.x * player->dir.y
-			- player->dir.x * player->plane.y);
-	double transform_x = inv_det * (player->dir.y * (projectile->posi.x
-			- player->posi.x) - player->dir.x * (projectile->posi.y - player->posi.y));
-	double transform_y = inv_det * (-player->plane.y
-			* (projectile->posi.x - player->posi.x) + player->plane.x
-			* (projectile->posi.y - player->posi.y));
+    // Transform the x and y coordinates using the inverse determinant
+    trans_x = inv_det * (gui->cam.dir.y * delta.x - gui->cam.dir.x * delta.y);
+    trans_y = inv_det * (-gui->cam.plane.y * delta.x + gui->cam.plane.x * delta.y);
 
-	int x = (int)((SCRWIDTH / 2) * (1 + transform_x / transform_y));
-	int y = (int)(SCRHEIGHT / 2) + (int)(SCRHEIGHT * (player->posi.z) / transform_y);
-
-	if (projectile_collision(gui, projectile))
-	{
-		draw_projectile_impact(gui, x, y, distance);
-		clear_projectile(projectile);
-	}
-	else
-		draw_projectile(gui, x, y, distance);
-
-	return (false);
-}
-*/
-
-/*
-static void	display_projectile(t_gui *gui, t_prj *projectile)
-{
-	(void)gui;
-	(void)projectile;
+    // The screen coordinates of the projectile's pixel
+    *x = (int)((SCRWIDTH / 2) * (1 + trans_x / trans_y));
+    *y = (int)(SCRHEIGHT / 2 - SCRHEIGHT / trans_y);
 }
 
-static bool is_projectile_visible(t_gui *gui, t_vect player_position, t_vect projectile_position)
+static void adjust_for_pitch_orientation(t_gui *gui, int *x, int *y)
 {
-    // Get the differences in X and Y coordinates between the player and the projectile
-    double ray_dir_x = projectile_position.x - player_position.x;
-    double ray_dir_y = projectile_position.y - player_position.y;
+    double pitch_rad = (gui->cam.posi.z / 1.5) * M_PI; // Convert pitch from [-1.5, 1.5] to radians
 
-    // Calculate the distance between the player and the projectile
-    double distance = sqrt(ray_dir_x * ray_dir_x + ray_dir_y * ray_dir_y);
+    // Vertical Adjustment based on Pitch (gui->cam.posi.z)
+    double vertical_adjust = (SCRHEIGHT / 2) * tan(pitch_rad);
 
-    // Normalize the ray direction vector
-    double step_x = ray_dir_x / distance;
-    double step_y = ray_dir_y / distance;
+    // Horizontal Adjustment based on Orientation (gui->cam.dir.x, gui->cam.dir.y)
+    double angle = atan2(gui->cam.dir.y, gui->cam.dir.x);
+    double horizontal_adjust = (*y - SCRHEIGHT / 2) * tan(angle);
 
-    // Determine the initial position of the ray based on the player's position and the direction of the ray
-    double	current_x, current_y;
-    if (step_x > 0)
-	{
-        current_x = ceil(player_position.x); // Increment X for east direction
-	}
-    else
-	{
-        current_x = floor(player_position.x);  // Decrement X for west direction
-	}
-    if (step_y > 0)
-	{
-        current_y = ceil(player_position.y); // Increment Y for south direction
-	}
-    else
-	{
-        current_y = floor(player_position.y);  // Decrement Y for north direction
-	}
-
-    // Calculate the distance to the next intersection point in both X and Y directions
-    double delta_x = fabs((current_x - player_position.x + (step_x > 0 ? 1.0 : 0.0)) / ray_dir_x);
-    double delta_y = fabs((current_y - player_position.y + (step_y > 0 ? 1.0 : 0.0)) / ray_dir_y);
-
-    // Perform the DDA algorithm along the entire line between the player and the projectile
-    while (distance > 0)
-    {
-        // Check if the current cell contains a solid wall (assuming wall tiles have ID > 0)
-        int cell_x = (int)current_x;
-        int cell_y = (int)current_y;
-        if (gui->map.map[cell_x][cell_y] % DOOR_OPEN != floor_tile
-			|| projectile_position.z <= -1.0 || projectile_position.z >= 1.0)
-		{
-			printf("Wall or ceiling or floor found\n");
-            return false; // The projectile is obstructed by a wall
-		}
-
-        if (delta_x < delta_y)
-        {
-            delta_x += fabs(step_x);
-            current_x += step_x; // Adjust current_x based on ray direction
-        }
-        else
-        {
-            delta_y += fabs(step_y);
-            current_y += step_y; // Adjust current_y based on ray direction
-        }
-
-        // Update the remaining distance
-        distance -= 1.0;
-    }
-
-	printf("Projectile found\n");
-    // If the loop finishes without hitting a wall, the projectile is visible
-    return (true);
+    // Apply the adjustments to the screen coordinates
+    *x = (*x + (int)horizontal_adjust);
+    *y = *y + (int)vertical_adjust;
 }
-*/
 
 static void	rays(t_play *p, t_rc *rc)
 {
@@ -179,7 +87,6 @@ static void	rays(t_play *p, t_rc *rc)
 static bool	cast(t_gui *gui, t_rc *rc, double distance)
 {
 
-	// ???
 	rays(&gui->cam, rc);
 
 	while (distance > 0)
@@ -230,19 +137,34 @@ static bool raycast_projectile(t_gui *gui, t_prj *projectile)
 	// Calculate the distance between the player and the projectile
     double distance = sqrt(rc.ray_dir.x * rc.ray_dir.x + rc.ray_dir.y * rc.ray_dir.y);
 
+	int x, y = 0;
+	world_to_screen(gui, projectile, &x, &y);
+	adjust_for_pitch_orientation(gui, &x, &y);
+
 	//casting mecanism
 	if (cast(gui, &rc, distance))
 	{
-		printf("Draw projectile\n");
+		if (projectile_collision(gui, projectile))
+		{
+			//printf("Draw projectile impact\n");
+			draw_projectile_impact(gui, x, y, distance);
+			clear_projectile(projectile);
+			return (true);
+		}
+		//printf("Draw projectile\n");
+		draw_projectile(gui, x, y, distance);
+		return (false);
+		//draw_projectile(gui, projectile);
 	}
 
-	//temp
-	if (projectile->posi.x < 0 || projectile->posi.x > gui->map.width
-		|| projectile->posi.y < 0 || projectile->posi.y > gui->map.height)
+	if (projectile_collision(gui, projectile))
 	{
-		printf("Projectile outside of map\n");
+		clear_projectile(projectile);
+		printf("Projectile not visible exploded\n");
 		return (true);
 	}
+
+	printf("Projectile not visible\n");
 	return (false);
 }
 
