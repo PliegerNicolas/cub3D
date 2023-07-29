@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 19:16:31 by emis              #+#    #+#             */
-/*   Updated: 2023/07/29 14:15:37 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/07/29 16:31:54 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -21,28 +21,7 @@ static void	move_projectile(t_prj *projectile)
 			* (projectile->direction.z / 1.5);
 }
 
-static void world_to_screen(const t_gui *gui, const t_prj *projectile, int *x, int *y)
-{
-    t_vect delta;
-    double inv_det;
-    double trans_x, trans_y;
-
-    // Calculate the difference between the player's position and the projectile's position
-    delta.x = projectile->posi.x - gui->cam.posi.x;
-    delta.y = projectile->posi.y - gui->cam.posi.y;
-
-    // Calculate the inverse of the determinant to transform the coordinates
-    inv_det = 1.0 / (gui->cam.plane.x * gui->cam.dir.y - gui->cam.dir.x * gui->cam.plane.y);
-
-    // Transform the x and y coordinates using the inverse determinant
-    trans_x = inv_det * (gui->cam.dir.y * delta.x - gui->cam.dir.x * delta.y);
-    trans_y = inv_det * (-gui->cam.plane.y * delta.x + gui->cam.plane.x * delta.y);
-
-    // The screen coordinates of the projectile's pixel
-    *x = (int)((SCRWIDTH / 2) * (1 + trans_x / trans_y));
-    *y = (int)(SCRHEIGHT / 2 - SCRHEIGHT / trans_y);
-}
-
+/*
 static void adjust_for_pitch_orientation(t_gui *gui, int *x, int *y)
 {
     double pitch_rad = (gui->cam.posi.z / 1.5) * M_PI; // Convert pitch from [-1.5, 1.5] to radians
@@ -58,6 +37,7 @@ static void adjust_for_pitch_orientation(t_gui *gui, int *x, int *y)
     *x = (*x + (int)horizontal_adjust);
     *y = *y + (int)vertical_adjust;
 }
+*/
 
 static void	rays(t_play *p, t_rc *rc)
 {
@@ -123,8 +103,8 @@ static bool raycast_projectile(t_gui *gui, t_prj *projectile)
 	t_rc	rc;
 
     // Get the differences in X and Y coordinates between the player and the projectile
-	rc.ray_dir.x = (projectile->posi.x - gui->cam.posi.x) * gui->cam.zoom;
-	rc.ray_dir.y = (projectile->posi.y - gui->cam.posi.y) * gui->cam.zoom;
+	rc.ray_dir.x = (projectile->posi.x - gui->cam.posi.x);// * gui->cam.zoom;
+	rc.ray_dir.y = (projectile->posi.y - gui->cam.posi.y);// * gui->cam.zoom;
 
 	// Get the player's coordinates relative to the grid (convert to int and round down)
 	rc.map_x = (int)gui->cam.posi.x;
@@ -135,11 +115,19 @@ static bool raycast_projectile(t_gui *gui, t_prj *projectile)
 	rc.delta_dist.y = inv_safe(rc.ray_dir.y);
 	
 	// Calculate the distance between the player and the projectile
-    double distance = sqrt(rc.ray_dir.x * rc.ray_dir.x + rc.ray_dir.y * rc.ray_dir.y);
+    double	distance = sqrt(rc.ray_dir.x * rc.ray_dir.x + rc.ray_dir.y * rc.ray_dir.y);
 
-	int x, y = 0;
-	world_to_screen(gui, projectile, &x, &y);
-	adjust_for_pitch_orientation(gui, &x, &y);
+	// Calculate the inverse of the determinant to transform the coordinates
+    double	inv_det = 1.0 / (gui->cam.plane.x * gui->cam.dir.y - gui->cam.dir.x * gui->cam.plane.y);
+    // Transform the x and y coordinates using the inverse determinant
+	double	transf_x = inv_det * (gui->cam.dir.y * rc.ray_dir.x - gui->cam.dir.x * rc.ray_dir.y);
+    double	transf_y = inv_det * (-gui->cam.plane.y * rc.ray_dir.x + gui->cam.plane.x * rc.ray_dir.y);
+
+	double	pitch_rad = (gui->cam.posi.z / 1.5) * M_PI;
+	double	vertical_adjust = (SCRHEIGHT / 2) * tan(pitch_rad) - projectile->posi.z;
+
+	int	x = (SCRWIDTH / 2) * (1 + transf_x / transf_y);
+	int	y = (SCRHEIGHT / 2) + vertical_adjust;
 
 	//casting mecanism
 	if (cast(gui, &rc, distance))
