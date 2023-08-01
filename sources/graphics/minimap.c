@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 18:54:34 by emis              #+#    #+#             */
-/*   Updated: 2023/07/26 16:40:32 by emis             ###   ########.fr       */
+/*   Updated: 2023/08/01 17:40:29 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,8 @@ static void	draw_entities_on_map(t_gui *gui, size_t size)
 	}
 }
 
-void	minimap(t_gui *gui)
+int	minimap(t_gui *gui, t_vect where, size_t s)
 {
-	const size_t	s = 14;
 	size_t			x;
 	size_t			y;
 
@@ -56,14 +55,15 @@ void	minimap(t_gui *gui)
 			if (magnitude((t_vect){x - s * s / 2.0,
 					y - s * s / 2.0}) > s * s / 2)
 				continue ;
-			pixput(gui->buffer, y, x, color_from_tile(gui->map.map
-				[bind(gui->cam.posi.x * s + x - s * s / 2, 0, gui->map.height
-						* s) / s][bind(gui->cam.posi.y * s + y - s * s / 2, 0,
-						gui->map.width * s) / s]) | 0xAA << 24);
+			pixput(gui->buffer, y + where.y, x + where.x, color_from_tile(
+					gui->map.map[bind(gui->cam.posi.x * s + x - s * s / 2, 0,
+						gui->map.height * s) / s][bind(gui->cam.posi.y * s + y
+						- s * s / 2, 0, gui->map.width * s) / s]) | 0xAA << 24);
 		}
 	}
-	tri(gui->buffer, (t_vect){s * s / 2, s * s / 2},
+	tri(gui->buffer, (t_vect){where.x + s * s / 2, where.y + s * s / 2},
 		scale(gui->cam.dir, s * 0.8), MAPMAGF);
+	return (s);
 }
 
 static double	flashlight(t_gui *gui, int x, int y, int size)
@@ -80,7 +80,7 @@ static double	flashlight(t_gui *gui, int x, int y, int size)
 	return (dist);
 }
 
-void	fullmap(t_gui *gui)
+int	fullmap(t_gui *gui, t_vect where)
 {
 	int		x;
 	int		y;
@@ -95,10 +95,11 @@ void	fullmap(t_gui *gui)
 		{
 			if (!color_from_tile(gui->map.map[x / size][y / size]))
 				continue ;
-			pixput(gui->buffer, y, x, color_from_tile(gui->map.map[x / size]
-				[y / size]) | (bind(0xF8 - flashlight(gui, x, y, size)
-						* 2, 1, 255) << 24));
+			pixput(gui->buffer, y + where.y, x + where.x, color_from_tile(
+					gui->map.map[x / size][y / size]) | (bind(0xF8
+						- flashlight(gui, x, y, size) * 2, 1, 255) << 24));
 		}
 	}
 	draw_entities_on_map(gui, size);
+	return (size);
 }

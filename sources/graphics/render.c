@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 14:03:16 by emis              #+#    #+#             */
-/*   Updated: 2023/07/26 16:22:04 by emis             ###   ########.fr       */
+/*   Updated: 2023/08/01 17:22:30 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,15 +40,19 @@ static void	specs(t_gui *gui, t_vect where)
 	strputinfo(gui, where, "E ", gui->cam.dir.y * 180);
 	where.x -= 70;
 	where.y += 15;
-	strputinfo(gui, where, "Pitch  ", gui->cam.pitch);
+	strputinfo(gui, where, "Pitch   ", gui->cam.pitch);
 	where.y += 15;
-	strputinfo(gui, where, "Render ", gui->cam.rndr);
+	strputinfo(gui, where, "Render  ", gui->cam.rndr);
 	where.y += 15;
-	strputinfo(gui, where, "Zoom   ", gui->cam.zoom * 20);
+	strputinfo(gui, where, "Zoom    ", gui->cam.zoom * 20);
 	where.y += 15;
-	strputinfo(gui, where, "Dark   ", gui->cam.dark);
+	strputinfo(gui, where, "Dark    ", gui->cam.dark);
 	where.y += 15;
-	strputinfo(gui, where, "Sprite ", gui->textures.spnb);
+	strputinfo(gui, where, "Sprite  ", gui->textures.spnb);
+	where.y += 15;
+	strputinfo(gui, where, "Health  ", gui->cam.stat.get[HP]);
+	where.y += 15;
+	strputinfo(gui, where, "Stamina ", gui->cam.stat.get[STA]);
 }
 
 int	render(t_gui *gui)
@@ -69,10 +73,7 @@ int	render(t_gui *gui)
 		sprite_cast(gui, z_buffer);
 		weapon(gui);
 	}
-	if (gui->cam.rndr & (1 << MINIMAP))
-		minimap(gui);
-	else
-		fullmap(gui);
+	hud(gui);
 	mlx_put_image_to_window(gui->mlx, gui->mlx->win_list, gui->buffer, 0, 0);
 	specs(gui, (t_vect){SCRWIDTH - 115, 30});
 	gui->rendered = 1;

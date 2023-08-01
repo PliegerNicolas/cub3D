@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 16:15:01 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/26 15:35:52 by emis             ###   ########.fr       */
+/*   Updated: 2023/08/01 17:29:50 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,16 @@ static void	set_vector(t_play *player, size_t row, size_t col)
 	pos.x = row;
 	pos.y = col;
 	player->posi = pos;
+	player->stat.get[HP] = 100;
+	player->stat.get[STA] = 50;
+	player->stat.get[ARM] = 0;
+	player->stat.get[XP] = 0;
+	player->stat.get[LVL] = 0;
+	player->stat.max[HP] = 100;
+	player->stat.max[STA] = 50;
+	player->stat.max[ARM] = 100;
+	player->stat.max[XP] = 100;
+	player->stat.max[LVL] = 100;
 }
 
 static void	set_orientation(t_play *player, int val)
