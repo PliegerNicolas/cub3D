@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/07/26 16:40:14 by emis             ###   ########.fr       */
+/*   Updated: 2023/08/01 17:03:23 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ enum e_rates
 	RATE_MOB,
 	RATE_ITEM,
 	RATE_DOOR,
+	RATE_SPRINT,
 };
 
 /* ************************************** */
@@ -130,8 +131,24 @@ typedef struct s_ray_caster
 
 /* Game data */
 
+typedef struct s_stats
+{
+	enum
+	{
+		HP,
+		STA,
+		ARM,
+		XP,
+		LVL,
+		SIZE
+	}	e_field;
+	int	get[SIZE];
+	int	max[SIZE];
+}	t_stat;
+
 typedef struct s_player
 {
+	t_stat	stat;
 	int		rndr;
 	t_vect	posi;
 	t_vect	dir;
@@ -223,6 +240,11 @@ typedef struct s_gui
 # define MAPBLUE 0x0000FF
 # define MAPMAG 0xFF11FF
 # define MAPMAGF 0xAAFF44FF
+# define MAPYEL 0xFFFF00
+
+# ifndef M_PI
+#  define M_PI 3.14159265358979323846
+# endif
 
 /* ************************************** */
 /* * FUNCTIONS							* */
@@ -319,8 +341,12 @@ void	tri(t_img *img, t_vect at, t_vect dir, int color);
 
 /* MINIMAP */
 
-void	minimap(t_gui *gui);
-void	fullmap(t_gui *gui);
+int		minimap(t_gui *gui, t_vect where, size_t s);
+int		fullmap(t_gui *gui, t_vect where);
+
+/* HUD */
+
+void	hud(t_gui *gui);
 
 /* WEAPON */
 
