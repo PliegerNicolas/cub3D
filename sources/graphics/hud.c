@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 18:18:56 by emis              #+#    #+#             */
-/*   Updated: 2023/08/01 17:36:12 by emis             ###   ########.fr       */
+/*   Updated: 2023/08/02 20:12:28 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	hud(t_gui *gui)
 	if (gui->cam.rndr & (1 << MINIMAP))
 	{
 		s = 14;
-		minimap(gui, (t_vect){s, s}, s);
+		minimap(gui, (t_vect){s, s}, s, !(gui->keys & (1 << KP_map)));
 		curvybars(gui, (t_vect){0, 0}, s);
 	}
 	else
