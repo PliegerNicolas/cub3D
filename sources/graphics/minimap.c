@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 18:54:34 by emis              #+#    #+#             */
-/*   Updated: 2023/08/01 17:40:29 by emis             ###   ########.fr       */
+/*   Updated: 2023/08/05 17:02:42 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,11 @@ static void	draw_entities_on_map(t_gui *gui, size_t size)
 	}
 }
 
-int	minimap(t_gui *gui, t_vect where, size_t s)
+int	minimap(t_gui *gui, t_vect where, size_t s, bool c)
 {
-	size_t			x;
-	size_t			y;
+	size_t	x;
+	size_t	y;
+	t_vect	t;
 
 	x = -1;
 	while (++x < s * s)
@@ -55,14 +56,17 @@ int	minimap(t_gui *gui, t_vect where, size_t s)
 			if (magnitude((t_vect){x - s * s / 2.0,
 					y - s * s / 2.0}) > s * s / 2)
 				continue ;
-			pixput(gui->buffer, y + where.y, x + where.x, color_from_tile(
-					gui->map.map[bind(gui->cam.posi.x * s + x - s * s / 2, 0,
-						gui->map.height * s) / s][bind(gui->cam.posi.y * s + y
-						- s * s / 2, 0, gui->map.width * s) / s]) | 0xAA << 24);
+			t = (t_vect){x - s * s / 2.0, y - s * s / 2.0};
+			t = v_add(scale(gui->cam.posi, s), v_add(scale(t, !c),
+						scale(v_rot(t, gui->cam.dir), !!c)));
+			pixput(gui->buffer, y + where.y, x + where.x,
+				color_from_tile(gui->map.map[bind(t.x, 0, gui->map.height * s)
+					/ s][bind(t.y, 0, gui->map.width * s) / s]) | 0xAA << 24);
 		}
 	}
 	tri(gui->buffer, (t_vect){where.x + s * s / 2, where.y + s * s / 2},
-		scale(gui->cam.dir, s * 0.8), MAPMAGF);
+		v_sub(scale(gui->cam.dir, s * 0.8 * !c), (t_vect){s * 0.8 * !!c, 0}),
+		MAPMAGF);
 	return (s);
 }
 
@@ -82,21 +86,24 @@ static double	flashlight(t_gui *gui, int x, int y, int size)
 
 int	fullmap(t_gui *gui, t_vect where)
 {
-	int		x;
-	int		y;
-	int		size;
+	static int	size;
+	int			x;
+	int			y;
+	int			color;
 
-	size = 15 - (sqrt(gui->map.height * gui->map.width) / 10);
+	if (!size)
+		size = 15 - (sqrt(gui->map.height * gui->map.width) / 10);
 	x = -1;
 	while (++x < (int)gui->map.height * size)
 	{
 		y = -1;
 		while (++y < (int)gui->map.width * size)
 		{
-			if (!color_from_tile(gui->map.map[x / size][y / size]))
+			if (!(y % size))
+				color = color_from_tile(gui->map.map[x / size][y / size]);
+			if (!color)
 				continue ;
-			pixput(gui->buffer, y + where.y, x + where.x, color_from_tile(
-					gui->map.map[x / size][y / size]) | (bind(0xF8
+			pixput(gui->buffer, y + where.y, x + where.x, color | (bind(0xF8
 						- flashlight(gui, x, y, size) * 2, 1, 255) << 24));
 		}
 	}

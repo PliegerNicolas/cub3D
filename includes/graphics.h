@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/08/01 17:03:23 by emis             ###   ########.fr       */
+/*   Updated: 2023/08/02 19:05:36 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -314,6 +314,7 @@ t_vect	v_add(t_vect v, t_vect w);
 t_vect	v_sub(t_vect v, t_vect w);
 t_vect	v_mul(t_vect v, t_vect w);
 t_vect	v_div(t_vect v, t_vect w);
+t_vect	v_rot(t_vect v, t_vect w);
 
 /* FLOOR CASTING */
 
@@ -341,7 +342,7 @@ void	tri(t_img *img, t_vect at, t_vect dir, int color);
 
 /* MINIMAP */
 
-int		minimap(t_gui *gui, t_vect where, size_t s);
+int		minimap(t_gui *gui, t_vect where, size_t s, bool c);
 int		fullmap(t_gui *gui, t_vect where);
 
 /* HUD */
