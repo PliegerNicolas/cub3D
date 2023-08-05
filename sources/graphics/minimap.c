@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 18:54:34 by emis              #+#    #+#             */
-/*   Updated: 2023/08/02 20:10:51 by emis             ###   ########.fr       */
+/*   Updated: 2023/08/05 17:02:42 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,21 +86,24 @@ static double	flashlight(t_gui *gui, int x, int y, int size)
 
 int	fullmap(t_gui *gui, t_vect where)
 {
-	int		x;
-	int		y;
-	int		size;
+	static int	size;
+	int			x;
+	int			y;
+	int			color;
 
-	size = 15 - (sqrt(gui->map.height * gui->map.width) / 10);
+	if (!size)
+		size = 15 - (sqrt(gui->map.height * gui->map.width) / 10);
 	x = -1;
 	while (++x < (int)gui->map.height * size)
 	{
 		y = -1;
 		while (++y < (int)gui->map.width * size)
 		{
-			if (!color_from_tile(gui->map.map[x / size][y / size]))
+			if (!(y % size))
+				color = color_from_tile(gui->map.map[x / size][y / size]);
+			if (!color)
 				continue ;
-			pixput(gui->buffer, y + where.y, x + where.x, color_from_tile(
-					gui->map.map[x / size][y / size]) | (bind(0xF8
+			pixput(gui->buffer, y + where.y, x + where.x, color | (bind(0xF8
 						- flashlight(gui, x, y, size) * 2, 1, 255) << 24));
 		}
 	}
