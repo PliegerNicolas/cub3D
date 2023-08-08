@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 19:16:31 by emis              #+#    #+#             */
-/*   Updated: 2023/07/29 16:31:54 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/08/08 14:58:24 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -20,24 +20,6 @@ static void	move_projectile(t_prj *projectile)
 	projectile->posi.z += (double)PROJECTILE_SPEED
 			* (projectile->direction.z / 1.5);
 }
-
-/*
-static void adjust_for_pitch_orientation(t_gui *gui, int *x, int *y)
-{
-    double pitch_rad = (gui->cam.posi.z / 1.5) * M_PI; // Convert pitch from [-1.5, 1.5] to radians
-
-    // Vertical Adjustment based on Pitch (gui->cam.posi.z)
-    double vertical_adjust = (SCRHEIGHT / 2) * tan(pitch_rad);
-
-    // Horizontal Adjustment based on Orientation (gui->cam.dir.x, gui->cam.dir.y)
-    double angle = atan2(gui->cam.dir.y, gui->cam.dir.x);
-    double horizontal_adjust = (*y - SCRHEIGHT / 2) * tan(angle);
-
-    // Apply the adjustments to the screen coordinates
-    *x = (*x + (int)horizontal_adjust);
-    *y = *y + (int)vertical_adjust;
-}
-*/
 
 static void	rays(t_play *p, t_rc *rc)
 {
@@ -82,13 +64,11 @@ static bool	cast(t_gui *gui, t_rc *rc, double distance)
 		{
 			rc->side_dist.x += rc->delta_dist.x;
 			rc->map_x += rc->step_x;
-			rc->side = 0;
 		}
 		else
 		{
 			rc->side_dist.y += rc->delta_dist.y;
 			rc->map_y += rc->step_y;
-			rc->side = 1;
 		}
 
         // Update the remaining distance
@@ -97,7 +77,106 @@ static bool	cast(t_gui *gui, t_rc *rc, double distance)
 	return (true);
 }
 
+static void	normalize_ray_dir(t_rc *rc)
+{
+	double	ray_dir_magnitude;
 
+	ray_dir_magnitude = sqrt(rc->ray_dir.x * rc->ray_dir.x + rc->ray_dir.y
+			* rc->ray_dir.y + rc->ray_dir.z * rc->ray_dir.z);
+	if (ray_dir_magnitude)
+	{
+		rc->ray_dir.x /= ray_dir_magnitude;
+		rc->ray_dir.y /= ray_dir_magnitude;
+		rc->ray_dir.z /= ray_dir_magnitude;
+	}
+}
+
+static bool	is_in_fov(t_play *player, t_rc rc)
+{
+	double	dot_product;
+	double	vertical_angle;
+
+	normalize_ray_dir(&rc);
+	dot_product = player->dir.x * rc.ray_dir.x + player->dir.y * rc.ray_dir.y;
+	if (dot_product < 0.5)
+		return (false);
+
+	vertical_angle = atan((rc.ray_dir.z / 1.5));
+
+	double	max_pitch = 1.5;
+	double	max_allowed_vertical_angle = max_pitch / 2.0;
+	double	pitch_factor = fabs(player->posi.z) * (max_pitch / 2.0);
+	double	adjusted_allowed_angle = max_allowed_vertical_angle - pitch_factor;
+    if (fabs(vertical_angle) > adjusted_allowed_angle)
+		return (false);
+	return (true);
+}
+
+static bool raycast_projectile(t_gui *gui, t_prj *projectile)
+{
+	t_rc	rc;
+
+	// Get the player's coordinates relative to the grid (convert to int and round down)
+	rc.map_x = (int)gui->cam.posi.x;
+	rc.map_y = (int)gui->cam.posi.y;
+
+    // Get the differences in X, Y and Z coordinates between the player and
+	// the projectile and normalize them.
+	rc.ray_dir.x = (projectile->posi.x - gui->cam.posi.x) * gui->cam.zoom;
+	rc.ray_dir.y = (projectile->posi.y - gui->cam.posi.y) * gui->cam.zoom;
+	rc.ray_dir.z = (projectile->posi.z - gui->cam.posi.z) * gui->cam.zoom;
+
+	// Exit if projectile not in FOV (horizontally and vertically)
+	if (!is_in_fov(&gui->cam, rc))
+	{
+		if (projectile_collision(gui, projectile))
+		{
+			printf("Projectile exploded outside of FOV\n");
+			return (clear_projectile(projectile), true);
+		}
+		else
+			printf("Projectile not visible (outside of FOV)\n");
+		return (false);
+	}
+
+    // Calculate the distance to the next intersection point in both X and Y directions
+	rc.delta_dist.x = inv_safe(rc.ray_dir.x);
+	rc.delta_dist.y = inv_safe(rc.ray_dir.y);
+
+	// Calculate the distance between the player and the projectile
+	double distance = sqrt(rc.ray_dir.x * rc.ray_dir.x + rc.ray_dir.y
+			* rc.ray_dir.y + rc.ray_dir.z * rc.ray_dir.z);
+
+
+
+
+
+	// PROJECT THE PROJECTILE'S POSITION ON THE PLAYER'S SCREEN HERE
+
+
+
+
+	if (projectile_collision(gui, projectile))
+	{
+		printf("Projectile collision detected\n");
+		if (cast(gui, &rc, distance))
+		{
+			//draw_projectile_impact(gui, screen_x, screen_y, distance);
+			printf("Draw projectile impact\n");
+		}
+		return (clear_projectile(projectile), true);
+	}
+	else if (cast(gui, &rc, distance))
+	{
+		//draw_projectile(gui, screen_x, screen_y, distance);
+		printf("Draw projectile\n");
+	}
+	else
+		printf("Projectile not visible\n");
+	return (false);
+}
+
+/*
 static bool raycast_projectile(t_gui *gui, t_prj *projectile)
 {
 	t_rc	rc;
@@ -117,17 +196,24 @@ static bool raycast_projectile(t_gui *gui, t_prj *projectile)
 	// Calculate the distance between the player and the projectile
     double	distance = sqrt(rc.ray_dir.x * rc.ray_dir.x + rc.ray_dir.y * rc.ray_dir.y);
 
+	// Calculate the distance between the player and the projectile along the Z-axis
+	double	delta_z = projectile->posi.z - gui->cam.posi.z;
+
 	// Calculate the inverse of the determinant to transform the coordinates
     double	inv_det = 1.0 / (gui->cam.plane.x * gui->cam.dir.y - gui->cam.dir.x * gui->cam.plane.y);
     // Transform the x and y coordinates using the inverse determinant
 	double	transf_x = inv_det * (gui->cam.dir.y * rc.ray_dir.x - gui->cam.dir.x * rc.ray_dir.y);
-    double	transf_y = inv_det * (-gui->cam.plane.y * rc.ray_dir.x + gui->cam.plane.x * rc.ray_dir.y);
+	double	transf_y = inv_det * (-gui->cam.plane.y * rc.ray_dir.x + gui->cam.plane.x * rc.ray_dir.y);
 
-	double	pitch_rad = (gui->cam.posi.z / 1.5) * M_PI;
-	double	vertical_adjust = (SCRHEIGHT / 2) * tan(pitch_rad) - projectile->posi.z;
+	double	transf_z = rc.perp_wall_dist / distance * delta_z;
 
-	int	x = (SCRWIDTH / 2) * (1 + transf_x / transf_y);
-	int	y = (SCRHEIGHT / 2) + vertical_adjust;
+	// Adjust the projected coordinates based on the Z-axis difference
+	transf_x += delta_z * transf_x / distance;
+	transf_y += delta_z * transf_y / distance;
+
+
+	int	x = (SCRWIDTH / 2) * (1.0 + transf_x / transf_y);
+	int	y = (SCRHEIGHT / 2) + (SCRHEIGHT / 2) * transf_z;
 
 	//casting mecanism
 	if (cast(gui, &rc, distance))
@@ -155,6 +241,7 @@ static bool raycast_projectile(t_gui *gui, t_prj *projectile)
 	printf("Projectile not visible\n");
 	return (false);
 }
+*/
 
 static void	attack(t_gui *gui, t_prj *projectile)
 {
