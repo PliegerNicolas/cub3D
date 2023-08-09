@@ -6,7 +6,7 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 18:36:22 by nicolas           #+#    #+#             */
-/*   Updated: 2023/08/09 09:39:30 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/09 10:41:39 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -49,12 +49,12 @@ static bool	hit_mob(t_gui *gui, t_prj *projectile)
 		sprt = &gui->textures.sprites[i];
 		if (sprt->type != DEAD)
 		{
-			if (projectile->posi.z < -0.2 && projectile->posi.z > 0.0)
+			if (projectile->posi.z > 0.45 && projectile->posi.z < 0.0)
 				return (false);
 			else if (sprt->posi.x - 0.25 < projectile->posi.x
 				&& sprt->posi.x + 0.25 > projectile->posi.x
-				&& sprt->posi.y - 0.25 < projectile->posi.y
-				&& sprt->posi.y + 0.25 > projectile->posi.y)
+				&& sprt->posi.y - 0.2 < projectile->posi.y
+				&& sprt->posi.y + 0.2 > projectile->posi.y)
 				return (sprt->type = DEAD, true);
 		}
 		i++;
