@@ -6,7 +6,7 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 18:36:22 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/29 16:00:51 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/08/09 09:39:30 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -33,7 +33,7 @@ static bool	hit_map(int **map, t_prj *projectile)
 	if (map[(int)projectile->posi.x][(int)projectile->posi.y]
 		% DOOR_OPEN != floor_tile)
 		return (true);
-	else if (projectile->posi.z <= -1.0 || projectile->posi.z >= 1.0)
+	else if (projectile->posi.z <= 0.0 || projectile->posi.z >= 1.0)
 		return (true);
 	return (false);
 }
