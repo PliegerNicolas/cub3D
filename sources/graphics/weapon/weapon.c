@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 19:16:31 by emis              #+#    #+#             */
-/*   Updated: 2023/08/09 17:00:42 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/09 17:42:17 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -109,7 +109,7 @@ static bool	is_in_fov(t_play *player, t_prj *projectile, t_rc rc)
 		return (false);
 
 	double vertical_angle = atan2(projectile->direction.z, magnitude(rc.ray_dir));
-	double max_pitch = 1.5; // Adjust this value as needed
+	double max_pitch = 90 * (M_PI / 180.0); // Adjust this value as needed
 	double max_allowed_vertical_angle = max_pitch / 2.0;
 
 	// Compare the vertical angle with the player's pitch angle
@@ -166,9 +166,6 @@ static bool raycast_projectile(t_gui *gui, t_prj *projectile)
 	// This is the angle between the map's horizon line and the projectile's path.
 	double	vertical_angle_2 = atan2(projectile->direction.z, 1.0);
 	printf("vertical_angle_2 = %f\n", vertical_angle_2);
-
-	printf("pitch = %f\n", gui->cam.pitch);
-
 
 	/*
 	// Vertical_angle indicates how much the projectile is pitched upward or downward relative to the player's screen horizontal plane.
