@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 16:26:04 by emis              #+#    #+#             */
-/*   Updated: 2023/07/20 17:58:52 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/08/09 15:08:15 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,15 +50,14 @@ t_vect	transform(t_tex *tex, t_play *play, int i)
 	double	invDet;
 
 	sprite = (t_vect){tex->sprites[tex->sporder[i]].posi.x - play->posi.x,
-		tex->sprites[tex->sporder[i]].posi.y - play->posi.y, 0.0};
+		tex->sprites[tex->sporder[i]].posi.y - play->posi.y};
 	invDet = 1.0 / (play->plane.x * (play->dir.y * play->zoom)
 		- (play->dir.x * play->zoom) * play->plane.y);
 	return ((t_vect){
 		invDet * ((play->dir.y * play->zoom) * sprite.x
 		- (play->dir.x * play->zoom) * sprite.y),
 		invDet * (-play->plane.y * sprite.x
-		+ play->plane.x * sprite.y),
-		0.0});
+		+ play->plane.x * sprite.y)});
 }
 
 void	frame_shift(t_tex *tex)
@@ -96,10 +95,10 @@ void	sprite_cast(t_gui *gui, double ZBuffer[SCRWIDTH])
 		// int pitch = 100;
 
 		//calculate lowest and highest pixel to fill in current stripe
-		int drawStartY = bind(-spriteHeight / 2 + SCRHEIGHT / 2 + (gui->cam.posi.z * SCRHEIGHT), 0, SCRHEIGHT);
+		int drawStartY = bind(-spriteHeight / 2 + SCRHEIGHT / 2 + (gui->cam.pitch * SCRHEIGHT), 0, SCRHEIGHT);
 		// if (drawStartY < 0)
 		// 	drawStartY = 0;
-		int drawEndY = bind(spriteHeight / 2 + SCRHEIGHT / 2 + (gui->cam.posi.z * SCRHEIGHT), 0, SCRHEIGHT);
+		int drawEndY = bind(spriteHeight / 2 + SCRHEIGHT / 2 + (gui->cam.pitch * SCRHEIGHT), 0, SCRHEIGHT);
 		// if (drawEndY >= SCRHEIGHT)
 		// 	drawEndY = SCRHEIGHT - 1;
 
@@ -124,7 +123,7 @@ void	sprite_cast(t_gui *gui, double ZBuffer[SCRWIDTH])
 			if (transf.y > 0 && stripe > 0 && stripe < SCRWIDTH && transf.y < ZBuffer[stripe])
 			for(int y = drawStartY; y < drawEndY; y++) //for every pixel of the current stripe
 			{
-				int d = (y - (gui->cam.posi.z * SCRHEIGHT)) * 256 - SCRHEIGHT * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
+				int d = (y - (gui->cam.pitch * SCRHEIGHT)) * 256 - SCRHEIGHT * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
 				int texY = ((d * gui->textures.height) / spriteHeight) / 256;
 				int which = gui->textures.sporder[i];
 				int	color;

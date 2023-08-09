@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 16:25:33 by emis              #+#    #+#             */
-/*   Updated: 2023/07/19 12:56:19 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/09 15:08:27 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -93,7 +93,7 @@ void	floor_cast(t_gui *gui)
 	size_t		y;
 
 	rc.screen_center = 0.5 * SCRHEIGHT;
-	rc.horizon = rc.screen_center + (gui->cam.posi.z * SCRHEIGHT);
+	rc.horizon = rc.screen_center + (gui->cam.pitch * SCRHEIGHT);
 	y = 0;
 	while (y < SCRHEIGHT)
 	{

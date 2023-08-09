@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 15:49:02 by emis              #+#    #+#             */
-/*   Updated: 2023/07/19 12:57:14 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/09 15:08:50 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ void	pitch(t_play *player, double dir)
 {
 	double	target_pitch;
 
-	target_pitch = player->posi.z + dir * player->rot_speed.y;
+	target_pitch = player->pitch + dir * player->rot_speed.y;
 	if (target_pitch >= -1.5 && target_pitch <= 1.5)
-		player->posi.z = target_pitch;
+		player->pitch = target_pitch;
 }
 
 void	rotate(t_play *player, double dir)

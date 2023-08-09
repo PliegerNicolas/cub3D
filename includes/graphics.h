@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/07/29 13:18:58 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/08/09 15:02:44 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,14 @@ typedef struct s_vect
 {
 	double	x;
 	double	y;
-	double	z;
 }	t_vect;
+
+typedef struct s_3Dvect
+{
+	double	x;
+	double	y;
+	double	z;
+}	t_3Dvect;
 
 typedef struct s_ray_caster
 {
@@ -130,9 +136,9 @@ typedef struct s_ray_caster
 
 typedef struct projectile
 {
-	t_vect	posi;
-	t_vect	direction;
-	bool	status;
+	t_3Dvect	posi;
+	t_3Dvect	direction;
+	bool		status;
 }	t_prj;
 
 typedef struct s_player
@@ -151,6 +157,7 @@ typedef struct s_player
 	t_vect	accel_rate;
 	t_vect	rot_accel_rate;
 	t_vect	hit_box;
+	double	pitch;
 }	t_play;
 
 typedef struct s_sprite

@@ -6,7 +6,7 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 16:15:01 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/29 13:13:14 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/08/09 15:06:13 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -47,7 +47,6 @@ static void	set_vector(t_play *player, size_t row, size_t col)
 
 	pos.x = row;
 	pos.y = col;
-	pos.z = 0.0;
 	player->posi = pos;
 }
 
@@ -55,24 +54,25 @@ static void	set_orientation(t_play *player, int val)
 {
 	if (val == spawn_north_tile)
 	{
-		player->dir = (t_vect){-1, 0, 0};
-		player->plane = (t_vect){0, 0.66, 0};
+		player->dir = (t_vect){-1, 0};
+		player->plane = (t_vect){0, 0.66};
 	}
 	else if (val == spawn_south_tile)
 	{
-		player->dir = (t_vect){1, 0, 0};
-		player->plane = (t_vect){0, -0.66, 0};
+		player->dir = (t_vect){1, 0};
+		player->plane = (t_vect){0, -0.66};
 	}
 	else if (val == spawn_west_tile)
 	{
-		player->dir = (t_vect){0, -1, 0};
-		player->plane = (t_vect){-0.66, 0, 0};
+		player->dir = (t_vect){0, -1};
+		player->plane = (t_vect){-0.66, 0};
 	}
 	else if (val == spawn_east_tile)
 	{
-		player->dir = (t_vect){0, 1, 0};
-		player->plane = (t_vect){0.66, 0, 0};
+		player->dir = (t_vect){0, 1};
+		player->plane = (t_vect){0.66, 0};
 	}
+	player->pitch = 0.0;
 }
 
 bool	set_player(t_gui *gui)

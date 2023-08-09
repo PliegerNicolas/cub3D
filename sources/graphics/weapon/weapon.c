@@ -6,14 +6,26 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 19:16:31 by emis              #+#    #+#             */
-/*   Updated: 2023/08/09 14:28:16 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/09 15:31:34 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
 
 static double	vector_magnitude(t_vect v)
 {
-	return (sqrt(v.x * v.x + v.y * v.y + v.z * v.z));
+	return (sqrt(v.x * v.x + v.y * v.y));
+}
+
+static double	distance_between_player_and_projectile(t_play *player, t_prj *projectile, t_rc *rc)
+{
+	double	horizontal_distance;
+	double	vertical_distance;
+	double	distance;
+
+	horizontal_distance = sqrt(rc->ray_dir.x * rc->ray_dir.x + rc->ray_dir.y * rc->ray_dir.y);
+	vertical_distance = fabs(projectile->posi.z - player->pitch);
+	distance = sqrt(horizontal_distance * horizontal_distance + vertical_distance * vertical_distance);
+	return (distance);
 }
 
 static void	move_projectile(t_prj *projectile)
@@ -91,27 +103,23 @@ static void	normalize_ray_dir(t_rc *rc)
 	{
 		rc->ray_dir.x /= ray_dir_magnitude;
 		rc->ray_dir.y /= ray_dir_magnitude;
-		rc->ray_dir.z /= ray_dir_magnitude;
 	}
 }
 
-static bool	is_in_fov(t_play *player, t_rc rc)
+static bool	is_in_fov(t_play *player, t_prj *projectile, t_rc rc)
 {
-	double	dot_product;
-	double	vertical_angle;
-
 	normalize_ray_dir(&rc);
-	dot_product = player->dir.x * rc.ray_dir.x + player->dir.y * rc.ray_dir.y;
+	double	dot_product = player->dir.x * rc.ray_dir.x + player->dir.y * rc.ray_dir.y;
 	if (dot_product < 0.5)
 		return (false);
 
-	vertical_angle = atan2(rc.ray_dir.z, sqrt(rc.ray_dir.x * rc.ray_dir.x
-			+ rc.ray_dir.y * rc.ray_dir.y));
-	double	max_pitch = 1.5;
-	double	max_allowed_vertical_angle = max_pitch / 2.0;
-	double	pitch_factor = fabs(player->posi.z) * (max_pitch / 2.0);
-	double	adjusted_allowed_angle = max_allowed_vertical_angle - pitch_factor;
-	if (fabs(vertical_angle) > adjusted_allowed_angle)
+	double rc_ray_dir_z = projectile->direction.z;
+	double vertical_angle = atan2(rc_ray_dir_z, vector_magnitude(rc.ray_dir));
+	double max_pitch = 1.5; // Adjust this value as needed
+	double max_allowed_vertical_angle = max_pitch / 2.0;
+
+	// Compare the vertical angle with the player's pitch angle
+	if (fabs(vertical_angle - player->pitch) > max_allowed_vertical_angle)
 		return (false);
 	return (true);
 }
@@ -128,27 +136,25 @@ static bool raycast_projectile(t_gui *gui, t_prj *projectile)
 	// the projectile and normalize them.
 	rc.ray_dir.x = (projectile->posi.x - gui->cam.posi.x) * gui->cam.zoom;
 	rc.ray_dir.y = (projectile->posi.y - gui->cam.posi.y) * gui->cam.zoom;
-	rc.ray_dir.z = (projectile->posi.z - gui->cam.posi.z) * gui->cam.zoom;
 
 	// Calculate the distance to the next intersection point in both X and Y directions
 	rc.delta_dist.x = inv_safe(rc.ray_dir.x);
 	rc.delta_dist.y = inv_safe(rc.ray_dir.y);
 
 	// Calculate the distance between the player and the projectile
-	double distance = sqrt(rc.ray_dir.x * rc.ray_dir.x + rc.ray_dir.y
-			* rc.ray_dir.y + rc.ray_dir.z * rc.ray_dir.z);
+	double	distance = distance_between_player_and_projectile(&gui->cam, projectile, &rc);
 
 	// Exit if projectile not in FOV (horizontally and vertically)
-	if (!is_in_fov(&gui->cam, rc))
+	if (!is_in_fov(&gui->cam, projectile, rc))
 	{
 		if (projectile_collision(gui, projectile))
 		{
-			//printf("Projectile exploded outside of FOV\n");
+			printf("Projectile exploded outside of FOV\n");
 			return (clear_projectile(projectile), true);
 		}
 		else
 		{
-			//printf("Projectile not visible (outside of FOV)\n");
+			printf("Projectile not visible (outside of FOV)\n");
 		}
 		return (false);
 	}
@@ -159,33 +165,31 @@ static bool raycast_projectile(t_gui *gui, t_prj *projectile)
 	double	inv_det = 1.0 / (gui->cam.plane.x * rc.ray_dir.y - rc.ray_dir.x * gui->cam.plane.y);
 	double	transf_x = inv_det * (gui->cam.dir.y * rc.ray_dir.x - gui->cam.dir.x * rc.ray_dir.y);
 
-	// gui->cam.posi.z [-1.5 ; 1.5] ou 0.0 est l'horizon
 
 	int	screen_x = (SCRWIDTH / 2.0) * (1.0 + transf_x);
-	int	screen_y = (SCRHEIGHT / 2.0);
-
+	int screen_y = (SCRHEIGHT / 2.0);
 
 
 
 
 	if (projectile_collision(gui, projectile))
 	{
-		//printf("Projectile collision detected\n");
+		printf("Projectile collision detected\n");
 		if (cast(gui, &rc, distance))
 		{
 			draw_projectile_impact(gui, screen_x, screen_y, distance);
-			//printf("Draw projectile impact\n");
+			printf("Draw projectile impact\n");
 		}
 		return (clear_projectile(projectile), true);
 	}
 	else if (cast(gui, &rc, distance))
 	{
 		draw_projectile(gui, screen_x, screen_y, distance);
-		//printf("Draw projectile\n");
+		printf("Draw projectile\n");
 	}
 	else
 	{
-		//printf("Projectile not visible\n");
+		printf("Projectile not visible\n");
 	}
 	return (false);
 }
@@ -193,10 +197,10 @@ static bool raycast_projectile(t_gui *gui, t_prj *projectile)
 static void	attack(t_gui *gui, t_prj *projectile)
 {
 	move_projectile(projectile);
-	printf("prj->posi.x = %f\n", projectile->posi.x);
-	printf("prj->posi.y = %f\n", projectile->posi.y);
-	printf("prj->posi.z = %f\n", projectile->posi.z);
-	printf("----------------\n");
+	//printf("prj->posi.x = %f\n", projectile->posi.x);
+	//printf("prj->posi.y = %f\n", projectile->posi.y);
+	//printf("prj->posi.z = %f\n", projectile->posi.z);
+	//printf("----------------\n");
 	(void)raycast_projectile(gui, projectile);
 }
 
