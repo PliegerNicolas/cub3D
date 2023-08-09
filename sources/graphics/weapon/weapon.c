@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 19:16:31 by emis              #+#    #+#             */
-/*   Updated: 2023/08/09 16:01:36 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/09 16:44:11 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -159,6 +159,40 @@ static bool raycast_projectile(t_gui *gui, t_prj *projectile)
 	double	inv_det = 1.0 / (gui->cam.plane.x * rc.ray_dir.y - rc.ray_dir.x * gui->cam.plane.y);
 	double	transf_x = inv_det * (gui->cam.dir.y * rc.ray_dir.x - gui->cam.dir.x * rc.ray_dir.y);
 
+	int	screen_x = (SCRWIDTH / 2.0) * (1.0 + transf_x);
+	int	screen_y = (SCRHEIGHT / 2.0);
+
+	double horizontal_magnitude = sqrt(projectile->direction.x * projectile->direction.x + projectile->direction.y * projectile->direction.y);
+	printf("horizontal_magnitude = %f\n", horizontal_magnitude);
+	double	vertical_angle_2 = atan2(projectile->direction.z, horizontal_magnitude);
+	printf("vertical_angle_2 = %f\n", vertical_angle_2);
+
+
+
+	/*
+	// Vertical_angle indicates how much the projectile is pitched upward or downward relative to the player's screen horizontal plane.
+	double vertical_angle = atan2(projectile->direction.z, magnitude(rc.ray_dir));
+	printf("Vertical angle = %f\n", vertical_angle);
+
+	// Calculate the magnitude of the projectile's motion in the XY plane (horizontal plane)
+	double horizontal_magnitude = sqrt(projectile->direction.x * projectile->direction.x +
+										projectile->direction.y * projectile->direction.y);
+
+	// Calculate the vertical angle using trigonometry
+	double vertical_angle_2 = atan2(projectile->direction.z, horizontal_magnitude);
+	printf("Vertical angle relative to horizon = %f\n", vertical_angle_2);
+
+	double max_pitch = 1.5; // Adjust this value as needed
+	double max_allowed_vertical_angle = max_pitch / 2.0;
+
+	// Calculate the tangent of the vertical angle
+	double tangent = tan(vertical_angle);
+
+	// Convert the tangent to screen coordinates
+	int screen_y = (SCRHEIGHT / 2.0) - (SCRHEIGHT * tangent / max_allowed_vertical_angle);
+	*/
+
+/*
 	double vertical_angle = atan2(projectile->direction.z, magnitude(rc.ray_dir));
 	double pitch_correction = vertical_angle - gui->cam.pitch;
 	double max_pitch = 1.5; // Adjust this value as needed
@@ -167,18 +201,6 @@ static bool raycast_projectile(t_gui *gui, t_prj *projectile)
 
 	int screen_x = (SCRWIDTH / 2.0) * (1.0 + transf_x);
 	int screen_y = (SCRHEIGHT / 2.0) - (SCRHEIGHT * pitch_correction_ratio);
-
-/*
-	double rc_ray_dir_z = projectile->direction.z;
-	double vertical_angle = atan2(rc_ray_dir_z, magnitude(rc.ray_dir));
-	double max_pitch = 1.5; // Adjust this value as needed
-	double max_allowed_vertical_angle = max_pitch / 2.0;
-
-	double test = (vertical_angle - gui->cam.pitch) / max_allowed_vertical_angle;
-	printf("test = %f\n", test);
-
-	int	screen_x = (SCRWIDTH / 2.0) * (1.0 + transf_x);
-	int screen_y = (SCRHEIGHT / 2.0) - (SCRHEIGHT * test);
 */
 
 
@@ -208,10 +230,13 @@ static bool raycast_projectile(t_gui *gui, t_prj *projectile)
 static void	attack(t_gui *gui, t_prj *projectile)
 {
 	move_projectile(projectile);
-	//printf("prj->posi.x = %f\n", projectile->posi.x);
-	//printf("prj->posi.y = %f\n", projectile->posi.y);
-	//printf("prj->posi.z = %f\n", projectile->posi.z);
-	//printf("----------------\n");
+	printf("prj->posi.x = %f\n", projectile->posi.x);
+	printf("prj->posi.y = %f\n", projectile->posi.y);
+	printf("prj->posi.z = %f\n", projectile->posi.z);
+	printf("prj->dir.x = %f\n", projectile->direction.x);
+	printf("prj->dir.y = %f\n", projectile->direction.y);
+	printf("prj->dir.z = %f\n", projectile->direction.z);
+	printf("----------------\n");
 	(void)raycast_projectile(gui, projectile);
 }
 

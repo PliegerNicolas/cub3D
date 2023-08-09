@@ -6,11 +6,11 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 00:26:05 by nicolas           #+#    #+#             */
-/*   Updated: 2023/08/09 16:08:02 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/09 16:45:04 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
-
+ 
 static t_3Dvect	get_normed_dir(t_play *player)
 {
 	t_3Dvect	dir;
@@ -18,7 +18,7 @@ static t_3Dvect	get_normed_dir(t_play *player)
 
 	dir.x = player->dir.x;
 	dir.y = player->dir.y;
-	dir.z = sin(player->pitch);
+	dir.z = sin(player->pitch / 1.5);
 	dir_magnitude = sqrt(dir.x * dir.x + dir.y * dir.y + dir.z * dir.z);
 	if (dir_magnitude)
 	{
@@ -26,7 +26,7 @@ static t_3Dvect	get_normed_dir(t_play *player)
 		dir.y /= dir_magnitude;
 		dir.z /= dir_magnitude;
 	}
-	dir.z = (dir.z + 1.5) / 3.0;
+	//dir.z = (dir.z + 1.5) / 3.0;
 	return (dir);
 }
 
@@ -45,7 +45,7 @@ void	initialize_projectile(t_play *player, t_prj *projectile)
 	//projectile->posi.z = normed_dir.z - vertical_offset; // This isn't correctly calculated
 	projectile->direction.x = player->dir.x;
 	projectile->direction.y = player->dir.y;
-	projectile->direction.z = player->pitch;
+	projectile->direction.z = player->pitch / 1.5;
 	projectile->status = true;
 }
 
