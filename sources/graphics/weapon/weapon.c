@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 19:16:31 by emis              #+#    #+#             */
-/*   Updated: 2023/08/09 15:49:43 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/09 16:01:36 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -108,8 +108,7 @@ static bool	is_in_fov(t_play *player, t_prj *projectile, t_rc rc)
 	if (dot_product < 0.5)
 		return (false);
 
-	double rc_ray_dir_z = projectile->direction.z;
-	double vertical_angle = atan2(rc_ray_dir_z, magnitude(rc.ray_dir));
+	double vertical_angle = atan2(projectile->direction.z, magnitude(rc.ray_dir));
 	double max_pitch = 1.5; // Adjust this value as needed
 	double max_allowed_vertical_angle = max_pitch / 2.0;
 
@@ -160,17 +159,27 @@ static bool raycast_projectile(t_gui *gui, t_prj *projectile)
 	double	inv_det = 1.0 / (gui->cam.plane.x * rc.ray_dir.y - rc.ray_dir.x * gui->cam.plane.y);
 	double	transf_x = inv_det * (gui->cam.dir.y * rc.ray_dir.x - gui->cam.dir.x * rc.ray_dir.y);
 
+	double vertical_angle = atan2(projectile->direction.z, magnitude(rc.ray_dir));
+	double pitch_correction = vertical_angle - gui->cam.pitch;
+	double max_pitch = 1.5; // Adjust this value as needed
+	double max_allowed_vertical_angle = max_pitch / 2.0;
+	double pitch_correction_ratio = pitch_correction / max_allowed_vertical_angle;
+
+	int screen_x = (SCRWIDTH / 2.0) * (1.0 + transf_x);
+	int screen_y = (SCRHEIGHT / 2.0) - (SCRHEIGHT * pitch_correction_ratio);
+
+/*
 	double rc_ray_dir_z = projectile->direction.z;
 	double vertical_angle = atan2(rc_ray_dir_z, magnitude(rc.ray_dir));
 	double max_pitch = 1.5; // Adjust this value as needed
 	double max_allowed_vertical_angle = max_pitch / 2.0;
 
-	double test = vertical_angle - gui->cam.pitch / max_allowed_vertical_angle;
+	double test = (vertical_angle - gui->cam.pitch) / max_allowed_vertical_angle;
 	printf("test = %f\n", test);
 
 	int	screen_x = (SCRWIDTH / 2.0) * (1.0 + transf_x);
 	int screen_y = (SCRHEIGHT / 2.0) - (SCRHEIGHT * test);
-
+*/
 
 
 

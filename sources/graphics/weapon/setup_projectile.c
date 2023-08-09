@@ -6,7 +6,7 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 00:26:05 by nicolas           #+#    #+#             */
-/*   Updated: 2023/08/09 15:21:50 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/09 16:08:02 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -34,14 +34,15 @@ void	initialize_projectile(t_play *player, t_prj *projectile)
 {
 	t_3Dvect	normed_dir;
 	double		horizontal_offset;
-	double		vertical_offset;
+	//double		vertical_offset;
 
 	horizontal_offset = 0.1;
-	vertical_offset = 0.1;
+	//vertical_offset = 0.1;
 	normed_dir = get_normed_dir(player);
 	projectile->posi.x = player->posi.x + horizontal_offset * normed_dir.y;
 	projectile->posi.y = player->posi.y - horizontal_offset * normed_dir.x;
-	projectile->posi.z = normed_dir.z - vertical_offset;
+	projectile->posi.z = 0.5;
+	//projectile->posi.z = normed_dir.z - vertical_offset; // This isn't correctly calculated
 	projectile->direction.x = player->dir.x;
 	projectile->direction.y = player->dir.y;
 	projectile->direction.z = player->pitch;
