@@ -6,10 +6,15 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 19:16:31 by emis              #+#    #+#             */
-/*   Updated: 2023/08/09 10:28:32 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/09 14:28:16 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
+
+static double	vector_magnitude(t_vect v)
+{
+	return (sqrt(v.x * v.x + v.y * v.y + v.z * v.z));
+}
 
 static void	move_projectile(t_prj *projectile)
 {
@@ -81,8 +86,7 @@ static void	normalize_ray_dir(t_rc *rc)
 {
 	double	ray_dir_magnitude;
 
-	ray_dir_magnitude = sqrt(rc->ray_dir.x * rc->ray_dir.x + rc->ray_dir.y
-			* rc->ray_dir.y + rc->ray_dir.z * rc->ray_dir.z);
+	ray_dir_magnitude = vector_magnitude(rc->ray_dir);
 	if (ray_dir_magnitude)
 	{
 		rc->ray_dir.x /= ray_dir_magnitude;
@@ -101,7 +105,6 @@ static bool	is_in_fov(t_play *player, t_rc rc)
 	if (dot_product < 0.5)
 		return (false);
 
-	//vertical_angle = atan((rc.ray_dir.z / 1.5));
 	vertical_angle = atan2(rc.ray_dir.z, sqrt(rc.ray_dir.x * rc.ray_dir.x
 			+ rc.ray_dir.y * rc.ray_dir.y));
 	double	max_pitch = 1.5;
@@ -153,19 +156,13 @@ static bool raycast_projectile(t_gui *gui, t_prj *projectile)
 
 
 	// PROJECT THE PROJECTILE'S POSITION ON THE PLAYER'S SCREEN HERE
-	// Calculate the projected coordinates using perspective transformation
-	//double delta_z = projectile->posi.z - gui->cam.posi.z;
-	double inv_det = 1.0 / (gui->cam.plane.x * rc.ray_dir.y - rc.ray_dir.x * gui->cam.plane.y);
-	double transf_x = inv_det * (gui->cam.dir.y * rc.ray_dir.x - gui->cam.dir.x * rc.ray_dir.y);
-	double transf_y = inv_det * (-gui->cam.plane.y * rc.ray_dir.x + gui->cam.plane.x * rc.ray_dir.y);
+	double	inv_det = 1.0 / (gui->cam.plane.x * rc.ray_dir.y - rc.ray_dir.x * gui->cam.plane.y);
+	double	transf_x = inv_det * (gui->cam.dir.y * rc.ray_dir.x - gui->cam.dir.x * rc.ray_dir.y);
 
-	// Calculate the projected screen coordinates
-	int screen_x = (int)((SCRWIDTH / 2.0) * (1.0 + transf_x / transf_y));
-	// Adjust the screen_y position based on player's pitch
-	double pitch_factor = fabs(gui->cam.posi.z) * (1.5 / 2.0); // Adjust the pitch factor as needed
-	int screen_y = (int)(SCRHEIGHT / 2.0) + (int)((SCRHEIGHT / 2.0) * pitch_factor);
-	//int screen_y = (int)(SCRHEIGHT / 2.0);
+	// gui->cam.posi.z [-1.5 ; 1.5] ou 0.0 est l'horizon
 
+	int	screen_x = (SCRWIDTH / 2.0) * (1.0 + transf_x);
+	int	screen_y = (SCRHEIGHT / 2.0);
 
 
 
@@ -192,73 +189,6 @@ static bool raycast_projectile(t_gui *gui, t_prj *projectile)
 	}
 	return (false);
 }
-
-/*
-static bool raycast_projectile(t_gui *gui, t_prj *projectile)
-{
-	t_rc	rc;
-
-    // Get the differences in X and Y coordinates between the player and the projectile
-	rc.ray_dir.x = (projectile->posi.x - gui->cam.posi.x);// * gui->cam.zoom;
-	rc.ray_dir.y = (projectile->posi.y - gui->cam.posi.y);// * gui->cam.zoom;
-
-	// Get the player's coordinates relative to the grid (convert to int and round down)
-	rc.map_x = (int)gui->cam.posi.x;
-	rc.map_y = (int)gui->cam.posi.y;
-
-    // Calculate the distance to the next intersection point in both X and Y directions
-	rc.delta_dist.x = inv_safe(rc.ray_dir.x);
-	rc.delta_dist.y = inv_safe(rc.ray_dir.y);
-	
-	// Calculate the distance between the player and the projectile
-    double	distance = sqrt(rc.ray_dir.x * rc.ray_dir.x + rc.ray_dir.y * rc.ray_dir.y);
-
-	// Calculate the distance between the player and the projectile along the Z-axis
-	double	delta_z = projectile->posi.z - gui->cam.posi.z;
-
-	// Calculate the inverse of the determinant to transform the coordinates
-    double	inv_det = 1.0 / (gui->cam.plane.x * gui->cam.dir.y - gui->cam.dir.x * gui->cam.plane.y);
-    // Transform the x and y coordinates using the inverse determinant
-	double	transf_x = inv_det * (gui->cam.dir.y * rc.ray_dir.x - gui->cam.dir.x * rc.ray_dir.y);
-	double	transf_y = inv_det * (-gui->cam.plane.y * rc.ray_dir.x + gui->cam.plane.x * rc.ray_dir.y);
-
-	double	transf_z = rc.perp_wall_dist / distance * delta_z;
-
-	// Adjust the projected coordinates based on the Z-axis difference
-	transf_x += delta_z * transf_x / distance;
-	transf_y += delta_z * transf_y / distance;
-
-
-	int	x = (SCRWIDTH / 2) * (1.0 + transf_x / transf_y);
-	int	y = (SCRHEIGHT / 2) + (SCRHEIGHT / 2) * transf_z;
-
-	//casting mecanism
-	if (cast(gui, &rc, distance))
-	{
-		if (projectile_collision(gui, projectile))
-		{
-			//printf("Draw projectile impact\n");
-			draw_projectile_impact(gui, x, y, distance);
-			clear_projectile(projectile);
-			return (true);
-		}
-		//printf("Draw projectile\n");
-		draw_projectile(gui, x, y, distance);
-		return (false);
-		//draw_projectile(gui, projectile);
-	}
-
-	if (projectile_collision(gui, projectile))
-	{
-		clear_projectile(projectile);
-		printf("Projectile not visible exploded\n");
-		return (true);
-	}
-
-	printf("Projectile not visible\n");
-	return (false);
-}
-*/
 
 static void	attack(t_gui *gui, t_prj *projectile)
 {
