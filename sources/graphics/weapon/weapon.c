@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 19:16:31 by emis              #+#    #+#             */
-/*   Updated: 2023/08/09 16:44:11 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/09 17:00:42 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -162,11 +162,12 @@ static bool raycast_projectile(t_gui *gui, t_prj *projectile)
 	int	screen_x = (SCRWIDTH / 2.0) * (1.0 + transf_x);
 	int	screen_y = (SCRHEIGHT / 2.0);
 
-	double horizontal_magnitude = sqrt(projectile->direction.x * projectile->direction.x + projectile->direction.y * projectile->direction.y);
-	printf("horizontal_magnitude = %f\n", horizontal_magnitude);
-	double	vertical_angle_2 = atan2(projectile->direction.z, horizontal_magnitude);
+	// horizontal magnitude will always be 1 because projectile->direction is normalized.
+	// This is the angle between the map's horizon line and the projectile's path.
+	double	vertical_angle_2 = atan2(projectile->direction.z, 1.0);
 	printf("vertical_angle_2 = %f\n", vertical_angle_2);
 
+	printf("pitch = %f\n", gui->cam.pitch);
 
 
 	/*
@@ -230,6 +231,7 @@ static bool raycast_projectile(t_gui *gui, t_prj *projectile)
 static void	attack(t_gui *gui, t_prj *projectile)
 {
 	move_projectile(projectile);
+	/*
 	printf("prj->posi.x = %f\n", projectile->posi.x);
 	printf("prj->posi.y = %f\n", projectile->posi.y);
 	printf("prj->posi.z = %f\n", projectile->posi.z);
@@ -237,6 +239,7 @@ static void	attack(t_gui *gui, t_prj *projectile)
 	printf("prj->dir.y = %f\n", projectile->direction.y);
 	printf("prj->dir.z = %f\n", projectile->direction.z);
 	printf("----------------\n");
+	*/
 	(void)raycast_projectile(gui, projectile);
 }
 

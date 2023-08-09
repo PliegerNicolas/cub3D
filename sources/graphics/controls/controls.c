@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 15:49:02 by emis              #+#    #+#             */
-/*   Updated: 2023/08/09 15:08:50 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/09 17:10:13 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ void	pitch(t_play *player, double dir)
 	double	target_pitch;
 
 	target_pitch = player->pitch + dir * player->rot_speed.y;
-	if (target_pitch >= -1.5 && target_pitch <= 1.5)
+	if (target_pitch >= -(90 * (M_PI / 180.0))
+		&& target_pitch <= (90 * (M_PI / 180.0)))
 		player->pitch = target_pitch;
 }
 
