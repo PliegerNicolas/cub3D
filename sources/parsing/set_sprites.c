@@ -6,27 +6,16 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 02:02:02 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/23 17:06:58 by emis             ###   ########.fr       */
+/*   Updated: 2023/08/10 20:34:22 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "graphics.h"
 
-t_sprt	*add_sprite(t_sprt **list, t_vect posi)
+t_sprt	*add_sprite(t_sprt **list, t_sprt *sprite)
 {
-	t_sprt	*sprite;
 	t_sprt	*tmp;
 
-	sprite = trymalloc(sizeof(t_sprt), 1);
-	sprite->posi = posi;
-	sprite->solid = 1;
-	sprite->type = ALIVE;
-	sprite->alpha = 240;
-	sprite->fcur = rand() % 8;
-	sprite->fnum = 8;
-	sprite->frames = NULL;
-	sprite->dist = 1;
-	sprite->next = NULL;
 	if (!*list)
 		*list = sprite;
 	else
@@ -63,36 +52,47 @@ static size_t	count_mobs(t_gui *gui)
 	return (nb);
 }
 
-// static bool	set_sporder(t_gui *gui)
-// {
-// 	size_t	i;
+static char	*get_numbered_texture_path(size_t i, char *path)
+{
+	char	*temp;
+	char	*index;
 
-// 	gui->textures.sporder = malloc(gui->textures.spnb
-// 			* sizeof(gui->textures.sporder));
-// 	if (!gui->textures.sporder)
-// 		return (put_parsing_err("Not enough memory."), true);
-// 	i = 0;
-// 	while (i < (size_t)gui->textures.spnb)
-// 	{
-// 		gui->textures.sporder[i] = i;
-// 		i++;
-// 	}
-// 	return (false);
-// }
+	index = ft_itoa(i);
+	if (!index)
+		return (put_parsing_err("Not enough memory."), NULL);
+	if (!path)
+		path = "textures/solong/slime";
+	temp = ft_strjoin(path, index);
+	free(index);
+	if (!temp)
+		return (put_parsing_err("Not enough memory."), NULL);
+	path = ft_strjoin(temp, ".xpm");
+	free(temp);
+	if (!path)
+		return (put_parsing_err("Not enough memory."), NULL);
+	return (path);
+}
 
-// static bool	set_spdist(t_gui *gui)
-// {
-// 	size_t	i;
+bool	set_frames(t_gui *gui, t_img ***frames, char *path, int numbered)
+{
+	size_t	i;
+	char	*numpath;
 
-// 	gui->textures.spdist = malloc(gui->textures.spnb
-// 			* sizeof(gui->textures.spdist));
-// 	if (!gui->textures.spdist)
-// 		return (put_parsing_err("Not enough memory."), true);
-// 	i = 0;
-// 	while (i < (size_t)gui->textures.spnb)
-// 		gui->textures.sporder[i++] = 0;
-// 	return (false);
-// }
+	if (path && numbered < 0)
+		return (load_texture_arr(gui, frames, path, -numbered));
+	i = 0;
+	while ((int)i < numbered)
+	{
+		numpath = get_numbered_texture_path(i, path);
+		if (!numpath)
+			return (put_parsing_err("Not enough memory."), true);
+		if (load_texture_arr(gui, frames, numpath, numbered))
+			return (free(numpath), true);
+		free(numpath);
+		i++;
+	}
+	return (false);
+}
 
 bool	set_sprites(t_gui *gui)
 {

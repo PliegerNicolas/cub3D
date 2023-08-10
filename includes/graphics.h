@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/08/02 19:05:36 by emis             ###   ########.fr       */
+/*   Updated: 2023/08/10 21:06:06 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ typedef enum e_render_level
 typedef enum e_type
 {
 	STATIONARY,
-	MOVING,
+	COLLECTIBLE,
 	ALIVE,
 	DEAD
 }	t_type;
@@ -97,6 +97,9 @@ enum e_rates
 	RATE_ITEM,
 	RATE_DOOR,
 	RATE_SPRINT,
+	RATE_HEAL,
+	RATE_ARMOR_UP,
+	RATE_NB
 };
 
 /* ************************************** */
@@ -131,17 +134,18 @@ typedef struct s_ray_caster
 
 /* Game data */
 
+typedef enum e_stat_field
+{
+	HP,
+	STA,
+	ARM,
+	XP,
+	LVL,
+	SIZE
+}	t_fld;
+
 typedef struct s_stats
 {
-	enum
-	{
-		HP,
-		STA,
-		ARM,
-		XP,
-		LVL,
-		SIZE
-	}	e_field;
 	int	get[SIZE];
 	int	max[SIZE];
 }	t_stat;
@@ -172,6 +176,8 @@ typedef struct s_sprite	t_sprt;
 typedef struct s_sprite
 {
 	t_type	type;
+	t_fld	stat;
+	int		amount;
 	_Bool	solid;
 	t_vect	posi;
 	int		alpha;
@@ -192,6 +198,8 @@ typedef struct s_textures
 	int		arrsize;
 	t_img	**walls;
 	t_img	**doors;
+	t_img	**spframes[SIZE + 1];
+	size_t	spfrsizes[SIZE + 1];
 	int		spnb;
 	t_sprt	*sprites;
 }	t_tex;
@@ -292,7 +300,7 @@ int		mouse_motion(int x, int y, t_gui *gui);
 /* TEXTURES */
 
 t_img	*load_texture(t_gui *gui, char *path);
-void	load_texture_arr(t_gui *gui, t_img ***where, char *path, int size);
+bool	load_texture_arr(t_gui *gui, t_img ***where, char *path, int size);
 
 /* MINIMATH */
 
@@ -328,7 +336,7 @@ void	wall_texture(t_gui *gui, t_rc *rc);
 
 /* FRAMERATE */
 
-int		nextframe(int frnb);
+int		nextframe(enum e_rates frnb);
 
 /* SPRITE CASTING */
 
@@ -357,6 +365,11 @@ void	weapon(t_gui *gui);
 
 bool	check_press(bool press, size_t i);
 int		interact(t_gui *gui);
+
+/* STATS */
+
+void	gain_xp(t_gui *gui, t_sprt *ded);
+void	regen(t_gui *gui, t_fld fld, int amount, enum e_rates rate);
 
 /* ************************************** */
 /* * TEMP, NEEDED FOR PARSING			* */
@@ -390,11 +403,13 @@ bool	set_player(t_gui *gui);
 
 /* set_sprites.c */
 
-t_sprt	*add_sprite(t_sprt **list, t_vect posi);
+t_sprt	*add_sprite(t_sprt **list, t_sprt *sprite);
+bool	set_frames(t_gui *gui, t_img ***frames, char *path, int numbered);
 bool	set_sprites(t_gui *gui);
 
 /* set_mobs.c */
 
+t_sprt	*add_mob(t_sprt **list, t_vect posi, t_img **frames);
 bool	set_mobs(t_gui *gui);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 16:23:46 by emis              #+#    #+#             */
-/*   Updated: 2023/07/10 13:44:40 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/10 18:50:44 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_img	*load_texture(t_gui *gui, char *path)
 	return (img);
 }
 
-void	load_texture_arr(t_gui *gui, t_img ***where, char *path, int size)
+bool	load_texture_arr(t_gui *gui, t_img ***where, char *path, int size)
 {
 	static int	which;
 
@@ -36,5 +36,5 @@ void	load_texture_arr(t_gui *gui, t_img ***where, char *path, int size)
 		which = 0;
 	}
 	(*where)[which++] = load_texture(gui, path);
-	return ;
+	return (!(*where)[which - 1]);
 }

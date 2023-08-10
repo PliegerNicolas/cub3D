@@ -6,57 +6,31 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 05:11:31 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/23 17:01:10 by emis             ###   ########.fr       */
+/*   Updated: 2023/08/10 20:48:28 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "graphics.h"
 
-static char	*get_mob_texture_path(size_t i)
+t_sprt	*add_mob(t_sprt **list, t_vect posi, t_img **frames)
 {
-	char	*path;
-	char	*temp;
-	char	*index;
+	t_sprt	*sprite;
 
-	index = ft_itoa(i);
-	if (!index)
-		return (put_parsing_err("Not enough memory."), NULL);
-	temp = ft_strjoin("textures/solong/slime", index);
-	free(index);
-	if (!temp)
-		return (put_parsing_err("Not enough memory."), NULL);
-	path = ft_strjoin(temp, ".xpm");
-	free(temp);
-	if (!path)
-		return (put_parsing_err("Not enough memory."), NULL);
-	return (path);
+	sprite = trymalloc(sizeof(t_sprt), 2);
+	sprite->posi = posi;
+	sprite->stat = HP;
+	sprite->amount = -1;
+	sprite->solid = 1;
+	sprite->type = ALIVE;
+	sprite->alpha = 240;
+	sprite->fcur = rand() % 8;
+	sprite->fnum = 8;
+	sprite->frames = frames;
+	sprite->dist = 1;
+	sprite->next = NULL;
+	add_sprite(list, sprite);
+	return (sprite);
 }
-
-static bool	set_frames(t_gui *gui, t_sprt *sprite)
-{
-	size_t	i;
-	char	*path;
-
-	i = 0;
-	while (i < 8)
-	{
-		path = get_mob_texture_path(i);
-		if (!path)
-			return (put_parsing_err("Not enough memory."), true);
-		load_texture_arr(gui, &sprite->frames, path, 8);
-		free(path);
-		i++;
-	}
-	return (false);
-}
-
-// static void	set_mob_pos(t_gui *gui, size_t nb, size_t row, size_t col)
-// {
-// 	gui->textures.sprites[nb].posi.x = row;
-// 	gui->textures.sprites[nb].posi.y = col;
-// 	if (gui->map.map)
-// 		gui->map.map[row][col] = 0;
-// }
 
 bool	set_mobs(t_gui *gui)
 {
@@ -64,25 +38,24 @@ bool	set_mobs(t_gui *gui)
 	size_t	row;
 	size_t	col;
 
+	if (!gui->textures.spframes[SIZE])
+		set_frames(gui, &gui->textures.spframes[SIZE], NULL, 8);
 	nb = 0;
-	row = 0;
-	while (row < gui->map.height)
+	row = -1;
+	while (++row < gui->map.height)
 	{
-		col = 0;
-		while (col < gui->map.width)
+		col = -1;
+		while (++col < gui->map.width)
 		{
 			if (gui->map.map[row][col] == mob_tile)
 			{
-				// set_mob_pos(gui, nb, row, col);
-				if (set_frames(gui, add_sprite(&gui->textures.sprites,
-					(t_vect){row, col})))
+				if (!add_mob(&gui->textures.sprites,
+					(t_vect){row, col}, gui->textures.spframes[SIZE]))
 					return (true);
 				if (gui->map.map)
 					gui->map.map[row][col] = 0;
 			}
-			col++;
 		}
-		row++;
 	}
 	return (false);
 }

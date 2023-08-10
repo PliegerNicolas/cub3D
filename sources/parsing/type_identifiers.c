@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 07:20:02 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/17 17:24:39 by emis             ###   ########.fr       */
+/*   Updated: 2023/08/10 19:06:57 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,15 @@ static void	set_strti(t_str_to_ti *strti)
 	strti[7].ti = ceiling_color;
 	strti[8].str = "D";
 	strti[8].ti = door_texture;
+	strti[9].str = "SP";
+	strti[9].ti = sprite_texture;
 }
 
 t_type_id	set_type_identifier(char *line, size_t *index)
 {
 	size_t		i;
 	size_t		len;
-	t_str_to_ti	strti[9];
+	t_str_to_ti	strti[10];
 
 	if (!line)
 		return (not_found);
@@ -66,7 +68,7 @@ bool	act_on_type_identifier(t_gui *gui, char *line, t_type_id ti)
 	if (ti == north_texture || ti == south_texture
 		|| ti == east_texture || ti == west_texture
 		|| ti == floor_texture || ti == ceiling_texture
-		|| ti == door_texture)
+		|| ti == door_texture || ti == sprite_texture)
 	{
 		if (set_texture(gui, line, ti))
 			return (true);

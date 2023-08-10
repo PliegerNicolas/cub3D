@@ -3,6 +3,7 @@ SOURCES += ./sources/graphics/casting/wall_casting_texture.c
 SOURCES += ./sources/graphics/casting/wall_casting.c
 SOURCES += ./sources/graphics/casting/sprite_casting.c
 SOURCES += ./sources/graphics/casting/floor_casting.c
+SOURCES += ./sources/graphics/stats.c
 SOURCES += ./sources/graphics/hud.c
 SOURCES += ./sources/graphics/render.c
 SOURCES += ./sources/graphics/weapon.c

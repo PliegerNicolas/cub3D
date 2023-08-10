@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 03:27:14 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/17 18:19:33 by emis             ###   ########.fr       */
+/*   Updated: 2023/08/10 21:03:34 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,29 +70,26 @@ static bool	set_floorceil_texture(t_gui *gui, char *path, int idx)
 	return (false);
 }
 
-static bool	set_walls(t_gui *gui, t_type_id ti, char *path)
+static bool	set_which(t_gui *gui, t_type_id ti, char *path)
 {
-	size_t			i;
+	int				i;
+	const t_type_id	floor_and_ceiling[2] = {floor_texture, ceiling_texture};
 	const t_type_id	walls[4] = {north_texture, south_texture,
 		west_texture, east_texture};
 
+	if (ti == sprite_texture) // WIP
+	{
+		// i = ft_atoi(path);
+		// set_frames(gui, );
+	}
 	if (ti == door_texture)
-		return (load_texture_arr(gui, &gui->textures.doors, path, 1),
-			!*gui->textures.doors);
+		return (load_texture_arr(gui, &gui->textures.doors, path, 1));
 	i = -1;
-	while (++i < sizeof(walls) / sizeof(*walls))
+	while ((size_t)++i < sizeof(walls) / sizeof(*walls))
 		if (ti == walls[i] && set_wall_texture(gui, path, i))
 			return (free(path), true);
-	return (false);
-}
-
-static bool	set_floor(t_gui *gui, t_type_id ti, char *path)
-{
-	size_t			i;
-	const t_type_id	floor_and_ceiling[2] = {floor_texture, ceiling_texture};
-
 	i = -1;
-	while (++i < sizeof(floor_and_ceiling) / sizeof(*floor_and_ceiling))
+	while ((size_t)++i < sizeof(floor_and_ceiling) / sizeof(*floor_and_ceiling))
 		if (ti == floor_and_ceiling[i] && set_floorceil_texture(gui, path, i))
 			return (free(path), true);
 	return (false);
@@ -105,7 +102,7 @@ bool	set_texture(t_gui *gui, char *line, t_type_id ti)
 	path = get_type_identifier_data(line);
 	if (!path)
 		return (true);
-	if (set_walls(gui, ti, path) || set_floor(gui, ti, path))
+	if (set_which(gui, ti, path))
 		return (true);
 	return (free(path), false);
 }

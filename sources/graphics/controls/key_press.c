@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 05:50:41 by nicolas           #+#    #+#             */
-/*   Updated: 2023/08/01 17:47:35 by emis             ###   ########.fr       */
+/*   Updated: 2023/08/07 14:58:37 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	act_on_sprint(t_gui *gui)
 	else
 		gui->cam.stat.get[STA] += (2 - cooldown)
 			* (gui->cam.stat.get[STA] < gui->cam.stat.max[STA]);
-	if (!gui->cam.stat.get[STA])
+	if (gui->cam.stat.get[STA] <= 0)
 		cooldown = 1;
 	if (cooldown && gui->cam.stat.get[STA] == gui->cam.stat.max[STA])
 		cooldown = 0;

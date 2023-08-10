@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 13:17:24 by nplieger          #+#    #+#             */
-/*   Updated: 2023/07/23 17:07:09 by emis             ###   ########.fr       */
+/*   Updated: 2023/08/10 20:46:00 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,17 +31,20 @@ static bool	initialize_textures(t_gui *gui)
 	gui->textures.walls = NULL;
 	gui->textures.doors = NULL;
 	gui->textures.floorceil = NULL;
+	ft_bzero(gui->textures.spframes, sizeof(gui->textures.spframes));
+	ft_bzero(gui->textures.spfrsizes, sizeof(gui->textures.spfrsizes));
 	return (false);
 }
 
 static bool	initialize_gui(t_gui *gui)
 {
 	gui->mlx = mlx_init();
-	if (!gui->mlx)
-	{
-		put_parsing_err("Couldn't initialize graphical driver.");
-		return (clear_parsing(gui), true);
-	}
+	mkorbrk(gui->mlx, mlxwrap, !gui->mlx, 1);
+	// if (!gui->mlx)
+	// {
+	// 	put_parsing_err("Couldn't initialize graphical driver.");
+	// 	return (clear_parsing(gui), true);
+	// }
 	gui->buffer = mlx_new_image(gui->mlx, SCRWIDTH, SCRHEIGHT);
 	if (!gui->buffer)
 	{
