@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 15:22:49 by emis              #+#    #+#             */
-/*   Updated: 2023/07/10 13:48:53 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/11 10:08:11 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,16 @@ t_vect	delta(t_vect from, t_vect to)
 	d.x /= mag;
 	d.y /= mag;
 	return (d);
+}
+
+double	calc_distance(t_vect from, t_vect to)
+{
+	double	distance;
+	double	dx;
+	double	dy;
+
+	dx = to.x - from.x;
+	dy = to.y - from.y;
+	distance = sqrt(dx * dx + dy * dy);
+	return (distance);
 }

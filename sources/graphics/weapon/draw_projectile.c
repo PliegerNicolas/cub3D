@@ -6,7 +6,7 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 01:43:35 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/26 22:35:08 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/08/11 12:31:36 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -19,7 +19,7 @@ void	draw_projectile(t_gui *gui, int x, int y, double distance)
 	int		j;
 
 	color = 0x9183EB;
-	size = fmax(2, fmin(10, 10 - distance));
+	size = fmax(4, fmin(12, 12 - distance));
 	i = x - (size / 2);
 	while (i < x + (int)(size / 2))
 	{
@@ -43,7 +43,7 @@ void	draw_projectile_impact(t_gui *gui, int x, int y, double distance)
 	int		j;
 
 	color = 0x9183EB;
-	size = fmax(6, fmin(18, 18 - distance));
+	size = fmax(8, fmin(24, 24 - distance));
 	i = x - (size / 2);
 	while (i < x + (int)(size / 2))
 	{

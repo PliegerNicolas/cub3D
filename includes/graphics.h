@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/08/09 15:02:44 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/11 11:04:43 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,13 +107,6 @@ typedef struct s_vect
 	double	y;
 }	t_vect;
 
-typedef struct s_3Dvect
-{
-	double	x;
-	double	y;
-	double	z;
-}	t_3Dvect;
-
 typedef struct s_ray_caster
 {
 	int		x;
@@ -136,9 +129,9 @@ typedef struct s_ray_caster
 
 typedef struct projectile
 {
-	t_3Dvect	posi;
-	t_3Dvect	direction;
-	bool		status;
+	t_vect	posi;
+	t_vect	direction;
+	bool	status;
 }	t_prj;
 
 typedef struct s_player
@@ -163,7 +156,7 @@ typedef struct s_player
 typedef struct s_sprite
 {
 	t_type	type;
-	_Bool	solid;
+	bool	solid;
 	t_vect	posi;
 	int		alpha;
 	int		fcur;
@@ -205,7 +198,7 @@ typedef struct s_gui
 	t_play	cam;
 	int		keys;
 	int		btns;
-	_Bool	rendered;
+	bool	rendered;
 }	t_gui;
 
 /* ************************************** */
@@ -284,6 +277,7 @@ double	inv_safe(double x);
 double	magnitude(t_vect v);
 double	angle(t_vect v1, t_vect v2);
 t_vect	delta(t_vect from, t_vect to);
+double	calc_distance(t_vect from, t_vect to);
 
 /* FLOOR CASTING */
 
@@ -314,6 +308,9 @@ void	weapon(t_gui *gui);
 void	draw_crosshair(t_gui *gui, int color);
 int		calculate_next_walk_frame(t_gui *gui, int frame);
 void	set_weapon_position(t_gui *gui, int *x, int *y, int frame);
+
+bool	is_projectile_obstructed(t_gui *gui, t_prj *projectile);
+bool	move_projectile(t_gui *gui, t_prj *projectile);
 
 bool	projectile_collision(t_gui *gui, t_prj *projectile);
 
