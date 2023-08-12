@@ -6,36 +6,44 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 19:16:31 by emis              #+#    #+#             */
-/*   Updated: 2023/08/12 13:21:55 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/08/12 14:07:22 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
 
+static double	test(t_gui *gui, t_rc *rc)
+{
+	double	inv_det;
+	double	transf_x;
+
+	inv_det = 1.0 / (gui->cam.plane.x * rc->ray_dir.y
+			- rc->ray_dir.x * gui->cam.plane.y);
+	transf_x = inv_det * (gui->cam.dir.y * rc->ray_dir.x
+			- gui->cam.dir.x * rc->ray_dir.y);
+	return (transf_x);
+}
+
 static bool	raycast_projectile(t_gui *gui, t_prj *projectile)
 {
 	t_rc	rc;
-	double	distance;
+	int		screen_x;
+	int		screen_y;
 	bool	target_hit;
+	double	distance;
 
 	target_hit = !move_projectile(gui, projectile);
-
-	distance = calc_distance(gui->cam.posi, projectile->posi);
-
 	rc.ray_dir.x = (projectile->posi.x - gui->cam.posi.x) * gui->cam.zoom;
 	rc.ray_dir.y = (projectile->posi.y - gui->cam.posi.y) * gui->cam.zoom;
-
-	double	inv_det = 1.0 / (gui->cam.plane.x * rc.ray_dir.y - rc.ray_dir.x * gui->cam.plane.y);
-	double	transf_x = inv_det * (gui->cam.dir.y * rc.ray_dir.x - gui->cam.dir.x * rc.ray_dir.y);
-
-	int	screen_x = (SCRWIDTH / 2.0) * (1.0 + transf_x);
-	int	screen_y = (SCRHEIGHT / 2.0) + (gui->cam.pitch * SCRHEIGHT);
-
+	screen_x = (SCRWIDTH / 2.0) * (1.0 + test(gui, &rc));
+	screen_y = (SCRHEIGHT / 2.0) + (gui->cam.pitch * SCRHEIGHT);
 	if (!target_hit && is_projectile_obstructed(gui, projectile))
 		return (false);
 	else
 	{
+		distance = calc_distance(gui->cam.posi, projectile->posi);
 		if (target_hit)
-			return (draw_projectile_impact(gui, screen_x, screen_y, distance), true);
+			return (draw_projectile_impact(gui, screen_x,
+					screen_y, distance), true);
 		else
 			draw_projectile(gui, screen_x, screen_y, distance);
 	}

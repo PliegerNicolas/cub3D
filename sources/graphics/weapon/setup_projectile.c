@@ -6,11 +6,11 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 00:26:05 by nicolas           #+#    #+#             */
-/*   Updated: 2023/08/12 13:18:04 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/08/12 13:56:48 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
- 
+
 void	initialize_projectile(t_play *player, t_prj *projectile)
 {
 	projectile->posi.x = player->posi.x;

@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/08/12 13:24:24 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/08/12 14:08:23 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@
 # include "garbaj.h"
 # include "parsing.h"
 
-# define SCRWIDTH 1200
-# define SCRHEIGHT 1000
+# define SCRWIDTH 1280
+# define SCRHEIGHT 720
 
 /* ************************************** */
 /* * ENUMERATORS						* */
@@ -216,8 +216,7 @@ typedef struct s_gui
 
 # define WALK_AMPLITUDE 8
 # define WALK_FREQUENCY 30
-# define PROJECTILE_SPEED 0.15
-# define PROJECTILE_MAX_DISTANCE 10
+# define PROJECTILE_SPEED 0.25
 
 /* ************************************** */
 /* * FUNCTIONS							* */
