@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 19:16:31 by emis              #+#    #+#             */
-/*   Updated: 2023/08/12 12:06:10 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/08/12 13:21:55 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -16,10 +16,6 @@ static bool	raycast_projectile(t_gui *gui, t_prj *projectile)
 	t_rc	rc;
 	double	distance;
 	bool	target_hit;
-
-	// temp
-	printf("projectile->x = %f\n", projectile->posi.x);
-	printf("projectile->y = %f\n", projectile->posi.y);
 
 	target_hit = !move_projectile(gui, projectile);
 
@@ -35,27 +31,13 @@ static bool	raycast_projectile(t_gui *gui, t_prj *projectile)
 	int	screen_y = (SCRHEIGHT / 2.0) + (gui->cam.pitch * SCRHEIGHT);
 
 	if (!target_hit && is_projectile_obstructed(gui, projectile))
-	{
-		printf("Projectile obstructed\n");
-		if (target_hit)
-		{
-			printf("Target hit\n");
-			return (true);
-		}
-	}
+		return (false);
 	else
 	{
-		printf("Projectile visible\n");
 		if (target_hit)
-		{
-			printf("Target hit\n");
-			draw_projectile_impact(gui, screen_x, screen_y, distance);
-			return (true);
-		}
+			return (draw_projectile_impact(gui, screen_x, screen_y, distance), true);
 		else
-		{
 			draw_projectile(gui, screen_x, screen_y, distance);
-		}
 	}
 	return (false);
 }
@@ -77,7 +59,6 @@ void	weapon(t_gui *gui)
 		return ;
 	weapon_x = 0;
 	weapon_y = 0;
-	draw_crosshair(gui, 0xE4E6Eb);
 	walk_frame = calculate_next_walk_frame(gui, walk_frame);
 	set_weapon_position(gui, &weapon_x, &weapon_y, walk_frame);
 	if (!projectile.status && (gui->btns & (1 << left_click)))

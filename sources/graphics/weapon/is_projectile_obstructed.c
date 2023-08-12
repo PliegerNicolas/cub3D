@@ -6,7 +6,7 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 09:50:23 by nicolas           #+#    #+#             */
-/*   Updated: 2023/08/12 12:50:06 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/08/12 13:17:55 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -47,7 +47,6 @@ static void	rays(t_play *p, t_rc *rc)
 
 static bool	cast(t_gui *gui, t_rc *rc, t_vect *target_position)
 {
-
 	rays(&gui->cam, rc);
 	while (true)
 	{

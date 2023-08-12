@@ -6,7 +6,7 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 09:49:53 by nicolas           #+#    #+#             */
-/*   Updated: 2023/08/12 13:15:50 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/08/12 13:17:42 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -44,8 +44,6 @@ static bool	cast(t_gui *gui, t_rc *rc, t_vect *target_position)
 	{
 		int	cell_x = (int)rc->map_x;
 		int	cell_y = (int)rc->map_y;
-
-		printf("rc->map_x = %d, rc->map_y = %d\n", rc->map_x, rc->map_y);
 
 		if (is_out_of_bounds(gui, cell_x, cell_y))
 			return (false);
