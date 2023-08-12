@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/08/11 11:04:43 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/08/12 11:52:49 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -312,7 +312,11 @@ void	set_weapon_position(t_gui *gui, int *x, int *y, int frame);
 bool	is_projectile_obstructed(t_gui *gui, t_prj *projectile);
 bool	move_projectile(t_gui *gui, t_prj *projectile);
 
-bool	projectile_collision(t_gui *gui, t_prj *projectile);
+bool	is_out_of_bounds(t_gui *gui, int cell_x, int cell_y);
+bool	wall_collision(t_gui *gui, int cell_x, int cell_y);
+bool	is_target_position_found(t_vect target_position, int cell_x,
+			int cell_y);
+bool	sprite_collision(t_gui *gui, int cell_x, int cell_y);
 
 void	draw_projectile(t_gui *gui, int x, int y, double distance);
 void	draw_projectile_impact(t_gui *gui, int x, int y, double distance);

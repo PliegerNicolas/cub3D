@@ -6,190 +6,22 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 19:16:31 by emis              #+#    #+#             */
-/*   Updated: 2023/08/11 12:22:27 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/08/12 12:06:10 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
 
-/*
-static double	distance_between_player_and_projectile(t_play *player, t_prj *projectile)
-{
-	double	dx;
-	double	dy;
-	double	distance;
-
-	dx = projectile->posi.x - player->posi.x;
-	dy = projectile->posi.y - player->posi.y;
-	distance = sqrt(dx * dx + dy * dy);
-	return (distance);
-}
-
-static void	move_projectile(t_prj *projectile)
-{
-	projectile->posi.x += (double)PROJECTILE_SPEED
-			* projectile->direction.x;
-	projectile->posi.y += (double)PROJECTILE_SPEED
-			* projectile->direction.y;
-}
-
-static void	rays(t_play *p, t_rc *rc)
-{
-	if (rc->ray_dir.x < 0)
-	{
-		rc->step_x = -1;
-		rc->side_dist.x = (p->posi.x - rc->map_x) * rc->delta_dist.x;
-	}
-	else
-	{
-		rc->step_x = 1;
-		rc->side_dist.x = (rc->map_x + 1.0 - p->posi.x) * rc->delta_dist.x;
-	}
-	if (rc->ray_dir.y < 0)
-	{
-		rc->step_y = -1;
-		rc->side_dist.y = (p->posi.y - rc->map_y) * rc->delta_dist.y;
-	}
-	else
-	{
-		rc->step_y = 1;
-		rc->side_dist.y = (rc->map_y + 1.0 - p->posi.y) * rc->delta_dist.y;
-	}
-}
-
-
-static bool	cast(t_gui *gui, t_rc *rc, double distance)
-{
-
-	rays(&gui->cam, rc);
-
-	while (distance > 0)
-	{
-		int	cell_x = (int)rc->map_x;
-		int	cell_y = (int)rc->map_y;
-		if (gui->map.map[cell_x][cell_y] % DOOR_OPEN != floor_tile)
-		{
-			return (false);
-		}
-		// Move to the next intersection point along the ray
-		if (rc->side_dist.x < rc->side_dist.y)
-		{
-			rc->side_dist.x += rc->delta_dist.x;
-			rc->map_x += rc->step_x;
-		}
-		else
-		{
-			rc->side_dist.y += rc->delta_dist.y;
-			rc->map_y += rc->step_y;
-		}
-
-		// Update the remaining distance
-		distance -= 1.0;
-	}
-	return (true);
-}
-
-static void	normalize_ray_dir(t_rc *rc)
-{
-	double	ray_dir_magnitude;
-
-	ray_dir_magnitude = magnitude(rc->ray_dir);
-	if (ray_dir_magnitude)
-	{
-		rc->ray_dir.x /= ray_dir_magnitude;
-		rc->ray_dir.y /= ray_dir_magnitude;
-	}
-}
-
-static bool	is_in_fov(t_play *player, t_rc rc)
-{
-	normalize_ray_dir(&rc);
-	double	dot_product = player->dir.x * rc.ray_dir.x + player->dir.y * rc.ray_dir.y;
-	if (dot_product < 0.5)
-		return (false);
-	return (true);
-}
-
-static bool raycast_projectile(t_gui *gui, t_prj *projectile)
-{
-	t_rc	rc;
-
-	// Get the player's coordinates relative to the grid (convert to int and round down)
-	rc.map_x = (int)gui->cam.posi.x;
-	rc.map_y = (int)gui->cam.posi.y;
-
-	// Get the differences in X, Y and Z coordinates between the player and
-	// the projectile and normalize them.
-	rc.ray_dir.x = (projectile->posi.x - gui->cam.posi.x) * gui->cam.zoom;
-	rc.ray_dir.y = (projectile->posi.y - gui->cam.posi.y) * gui->cam.zoom;
-
-	// Calculate the distance to the next intersection point in both X and Y directions
-	rc.delta_dist.x = inv_safe(rc.ray_dir.x);
-	rc.delta_dist.y = inv_safe(rc.ray_dir.y);
-
-	// Calculate the distance between the player and the projectile
-	double	distance = distance_between_player_and_projectile(&gui->cam, projectile);
-
-	// Exit if projectile not in FOV (horizontally and vertically)
-	if (!is_in_fov(&gui->cam, rc))
-	{
-		if (projectile_collision(gui, projectile))
-		{
-			printf("Projectile exploded outside of FOV\n");
-			return (clear_projectile(projectile), true);
-		}
-		else
-		{
-			printf("Projectile not visible (outside of FOV)\n");
-		}
-		return (false);
-	}
-
-
-
-	// PROJECT THE PROJECTILE'S POSITION ON THE PLAYER'S SCREEN HERE
-	double	inv_det = 1.0 / (gui->cam.plane.x * rc.ray_dir.y - rc.ray_dir.x * gui->cam.plane.y);
-	double	transf_x = inv_det * (gui->cam.dir.y * rc.ray_dir.x - gui->cam.dir.x * rc.ray_dir.y);
-
-	int	screen_x = (SCRWIDTH / 2.0) * (1.0 + transf_x);
-	int	screen_y = (SCRHEIGHT / 2.0) + (gui->cam.pitch * SCRHEIGHT);
-
-	if (projectile_collision(gui, projectile))
-	{
-		printf("Projectile collision detected\n");
-		if (cast(gui, &rc, distance))
-		{
-			draw_projectile_impact(gui, screen_x, screen_y, distance);
-			printf("Draw projectile impact\n");
-		}
-		return (clear_projectile(projectile), true);
-	}
-	else if (cast(gui, &rc, distance))
-	{
-		draw_projectile(gui, screen_x, screen_y, distance);
-		printf("Draw projectile\n");
-	}
-	else
-	{
-		printf("Projectile not visible\n");
-	}
-	return (false);
-}
-
-*/
-
-
-static bool raycast_projectile(t_gui *gui, t_prj *projectile)
+static bool	raycast_projectile(t_gui *gui, t_prj *projectile)
 {
 	t_rc	rc;
 	double	distance;
 	bool	target_hit;
 
-	target_hit = !move_projectile(gui, projectile);
-
 	// temp
 	printf("projectile->x = %f\n", projectile->posi.x);
 	printf("projectile->y = %f\n", projectile->posi.y);
-	printf("-----------------\n");
+
+	target_hit = !move_projectile(gui, projectile);
 
 	distance = calc_distance(gui->cam.posi, projectile->posi);
 

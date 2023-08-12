@@ -6,7 +6,7 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 09:49:53 by nicolas           #+#    #+#             */
-/*   Updated: 2023/08/11 12:28:55 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/08/12 12:44:47 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -44,13 +44,15 @@ static bool	cast(t_gui *gui, t_rc *rc, t_vect *target_position)
 	{
 		int	cell_x = (int)rc->map_x;
 		int	cell_y = (int)rc->map_y;
-		if (cell_x < 0 || cell_x >= (int)gui->map.width || cell_y < 0
-			|| cell_y >= (int)gui->map.height)
+
+		printf("rc->map_x = %d, rc->map_y = %d\n", rc->map_x, rc->map_y);
+
+		if (is_out_of_bounds(gui, cell_x, cell_y))
 			return (false);
-		if (cell_x == (int)target_position->x && cell_y == (int)target_position->y)
+		if (wall_collision(gui, cell_x, cell_y) || sprite_collision(gui, cell_x, cell_y))
+			return (false);
+		if (is_target_position_found(*target_position, cell_x, cell_y))
 			return (true);
-		if (gui->map.map[cell_x][cell_y] % DOOR_OPEN != floor_tile)
-			return (false);
 		if (rc->side_dist.x < rc->side_dist.y)
 		{
 			rc->side_dist.x += rc->delta_dist.x;
@@ -72,10 +74,24 @@ t_vect	target_projectile_position(t_prj *projectile)
 	return (next_pos);
 }
 
+static bool	calc_hit_distance(t_rc *rc, t_prj *projectile)
+{
+	double	hit_distance;
+
+	if (rc->side_dist.y < rc->side_dist.x)
+		hit_distance = (rc->map_y - projectile->posi.y
+			+ (1 - rc->step_y) / 2) / rc->ray_dir.y;
+	else
+		hit_distance = (rc->map_x - projectile->posi.x
+			+ (1 - rc->step_x) / 2) / rc->ray_dir.x;
+	return (hit_distance);
+}
+
 bool	move_projectile(t_gui *gui, t_prj *projectile)
 {
 	t_rc	rc;
 	t_vect	target_position;
+	double	hit_distance;
 
 	target_position = target_projectile_position(projectile);
 
@@ -96,8 +112,9 @@ bool	move_projectile(t_gui *gui, t_prj *projectile)
 	}
 	else
 	{
-		projectile->posi.x = projectile->posi.x + rc.side_dist.x * rc.ray_dir.x;
-		projectile->posi.y = projectile->posi.y + rc.side_dist.y * rc.ray_dir.y;
+		hit_distance = calc_hit_distance(&rc, projectile);
+        projectile->posi.x = projectile->posi.x + rc.ray_dir.x * hit_distance;
+        projectile->posi.y = projectile->posi.y + rc.ray_dir.y * hit_distance;
 		return (false);
     }
 }

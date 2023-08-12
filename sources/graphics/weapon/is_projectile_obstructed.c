@@ -6,7 +6,7 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 09:50:23 by nicolas           #+#    #+#             */
-/*   Updated: 2023/08/11 12:26:54 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/08/12 12:50:06 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -53,13 +53,12 @@ static bool	cast(t_gui *gui, t_rc *rc, t_vect *target_position)
 	{
 		int	cell_x = (int)rc->map_x;
 		int	cell_y = (int)rc->map_y;
-		if (cell_x < 0 || cell_x >= (int)gui->map.width || cell_y < 0
-			|| cell_y >= (int)gui->map.height)
+		if (is_out_of_bounds(gui, cell_x, cell_y))
 			return (false);
-		if (cell_x == (int)target_position->x && cell_y == (int)target_position->y)
+		if (wall_collision(gui, cell_x, cell_y))
+			return (false);
+		if (is_target_position_found(*target_position, cell_x, cell_y))
 			return (true);
-		if (gui->map.map[cell_x][cell_y] % DOOR_OPEN != floor_tile)
-			return (false);
 		if (rc->side_dist.x < rc->side_dist.y)
 		{
 			rc->side_dist.x += rc->delta_dist.x;
