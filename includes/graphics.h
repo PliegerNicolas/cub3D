@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/08/12 11:52:49 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/08/12 13:24:24 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -305,7 +305,6 @@ void	minimap(t_gui *gui);
 /* WEAPON */
 
 void	weapon(t_gui *gui);
-void	draw_crosshair(t_gui *gui, int color);
 int		calculate_next_walk_frame(t_gui *gui, int frame);
 void	set_weapon_position(t_gui *gui, int *x, int *y, int frame);
 

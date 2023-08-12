@@ -5,7 +5,6 @@ SOURCES += ./sources/graphics/casting/floor_casting.c
 
 SOURCES += ./sources/graphics/weapon/weapon.c
 SOURCES += ./sources/graphics/weapon/setup_projectile.c
-SOURCES += ./sources/graphics/weapon/crosshair.c
 SOURCES += ./sources/graphics/weapon/walking_animation.c
 SOURCES += ./sources/graphics/weapon/move_projectile.c
 SOURCES += ./sources/graphics/weapon/is_projectile_obstructed.c
