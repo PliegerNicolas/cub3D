@@ -6,32 +6,32 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 09:49:53 by nicolas           #+#    #+#             */
-/*   Updated: 2023/08/12 12:44:47 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/08/12 13:15:50 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
 
-static void	rays(t_play *p, t_rc *rc)
+static void	rays(t_vect target_position, t_rc *rc)
 {
 	if (rc->ray_dir.x < 0)
 	{
 		rc->step_x = -1;
-		rc->side_dist.x = (p->posi.x - rc->map_x) * rc->delta_dist.x;
+		rc->side_dist.x = (target_position.x - rc->map_x) * rc->delta_dist.x;
 	}
 	else
 	{
 		rc->step_x = 1;
-		rc->side_dist.x = (rc->map_x + 1.0 - p->posi.x) * rc->delta_dist.x;
+		rc->side_dist.x = (rc->map_x + 1.0 - target_position.x) * rc->delta_dist.x;
 	}
 	if (rc->ray_dir.y < 0)
 	{
 		rc->step_y = -1;
-		rc->side_dist.y = (p->posi.y - rc->map_y) * rc->delta_dist.y;
+		rc->side_dist.y = (target_position.y - rc->map_y) * rc->delta_dist.y;
 	}
 	else
 	{
 		rc->step_y = 1;
-		rc->side_dist.y = (rc->map_y + 1.0 - p->posi.y) * rc->delta_dist.y;
+		rc->side_dist.y = (rc->map_y + 1.0 - target_position.y) * rc->delta_dist.y;
 	}
 }
 
@@ -39,7 +39,7 @@ static void	rays(t_play *p, t_rc *rc)
 static bool	cast(t_gui *gui, t_rc *rc, t_vect *target_position)
 {
 
-	rays(&gui->cam, rc);
+	rays(*target_position, rc);
 	while (true)
 	{
 		int	cell_x = (int)rc->map_x;
@@ -69,6 +69,7 @@ static bool	cast(t_gui *gui, t_rc *rc, t_vect *target_position)
 t_vect	target_projectile_position(t_prj *projectile)
 {
 	t_vect	next_pos;
+
 	next_pos.x = projectile->posi.x + (double)PROJECTILE_SPEED * projectile->direction.x;
 	next_pos.y = projectile->posi.y + (double)PROJECTILE_SPEED * projectile->direction.y;
 	return (next_pos);
