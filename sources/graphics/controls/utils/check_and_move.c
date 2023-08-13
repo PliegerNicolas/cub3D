@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   check_and_move.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 06:49:04 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/19 13:25:05 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/13 12:34:15 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "graphics.h"
 
 void	check_and_move(t_map map, t_vect *posi, t_vect dxdy, double magn)

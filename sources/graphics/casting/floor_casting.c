@@ -6,9 +6,10 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 16:25:33 by emis              #+#    #+#             */
-/*   Updated: 2023/08/09 15:08:27 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/13 12:31:32 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "graphics.h"
 
 typedef struct rc_floor
@@ -82,7 +83,10 @@ static void	draw_pixel(t_gui *gui, t_rc_floor *rc, size_t x, size_t y)
 		else
 			color = gui->textures.ceil_color;
 	}
-	color = (color >> 1) & 8355711;
+	// color = (color >> 1) & 8355711;
+	// IN THE DARK !
+	if (gui->cam.dark)
+		color |= (255 - bind(gui->cam.dark * (rc->row_distance + 1.0), 0, 255)) << 24;
 	pixput(gui->buffer, x, y, color);
 }
 

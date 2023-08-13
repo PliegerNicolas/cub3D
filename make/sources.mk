@@ -1,32 +1,3 @@
-SOURCES += ./sources/graphics/casting/wall_casting_texture.c
-SOURCES += ./sources/graphics/casting/wall_casting.c
-SOURCES += ./sources/graphics/casting/sprite_casting.c
-SOURCES += ./sources/graphics/casting/floor_casting.c
-
-SOURCES += ./sources/graphics/weapon/weapon.c
-SOURCES += ./sources/graphics/weapon/setup_projectile.c
-SOURCES += ./sources/graphics/weapon/walking_animation.c
-SOURCES += ./sources/graphics/weapon/move_projectile.c
-SOURCES += ./sources/graphics/weapon/is_projectile_obstructed.c
-SOURCES += ./sources/graphics/weapon/projectile_collision.c
-SOURCES += ./sources/graphics/weapon/draw_projectile.c
-
-SOURCES += ./sources/graphics/controls/events.c
-SOURCES += ./sources/graphics/controls/key_press.c
-SOURCES += ./sources/graphics/controls/controls.c
-SOURCES += ./sources/graphics/controls/utils/check_and_move.c
-SOURCES += ./sources/graphics/controls/utils/update_speed.c
-SOURCES += ./sources/graphics/controls/utils/set_keys_and_btns_arr.c
-SOURCES += ./sources/graphics/controls/utils/mouse_motion_utils.c
-
-SOURCES += ./sources/graphics/render.c
-SOURCES += ./sources/graphics/minimath.c
-SOURCES += ./sources/graphics/framerate.c
-SOURCES += ./sources/graphics/image.c
-SOURCES += ./sources/graphics/interact.c
-SOURCES += ./sources/graphics/vector.c
-SOURCES += ./sources/graphics/minimap.c
-SOURCES += ./sources/graphics/textures.c
 SOURCES += ./sources/main.c
 
 SOURCES += ./sources/parsing/free_2.c
@@ -51,6 +22,38 @@ SOURCES += ./sources/parsing/set_player.c
 SOURCES += ./sources/parsing/set_weapon.c
 SOURCES += ./sources/parsing/set_color.c
 SOURCES += ./sources/parsing/convert_map_ctrl_to_int_arr.c
+
+SOURCES += ./sources/graphics/render.c
+SOURCES += ./sources/graphics/hud.c
+SOURCES += ./sources/graphics/framerate.c
+SOURCES += ./sources/graphics/image.c
+SOURCES += ./sources/graphics/interact.c
+SOURCES += ./sources/graphics/vector.c
+SOURCES += ./sources/graphics/vector2.c
+SOURCES += ./sources/graphics/draw.c
+SOURCES += ./sources/graphics/controls/events.c
+SOURCES += ./sources/graphics/controls/utils/check_and_move.c
+SOURCES += ./sources/graphics/controls/utils/update_speed.c
+SOURCES += ./sources/graphics/controls/utils/mouse_motion_utils.c
+SOURCES += ./sources/graphics/controls/utils/set_keys_and_btns_arr.c
+SOURCES += ./sources/graphics/minimath.c
+SOURCES += ./sources/graphics/controls/key_press.c
+SOURCES += ./sources/graphics/controls/controls.c
+SOURCES += ./sources/graphics/minimap.c
+SOURCES += ./sources/graphics/textures.c
+
+SOURCES += ./sources/graphics/casting/wall_casting_texture.c
+SOURCES += ./sources/graphics/casting/wall_casting.c
+SOURCES += ./sources/graphics/casting/sprite_casting.c
+SOURCES += ./sources/graphics/casting/floor_casting.c
+
+SOURCES += ./sources/graphics/weapon/weapon.c
+SOURCES += ./sources/graphics/weapon/setup_projectile.c
+SOURCES += ./sources/graphics/weapon/walking_animation.c
+SOURCES += ./sources/graphics/weapon/move_projectile.c
+SOURCES += ./sources/graphics/weapon/is_projectile_obstructed.c
+SOURCES += ./sources/graphics/weapon/projectile_collision.c
+SOURCES += ./sources/graphics/weapon/draw_projectile.c
 
 SOURCES += ./sources/garbaj/wrappers.c
 SOURCES += ./sources/garbaj/garbaj.c

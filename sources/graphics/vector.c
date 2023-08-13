@@ -6,10 +6,9 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 15:22:49 by emis              #+#    #+#             */
-/*   Updated: 2023/08/11 10:08:11 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/08/13 12:34:07 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "graphics.h"
 
 double	magnitude(t_vect v)
@@ -48,4 +47,14 @@ double	calc_distance(t_vect from, t_vect to)
 	dy = to.y - from.y;
 	distance = sqrt(dx * dx + dy * dy);
 	return (distance);
+}
+
+t_vect	scale(t_vect v, double scalar)
+{
+	return ((t_vect){v.x * scalar, v.y * scalar});
+}
+
+t_vect	perp(t_vect v)
+{
+	return ((t_vect){v.y, -v.x});
 }

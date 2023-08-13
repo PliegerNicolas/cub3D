@@ -6,10 +6,9 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:15:05 by nplieger          #+#    #+#             */
-/*   Updated: 2023/08/09 15:06:53 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/13 12:30:40 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "graphics.h"
 
 typedef struct texture_data
@@ -69,10 +68,18 @@ void	wall_texture(t_gui *gui, t_rc *rc)
 	{
 		tex_data.y = (int)tex_data.pos & (gui->textures.width - 1);
 		tex_data.pos += tex_data.step;
-		color = pixget(gui->textures.walls[tex_data.id],
+		if (gui->map.map[rc->map_x][rc->map_y] == DOOR_CLOSED
+			&& gui->textures.doors)
+			color = pixget(gui->textures.doors[0],
 				gui->textures.width * tex_data.y + tex_data.x, 0);
-		if (rc->side == 1)
-			color = (color >> 1) & 8355711;
+		else
+			color = pixget(gui->textures.walls[tex_data.id],
+				gui->textures.width * tex_data.y + tex_data.x, 0);
+		// if (rc->side == 1)
+		// 	color = (color >> 1) & 8355711;
+		// IN THE DARK !
+		if (gui->cam.dark)
+			color = color_mixer(color, 0, bind(gui->cam.dark * (rc->perp_wall_dist + 1), 0, 255));
 		pixput(gui->buffer, rc->x, y++, color);
 	}
 }

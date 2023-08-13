@@ -6,17 +6,32 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 05:50:41 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/16 17:12:24 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/08/01 17:47:35 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "graphics.h"
 
 static void	act_on_sprint(t_gui *gui)
 {
-	if (gui->keys & (1 << KP_sprint))
+	static bool	cooldown;
+
+	if (gui->keys & (1 << KP_sprint) && !cooldown)
 		gui->cam.sprint_multiplicator = 2;
 	else
 		gui->cam.sprint_multiplicator = 1;
+	if (!nextframe(RATE_SPRINT))
+		return ;
+	if (gui->cam.sprint_multiplicator == 2)
+		gui->cam.stat.get[STA] -= 2 * (gui->cam.stat.get[STA] > 0)
+			* (magnitude(gui->cam.speed) > 0);
+	else
+		gui->cam.stat.get[STA] += (2 - cooldown)
+			* (gui->cam.stat.get[STA] < gui->cam.stat.max[STA]);
+	if (!gui->cam.stat.get[STA])
+		cooldown = 1;
+	if (cooldown && gui->cam.stat.get[STA] == gui->cam.stat.max[STA])
+		cooldown = 0;
 }
 
 static void	act_on_move(t_gui *gui)
@@ -88,6 +103,7 @@ void	key_render(t_gui *gui)
 		update_speed(&gui->cam.speed.y, 0, gui->cam.accel_rate.y * 1.5);
 		gui->cam.rot_speed.x = 0;
 		gui->cam.rot_speed.y = 0;
+		act_on_sprint(gui);
 	}
 	else
 	{
@@ -95,8 +111,13 @@ void	key_render(t_gui *gui)
 		act_on_move(gui);
 		act_on_camera_rotation(gui, &gui->cam);
 		act_on_zoom(gui);
-		if (gui->keys & (1 << KP_interact))
-			interact(gui);
+	}
+	if (check_press((gui->keys & (1 << KP_interact)) != 0, 0))
+		interact(gui);
+	if (check_press((gui->keys & (1 << KP_map)) != 0, 1))
+	{
+		gui->cam.rndr ^= (1 << MINIMAP);
+		gui->rendered = 0;
 	}
 	move(gui);
 }

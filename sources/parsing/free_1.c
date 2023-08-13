@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 02:36:49 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/18 10:22:22 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/13 12:38:04 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -63,34 +63,34 @@ static void	free_weapon(t_gui *gui)
 		mlx_destroy_image(gui->mlx, gui->textures.weapon);
 }
 
-static void	free_sprites(t_gui *gui, int nb, size_t i)
-{
-	if (gui->textures.spdist)
-		free(gui->textures.spdist);
-	if (gui->textures.sporder)
-		free(gui->textures.sporder);
-	if (gui->textures.sprites)
-	{
-		nb = 0;
-		while (nb < gui->textures.spnb)
-		{
-			if (gui->textures.sprites[nb].frames)
-			{
-				i = 0;
-				while (i < 8)
-				{
-					if (gui->textures.sprites[nb].frames[i])
-						mlx_destroy_image(gui->mlx,
-							gui->textures.sprites[nb].frames[i]);
-					i++;
-				}
-				free(gui->textures.sprites[nb].frames);
-			}
-			nb++;
-		}
-		free(gui->textures.sprites);
-	}
-}
+// static void	free_sprites(t_gui *gui, int nb, size_t i)
+// {
+// 	// if (gui->textures.spdist)
+// 	// 	free(gui->textures.spdist);
+// 	// if (gui->textures.sporder)
+// 	// 	free(gui->textures.sporder);
+// 	if (gui->textures.sprites)
+// 	{
+// 		nb = 0;
+// 		while (nb < gui->textures.spnb)
+// 		{
+// 			if (gui->textures.sprites[nb].frames)
+// 			{
+// 				i = 0;
+// 				while (i < 8)
+// 				{
+// 					if (gui->textures.sprites[nb].frames[i])
+// 						mlx_destroy_image(gui->mlx,
+// 							gui->textures.sprites[nb].frames[i]);
+// 					i++;
+// 				}
+// 				free(gui->textures.sprites[nb].frames);
+// 			}
+// 			nb++;
+// 		}
+// 		free(gui->textures.sprites);
+// 	}
+// }
 
 void	clear_parsing(t_gui *gui)
 {
@@ -98,7 +98,6 @@ void	clear_parsing(t_gui *gui)
 		return ;
 	free_textures(gui);
 	free_map(gui);
-	free_sprites(gui, 0, 0);
 	free_weapon(gui);
 	if (gui->buffer)
 		mlx_destroy_image(gui->mlx, gui->buffer);

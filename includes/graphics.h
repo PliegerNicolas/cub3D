@@ -6,10 +6,9 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/08/12 14:08:23 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/08/13 12:29:43 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #ifndef GRAPHICS_H
 # define GRAPHICS_H
 
@@ -44,6 +43,7 @@ typedef enum e_keybinds
 	zoom_in = XK_KP_Add,
 	zoom_out = XK_KP_Subtract,
 	interactkey = XK_e,
+	mapkey = XK_Tab,
 }	t_kbind;
 
 typedef enum e_keypresses
@@ -60,6 +60,7 @@ typedef enum e_keypresses
 	KP_zoom_in,
 	KP_zoom_out,
 	KP_interact,
+	KP_map,
 }	t_kprs;
 
 typedef enum e_btnpresses
@@ -76,7 +77,8 @@ typedef enum e_render_level
 	BASICWALLS,
 	TEXTUWALLS,
 	SPRITES,
-	FLOORCEIL
+	FLOORCEIL,
+	MINIMAP
 }	t_rndr;
 
 typedef enum e_type
@@ -93,6 +95,7 @@ enum e_rates
 	RATE_MOB,
 	RATE_ITEM,
 	RATE_DOOR,
+	RATE_SPRINT,
 };
 
 /* ************************************** */
@@ -134,12 +137,30 @@ typedef struct projectile
 	bool	status;
 }	t_prj;
 
+typedef struct s_stats
+{
+	enum
+	{
+		HP,
+		STA,
+		ARM,
+		XP,
+		LVL,
+		SIZE
+	}	e_field;
+	int	get[SIZE];
+	int	max[SIZE];
+}	t_stat;
+
 typedef struct s_player
 {
-	t_rndr	rndr;
+	t_stat	stat;
+	int		rndr;
 	t_vect	posi;
 	t_vect	dir;
 	t_vect	plane;
+	double	pitch;
+	int		dark;
 	double	zoom;
 	double	zoom_rate;
 	t_vect	speed;
@@ -150,8 +171,9 @@ typedef struct s_player
 	t_vect	accel_rate;
 	t_vect	rot_accel_rate;
 	t_vect	hit_box;
-	double	pitch;
 }	t_play;
+
+typedef struct s_sprite	t_sprt;
 
 typedef struct s_sprite
 {
@@ -162,6 +184,8 @@ typedef struct s_sprite
 	int		fcur;
 	int		fnum;
 	t_img	**frames;
+	double	dist;
+	t_sprt	*next;
 }	t_sprt;
 
 typedef struct s_textures
@@ -176,10 +200,10 @@ typedef struct s_textures
 	t_img	**doors;
 	t_img	*weapon;
 	int		spnb;
-	int		*sporder;
-	double	*spdist;
 	t_sprt	*sprites;
 }	t_tex;
+	// int		*sporder;
+	// double	*spdist;
 
 typedef struct s_map
 {
@@ -218,6 +242,26 @@ typedef struct s_gui
 # define WALK_FREQUENCY 30
 # define PROJECTILE_SPEED 0.25
 
+// colors
+
+# define DARK 0x20
+# define VERY_DARK 0x32
+# define DARKNESS 0x50
+
+# define MAPBLACK 0x010101
+# define MAPWHITE 0xFFFFFF
+# define MAPGREY 0xAAAAAA
+# define MAPRED 0xFF0000
+# define MAPGREEN 0x00FF00
+# define MAPBLUE 0x0000FF
+# define MAPMAG 0xFF11FF
+# define MAPMAGF 0xAAFF44FF
+# define MAPYEL 0xFFFF00
+
+# ifndef M_PI
+#  define M_PI 3.14159265358979323846
+# endif
+
 /* ************************************** */
 /* * FUNCTIONS							* */
 /* ************************************** */
@@ -229,6 +273,7 @@ int		render(t_gui *gui);
 /* IMAGE */
 
 int		pixget(t_img *img, int x, int y);
+int		color_mixer(int from, int to, int alpha);
 void	pixput(t_img *img, int x, int y, int color);
 void	erase(t_img *img);
 void	imgput(t_img *dest, int x, int y, t_img *img);
@@ -277,6 +322,16 @@ double	magnitude(t_vect v);
 double	angle(t_vect v1, t_vect v2);
 t_vect	delta(t_vect from, t_vect to);
 double	calc_distance(t_vect from, t_vect to);
+t_vect	scale(t_vect v, double scalar);
+t_vect	perp(t_vect v);
+
+/* VECTOR2 */
+
+t_vect	v_add(t_vect v, t_vect w);
+t_vect	v_sub(t_vect v, t_vect w);
+t_vect	v_mul(t_vect v, t_vect w);
+t_vect	v_div(t_vect v, t_vect w);
+t_vect	v_rot(t_vect v, t_vect w);
 
 /* FLOOR CASTING */
 
@@ -297,9 +352,19 @@ int		nextframe(int frnb);
 void	sprite_cast(t_gui *gui, double ZBuffer[SCRWIDTH]);
 // void	sort_sprites(t_tex *tex, t_vect *from);
 
+/* DRAW */
+
+void	dot(t_img *img, int px, int py, int color);
+void	tri(t_img *img, t_vect at, t_vect dir, int color);
+
 /* MINIMAP */
 
-void	minimap(t_gui *gui);
+int		minimap(t_gui *gui, t_vect where, size_t s, bool c);
+int		fullmap(t_gui *gui, t_vect where);
+
+/* HUD */
+
+void	hud(t_gui *gui);
 
 /* WEAPON */
 
@@ -325,6 +390,7 @@ void	clear_projectile(t_prj *projectile);
 
 /* INTERACT */
 
+bool	check_press(bool press, size_t i);
 int		interact(t_gui *gui);
 
 /* ************************************** */
@@ -359,6 +425,7 @@ bool	set_player(t_gui *gui);
 
 /* set_sprites.c */
 
+t_sprt	*add_sprite(t_sprt **list, t_vect posi);
 bool	set_sprites(t_gui *gui);
 
 /* set_mobs.c */

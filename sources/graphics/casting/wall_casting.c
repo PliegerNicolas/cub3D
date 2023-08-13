@@ -6,10 +6,9 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 17:41:41 by emis              #+#    #+#             */
-/*   Updated: 2023/08/09 15:07:11 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/13 12:30:49 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "graphics.h"
 
 static void	rays(t_play *p, t_rc *rc)
@@ -83,9 +82,9 @@ void	wall_cast(t_gui *gui, double z_buffer[SCRWIDTH])
 		rc.delta_dist.x = inv_safe(rc.ray_dir.x);
 		rc.delta_dist.y = inv_safe(rc.ray_dir.y);
 		cast(gui, &rc);
-		if (p->rndr == BASICWALLS)
+		if (p->rndr & (1 << BASICWALLS))
 			wall_color(gui, &rc);
-		else
+		else if (p->rndr & (1 << TEXTUWALLS))
 			wall_texture(gui, &rc);
 		z_buffer[rc.x++] = rc.perp_wall_dist;
 	}

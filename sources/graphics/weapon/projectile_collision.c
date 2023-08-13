@@ -6,7 +6,7 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 18:36:22 by nicolas           #+#    #+#             */
-/*   Updated: 2023/08/12 12:42:02 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/08/13 12:51:44 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -39,22 +39,22 @@ bool	is_target_position_found(t_vect target_position, int cell_x, int cell_y)
 
 bool	sprite_collision(t_gui *gui, int cell_x, int cell_y)
 {
-	t_vect	sprite;
-	size_t	i;
+	t_sprt	*sprt;
+	t_vect	sprt_pos;
 
-	i = 0;
-	while (i < (size_t)gui->textures.spnb)
+	sprt = gui->textures.sprites;
+	while (sprt)
 	{
-		if (gui->textures.sprites[i].type != DEAD)
+		if (sprt->type != DEAD)
 		{
-			sprite = gui->textures.sprites[i].posi;
-			if ((int)sprite.x == cell_x && (int)sprite.y == cell_y)
+			sprt_pos = sprt->posi;
+			if ((int)sprt_pos.x == cell_x && (int)sprt_pos.y == cell_y)
 			{
-				gui->textures.sprites[i].type = DEAD;
+				sprt->type = DEAD;
 				return (true);
 			}
 		}
-		i++;
+		sprt = sprt->next;
 	}
 	return (false);
 }

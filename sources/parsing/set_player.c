@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   set_player.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 16:15:01 by nicolas           #+#    #+#             */
-/*   Updated: 2023/08/09 15:06:13 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/13 12:38:38 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "graphics.h"
 
 static bool	is_spawn_point(int val)
@@ -34,11 +35,13 @@ static void	set_base_stats(t_play *player)
 	player->rot_accel_rate.x = player->rot_speed_target.x * 0.15;
 	player->rot_accel_rate.y = player->rot_speed_target.y * 0.15;
 	player->sprint_multiplicator = 2.0;
+	player->pitch = 0.0;
+	player->dark = 0;
 	player->zoom = 1;
 	player->zoom_rate = 0.025;
 	player->hit_box.x = 0.1;
 	player->hit_box.y = 0.1;
-	player->rndr = FLOORCEIL;
+	player->rndr = 0b111;
 }
 
 static void	set_vector(t_play *player, size_t row, size_t col)
@@ -48,6 +51,16 @@ static void	set_vector(t_play *player, size_t row, size_t col)
 	pos.x = row;
 	pos.y = col;
 	player->posi = pos;
+	player->stat.get[HP] = 100;
+	player->stat.get[STA] = 50;
+	player->stat.get[ARM] = 0;
+	player->stat.get[XP] = 0;
+	player->stat.get[LVL] = 0;
+	player->stat.max[HP] = 100;
+	player->stat.max[STA] = 50;
+	player->stat.max[ARM] = 100;
+	player->stat.max[XP] = 100;
+	player->stat.max[LVL] = 100;
 }
 
 static void	set_orientation(t_play *player, int val)
