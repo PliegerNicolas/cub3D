@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 05:11:31 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/23 17:01:10 by emis             ###   ########.fr       */
+/*   Updated: 2023/08/13 12:03:32 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,11 @@ static bool	set_frames(t_gui *gui, t_sprt *sprite)
 
 bool	set_mobs(t_gui *gui)
 {
-	size_t	nb;
+	//size_t	nb;
 	size_t	row;
 	size_t	col;
 
-	nb = 0;
+	//nb = 0;
 	row = 0;
 	while (row < gui->map.height)
 	{
