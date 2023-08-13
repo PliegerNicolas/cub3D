@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 16:10:07 by emis              #+#    #+#             */
-/*   Updated: 2023/07/10 13:50:59 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/13 11:56:34 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -76,9 +76,13 @@ void	imgput(t_img *dest, int x, int y, t_img *img)
 	dy = -1;
 	while (++dy < img->height && y + dy < dest->height)
 	{
+		if (y + dy < 0)
+			continue ;
 		dx = -1;
 		while (++dx < img->width && x + dx < dest->width)
 		{
+			if (x + dx < 0)
+				continue ;
 			frm = img->data + (dy * img->size_line + dx * (img->bpp / 8));
 			dst = dest->data;
 			dst += ((y + dy) * dest->size_line + (x + dx) * (dest->bpp / 8));

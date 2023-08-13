@@ -6,7 +6,7 @@
 /*   By: nplieger <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 15:54:55 by nplieger          #+#    #+#             */
-/*   Updated: 2023/07/18 15:55:29 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/13 11:57:06 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -27,7 +27,7 @@ void	set_weapon_position(t_gui *gui, int *x, int *y, int frame)
 	float	walk_angle;
 
 	x_offset = gui->textures.weapon->width * 0.2;
-	y_offset = gui->textures.weapon->height * 0.2;
+	y_offset = gui->textures.weapon->height * 0.2 + gui->cam.pitch * SCRHEIGHT;
 	if (gui->cam.speed.x || gui->cam.speed.y || frame)
 	{
 		walk_angle = (frame / (float)WALK_FREQUENCY
