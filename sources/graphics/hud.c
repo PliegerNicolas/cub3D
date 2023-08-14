@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 18:18:56 by emis              #+#    #+#             */
-/*   Updated: 2023/08/14 13:16:04 by emis             ###   ########.fr       */
+/*   Updated: 2023/08/14 20:14:18 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,14 @@ static int	color_angle(t_gui *gui, t_vect ori, t_vect pt)
 	if (color < 0 && - color < 255 - 255 * (gui->cam.stat.max[XP]
 			- gui->cam.stat.get[XP]) / gui->cam.stat.max[XP])
 		color = MAPYEL - ((-color * 3 / 4) << 16) - (-color << 8);
-	else if (color >= 0 && color < 85 - 85 * (gui->cam.stat.max[HP]
-			- gui->cam.stat.get[HP]) / gui->cam.stat.max[HP])
+	else if (color >= 0 && (color < 85 - 85 * (gui->cam.stat.max[HP]
+			- gui->cam.stat.get[HP]) / gui->cam.stat.max[HP]))
 		color = MAPRED;
-	else if (color > 85 & color < 170 - 85 * (gui->cam.stat.max[ARM]
-			- gui->cam.stat.get[ARM]) / gui->cam.stat.max[ARM])
+	else if ((color > 85) & (color < 170 - 85 * (gui->cam.stat.max[ARM]
+			- gui->cam.stat.get[ARM]) / gui->cam.stat.max[ARM]))
 		color = MAPGREY;
-	else if (color > 170 & color > 170 + 85 * (gui->cam.stat.max[STA]
-			- gui->cam.stat.get[STA]) / gui->cam.stat.max[STA])
+	else if ((color > 170) & (color > 170 + 85 * (gui->cam.stat.max[STA]
+			- gui->cam.stat.get[STA]) / gui->cam.stat.max[STA]))
 		color = MAPBLUE;
 	else
 		color = MAPBLACK;

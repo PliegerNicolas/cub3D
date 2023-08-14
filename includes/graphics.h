@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/08/14 15:53:12 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/14 20:13:10 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ enum e_rates
 	RATE_SPRINT,
 	RATE_HEAL,
 	RATE_ARMOR_UP,
-	RATE_NB
+	RATE_NB,
 	RATE_SHOOT,
 };
 

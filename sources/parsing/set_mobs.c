@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 05:11:31 by nicolas           #+#    #+#             */
-/*   Updated: 2023/08/14 16:41:10 by emis             ###   ########.fr       */
+/*   Updated: 2023/08/14 20:13:26 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ bool	set_mobs(t_gui *gui)
 
 	if (!gui->textures.spframes[SIZE + NB_OBJTYPE])
 		set_frames(gui, SIZE + NB_OBJTYPE, NULL, 8);
-	nb = 0;
 	row = -1;
 	while (++row < gui->map.height)
 	{
