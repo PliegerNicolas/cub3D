@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 16:25:33 by emis              #+#    #+#             */
-/*   Updated: 2023/08/13 12:31:32 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/08/14 12:03:46 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,8 @@ void	floor_cast(t_gui *gui)
 			set_texture_coordinates(gui, &rc);
 			rc.floor_x += rc.floor_step_x;
 			rc.floor_y += rc.floor_step_y;
-			draw_pixel(gui, &rc, x, y);
+			if (pixget(gui->buffer, x, y) == 0)
+				draw_pixel(gui, &rc, x, y);
 			x++;
 		}
 		y++;
