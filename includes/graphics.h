@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/08/14 11:34:02 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/14 15:34:11 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef GRAPHICS_H
@@ -297,8 +297,8 @@ void	update_speed(double *current_speed, double target_speed,
 			double acceleration_rate);
 void	update_rotation_speed(double *current_speed, double target_speed,
 			double acceleration_rate, double direction);
-void	set_keys_arr(t_kbind *keys);
-void	set_btns_arr(t_bprs *mouse_btns);
+int		get_keypress_index(int keycode);
+int		get_mousepress_index(int keycode);
 void	initialize_mouse_motion(t_gui *gui, int last[2]);
 
 /* EVENTS */

@@ -6,68 +6,49 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 15:18:25 by emis              #+#    #+#             */
-/*   Updated: 2023/08/14 10:58:12 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/14 15:38:30 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
 
 int	key_press(int keycode, t_gui *gui)
 {
-	static t_kbind	keys[14];
-	size_t	i;
+	int		keypress_index;
 
 	if (keycode == XK_Escape)
 		return (mlx_loop_end(gui->mlx));
-	if (!keys[1])
-		set_keys_arr(keys);
-	i = 0;
-	while (i < sizeof(keys) / sizeof(*keys))
-	{
-		if (keycode == (int)keys[i])
-			gui->keys |= (1 << i);
-		i++;
-	}
+	keypress_index = get_keypress_index(keycode);
+	if (keypress_index >= 0)
+		gui->keys |= (1 << keypress_index);
 	return (0);
 }
 
 int	key_rel(int keycode, t_gui *gui)
 {
-	static t_kbind	keys[14];
-	size_t	i;
+	int		keypress_index;
 
-	i = 0;
-	if (!keys[1])
-		set_keys_arr(keys);
-	while (i < sizeof(keys) / sizeof(*keys))
-	{
-		if (keycode == (int)keys[i])
-			gui->keys &= ~(1 << i);
-		i++;
-	}
+	keypress_index = get_keypress_index(keycode);
+	if (keypress_index >= 0)
+		gui->keys &= ~(1 << keypress_index);
 	return (0);
 }
 
 int	mouse_press(int keycode, int x, int y, t_gui *gui)
 {
-	t_bprs		btns[6];
+	int			mousepress_index;
 	static bool	capture;
-	size_t		i;
 
-	set_btns_arr(btns);
-	i = 0;
-	while (i < sizeof(btns) / sizeof(*btns))
-	{
-		if (keycode == (int)btns[i])
-			gui->btns |= (1 << i);
-		i++;
-	}
+	mousepress_index = get_mousepress_index(keycode);
+	if (mousepress_index >= 0)
+		gui->btns |= (1 << mousepress_index);
 	if (!keycode)
 		return (capture);
 	else if (keycode == 2)
 		capture = !capture;
 	else if (keycode == 3)
 	{
-		gui->cam.rndr = ((gui->cam.rndr << (gui->cam.rndr & 1)) + !(gui->cam.rndr & 1)) % (0b11111);
+		gui->cam.rndr = ((gui->cam.rndr << (gui->cam.rndr & 1))
+				+ !(gui->cam.rndr & 1)) % (0b11111);
 		gui->rendered = 0;
 	}
 	else if (keycode == 4)
@@ -79,17 +60,11 @@ int	mouse_press(int keycode, int x, int y, t_gui *gui)
 
 int	mouse_rel(int keycode, int x, int y, t_gui *gui)
 {
-	t_bprs	btns[6];
-	size_t	i;
+	int	mousepress_index;
 
-	set_btns_arr(btns);
-	i = 0;
-	while (i < sizeof(btns) / sizeof(*btns))
-	{
-		if (keycode == (int)btns[i])
-			gui->btns &= ~(1 << i);
-		i++;
-	}
+	mousepress_index = get_mousepress_index(keycode);
+	if (mousepress_index >= 0)
+		gui->btns &= ~(1 << mousepress_index);
 	return ((void)x, (void)y, 0);
 }
 
