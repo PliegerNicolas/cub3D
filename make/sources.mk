@@ -24,6 +24,7 @@ SOURCES += ./sources/parsing/set_color.c
 SOURCES += ./sources/parsing/convert_map_ctrl_to_int_arr.c
 
 SOURCES += ./sources/graphics/render.c
+SOURCES += ./sources/graphics/stats.c
 SOURCES += ./sources/graphics/hud.c
 SOURCES += ./sources/graphics/framerate.c
 SOURCES += ./sources/graphics/image.c

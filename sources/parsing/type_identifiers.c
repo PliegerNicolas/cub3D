@@ -9,6 +9,7 @@
 /*   Updated: 2023/08/13 12:34:38 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "parsing.h"
 #include "graphics.h"
 
@@ -32,15 +33,17 @@ static void	set_strti(t_str_to_ti *strti)
 	strti[7].ti = ceiling_color;
 	strti[8].str = "D";
 	strti[8].ti = door_texture;
-	strti[9].str = "WP";
-	strti[9].ti = weapon_texture;
+	strti[9].str = "SP";
+	strti[9].ti = sprite_texture;
+	strti[10].str = "WP";
+	strti[10].ti = weapon_texture;
 }
 
 t_type_id	set_type_identifier(char *line, size_t *index)
 {
 	size_t		i;
 	size_t		len;
-	t_str_to_ti	strti[10];
+	t_str_to_ti	strti[11];
 
 	if (!line)
 		return (not_found);
@@ -67,7 +70,7 @@ bool	act_on_type_identifier(t_gui *gui, char *line, t_type_id ti)
 	if (ti == north_texture || ti == south_texture
 		|| ti == east_texture || ti == west_texture
 		|| ti == floor_texture || ti == ceiling_texture
-		|| ti == door_texture)
+		|| ti == door_texture || ti == sprite_texture)
 	{
 		if (set_texture(gui, line, ti))
 			return (true);

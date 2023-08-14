@@ -9,6 +9,7 @@
 /*   Updated: 2023/08/13 12:38:04 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "graphics.h"
 
 void	free_map(t_gui *gui)
@@ -101,6 +102,6 @@ void	clear_parsing(t_gui *gui)
 	free_weapon(gui);
 	if (gui->buffer)
 		mlx_destroy_image(gui->mlx, gui->buffer);
-	mlx_destroy_display(gui->mlx);
-	free(gui->mlx);
+	// mlx_destroy_display(gui->mlx);
+	// free(gui->mlx);
 }

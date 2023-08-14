@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 16:26:04 by emis              #+#    #+#             */
-/*   Updated: 2023/08/13 12:31:24 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/08/14 13:02:01 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -58,7 +58,7 @@ static void	set_dist_and_sort(t_tex *tex, t_vect *from)
 			* (from->x - sp->posi.x)
 			+ (from->y - sp->posi.y)
 			* (from->y - sp->posi.y)); //sqrt not taken, unneeded
-		if (last > -1 && sp->dist < last)
+		if (last > -1 && sp->dist > last)
 			sort = 1;
 		last = sp->dist;
 		sp = sp->next;
@@ -88,27 +88,37 @@ t_vect	transform(t_sprt *cur, t_play *play)
 		+ play->plane.x * sprite.y)});
 }
 
-void	frame_shift(t_tex *tex)
+void	frame_shift(t_gui *gui)
 {
 	t_sprt	*sp;
 	t_sprt	*old;
 
 	if (!nextframe(RATE_MOB))
 		return;
-	sp = tex->sprites;
+	sp = gui->textures.sprites;
 	while (sp)
 	{
+		if (sp->type == COLLECTIBLE)
+			sp->offset = (sp->offset + (int)sp->offset % 40)
+			- ((int)sp->offset + 4) % 40;
 		if (sp->type != DEAD)
 			sp->fcur = (sp->fcur + 1) % sp->fnum;
 		else if (sp->type == DEAD && sp->alpha < 0)
 		{
-			if (sp == tex->sprites)
-				tex->sprites = sp->next;
+			if (sp == gui->textures.sprites)
+				gui->textures.sprites = sp->next;
 			else
 				old->next = sp->next;
+			if (sp->amount < 0)
+			{
+				gain_xp(gui, sp);
+				if (rand() % XP == 0)
+					add_pack(gui, sp->posi, rand() % XP);
+			}
 			garbaj(sp, NULL, -1);
-			if (!--tex->spnb)
-				tex->sprites = NULL;
+			sp = gui->textures.sprites;
+			if (!--gui->textures.spnb)
+				return (void)(gui->textures.sprites = NULL);
 		}
 		old = sp;
 		sp = sp->next;
@@ -121,7 +131,7 @@ void	sprite_cast(t_gui *gui, double ZBuffer[SCRWIDTH])
 	t_sprt	*cur;
 
 	set_dist_and_sort(&gui->textures, &gui->cam.posi);
-	frame_shift(&gui->textures);
+	frame_shift(gui);
 
 	cur = gui->textures.sprites;
 
@@ -129,11 +139,28 @@ void	sprite_cast(t_gui *gui, double ZBuffer[SCRWIDTH])
 	// for(int i = 0; i < gui->textures.spnb; i++)
 	while (cur)
 	{
-		if (cur->type == ALIVE
-			&& cur->dist > .3)
-			check_and_move(gui->map, &cur->posi, 
-			delta(cur->posi, gui->cam.posi), 0.025);
-		else if (cur->type == DEAD)
+		if (cur->type != DEAD)
+		{
+			if (cur->dist > .2)
+			{
+				if (cur->type == ALIVE)
+					check_and_move(gui->map, &cur->posi, 
+					delta(cur->posi, gui->cam.posi), 0.025 + ((rand() % 5) / 1000.0));
+			}
+			else
+			{
+				if (cur->stat == HP && cur->amount < 0
+					&& gui->cam.stat.get[ARM] >= 0)
+					gui->cam.stat.get[ARM] += cur->amount * !(rand() % 4);
+				else if (gui->cam.stat.get[cur->stat] > -1)
+					gui->cam.stat.get[cur->stat] = bind(
+						gui->cam.stat.get[cur->stat] + cur->amount, 0,
+						gui->cam.stat.max[cur->stat]);
+				if (cur->type == COLLECTIBLE)
+					cur->alpha = -1, cur->type = DEAD;
+			}
+		}
+		else
 			cur->alpha -= 7 * (cur->alpha > 0);
 		if (cur->alpha < 0)
 		{
@@ -146,20 +173,20 @@ void	sprite_cast(t_gui *gui, double ZBuffer[SCRWIDTH])
 		int spriteScreenX = (int)((SCRWIDTH / 2) * (1 + transf.x / transf.y));
 
 		//calculate height of the sprite on screen
-		int spriteHeight = abs((int)(SCRHEIGHT / (transf.y))); //using 'transformY' instead of the real distance prevents fisheye
-
+		int spriteHeight = abs((int)(SCRHEIGHT / (transf.y))) / cur->scale.y; //using 'transformY' instead of the real distance prevents fisheye
+		
 		// int pitch = 100;
 
 		//calculate lowest and highest pixel to fill in current stripe
-		int drawStartY = bind(-spriteHeight / 2 + SCRHEIGHT / 2 + (gui->cam.pitch * SCRHEIGHT), 0, SCRHEIGHT);
+		int drawStartY = bind(-spriteHeight / 2 + SCRHEIGHT / 2 + gui->cam.pitch + cur->offset / transf.y, 0, SCRHEIGHT);
 		// if (drawStartY < 0)
 		// 	drawStartY = 0;
-		int drawEndY = bind(spriteHeight / 2 + SCRHEIGHT / 2 + (gui->cam.pitch * SCRHEIGHT), 0, SCRHEIGHT);
+		int drawEndY = bind(spriteHeight / 2 + SCRHEIGHT / 2 + gui->cam.pitch + cur->offset / transf.y, 0, SCRHEIGHT);
 		// if (drawEndY >= SCRHEIGHT)
 		// 	drawEndY = SCRHEIGHT - 1;
 
 		//calculate width of the sprite
-		int spriteWidth = abs((int)(SCRHEIGHT / (transf.y)));
+		int spriteWidth = abs((int)(SCRHEIGHT / (transf.y))) / cur->scale.x;
 		int drawStartX = bind(-spriteWidth / 2 + spriteScreenX, 0, SCRWIDTH);
 		// if (drawStartX < 0)
 		// 	drawStartX = 0;
@@ -173,7 +200,7 @@ void	sprite_cast(t_gui *gui, double ZBuffer[SCRWIDTH])
 		//loop through every vertical stripe of the sprite on screen
 		for(int stripe = drawStartX; stripe < drawEndX; stripe++)
 		{
-			int texX = (int)(256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * gui->textures.width / spriteWidth) / 256;
+			int texX = (int)(256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * cur->frames[0]->width / spriteWidth) / 256;
 			//the conditions in the if are:
 			//1) it's in front of camera plane so you don't see things behind you
 			//2) it's on the screen (left)
@@ -182,15 +209,15 @@ void	sprite_cast(t_gui *gui, double ZBuffer[SCRWIDTH])
 			if (transf.y > 0 && stripe > 0 && stripe < SCRWIDTH && transf.y < ZBuffer[stripe])
 			for(int y = drawStartY; y < drawEndY; y++) //for every pixel of the current stripe
 			{
-				int d = (y - (gui->cam.pitch * SCRHEIGHT)) * 256 - SCRHEIGHT * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
-				int texY = ((d * gui->textures.height) / spriteHeight) / 256;
+				int d = (y - gui->cam.pitch - cur->offset / transf.y) * 256 - SCRHEIGHT * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
+				int texY = ((d * cur->frames[0]->height) / spriteHeight) / 256;
 				int	color;
 
-				if (gui->textures.width * texY + texX < 0)
+				if (cur->frames[0]->width * texY + texX < 0)
 					color = 0x00FFFFFF;
 				else
 					color = pixget(cur->frames[cur->fcur],
-				gui->textures.width * texY + texX, 0); //get current color from the texture texture[sprite[spriteOrder[i]].texture][gui->textures.width * texY + texX]
+				cur->frames[0]->width * texY + texX, 0); //get current color from the texture texture[sprite[spriteOrder[i]].texture][gui->textures.width * texY + texX]
 				if ((color & 0x00FFFFFF) != 0) // use alpha
 					pixput(gui->buffer, stripe, y, color | (drk << 24)); //buffer[y][stripe] = color paint pixel if it isn't black, black is the invisible color
 			}

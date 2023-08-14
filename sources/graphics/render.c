@@ -9,6 +9,7 @@
 /*   Updated: 2023/08/14 11:57:46 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "graphics.h"
 
 static void	strputinfo(t_gui *gui, t_vect where, char *desc, int val)
@@ -48,10 +49,33 @@ static void	specs(t_gui *gui, t_vect where)
 	strputinfo(gui, where, "Dark    ", gui->cam.dark);
 	where.y += 15;
 	strputinfo(gui, where, "Sprite  ", gui->textures.spnb);
-	where.y += 15;
+}
+
+static void	stats(t_gui *gui, t_vect where)
+{
 	strputinfo(gui, where, "Health  ", gui->cam.stat.get[HP]);
+	where.x += 70;
+	strputinfo(gui, where, "/ ", gui->cam.stat.max[HP]);
+	where.x -= 70;
+	where.y += 15;
+	strputinfo(gui, where, "Armor   ", gui->cam.stat.get[ARM]);
+	where.x += 70;
+	strputinfo(gui, where, "/ ", gui->cam.stat.max[ARM]);
+	where.x -= 70;
 	where.y += 15;
 	strputinfo(gui, where, "Stamina ", gui->cam.stat.get[STA]);
+	where.x += 70;
+	strputinfo(gui, where, "/ ", gui->cam.stat.max[STA]);
+	where.x -= 70;
+	where.y += 15;
+	strputinfo(gui, where, "XP      ", gui->cam.stat.get[XP]);
+	where.x += 70;
+	strputinfo(gui, where, "/ ", gui->cam.stat.max[XP]);
+	where.x -= 70;
+	where.y += 15;
+	strputinfo(gui, where, "Ammo    ", gui->cam.stat.get[AMMO]);
+	where.y += 15;
+	strputinfo(gui, where, "Level   ", gui->cam.stat.get[LVL]);
 }
 
 int	render(t_gui *gui)
@@ -74,7 +98,10 @@ int	render(t_gui *gui)
 	}
 	hud(gui);
 	mlx_put_image_to_window(gui->mlx, gui->mlx->win_list, gui->buffer, 0, 0);
+	regen(gui, HP, 1, RATE_HEAL);
+	regen(gui, ARM, 1, RATE_ARMOR_UP);
 	specs(gui, (t_vect){SCRWIDTH - 115, 30});
+	stats(gui, (t_vect){SCRWIDTH - 235, 30});
 	gui->rendered = 1;
 	return (0);
 }

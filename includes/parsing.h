@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:34:04 by emis              #+#    #+#             */
-/*   Updated: 2023/07/18 09:30:18 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/14 15:51:15 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,16 @@
 
 typedef enum e_map_tile
 {
-	floor_tile = 0,
-	wall_tile = 1,
-	mob_tile = 2,
-	spawn_north_tile = 3,
-	spawn_south_tile = 4,
-	spawn_west_tile = 5,
-	spawn_east_tile = 6,
 	invalid_tile = -1,
+	floor_tile,
+	wall_tile,
+	mob_tile,
+	pack_tile,
+	obj_tile,
+	spawn_north_tile,
+	spawn_south_tile,
+	spawn_west_tile,
+	spawn_east_tile,
 	door_tile = 43
 }	t_maptile;
 
@@ -51,6 +53,7 @@ typedef enum e_type_identifier
 	ceiling_color = 8,
 	door_texture = 9,
 	weapon_texture = 10,
+	sprite_texture = 11,
 	not_found = 0
 }	t_type_id;
 

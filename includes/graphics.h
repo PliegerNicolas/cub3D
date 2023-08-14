@@ -9,6 +9,7 @@
 /*   Updated: 2023/08/14 15:53:12 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #ifndef GRAPHICS_H
 # define GRAPHICS_H
 
@@ -86,7 +87,7 @@ typedef enum e_render_level
 typedef enum e_type
 {
 	STATIONARY,
-	MOVING,
+	COLLECTIBLE,
 	ALIVE,
 	DEAD
 }	t_type;
@@ -98,6 +99,9 @@ enum e_rates
 	RATE_ITEM,
 	RATE_DOOR,
 	RATE_SPRINT,
+	RATE_HEAL,
+	RATE_ARMOR_UP,
+	RATE_NB
 	RATE_SHOOT,
 };
 
@@ -133,6 +137,20 @@ typedef struct s_ray_caster
 
 /* Game data */
 
+# define NB_MOBTYPE 5
+# define NB_OBJTYPE 5
+
+typedef enum e_stat_field
+{
+	HP,
+	STA,
+	ARM,
+	AMMO,
+	XP,
+	LVL,
+	SIZE
+}	t_fld;
+
 typedef struct projectile
 {
 	t_vect	posi;
@@ -142,15 +160,6 @@ typedef struct projectile
 
 typedef struct s_stats
 {
-	enum
-	{
-		HP,
-		STA,
-		ARM,
-		XP,
-		LVL,
-		SIZE
-	}	e_field;
 	int	get[SIZE];
 	int	max[SIZE];
 }	t_stat;
@@ -181,12 +190,16 @@ typedef struct s_sprite	t_sprt;
 typedef struct s_sprite
 {
 	t_type	type;
+	t_fld	stat;
+	int		amount;
 	bool	solid;
 	t_vect	posi;
 	int		alpha;
 	int		fcur;
 	int		fnum;
 	t_img	**frames;
+	t_vect	scale;
+	double	offset;
 	double	dist;
 	t_sprt	*next;
 }	t_sprt;
@@ -201,6 +214,8 @@ typedef struct s_textures
 	int		arrsize;
 	t_img	**walls;
 	t_img	**doors;
+	t_img	**spframes[SIZE + NB_OBJTYPE + NB_MOBTYPE];
+	size_t	spfrsizes[SIZE + NB_OBJTYPE + NB_MOBTYPE];
 	t_img	*weapon;
 	int		spnb;
 	t_sprt	*sprites;
@@ -236,6 +251,9 @@ typedef struct s_gui
 /* * MACRO								* */
 /* ************************************** */
 
+# define E_SPTEXTID "Wrong/missing sprite identifier in cub file.\n"
+# define E_SPTEXTNB "Wrong/missing frame count in cub file.\n"
+
 # define DOOR_OPEN 42
 # define DOOR_CLOSED 43
 
@@ -257,7 +275,7 @@ typedef struct s_gui
 # define MAPGREY 0xAAAAAA
 # define MAPRED 0xFF0000
 # define MAPGREEN 0x00FF00
-# define MAPBLUE 0x0000FF
+# define MAPBLUE 0x4fa8e3
 # define MAPMAG 0xFF11FF
 # define MAPMAGF 0xAAFF44FF
 # define MAPYEL 0xFFFF00
@@ -312,7 +330,7 @@ int		mouse_motion(int x, int y, t_gui *gui);
 /* TEXTURES */
 
 t_img	*load_texture(t_gui *gui, char *path);
-void	load_texture_arr(t_gui *gui, t_img ***where, char *path, int size);
+bool	load_texture_arr(t_gui *gui, t_img ***where, char *path, int size);
 
 /* MINIMATH */
 
@@ -348,7 +366,7 @@ void	wall_texture(t_gui *gui, t_rc *rc);
 
 /* FRAMERATE */
 
-int		nextframe(size_t frnb);
+int		nextframe(enum e_rates frnb);
 
 /* SPRITE CASTING */
 
@@ -396,6 +414,11 @@ void	clear_projectile(t_prj *projectile);
 bool	check_press(bool press, size_t i);
 int		interact(t_gui *gui);
 
+/* STATS */
+
+void	gain_xp(t_gui *gui, t_sprt *ded);
+void	regen(t_gui *gui, t_fld fld, int amount, enum e_rates rate);
+
 /* ************************************** */
 /* * TEMP, NEEDED FOR PARSING			* */
 /* ************************************** */
@@ -428,11 +451,14 @@ bool	set_player(t_gui *gui);
 
 /* set_sprites.c */
 
-t_sprt	*add_sprite(t_sprt **list, t_vect posi);
-bool	set_sprites(t_gui *gui);
+t_sprt	*add_sprite(t_sprt **list, t_sprt *sprite);
+bool	set_mob_obj_frames(t_gui *gui, size_t which, char **args, int num);
+bool	set_frames(t_gui *gui, size_t which, char *path, int num);
 
 /* set_mobs.c */
 
+t_sprt	*add_mob(t_gui *gui, t_vect posi, size_t which);
+t_sprt	*add_pack(t_gui *gui, t_vect posi, size_t which);
 bool	set_mobs(t_gui *gui);
 
 /* set_weapon.c */

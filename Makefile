@@ -87,6 +87,9 @@ re:		fclean all
 val:
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./cub3D
 
+san:	CFLAGS += -fsanitize=address
+san:	re
+
 # xpm:
 # 	mogrify -format xpm -- ${TXTS}
 

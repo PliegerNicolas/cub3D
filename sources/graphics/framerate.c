@@ -6,14 +6,12 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 14:56:23 by emis              #+#    #+#             */
-/*   Updated: 2023/08/14 11:29:16 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/09 20:29:41 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "graphics.h"
 #include <time.h>
-
-#define FRAMES 10
+#include "graphics.h"
 
 //#define RATES ((double[]){0.01, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1})
 
@@ -21,22 +19,26 @@ static void	set_rates_array(double *rates)
 {
 	size_t	i;
 
+	srand(time(NULL));
 	i = 0;
 	rates[i++] = 0.01;
-	while (i < FRAMES)
+	while (i < RATE_NB)
 		rates[i++] = 0.1;
+	rates[RATE_HEAL] = 1;
+	rates[RATE_ARMOR_UP] = 2;
 	rates[RATE_SHOOT] = 0.5;
 }
 
-int	nextframe(size_t frnb)
+int	nextframe(enum e_rates frnb)
 {
-	static clock_t	last[FRAMES];
-	double			rates[FRAMES];
+	static clock_t	last[RATE_NB];
+	static double	rates[RATE_NB];
 	clock_t			cur;
 
-	if (frnb > FRAMES)
+	if (frnb > RATE_NB)
 		return (0);
-	set_rates_array(rates);
+	if (!rates[0])
+		set_rates_array(rates);
 	cur = clock();
 	if ((double)(cur - last[frnb]) / (double)CLOCKS_PER_SEC < rates[frnb])
 		return (0);

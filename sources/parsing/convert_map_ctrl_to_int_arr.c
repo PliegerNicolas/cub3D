@@ -6,9 +6,10 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 17:13:03 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/10 05:13:18 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/08/14 15:31:40 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "graphics.h"
 
 // temp
@@ -49,6 +50,10 @@ static int	convert_charmap_to_intmap(char c)
 		return (wall_tile);
 	else if (c == 'M')
 		return (mob_tile);
+	else if (c == 'P')
+		return (pack_tile);
+	else if (c == 'O')
+		return (obj_tile);
 	else if (c == 'N')
 		return (spawn_north_tile);
 	else if (c == 'S')
