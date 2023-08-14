@@ -14,59 +14,42 @@
 
 int	key_press(int keycode, t_gui *gui)
 {
-	t_kbind	keys[13];
-	size_t	i;
+	int		keypress_index;
 
 	if (keycode == XK_Escape)
 		return (mlx_loop_end(gui->mlx));
-	set_keys_arr(keys);
-	i = 0;
-	while (i < sizeof(keys) / sizeof(*keys))
-	{
-		if (keycode == (int)keys[i])
-			gui->keys |= (1 << i);
-		i++;
-	}
+	keypress_index = get_keypress_index(keycode);
+	if (keypress_index >= 0)
+		gui->keys |= (1 << keypress_index);
 	return (0);
 }
 
 int	key_rel(int keycode, t_gui *gui)
 {
-	t_kbind	keys[13];
-	size_t	i;
+	int		keypress_index;
 
-	set_keys_arr(keys);
-	i = 0;
-	while (i < sizeof(keys) / sizeof(*keys))
-	{
-		if (keycode == (int)keys[i])
-			gui->keys &= ~(1 << i);
-		i++;
-	}
+	keypress_index = get_keypress_index(keycode);
+	if (keypress_index >= 0)
+		gui->keys &= ~(1 << keypress_index);
 	return (0);
 }
 
 int	mouse_press(int keycode, int x, int y, t_gui *gui)
 {
-	t_bprs		btns[6];
+	int			mousepress_index;
 	static bool	capture;
-	size_t		i;
 
-	set_btns_arr(btns);
-	i = 0;
-	while (i < sizeof(btns) / sizeof(*btns))
-	{
-		if (keycode == (int)btns[i])
-			gui->btns |= (1 << i);
-		i++;
-	}
+	mousepress_index = get_mousepress_index(keycode);
+	if (mousepress_index >= 0)
+		gui->btns |= (1 << mousepress_index);
 	if (!keycode)
 		return (capture);
 	else if (keycode == 2)
 		capture = !capture;
 	else if (keycode == 3)
 	{
-		gui->cam.rndr = ((gui->cam.rndr << (gui->cam.rndr & 1)) + !(gui->cam.rndr & 1)) % (0b1111);
+		gui->cam.rndr = ((gui->cam.rndr << (gui->cam.rndr & 1))
+				+ !(gui->cam.rndr & 1)) % (0b1111);
 		gui->rendered = 0;
 	}
 	else if (keycode == 4)
@@ -78,17 +61,11 @@ int	mouse_press(int keycode, int x, int y, t_gui *gui)
 
 int	mouse_rel(int keycode, int x, int y, t_gui *gui)
 {
-	t_bprs	btns[6];
-	size_t	i;
+	int	mousepress_index;
 
-	set_btns_arr(btns);
-	i = 0;
-	while (i < sizeof(btns) / sizeof(*btns))
-	{
-		if (keycode == (int)btns[i])
-			gui->btns &= ~(1 << i);
-		i++;
-	}
+	mousepress_index = get_mousepress_index(keycode);
+	if (mousepress_index >= 0)
+		gui->btns &= ~(1 << mousepress_index);
 	return ((void)x, (void)y, 0);
 }
 

@@ -9,7 +9,6 @@
 /*   Updated: 2023/08/14 13:02:01 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "graphics.h"
 
 static void	sort_lst(t_sprt **lst)
@@ -86,8 +85,7 @@ t_vect	transform(t_sprt *cur, t_play *play)
 		invDet * ((play->dir.y * play->zoom) * sprite.x
 		- (play->dir.x * play->zoom) * sprite.y),
 		invDet * (-play->plane.y * sprite.x
-		+ play->plane.x * sprite.y)
-		});
+		+ play->plane.x * sprite.y)});
 }
 
 void	frame_shift(t_gui *gui)

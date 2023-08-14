@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/08/14 14:41:52 by emis             ###   ########.fr       */
+/*   Updated: 2023/08/14 15:53:12 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@
 # include "garbaj.h"
 # include "parsing.h"
 
-# define SCRWIDTH 1200
-# define SCRHEIGHT 1000
+# define SCRWIDTH 1280
+# define SCRHEIGHT 720
 
 /* ************************************** */
 /* * ENUMERATORS						* */
@@ -45,6 +45,7 @@ typedef enum e_keybinds
 	zoom_out = XK_KP_Subtract,
 	interactkey = XK_e,
 	mapkey = XK_Tab,
+	space = XK_space,
 }	t_kbind;
 
 typedef enum e_keypresses
@@ -62,6 +63,7 @@ typedef enum e_keypresses
 	KP_zoom_out,
 	KP_interact,
 	KP_map,
+	KP_space,
 }	t_kprs;
 
 typedef enum e_btnpresses
@@ -100,6 +102,7 @@ enum e_rates
 	RATE_HEAL,
 	RATE_ARMOR_UP,
 	RATE_NB
+	RATE_SHOOT,
 };
 
 /* ************************************** */
@@ -148,6 +151,13 @@ typedef enum e_stat_field
 	SIZE
 }	t_fld;
 
+typedef struct projectile
+{
+	t_vect	posi;
+	t_vect	direction;
+	bool	status;
+}	t_prj;
+
 typedef struct s_stats
 {
 	int	get[SIZE];
@@ -161,7 +171,7 @@ typedef struct s_player
 	t_vect	posi;
 	t_vect	dir;
 	t_vect	plane;
-	int		pitch;
+	double	pitch;
 	int		dark;
 	double	zoom;
 	double	zoom_rate;
@@ -182,7 +192,7 @@ typedef struct s_sprite
 	t_type	type;
 	t_fld	stat;
 	int		amount;
-	_Bool	solid;
+	bool	solid;
 	t_vect	posi;
 	int		alpha;
 	int		fcur;
@@ -206,6 +216,7 @@ typedef struct s_textures
 	t_img	**doors;
 	t_img	**spframes[SIZE + NB_OBJTYPE + NB_MOBTYPE];
 	size_t	spfrsizes[SIZE + NB_OBJTYPE + NB_MOBTYPE];
+	t_img	*weapon;
 	int		spnb;
 	t_sprt	*sprites;
 }	t_tex;
@@ -229,7 +240,7 @@ typedef struct s_gui
 	t_play	cam;
 	int		keys;
 	int		btns;
-	_Bool	rendered;
+	bool	rendered;
 }	t_gui;
 
 /* ************************************** */
@@ -245,6 +256,16 @@ typedef struct s_gui
 
 # define DOOR_OPEN 42
 # define DOOR_CLOSED 43
+
+// weapon
+
+# define WALK_AMPLITUDE 8
+# define WALK_FREQUENCY 30
+# define PROJECTILE_SPEED 0.20
+# define MAX_PROJECTILES 25
+
+// colors
+
 # define DARK 0x20
 # define VERY_DARK 0x32
 # define DARKNESS 0x50
@@ -294,8 +315,8 @@ void	update_speed(double *current_speed, double target_speed,
 			double acceleration_rate);
 void	update_rotation_speed(double *current_speed, double target_speed,
 			double acceleration_rate, double direction);
-void	set_keys_arr(t_kbind *keys);
-void	set_btns_arr(t_bprs *mouse_btns);
+int		get_keypress_index(int keycode);
+int		get_mousepress_index(int keycode);
 void	initialize_mouse_motion(t_gui *gui, int last[2]);
 
 /* EVENTS */
@@ -369,6 +390,24 @@ void	hud(t_gui *gui);
 /* WEAPON */
 
 void	weapon(t_gui *gui);
+int		calculate_next_walk_frame(t_gui *gui, int frame);
+void	set_weapon_position(t_gui *gui, int *x, int *y, int frame);
+
+bool	is_projectile_obstructed(t_gui *gui, t_prj *projectile);
+bool	move_projectile(t_gui *gui, t_prj *projectile);
+
+bool	is_out_of_bounds(t_gui *gui, int cell_x, int cell_y);
+bool	wall_collision(t_gui *gui, int cell_x, int cell_y);
+bool	is_target_position_found(t_vect target_position, int cell_x,
+			int cell_y);
+bool	sprite_collision(t_gui *gui, int cell_x, int cell_y);
+
+void	draw_projectile(t_gui *gui, int x, int y, double distance);
+void	draw_projectile_impact(t_gui *gui, int x, int y, double distance);
+void	draw_crosshair(t_gui *gui, int color);
+
+void	initialize_projectile(t_play *player, t_prj *projectile);
+void	clear_projectile(t_prj *projectile);
 
 /* INTERACT */
 
@@ -421,5 +460,9 @@ bool	set_frames(t_gui *gui, size_t which, char *path, int num);
 t_sprt	*add_mob(t_gui *gui, t_vect posi, size_t which);
 t_sprt	*add_pack(t_gui *gui, t_vect posi, size_t which);
 bool	set_mobs(t_gui *gui);
+
+/* set_weapon.c */
+
+bool	set_weapon(t_gui *gui, char *line);
 
 #endif

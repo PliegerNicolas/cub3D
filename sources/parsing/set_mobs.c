@@ -83,7 +83,6 @@ t_sprt	*add_obj(t_gui *gui, t_vect posi, size_t which)
 
 bool	set_mobs(t_gui *gui)
 {
-	size_t	nb;
 	size_t	row;
 	size_t	col;
 

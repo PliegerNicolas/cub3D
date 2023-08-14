@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 16:25:33 by emis              #+#    #+#             */
-/*   Updated: 2023/07/16 15:23:31 by emis             ###   ########.fr       */
+/*   Updated: 2023/08/14 15:40:36 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,9 @@ static void	draw_pixel(t_gui *gui, t_rc_floor *rc, size_t x, size_t y)
 		else
 			color = gui->textures.ceil_color;
 	}
-	// color = (color >> 1) & 8355711;
-	// IN THE DARK !
 	if (gui->cam.dark)
-		color |= (255 - bind(gui->cam.dark * (rc->row_distance + 1.0), 0, 255)) << 24;
+		color |= (255 - bind(gui->cam.dark * (rc->row_distance
+						+ 1.0), 0, 255)) << 24;
 	pixput(gui->buffer, x, y, color);
 }
 
@@ -97,7 +96,7 @@ void	floor_cast(t_gui *gui)
 	size_t		y;
 
 	rc.screen_center = 0.5 * SCRHEIGHT;
-	rc.horizon = rc.screen_center + gui->cam.pitch;
+	rc.horizon = rc.screen_center + (gui->cam.pitch * SCRHEIGHT);
 	y = 0;
 	while (y < SCRHEIGHT)
 	{
@@ -110,7 +109,8 @@ void	floor_cast(t_gui *gui)
 			set_texture_coordinates(gui, &rc);
 			rc.floor_x += rc.floor_step_x;
 			rc.floor_y += rc.floor_step_y;
-			draw_pixel(gui, &rc, x, y);
+			if (pixget(gui->buffer, x, y) == 0)
+				draw_pixel(gui, &rc, x, y);
 			x++;
 		}
 		y++;

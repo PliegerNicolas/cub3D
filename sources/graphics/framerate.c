@@ -26,6 +26,7 @@ static void	set_rates_array(double *rates)
 		rates[i++] = 0.1;
 	rates[RATE_HEAL] = 1;
 	rates[RATE_ARMOR_UP] = 2;
+	rates[RATE_SHOOT] = 0.5;
 }
 
 int	nextframe(enum e_rates frnb)

@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 14:03:16 by emis              #+#    #+#             */
-/*   Updated: 2023/08/11 19:16:28 by emis             ###   ########.fr       */
+/*   Updated: 2023/08/14 11:57:46 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	specs(t_gui *gui, t_vect where)
 	strputinfo(gui, where, "E ", gui->cam.dir.y * 180);
 	where.x -= 70;
 	where.y += 15;
-	strputinfo(gui, where, "Pitch   ", gui->cam.pitch);
+	strputinfo(gui, where, "Pitch   ", gui->cam.pitch * 100);
 	where.y += 15;
 	strputinfo(gui, where, "Render  ", gui->cam.rndr);
 	where.y += 15;
@@ -88,9 +88,9 @@ int	render(t_gui *gui)
 		return (0);
 	key_render(gui);
 	erase(gui->buffer);
+	wall_cast(gui, z_buffer);
 	if (gui->cam.rndr & (1 << FLOORCEIL))
 		floor_cast(gui);
-	wall_cast(gui, z_buffer);
 	if (gui->cam.rndr & (1 << SPRITES))
 	{
 		sprite_cast(gui, z_buffer);

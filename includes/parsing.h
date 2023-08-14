@@ -52,7 +52,8 @@ typedef enum e_type_identifier
 	floor_color = 7,
 	ceiling_color = 8,
 	door_texture = 9,
-	sprite_texture,
+	weapon_texture = 10,
+	sprite_texture = 11,
 	not_found = 0
 }	t_type_id;
 

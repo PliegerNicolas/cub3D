@@ -6,10 +6,9 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:15:05 by nplieger          #+#    #+#             */
-/*   Updated: 2023/07/17 17:38:35 by emis             ###   ########.fr       */
+/*   Updated: 2023/08/14 15:52:33 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "graphics.h"
 
 typedef struct texture_data
@@ -53,17 +52,25 @@ static int	get_texture_x(t_gui *gui, t_rc *rc)
 	return (texture_x);
 }
 
+static t_texture_data	initialize_tex_data(t_gui *gui, t_rc *rc)
+{
+	t_texture_data	tex_data;
+
+	tex_data.id = get_texture_id(gui, rc);
+	tex_data.x = get_texture_x(gui, rc);
+	tex_data.step = 1.0 * gui->textures.width / rc->line_height;
+	tex_data.pos = (rc->draw_start - (gui->cam.pitch * SCRHEIGHT) - SCRHEIGHT
+			/ 2 + rc->line_height / 2) * tex_data.step;
+	return (tex_data);
+}
+
 void	wall_texture(t_gui *gui, t_rc *rc)
 {
 	t_texture_data	tex_data;
 	int				y;
 	int				color;
 
-	tex_data.id = get_texture_id(gui, rc);
-	tex_data.x = get_texture_x(gui, rc);
-	tex_data.step = 1.0 * gui->textures.width / rc->line_height;
-	tex_data.pos = (rc->draw_start - gui->cam.pitch - SCRHEIGHT
-			/ 2 + rc->line_height / 2) * tex_data.step;
+	tex_data = initialize_tex_data(gui, rc);
 	y = rc->draw_start;
 	while (y < rc->draw_end)
 	{
@@ -72,15 +79,13 @@ void	wall_texture(t_gui *gui, t_rc *rc)
 		if (gui->map.map[rc->map_x][rc->map_y] == DOOR_CLOSED
 			&& gui->textures.doors)
 			color = pixget(gui->textures.doors[0],
-				gui->textures.width * tex_data.y + tex_data.x, 0);
+					gui->textures.width * tex_data.y + tex_data.x, 0);
 		else
 			color = pixget(gui->textures.walls[tex_data.id],
-				gui->textures.width * tex_data.y + tex_data.x, 0);
-		// if (rc->side == 1)
-		// 	color = (color >> 1) & 8355711;
-		// IN THE DARK !
+					gui->textures.width * tex_data.y + tex_data.x, 0);
 		if (gui->cam.dark)
-			color = color_mixer(color, 0, bind(gui->cam.dark * (rc->perp_wall_dist + 1), 0, 255));
+			color = color_mixer(color, 0, bind(gui->cam.dark
+						* (rc->perp_wall_dist + 1), 0, 255));
 		pixput(gui->buffer, rc->x, y++, color);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 13:17:24 by nplieger          #+#    #+#             */
-/*   Updated: 2023/08/14 14:45:46 by emis             ###   ########.fr       */
+/*   Updated: 2023/08/14 15:21:46 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ static bool	initialize_textures(t_gui *gui)
 	gui->textures.floorceil = NULL;
 	ft_bzero(gui->textures.spframes, sizeof(gui->textures.spframes));
 	ft_bzero(gui->textures.spfrsizes, sizeof(gui->textures.spfrsizes));
+	gui->textures.weapon = NULL;
 	return (false);
 }
 

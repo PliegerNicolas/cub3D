@@ -29,13 +29,13 @@ static void	set_base_stats(t_play *player)
 	player->rot_speed.x = 0.0;
 	player->rot_speed.y = 0.0;
 	player->rot_speed_target.x = 0.05;
-	player->rot_speed_target.y = 0.05;
+	player->rot_speed_target.y = 0.03;
 	player->accel_rate.x = player->speed_target.x * 0.1;
 	player->accel_rate.y = player->speed_target.y * 0.1;
 	player->rot_accel_rate.x = player->rot_speed_target.x * 0.15;
 	player->rot_accel_rate.y = player->rot_speed_target.y * 0.15;
 	player->sprint_multiplicator = 2.0;
-	player->pitch = 0;
+	player->pitch = 0.0;
 	player->dark = 0;
 	player->zoom = 1;
 	player->zoom_rate = 0.025;
@@ -83,6 +83,7 @@ static void	set_orientation(t_play *player, int val)
 		player->dir = (t_vect){0, 1};
 		player->plane = (t_vect){0.66, 0};
 	}
+	player->pitch = 0.0;
 }
 
 bool	set_player(t_gui *gui)

@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 02:36:49 by nicolas           #+#    #+#             */
-/*   Updated: 2023/08/10 20:40:51 by emis             ###   ########.fr       */
+/*   Updated: 2023/08/13 12:38:04 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,12 @@ static void	free_textures(t_gui *gui)
 	}
 }
 
+static void	free_weapon(t_gui *gui)
+{
+	if (gui->textures.weapon)
+		mlx_destroy_image(gui->mlx, gui->textures.weapon);
+}
+
 // static void	free_sprites(t_gui *gui, int nb, size_t i)
 // {
 // 	// if (gui->textures.spdist)
@@ -93,7 +99,7 @@ void	clear_parsing(t_gui *gui)
 		return ;
 	free_textures(gui);
 	free_map(gui);
-	// free_sprites(gui, 0, 0);
+	free_weapon(gui);
 	if (gui->buffer)
 		mlx_destroy_image(gui->mlx, gui->buffer);
 	// mlx_destroy_display(gui->mlx);
