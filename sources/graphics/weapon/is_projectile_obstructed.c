@@ -6,24 +6,16 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 09:50:23 by nicolas           #+#    #+#             */
-/*   Updated: 2023/08/14 11:11:04 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/14 11:52:58 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
 
 static bool	is_in_fov(t_play *player, t_rc *rc)
 {
-	double	angle_diff;
-	double	angle_player;
-	double	angle_ray;
-
 	if (player->pitch > 0.5 || player->pitch < -0.5)
 		return (false);
-	angle_player = atan2(player->dir.y, player->dir.x);
-	angle_ray = atan2(rc->ray_dir.y, rc->ray_dir.x);
-	angle_diff = angle_player - angle_ray;
-	if (angle_diff > 0.66 || angle_diff < -0.66)
-		return (false);
+	(void)rc;
 	return (true);
 }
 

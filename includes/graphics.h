@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/08/14 11:29:53 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/14 11:34:02 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef GRAPHICS_H
@@ -387,6 +387,7 @@ bool	sprite_collision(t_gui *gui, int cell_x, int cell_y);
 
 void	draw_projectile(t_gui *gui, int x, int y, double distance);
 void	draw_projectile_impact(t_gui *gui, int x, int y, double distance);
+void	draw_crosshair(t_gui *gui, int color);
 
 void	initialize_projectile(t_play *player, t_prj *projectile);
 void	clear_projectile(t_prj *projectile);

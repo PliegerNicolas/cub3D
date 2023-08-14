@@ -54,6 +54,7 @@ SOURCES += ./sources/graphics/weapon/move_projectile.c
 SOURCES += ./sources/graphics/weapon/is_projectile_obstructed.c
 SOURCES += ./sources/graphics/weapon/projectile_collision.c
 SOURCES += ./sources/graphics/weapon/draw_projectile.c
+SOURCES += ./sources/graphics/weapon/crosshair.c
 
 SOURCES += ./sources/garbaj/wrappers.c
 SOURCES += ./sources/garbaj/garbaj.c

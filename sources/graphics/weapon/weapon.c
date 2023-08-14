@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 19:16:31 by emis              #+#    #+#             */
-/*   Updated: 2023/08/14 11:27:24 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/14 11:34:27 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -87,6 +87,7 @@ void	weapon(t_gui *gui)
 	weapon_y = 0;
 	walk_frame = calculate_next_walk_frame(gui, walk_frame);
 	set_weapon_position(gui, &weapon_x, &weapon_y, walk_frame);
+	draw_crosshair(gui, 0xFFFFFF);
 	attack(gui);
 	imgput(gui->buffer, weapon_x, weapon_y, gui->textures.weapon);
 }
