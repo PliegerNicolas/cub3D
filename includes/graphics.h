@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/08/10 21:06:06 by emis             ###   ########.fr       */
+/*   Updated: 2023/08/14 14:41:52 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,11 +134,15 @@ typedef struct s_ray_caster
 
 /* Game data */
 
+# define NB_MOBTYPE 5
+# define NB_OBJTYPE 5
+
 typedef enum e_stat_field
 {
 	HP,
 	STA,
 	ARM,
+	AMMO,
 	XP,
 	LVL,
 	SIZE
@@ -184,6 +188,8 @@ typedef struct s_sprite
 	int		fcur;
 	int		fnum;
 	t_img	**frames;
+	t_vect	scale;
+	double	offset;
 	double	dist;
 	t_sprt	*next;
 }	t_sprt;
@@ -198,8 +204,8 @@ typedef struct s_textures
 	int		arrsize;
 	t_img	**walls;
 	t_img	**doors;
-	t_img	**spframes[SIZE + 1];
-	size_t	spfrsizes[SIZE + 1];
+	t_img	**spframes[SIZE + NB_OBJTYPE + NB_MOBTYPE];
+	size_t	spfrsizes[SIZE + NB_OBJTYPE + NB_MOBTYPE];
 	int		spnb;
 	t_sprt	*sprites;
 }	t_tex;
@@ -234,6 +240,9 @@ typedef struct s_gui
 /* * MACRO								* */
 /* ************************************** */
 
+# define E_SPTEXTID "Wrong/missing sprite identifier in cub file.\n"
+# define E_SPTEXTNB "Wrong/missing frame count in cub file.\n"
+
 # define DOOR_OPEN 42
 # define DOOR_CLOSED 43
 # define DARK 0x20
@@ -245,7 +254,7 @@ typedef struct s_gui
 # define MAPGREY 0xAAAAAA
 # define MAPRED 0xFF0000
 # define MAPGREEN 0x00FF00
-# define MAPBLUE 0x0000FF
+# define MAPBLUE 0x4fa8e3
 # define MAPMAG 0xFF11FF
 # define MAPMAGF 0xAAFF44FF
 # define MAPYEL 0xFFFF00
@@ -404,12 +413,13 @@ bool	set_player(t_gui *gui);
 /* set_sprites.c */
 
 t_sprt	*add_sprite(t_sprt **list, t_sprt *sprite);
-bool	set_frames(t_gui *gui, t_img ***frames, char *path, int numbered);
-bool	set_sprites(t_gui *gui);
+bool	set_mob_obj_frames(t_gui *gui, size_t which, char **args, int num);
+bool	set_frames(t_gui *gui, size_t which, char *path, int num);
 
 /* set_mobs.c */
 
-t_sprt	*add_mob(t_sprt **list, t_vect posi, t_img **frames);
+t_sprt	*add_mob(t_gui *gui, t_vect posi, size_t which);
+t_sprt	*add_pack(t_gui *gui, t_vect posi, size_t which);
 bool	set_mobs(t_gui *gui);
 
 #endif

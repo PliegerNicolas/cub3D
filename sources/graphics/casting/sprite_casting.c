@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 16:26:04 by emis              #+#    #+#             */
-/*   Updated: 2023/08/10 16:55:58 by emis             ###   ########.fr       */
+/*   Updated: 2023/08/14 13:02:01 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,9 @@ void	frame_shift(t_gui *gui)
 	sp = gui->textures.sprites;
 	while (sp)
 	{
+		if (sp->type == COLLECTIBLE)
+			sp->offset = (sp->offset + (int)sp->offset % 40)
+			- ((int)sp->offset + 4) % 40;
 		if (sp->type != DEAD)
 			sp->fcur = (sp->fcur + 1) % sp->fnum;
 		else if (sp->type == DEAD && sp->alpha < 0)
@@ -108,7 +111,12 @@ void	frame_shift(t_gui *gui)
 				gui->textures.sprites = sp->next;
 			else
 				old->next = sp->next;
-			gain_xp(gui, sp);
+			if (sp->amount < 0)
+			{
+				gain_xp(gui, sp);
+				if (rand() % XP == 0)
+					add_pack(gui, sp->posi, rand() % XP);
+			}
 			garbaj(sp, NULL, -1);
 			sp = gui->textures.sprites;
 			if (!--gui->textures.spnb)
@@ -146,8 +154,10 @@ void	sprite_cast(t_gui *gui, double ZBuffer[SCRWIDTH])
 				if (cur->stat == HP && cur->amount < 0
 					&& gui->cam.stat.get[ARM] >= 0)
 					gui->cam.stat.get[ARM] += cur->amount * !(rand() % 4);
-				else
-					gui->cam.stat.get[cur->stat] += cur->amount;
+				else if (gui->cam.stat.get[cur->stat] > -1)
+					gui->cam.stat.get[cur->stat] = bind(
+						gui->cam.stat.get[cur->stat] + cur->amount, 0,
+						gui->cam.stat.max[cur->stat]);
 				if (cur->type == COLLECTIBLE)
 					cur->alpha = -1, cur->type = DEAD;
 			}
@@ -165,20 +175,20 @@ void	sprite_cast(t_gui *gui, double ZBuffer[SCRWIDTH])
 		int spriteScreenX = (int)((SCRWIDTH / 2) * (1 + transf.x / transf.y));
 
 		//calculate height of the sprite on screen
-		int spriteHeight = abs((int)(SCRHEIGHT / (transf.y))); //using 'transformY' instead of the real distance prevents fisheye
+		int spriteHeight = abs((int)(SCRHEIGHT / (transf.y))) / cur->scale.y; //using 'transformY' instead of the real distance prevents fisheye
 		
 		// int pitch = 100;
 
 		//calculate lowest and highest pixel to fill in current stripe
-		int drawStartY = bind(-spriteHeight / 2 + SCRHEIGHT / 2 + gui->cam.pitch, 0, SCRHEIGHT);
+		int drawStartY = bind(-spriteHeight / 2 + SCRHEIGHT / 2 + gui->cam.pitch + cur->offset / transf.y, 0, SCRHEIGHT);
 		// if (drawStartY < 0)
 		// 	drawStartY = 0;
-		int drawEndY = bind(spriteHeight / 2 + SCRHEIGHT / 2 + gui->cam.pitch, 0, SCRHEIGHT);
+		int drawEndY = bind(spriteHeight / 2 + SCRHEIGHT / 2 + gui->cam.pitch + cur->offset / transf.y, 0, SCRHEIGHT);
 		// if (drawEndY >= SCRHEIGHT)
 		// 	drawEndY = SCRHEIGHT - 1;
 
 		//calculate width of the sprite
-		int spriteWidth = abs((int)(SCRHEIGHT / (transf.y)));
+		int spriteWidth = abs((int)(SCRHEIGHT / (transf.y))) / cur->scale.x;
 		int drawStartX = bind(-spriteWidth / 2 + spriteScreenX, 0, SCRWIDTH);
 		// if (drawStartX < 0)
 		// 	drawStartX = 0;
@@ -201,7 +211,7 @@ void	sprite_cast(t_gui *gui, double ZBuffer[SCRWIDTH])
 			if (transf.y > 0 && stripe > 0 && stripe < SCRWIDTH && transf.y < ZBuffer[stripe])
 			for(int y = drawStartY; y < drawEndY; y++) //for every pixel of the current stripe
 			{
-				int d = (y - gui->cam.pitch) * 256 - SCRHEIGHT * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
+				int d = (y - gui->cam.pitch - cur->offset / transf.y) * 256 - SCRHEIGHT * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
 				int texY = ((d * cur->frames[0]->height) / spriteHeight) / 256;
 				int	color;
 

@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 02:02:02 by nicolas           #+#    #+#             */
-/*   Updated: 2023/08/10 20:34:22 by emis             ###   ########.fr       */
+/*   Updated: 2023/08/14 16:25:55 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,29 +28,29 @@ t_sprt	*add_sprite(t_sprt **list, t_sprt *sprite)
 	return (sprite);
 }
 
-static size_t	count_mobs(t_gui *gui)
-{
-	size_t	nb;
-	size_t	row;
-	size_t	col;
+// static size_t	count_mobs(t_gui *gui)
+// {
+// 	size_t	nb;
+// 	size_t	row;
+// 	size_t	col;
 
-	if (!gui || !gui->map.map)
-		return (0);
-	nb = 0;
-	row = 0;
-	while (row < gui->map.height)
-	{
-		col = 0;
-		while (col < gui->map.width)
-		{
-			if (gui->map.map[row][col] == 2)
-				nb++;
-			col++;
-		}
-		row++;
-	}
-	return (nb);
-}
+// 	if (!gui || !gui->map.map)
+// 		return (0);
+// 	nb = 0;
+// 	row = 0;
+// 	while (row < gui->map.height)
+// 	{
+// 		col = 0;
+// 		while (col < gui->map.width)
+// 		{
+// 			if (gui->map.map[row][col] == 2)
+// 				nb++;
+// 			col++;
+// 		}
+// 		row++;
+// 	}
+// 	return (nb);
+// }
 
 static char	*get_numbered_texture_path(size_t i, char *path)
 {
@@ -73,43 +73,43 @@ static char	*get_numbered_texture_path(size_t i, char *path)
 	return (path);
 }
 
-bool	set_frames(t_gui *gui, t_img ***frames, char *path, int numbered)
+bool	set_mob_obj_frames(t_gui *gui, size_t which, char **args, int num)
+{
+	int	iter;
+	int	tmp;
+
+	iter = 2;
+	tmp = ft_atoi(args[iter]);
+	if (args[iter + 1])
+		iter++;
+	if ((which == 6 && iter >= NB_OBJTYPE)
+		|| (which == 7 && iter >= NB_MOBTYPE))
+		return (errno = 1, eerror("Obj/mob index too big."));
+	if (which == 7)
+		which = which + NB_OBJTYPE - 1;
+	which += tmp;
+	return (set_frames(gui, which, args[iter], num));
+}
+
+bool	set_frames(t_gui *gui, size_t which, char *path, int num)
 {
 	size_t	i;
 	char	*numpath;
 
-	if (path && numbered < 0)
-		return (load_texture_arr(gui, frames, path, -numbered));
+	if (!gui->textures.spfrsizes[which])
+		gui->textures.spfrsizes[which] = abs(num) + !num;
+	if (path && num < 0)
+		return (load_texture_arr(gui, &gui->textures.spframes[which], path, -num));
 	i = 0;
-	while ((int)i < numbered)
+	while ((int)i < num)
 	{
 		numpath = get_numbered_texture_path(i, path);
 		if (!numpath)
 			return (put_parsing_err("Not enough memory."), true);
-		if (load_texture_arr(gui, frames, numpath, numbered))
+		if (load_texture_arr(gui, &gui->textures.spframes[which], numpath, num))
 			return (free(numpath), true);
 		free(numpath);
 		i++;
 	}
-	return (false);
-}
-
-bool	set_sprites(t_gui *gui)
-{
-	// int	i;
-
-	gui->textures.spnb = count_mobs(gui);
-	// gui->textures.sprites = trymalloc(1 * sizeof(*gui->textures.sprites), 1);
-	// if (!gui->textures.sprites)
-	// 	return (put_parsing_err("Not enough memory."), true);
-	// i = 0;
-	// while (i < gui->textures.spnb)
-	// 	add_sprite(gui, i++);
-	// if (set_sporder(gui))
-	// 	return (true);
-	// if (set_spdist(gui))
-	// 	return (true);
-	if (set_mobs(gui))
-		return (true);
 	return (false);
 }

@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 07:20:02 by nicolas           #+#    #+#             */
-/*   Updated: 2023/08/10 19:06:57 by emis             ###   ########.fr       */
+/*   Updated: 2023/08/11 19:14:35 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ t_type_id	set_type_identifier(char *line, size_t *index)
 		return (not_found);
 	set_strti(strti);
 	i = 0;
-	while (i < 9)
+	while (i < 10)
 	{
 		len = ft_strlen(strti[i].str);
 		if (ft_strncmp(line + *index, strti[i].str, len) == 0)

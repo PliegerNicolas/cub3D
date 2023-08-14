@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 18:18:56 by emis              #+#    #+#             */
-/*   Updated: 2023/08/02 20:12:28 by emis             ###   ########.fr       */
+/*   Updated: 2023/08/14 13:16:04 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,16 @@ static int	color_angle(t_gui *gui, t_vect ori, t_vect pt)
 	color = (int)((255.0 * alpha) / M_PI);
 	if (color < 0 && - color < 255 - 255 * (gui->cam.stat.max[XP]
 			- gui->cam.stat.get[XP]) / gui->cam.stat.max[XP])
-		color = MAPBLUE;
+		color = MAPYEL - ((-color * 3 / 4) << 16) - (-color << 8);
 	else if (color >= 0 && color < 85 - 85 * (gui->cam.stat.max[HP]
 			- gui->cam.stat.get[HP]) / gui->cam.stat.max[HP])
 		color = MAPRED;
 	else if (color > 85 & color < 170 - 85 * (gui->cam.stat.max[ARM]
 			- gui->cam.stat.get[ARM]) / gui->cam.stat.max[ARM])
-		color = MAPYEL;
+		color = MAPGREY;
 	else if (color > 170 & color > 170 + 85 * (gui->cam.stat.max[STA]
 			- gui->cam.stat.get[STA]) / gui->cam.stat.max[STA])
-		color = MAPGREEN;
+		color = MAPBLUE;
 	else
 		color = MAPBLACK;
 	return (color);

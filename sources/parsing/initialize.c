@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 13:17:24 by nplieger          #+#    #+#             */
-/*   Updated: 2023/08/10 20:46:00 by emis             ###   ########.fr       */
+/*   Updated: 2023/08/14 14:45:46 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,11 @@ static bool	initialize_sprites(t_gui *gui)
 {
 	gui->textures.spnb = 0;
 	gui->textures.sprites = NULL;
-	// gui->textures.sporder = NULL;
-	// gui->textures.spdist = NULL;
 	return (false);
 }
 
 static bool	initialize_textures(t_gui *gui)
 {
-	// gui->textures.height = 32;
-	// gui->textures.width = 32;
 	gui->textures.arrsize = 4;
 	gui->textures.floor_color = 0;
 	gui->textures.ceil_color = 0;

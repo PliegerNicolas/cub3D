@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 16:15:01 by nicolas           #+#    #+#             */
-/*   Updated: 2023/08/09 20:26:19 by emis             ###   ########.fr       */
+/*   Updated: 2023/08/14 09:35:30 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,24 +41,22 @@ static void	set_base_stats(t_play *player)
 	player->zoom_rate = 0.025;
 	player->hit_box.x = 0.1;
 	player->hit_box.y = 0.1;
-	player->rndr = 0b111;
+	player->rndr = 1 << TEXTUWALLS | 1 << SPRITES | 1 << FLOORCEIL;
 }
 
 static void	set_vector(t_play *player, size_t row, size_t col)
 {
-	t_vect	pos;
-
-	pos.x = row;
-	pos.y = col;
-	player->posi = pos;
+	player->posi = (t_vect){row, col};
 	player->stat.get[HP] = 100;
 	player->stat.get[STA] = 25;
 	player->stat.get[ARM] = 0;
+	player->stat.get[AMMO] = 100;
 	player->stat.get[XP] = 0;
 	player->stat.get[LVL] = 0;
 	player->stat.max[HP] = 100;
 	player->stat.max[STA] = 25;
 	player->stat.max[ARM] = 50;
+	player->stat.max[AMMO] = 1000;
 	player->stat.max[XP] = 100;
 	player->stat.max[LVL] = 100;
 }

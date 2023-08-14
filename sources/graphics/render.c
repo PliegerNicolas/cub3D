@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 14:03:16 by emis              #+#    #+#             */
-/*   Updated: 2023/08/09 20:24:37 by emis             ###   ########.fr       */
+/*   Updated: 2023/08/11 19:16:28 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ static void	stats(t_gui *gui, t_vect where)
 	where.x += 70;
 	strputinfo(gui, where, "/ ", gui->cam.stat.max[XP]);
 	where.x -= 70;
+	where.y += 15;
+	strputinfo(gui, where, "Ammo    ", gui->cam.stat.get[AMMO]);
 	where.y += 15;
 	strputinfo(gui, where, "Level   ", gui->cam.stat.get[LVL]);
 }

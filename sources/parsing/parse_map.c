@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 06:54:21 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/03 15:22:59 by emis             ###   ########.fr       */
+/*   Updated: 2023/08/14 16:36:14 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ bool	parse_map(char *line, t_map_ctrl **map_ctrl)
 	if (!line)
 		return (true);
 	rm_eol(line);
-	if (!is_valid_map_line(line, "01NSWEMD"))
+	if (!is_valid_map_line(line, "01NSWEMPOD"))
 		return (true);
 	if (add_to_map_ctrl(map_ctrl, line))
 		return (true);

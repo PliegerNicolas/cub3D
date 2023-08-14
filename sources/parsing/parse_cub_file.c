@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cub_file.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 06:09:00 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/03 05:07:21 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/08/14 14:25:39 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "graphics.h"
 
 static bool	retrieve_map(t_gui *gui, t_map_ctrl *map_ctrl)
@@ -20,7 +21,7 @@ static bool	retrieve_map(t_gui *gui, t_map_ctrl *map_ctrl)
 	free_map_ctrl(&map_ctrl);
 	if (set_player(gui))
 		return (true);
-	if (set_sprites(gui))
+	if (set_mobs(gui))
 		return (true);
 	if (!is_map_closed(gui))
 		return (true);

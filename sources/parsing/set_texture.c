@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 03:27:14 by nicolas           #+#    #+#             */
-/*   Updated: 2023/08/10 21:03:34 by emis             ###   ########.fr       */
+/*   Updated: 2023/08/14 16:23:58 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,7 @@
 static bool	set_wall_texture(t_gui *gui, char *path, int idx)
 {
 	size_t	i;
-	// int		width;
-	// int		height;
 
-	// width = 0;
-	// height = 0;
 	if (!gui->textures.walls)
 	{
 		gui->textures.walls = malloc(5 * sizeof(*gui->textures.walls));
@@ -35,7 +31,7 @@ static bool	set_wall_texture(t_gui *gui, char *path, int idx)
 		gui->textures.walls[idx] = NULL;
 	}
 	gui->textures.walls[idx] = mlx_xpm_file_to_image(gui->mlx, path,
-			&gui->textures.width, &gui->textures.height);// &width, &height);
+			&gui->textures.width, &gui->textures.height);
 	if (!gui->textures.walls[idx])
 		return (put_parsing_err("Not enough memory"), true);
 	return (false);
@@ -70,6 +66,34 @@ static bool	set_floorceil_texture(t_gui *gui, char *path, int idx)
 	return (false);
 }
 
+static bool	set_sprite_texture(t_gui *gui, char *path)
+{
+	char	**args;
+	int		iter;
+	int		which;
+	const char *flds[] = {"HP\0\0", "STA\0", "ARM\0", "AMMO", "XP\0\0",
+		".\0\0\0", "OBJ\0", "MOB\0"};
+
+	args = ft_splitset(path, " \t,;");
+	which = -1;
+	iter = -1;
+	while (args && args[0] && ++iter < 8)
+		if (!ft_strncmp((char *)flds[iter], args[0], 4))
+			which = iter;
+	if (which == -1)
+		return (free_ch_ar(args), errno = 1, eerror(E_SPTEXTID));
+	if (args && args[0] && args[1])
+		iter = ft_atoi(args[1]);
+	if (!args[1] || iter == 0)
+		return (free_ch_ar(args), errno = 1, eerror(E_SPTEXTNB));
+	if (args && args[0] && args[1] && args[2] && which < LVL)
+		iter = set_frames(gui, which, args[2], iter);
+	if (args && args[0] && args[1] && args[2] && which > LVL)
+		iter = set_mob_obj_frames(gui, which, args, iter);
+	free_ch_ar(args);
+	return (iter != 0);
+}
+
 static bool	set_which(t_gui *gui, t_type_id ti, char *path)
 {
 	int				i;
@@ -77,21 +101,18 @@ static bool	set_which(t_gui *gui, t_type_id ti, char *path)
 	const t_type_id	walls[4] = {north_texture, south_texture,
 		west_texture, east_texture};
 
-	if (ti == sprite_texture) // WIP
-	{
-		// i = ft_atoi(path);
-		// set_frames(gui, );
-	}
+	if (ti == sprite_texture)
+		return (set_sprite_texture(gui, path));
 	if (ti == door_texture)
 		return (load_texture_arr(gui, &gui->textures.doors, path, 1));
 	i = -1;
 	while ((size_t)++i < sizeof(walls) / sizeof(*walls))
 		if (ti == walls[i] && set_wall_texture(gui, path, i))
-			return (free(path), true);
+			return (true);
 	i = -1;
 	while ((size_t)++i < sizeof(floor_and_ceiling) / sizeof(*floor_and_ceiling))
 		if (ti == floor_and_ceiling[i] && set_floorceil_texture(gui, path, i))
-			return (free(path), true);
+			return (true);
 	return (false);
 }
 
@@ -103,6 +124,6 @@ bool	set_texture(t_gui *gui, char *line, t_type_id ti)
 	if (!path)
 		return (true);
 	if (set_which(gui, ti, path))
-		return (true);
+		return (free(path), true);
 	return (free(path), false);
 }
