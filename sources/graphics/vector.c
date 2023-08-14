@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 15:22:49 by emis              #+#    #+#             */
-/*   Updated: 2023/08/13 12:34:07 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/08/14 15:47:07 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -35,18 +35,6 @@ t_vect	delta(t_vect from, t_vect to)
 	d.x /= mag;
 	d.y /= mag;
 	return (d);
-}
-
-double	calc_distance(t_vect from, t_vect to)
-{
-	double	distance;
-	double	dx;
-	double	dy;
-
-	dx = to.x - from.x;
-	dy = to.y - from.y;
-	distance = sqrt(dx * dx + dy * dy);
-	return (distance);
 }
 
 t_vect	scale(t_vect v, double scalar)
