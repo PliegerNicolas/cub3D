@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 05:11:31 by nicolas           #+#    #+#             */
-/*   Updated: 2023/08/13 12:03:32 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/08/14 15:21:20 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,21 +50,11 @@ static bool	set_frames(t_gui *gui, t_sprt *sprite)
 	return (false);
 }
 
-// static void	set_mob_pos(t_gui *gui, size_t nb, size_t row, size_t col)
-// {
-// 	gui->textures.sprites[nb].posi.x = row;
-// 	gui->textures.sprites[nb].posi.y = col;
-// 	if (gui->map.map)
-// 		gui->map.map[row][col] = 0;
-// }
-
 bool	set_mobs(t_gui *gui)
 {
-	//size_t	nb;
 	size_t	row;
 	size_t	col;
 
-	//nb = 0;
 	row = 0;
 	while (row < gui->map.height)
 	{
@@ -73,9 +63,8 @@ bool	set_mobs(t_gui *gui)
 		{
 			if (gui->map.map[row][col] == mob_tile)
 			{
-				// set_mob_pos(gui, nb, row, col);
 				if (set_frames(gui, add_sprite(&gui->textures.sprites,
-					(t_vect){row, col})))
+							(t_vect){row, col})))
 					return (true);
 				if (gui->map.map)
 					gui->map.map[row][col] = 0;

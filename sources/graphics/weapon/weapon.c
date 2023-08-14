@@ -6,10 +6,22 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 19:16:31 by emis              #+#    #+#             */
-/*   Updated: 2023/08/14 15:14:03 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/14 15:46:57 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
+
+static double	calc_distance(t_vect from, t_vect to)
+{
+	double	distance;
+	double	dx;
+	double	dy;
+
+	dx = to.x - from.x;
+	dy = to.y - from.y;
+	distance = sqrt(dx * dx + dy * dy);
+	return (distance);
+}
 
 static double	vertical_matrix_transf(t_gui *gui, t_rc *rc)
 {

@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 02:02:02 by nicolas           #+#    #+#             */
-/*   Updated: 2023/08/13 12:35:48 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/08/14 15:22:07 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -62,50 +62,9 @@ static size_t	count_mobs(t_gui *gui)
 	return (nb);
 }
 
-// static bool	set_sporder(t_gui *gui)
-// {
-// 	size_t	i;
-// 	gui->textures.sporder = malloc(gui->textures.spnb
-// 			* sizeof(gui->textures.sporder));
-// 	if (!gui->textures.sporder)
-// 		return (put_parsing_err("Not enough memory."), true);
-// 	i = 0;
-// 	while (i < (size_t)gui->textures.spnb)
-// 	{
-// 		gui->textures.sporder[i] = i;
-// 		i++;
-// 	}
-// 	return (false);
-// }
-
-// static bool	set_spdist(t_gui *gui)
-// {
-// 	size_t	i;
-// 	gui->textures.spdist = malloc(gui->textures.spnb
-// 			* sizeof(gui->textures.spdist));
-// 	if (!gui->textures.spdist)
-// 		return (put_parsing_err("Not enough memory."), true);
-// 	i = 0;
-// 	while (i < (size_t)gui->textures.spnb)
-// 		gui->textures.sporder[i++] = 0;
-// 	return (false);
-// }
-
 bool	set_sprites(t_gui *gui)
 {
-	// int	i;
-
 	gui->textures.spnb = count_mobs(gui);
-	// gui->textures.sprites = trymalloc(1 * sizeof(*gui->textures.sprites), 1);
-	// if (!gui->textures.sprites)
-	// 	return (put_parsing_err("Not enough memory."), true);
-	// i = 0;
-	// while (i < gui->textures.spnb)
-	// 	add_sprite(gui, i++);
-	// if (set_sporder(gui))
-	// 	return (true);
-	// if (set_spdist(gui))
-	// 	return (true);
 	if (set_mobs(gui))
 		return (true);
 	return (false);

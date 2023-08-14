@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 03:27:14 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/17 18:19:33 by emis             ###   ########.fr       */
+/*   Updated: 2023/08/14 15:22:34 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,7 @@
 static bool	set_wall_texture(t_gui *gui, char *path, int idx)
 {
 	size_t	i;
-	// int		width;
-	// int		height;
 
-	// width = 0;
-	// height = 0;
 	if (!gui->textures.walls)
 	{
 		gui->textures.walls = malloc(5 * sizeof(*gui->textures.walls));
@@ -35,7 +31,7 @@ static bool	set_wall_texture(t_gui *gui, char *path, int idx)
 		gui->textures.walls[idx] = NULL;
 	}
 	gui->textures.walls[idx] = mlx_xpm_file_to_image(gui->mlx, path,
-			&gui->textures.width, &gui->textures.height);// &width, &height);
+			&gui->textures.width, &gui->textures.height);
 	if (!gui->textures.walls[idx])
 		return (put_parsing_err("Not enough memory"), true);
 	return (false);
