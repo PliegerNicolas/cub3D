@@ -6,20 +6,20 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 15:18:25 by emis              #+#    #+#             */
-/*   Updated: 2023/07/26 15:36:52 by emis             ###   ########.fr       */
+/*   Updated: 2023/08/14 10:58:12 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "graphics.h"
 
 int	key_press(int keycode, t_gui *gui)
 {
-	t_kbind	keys[13];
+	static t_kbind	keys[14];
 	size_t	i;
 
 	if (keycode == XK_Escape)
 		return (mlx_loop_end(gui->mlx));
-	set_keys_arr(keys);
+	if (!keys[1])
+		set_keys_arr(keys);
 	i = 0;
 	while (i < sizeof(keys) / sizeof(*keys))
 	{
@@ -32,11 +32,12 @@ int	key_press(int keycode, t_gui *gui)
 
 int	key_rel(int keycode, t_gui *gui)
 {
-	t_kbind	keys[13];
+	static t_kbind	keys[14];
 	size_t	i;
 
-	set_keys_arr(keys);
 	i = 0;
+	if (!keys[1])
+		set_keys_arr(keys);
 	while (i < sizeof(keys) / sizeof(*keys))
 	{
 		if (keycode == (int)keys[i])

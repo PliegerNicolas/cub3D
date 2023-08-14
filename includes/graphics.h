@@ -6,10 +6,9 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/08/02 19:05:36 by emis             ###   ########.fr       */
+/*   Updated: 2023/08/14 11:34:02 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #ifndef GRAPHICS_H
 # define GRAPHICS_H
 
@@ -23,8 +22,8 @@
 # include "garbaj.h"
 # include "parsing.h"
 
-# define SCRWIDTH 1200
-# define SCRHEIGHT 1000
+# define SCRWIDTH 1280
+# define SCRHEIGHT 720
 
 /* ************************************** */
 /* * ENUMERATORS						* */
@@ -45,6 +44,7 @@ typedef enum e_keybinds
 	zoom_out = XK_KP_Subtract,
 	interactkey = XK_e,
 	mapkey = XK_Tab,
+	space = XK_space,
 }	t_kbind;
 
 typedef enum e_keypresses
@@ -62,6 +62,7 @@ typedef enum e_keypresses
 	KP_zoom_out,
 	KP_interact,
 	KP_map,
+	KP_space,
 }	t_kprs;
 
 typedef enum e_btnpresses
@@ -97,6 +98,7 @@ enum e_rates
 	RATE_ITEM,
 	RATE_DOOR,
 	RATE_SPRINT,
+	RATE_SHOOT,
 };
 
 /* ************************************** */
@@ -131,6 +133,13 @@ typedef struct s_ray_caster
 
 /* Game data */
 
+typedef struct projectile
+{
+	t_vect	posi;
+	t_vect	direction;
+	bool	status;
+}	t_prj;
+
 typedef struct s_stats
 {
 	enum
@@ -153,7 +162,7 @@ typedef struct s_player
 	t_vect	posi;
 	t_vect	dir;
 	t_vect	plane;
-	int		pitch;
+	double	pitch;
 	int		dark;
 	double	zoom;
 	double	zoom_rate;
@@ -172,7 +181,7 @@ typedef struct s_sprite	t_sprt;
 typedef struct s_sprite
 {
 	t_type	type;
-	_Bool	solid;
+	bool	solid;
 	t_vect	posi;
 	int		alpha;
 	int		fcur;
@@ -192,6 +201,7 @@ typedef struct s_textures
 	int		arrsize;
 	t_img	**walls;
 	t_img	**doors;
+	t_img	*weapon;
 	int		spnb;
 	t_sprt	*sprites;
 }	t_tex;
@@ -215,7 +225,7 @@ typedef struct s_gui
 	t_play	cam;
 	int		keys;
 	int		btns;
-	_Bool	rendered;
+	bool	rendered;
 }	t_gui;
 
 /* ************************************** */
@@ -228,6 +238,16 @@ typedef struct s_gui
 
 # define DOOR_OPEN 42
 # define DOOR_CLOSED 43
+
+// weapon
+
+# define WALK_AMPLITUDE 8
+# define WALK_FREQUENCY 30
+# define PROJECTILE_SPEED 0.20
+# define MAX_PROJECTILES 25
+
+// colors
+
 # define DARK 0x20
 # define VERY_DARK 0x32
 # define DARKNESS 0x50
@@ -305,6 +325,7 @@ double	inv_safe(double x);
 double	magnitude(t_vect v);
 double	angle(t_vect v1, t_vect v2);
 t_vect	delta(t_vect from, t_vect to);
+double	calc_distance(t_vect from, t_vect to);
 t_vect	scale(t_vect v, double scalar);
 t_vect	perp(t_vect v);
 
@@ -328,7 +349,7 @@ void	wall_texture(t_gui *gui, t_rc *rc);
 
 /* FRAMERATE */
 
-int		nextframe(int frnb);
+int		nextframe(size_t frnb);
 
 /* SPRITE CASTING */
 
@@ -352,6 +373,25 @@ void	hud(t_gui *gui);
 /* WEAPON */
 
 void	weapon(t_gui *gui);
+int		calculate_next_walk_frame(t_gui *gui, int frame);
+void	set_weapon_position(t_gui *gui, int *x, int *y, int frame);
+
+bool	is_projectile_obstructed(t_gui *gui, t_prj *projectile);
+bool	move_projectile(t_gui *gui, t_prj *projectile);
+
+bool	is_out_of_bounds(t_gui *gui, int cell_x, int cell_y);
+bool	wall_collision(t_gui *gui, int cell_x, int cell_y);
+bool	is_target_position_found(t_vect target_position, int cell_x,
+			int cell_y);
+bool	sprite_collision(t_gui *gui, int cell_x, int cell_y);
+
+void	draw_projectile(t_gui *gui, int x, int y, double distance);
+void	draw_projectile_impact(t_gui *gui, int x, int y, double distance);
+void	draw_crosshair(t_gui *gui, int color);
+
+void	initialize_projectile(t_play *player, t_prj *projectile);
+void	clear_projectile(t_prj *projectile);
+
 
 /* INTERACT */
 
@@ -396,5 +436,9 @@ bool	set_sprites(t_gui *gui);
 /* set_mobs.c */
 
 bool	set_mobs(t_gui *gui);
+
+/* set_weapon.c */
+
+bool	set_weapon(t_gui *gui, char *line);
 
 #endif

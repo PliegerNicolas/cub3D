@@ -6,10 +6,9 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 17:41:41 by emis              #+#    #+#             */
-/*   Updated: 2023/07/25 13:29:21 by emis             ###   ########.fr       */
+/*   Updated: 2023/08/13 12:30:49 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "graphics.h"
 
 static void	rays(t_play *p, t_rc *rc)
@@ -60,9 +59,9 @@ static void	cast(t_gui *gui, t_rc *rc)
 		rc->perp_wall_dist = rc->side_dist.y - rc->delta_dist.y;
 	rc->line_height = (int)(SCRHEIGHT / rc->perp_wall_dist);
 	rc->draw_start = bind(-rc->line_height / 2 + SCRHEIGHT
-			/ 2 + gui->cam.pitch, 0, SCRHEIGHT);
+			/ 2 + (gui->cam.pitch * SCRHEIGHT), 0, SCRHEIGHT);
 	rc->draw_end = bind(rc->line_height / 2 + SCRHEIGHT
-			/ 2 + gui->cam.pitch, 0, SCRHEIGHT);
+			/ 2 + (gui->cam.pitch * SCRHEIGHT), 0, SCRHEIGHT);
 }
 
 void	wall_cast(t_gui *gui, double z_buffer[SCRWIDTH])

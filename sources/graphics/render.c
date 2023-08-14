@@ -6,10 +6,9 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 14:03:16 by emis              #+#    #+#             */
-/*   Updated: 2023/08/01 17:22:30 by emis             ###   ########.fr       */
+/*   Updated: 2023/08/14 10:05:22 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "graphics.h"
 
 static void	strputinfo(t_gui *gui, t_vect where, char *desc, int val)
@@ -40,7 +39,7 @@ static void	specs(t_gui *gui, t_vect where)
 	strputinfo(gui, where, "E ", gui->cam.dir.y * 180);
 	where.x -= 70;
 	where.y += 15;
-	strputinfo(gui, where, "Pitch   ", gui->cam.pitch);
+	strputinfo(gui, where, "Pitch   ", gui->cam.pitch * 100);
 	where.y += 15;
 	strputinfo(gui, where, "Render  ", gui->cam.rndr);
 	where.y += 15;

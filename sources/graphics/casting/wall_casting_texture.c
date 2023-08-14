@@ -6,10 +6,9 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:15:05 by nplieger          #+#    #+#             */
-/*   Updated: 2023/07/17 17:38:35 by emis             ###   ########.fr       */
+/*   Updated: 2023/08/13 12:30:40 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "graphics.h"
 
 typedef struct texture_data
@@ -62,7 +61,7 @@ void	wall_texture(t_gui *gui, t_rc *rc)
 	tex_data.id = get_texture_id(gui, rc);
 	tex_data.x = get_texture_x(gui, rc);
 	tex_data.step = 1.0 * gui->textures.width / rc->line_height;
-	tex_data.pos = (rc->draw_start - gui->cam.pitch - SCRHEIGHT
+	tex_data.pos = (rc->draw_start - (gui->cam.pitch * SCRHEIGHT) - SCRHEIGHT
 			/ 2 + rc->line_height / 2) * tex_data.step;
 	y = rc->draw_start;
 	while (y < rc->draw_end)

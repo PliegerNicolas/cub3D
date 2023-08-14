@@ -6,10 +6,11 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 14:56:23 by emis              #+#    #+#             */
-/*   Updated: 2023/07/15 17:15:17 by emis             ###   ########.fr       */
+/*   Updated: 2023/08/14 11:29:16 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "graphics.h"
 #include <time.h>
 
 #define FRAMES 10
@@ -24,6 +25,7 @@ static void	set_rates_array(double *rates)
 	rates[i++] = 0.01;
 	while (i < FRAMES)
 		rates[i++] = 0.1;
+	rates[RATE_SHOOT] = 0.5;
 }
 
 int	nextframe(size_t frnb)

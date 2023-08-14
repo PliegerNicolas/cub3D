@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 07:02:41 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/25 14:16:50 by emis             ###   ########.fr       */
+/*   Updated: 2023/08/14 11:02:03 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	set_keys_arr(t_kbind *keys)
 	keys[10] = zoom_out;
 	keys[11] = interactkey;
 	keys[12] = mapkey;
+	keys[13] = space;
 }
 
 void	set_btns_arr(t_bprs *mouse_btns)

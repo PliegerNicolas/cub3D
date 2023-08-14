@@ -6,10 +6,9 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 02:02:02 by nicolas           #+#    #+#             */
-/*   Updated: 2023/07/23 17:06:58 by emis             ###   ########.fr       */
+/*   Updated: 2023/08/13 12:35:48 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "graphics.h"
 
 t_sprt	*add_sprite(t_sprt **list, t_vect posi)
@@ -66,7 +65,6 @@ static size_t	count_mobs(t_gui *gui)
 // static bool	set_sporder(t_gui *gui)
 // {
 // 	size_t	i;
-
 // 	gui->textures.sporder = malloc(gui->textures.spnb
 // 			* sizeof(gui->textures.sporder));
 // 	if (!gui->textures.sporder)
@@ -83,7 +81,6 @@ static size_t	count_mobs(t_gui *gui)
 // static bool	set_spdist(t_gui *gui)
 // {
 // 	size_t	i;
-
 // 	gui->textures.spdist = malloc(gui->textures.spnb
 // 			* sizeof(gui->textures.spdist));
 // 	if (!gui->textures.spdist)
