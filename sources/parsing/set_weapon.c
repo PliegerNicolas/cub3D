@@ -6,7 +6,7 @@
 /*   By: nplieger <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 09:23:10 by nplieger          #+#    #+#             */
-/*   Updated: 2023/07/18 10:22:32 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/14 21:24:54 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -27,6 +27,6 @@ bool	set_weapon(t_gui *gui, char *line)
 	gui->textures.weapon = mlx_xpm_file_to_image(gui->mlx, path,
 			&width, &height);
 	if (!gui->textures.weapon)
-		return (free(path), put_parsing_err("Not enough memory"), true);
+		return (free(path), put_parsing_err("Not enough memory or invalid weapon texture"), true);
 	return (free(path), false);
 }

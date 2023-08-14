@@ -13,6 +13,8 @@ C 87,226,212 // light blue
 FL ./textures/solong/00.xpm // floor texture
 CE ./textures/solong/10.xpm // ceiling texture
 
+WP ./textures/weapons/AK.xpm // weapon texture
+
 SP	AMMO	-6 textures/collectibles/ammo-rifle_32px.xpm // ammo pack texture
 SP	AMMO	-6 textures/collectibles/ammo-rifle-alt_32px.xpm // ammo pack texture
 SP	AMMO	-6 textures/collectibles/ammo-pistol_32px.xpm // ammo pack texture
