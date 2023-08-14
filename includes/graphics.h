@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/08/13 12:29:43 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/08/14 11:29:53 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef GRAPHICS_H
@@ -44,6 +44,7 @@ typedef enum e_keybinds
 	zoom_out = XK_KP_Subtract,
 	interactkey = XK_e,
 	mapkey = XK_Tab,
+	space = XK_space,
 }	t_kbind;
 
 typedef enum e_keypresses
@@ -61,6 +62,7 @@ typedef enum e_keypresses
 	KP_zoom_out,
 	KP_interact,
 	KP_map,
+	KP_space,
 }	t_kprs;
 
 typedef enum e_btnpresses
@@ -96,6 +98,7 @@ enum e_rates
 	RATE_ITEM,
 	RATE_DOOR,
 	RATE_SPRINT,
+	RATE_SHOOT,
 };
 
 /* ************************************** */
@@ -240,7 +243,8 @@ typedef struct s_gui
 
 # define WALK_AMPLITUDE 8
 # define WALK_FREQUENCY 30
-# define PROJECTILE_SPEED 0.25
+# define PROJECTILE_SPEED 0.20
+# define MAX_PROJECTILES 25
 
 // colors
 
@@ -345,7 +349,7 @@ void	wall_texture(t_gui *gui, t_rc *rc);
 
 /* FRAMERATE */
 
-int		nextframe(int frnb);
+int		nextframe(size_t frnb);
 
 /* SPRITE CASTING */
 
