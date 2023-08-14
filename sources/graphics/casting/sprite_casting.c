@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 16:26:04 by emis              #+#    #+#             */
-/*   Updated: 2023/08/14 13:02:01 by emis             ###   ########.fr       */
+/*   Updated: 2023/08/14 21:15:00 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -178,10 +178,10 @@ void	sprite_cast(t_gui *gui, double ZBuffer[SCRWIDTH])
 		// int pitch = 100;
 
 		//calculate lowest and highest pixel to fill in current stripe
-		int drawStartY = bind(-spriteHeight / 2 + SCRHEIGHT / 2 + gui->cam.pitch + cur->offset / transf.y, 0, SCRHEIGHT);
+		int drawStartY = bind(-spriteHeight / 2 + SCRHEIGHT / 2 + (gui->cam.pitch * SCRHEIGHT) + cur->offset / transf.y, 0, SCRHEIGHT);
 		// if (drawStartY < 0)
 		// 	drawStartY = 0;
-		int drawEndY = bind(spriteHeight / 2 + SCRHEIGHT / 2 + gui->cam.pitch + cur->offset / transf.y, 0, SCRHEIGHT);
+		int drawEndY = bind(spriteHeight / 2 + SCRHEIGHT / 2 + (gui->cam.pitch * SCRHEIGHT) + cur->offset / transf.y, 0, SCRHEIGHT);
 		// if (drawEndY >= SCRHEIGHT)
 		// 	drawEndY = SCRHEIGHT - 1;
 
@@ -209,7 +209,7 @@ void	sprite_cast(t_gui *gui, double ZBuffer[SCRWIDTH])
 			if (transf.y > 0 && stripe > 0 && stripe < SCRWIDTH && transf.y < ZBuffer[stripe])
 			for(int y = drawStartY; y < drawEndY; y++) //for every pixel of the current stripe
 			{
-				int d = (y - gui->cam.pitch - cur->offset / transf.y) * 256 - SCRHEIGHT * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
+				int d = (y - (gui->cam.pitch * SCRHEIGHT) - cur->offset / transf.y) * 256 - SCRHEIGHT * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
 				int texY = ((d * cur->frames[0]->height) / spriteHeight) / 256;
 				int	color;
 
