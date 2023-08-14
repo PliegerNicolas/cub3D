@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 19:16:31 by emis              #+#    #+#             */
-/*   Updated: 2023/08/14 11:34:27 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/14 15:14:03 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -36,28 +36,30 @@ static bool	raycast_projectile(t_gui *gui, t_prj *projectile)
 	rc.ray_dir.y = (projectile->posi.y - gui->cam.posi.y) * gui->cam.zoom;
 	screen_x = (SCRWIDTH / 2.0) * (1.0 + vertical_matrix_transf(gui, &rc));
 	screen_y = (SCRHEIGHT / 2.0) + (gui->cam.pitch * SCRHEIGHT);
-	if (!target_hit && is_projectile_obstructed(gui, projectile))
-		return (false);
+	if (is_projectile_obstructed(gui, projectile))
+	{
+		if (!target_hit)
+			return (false);
+	}
 	else
 	{
 		distance = calc_distance(gui->cam.posi, projectile->posi);
 		if (target_hit)
-			return (draw_projectile_impact(gui, screen_x,
-					screen_y, distance), true);
+			draw_projectile_impact(gui, screen_x, screen_y, distance);
 		else
-			draw_projectile(gui, screen_x, screen_y, distance);
+			return (draw_projectile(gui, screen_x, screen_y, distance), false);
 	}
-	return (false);
+	return (true);
 }
 
 static void	attack(t_gui *gui)
 {
 	static t_prj	projectiles[MAX_PROJECTILES];
-	size_t	i;
+	size_t			i;
 
 	i = 0;
 	if (((gui->btns & (1 << left_click))
-		|| gui->keys & (1 << KP_space))
+			|| gui->keys & (1 << KP_space))
 		&& nextframe(RATE_SHOOT))
 	{
 		i = 0;

@@ -6,16 +6,15 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 09:50:23 by nicolas           #+#    #+#             */
-/*   Updated: 2023/08/14 11:52:58 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/14 15:03:43 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
 
-static bool	is_in_fov(t_play *player, t_rc *rc)
+static bool	is_in_fov(t_play *player)
 {
 	if (player->pitch > 0.5 || player->pitch < -0.5)
 		return (false);
-	(void)rc;
 	return (true);
 }
 
@@ -50,10 +49,10 @@ static bool	cast(t_gui *gui, t_rc *rc, t_vect *target_position)
 	{
 		if (is_out_of_bounds(gui, rc->map_x, rc->map_y))
 			return (false);
-		if (wall_collision(gui, rc->map_x, rc->map_y))
-			return (false);
 		if (is_target_position_found(*target_position, rc->map_x, rc->map_y))
 			return (true);
+		if (wall_collision(gui, rc->map_x, rc->map_y))
+			return (false);
 		if (rc->side_dist.x < rc->side_dist.y)
 		{
 			rc->side_dist.x += rc->delta_dist.x;
@@ -75,7 +74,7 @@ bool	is_projectile_obstructed(t_gui *gui, t_prj *projectile)
 	rc.map_y = (int)gui->cam.posi.y;
 	rc.ray_dir.x = (projectile->posi.x - gui->cam.posi.x) * gui->cam.zoom;
 	rc.ray_dir.y = (projectile->posi.y - gui->cam.posi.y) * gui->cam.zoom;
-	if (!is_in_fov(&gui->cam, &rc))
+	if (!is_in_fov(&gui->cam))
 		return (true);
 	rc.delta_dist.x = inv_safe(rc.ray_dir.x);
 	rc.delta_dist.y = inv_safe(rc.ray_dir.y);

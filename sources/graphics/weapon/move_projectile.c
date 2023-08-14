@@ -6,7 +6,7 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 09:49:53 by nicolas           #+#    #+#             */
-/*   Updated: 2023/08/12 14:07:35 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/08/14 15:05:51 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -71,24 +71,10 @@ t_vect	target_projectile_position(t_prj *projectile)
 	return (next_pos);
 }
 
-static bool	calc_hit_distance(t_rc *rc, t_prj *projectile)
-{
-	double	hit_distance;
-
-	if (rc->side_dist.y < rc->side_dist.x)
-		hit_distance = (rc->map_y - projectile->posi.y
-				+ (1 - rc->step_y) / 2) / rc->ray_dir.y;
-	else
-		hit_distance = (rc->map_x - projectile->posi.x
-				+ (1 - rc->step_x) / 2) / rc->ray_dir.x;
-	return (hit_distance);
-}
-
 bool	move_projectile(t_gui *gui, t_prj *projectile)
 {
 	t_rc	rc;
 	t_vect	target_position;
-	double	hit_distance;
 
 	target_position = target_projectile_position(projectile);
 	rc.map_x = (int)projectile->posi.x;
@@ -97,17 +83,9 @@ bool	move_projectile(t_gui *gui, t_prj *projectile)
 	rc.ray_dir.y = target_position.y - projectile->posi.y;
 	rc.delta_dist.x = inv_safe(rc.ray_dir.x);
 	rc.delta_dist.y = inv_safe(rc.ray_dir.y);
+	projectile->posi.x = target_position.x;
+	projectile->posi.y = target_position.y;
 	if (cast(gui, &rc, &target_position))
-	{
-		projectile->posi.x = target_position.x;
-		projectile->posi.y = target_position.y;
 		return (true);
-	}
-	else
-	{
-		hit_distance = calc_hit_distance(&rc, projectile);
-		projectile->posi.x = projectile->posi.x + rc.ray_dir.x * hit_distance;
-		projectile->posi.y = projectile->posi.y + rc.ray_dir.y * hit_distance;
-		return (false);
-	}
+	return (false);
 }
