@@ -6,7 +6,7 @@
 #    By: nicolas <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/15 11:52:14 by nicolas           #+#    #+#              #
-#    Updated: 2023/08/15 17:47:22 by nicolas          ###   ########.fr        #
+#    Updated: 2023/08/15 18:22:52 by nicolas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -279,8 +279,8 @@ re:						clean all
 relib:					fcleanlib all
 
 run:					all
-	@echo "$(GREEN)Executing : $(CYAN)./$(NAME) $(RUN_PARAM)$(RESET_TEXT)"
-	@./$(NAME) $(RUN_PARAM)
+	@echo "$(GREEN)Executing : $(CYAN)./$(NAME) $(RUN_PARAMS)$(RESET_TEXT)"
+	@./$(NAME) $(RUN_PARAMS)
 
 noflag: 				all
 
