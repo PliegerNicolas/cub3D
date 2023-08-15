@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 16:10:07 by emis              #+#    #+#             */
-/*   Updated: 2023/08/14 12:02:02 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/15 19:08:54 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -61,7 +61,7 @@ void	erase(t_img *img)
 		while (++x < img->width)
 		{
 			dst = img->data + (y * img->size_line + x * (img->bpp / 8));
-			*(unsigned int *)dst = 0;
+			*(unsigned int *)dst = -1;
 		}
 	}
 }
