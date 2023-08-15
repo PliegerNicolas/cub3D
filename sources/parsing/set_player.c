@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 16:15:01 by nicolas           #+#    #+#             */
-/*   Updated: 2023/08/14 09:35:30 by emis             ###   ########.fr       */
+/*   Updated: 2023/08/15 19:01:18 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static void	set_base_stats(t_play *player)
 
 static void	set_vector(t_play *player, size_t row, size_t col)
 {
-	player->posi = (t_vect){row, col};
+	player->posi = (t_vect){row + 0.5, col + 0.5};
 	player->stat.get[HP] = 100;
 	player->stat.get[STA] = 25;
 	player->stat.get[ARM] = 0;
