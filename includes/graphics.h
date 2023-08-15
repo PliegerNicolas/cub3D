@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/08/14 20:38:44 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/08/15 13:58:12 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # include "parsing.h"
 
 # define SCRWIDTH 1280
-# define SCRHEIGHT 720
+# define SCRHEIGHT 1000
 
 /* ************************************** */
 /* * ENUMERATORS						* */
