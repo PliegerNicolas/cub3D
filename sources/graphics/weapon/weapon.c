@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 19:16:31 by emis              #+#    #+#             */
-/*   Updated: 2023/08/14 15:46:57 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/16 17:27:43 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -78,7 +78,10 @@ static void	attack(t_gui *gui)
 		while (i < MAX_PROJECTILES && projectiles[i].status)
 			i++;
 		if (i < MAX_PROJECTILES)
+		{
 			initialize_projectile(&gui->cam, &projectiles[i]);
+			gui->cam.stat.get[AMMO]--;
+		}
 	}
 	i = 0;
 	while (i < MAX_PROJECTILES)
@@ -102,6 +105,7 @@ void	weapon(t_gui *gui)
 	walk_frame = calculate_next_walk_frame(gui, walk_frame);
 	set_weapon_position(gui, &weapon_x, &weapon_y, walk_frame);
 	draw_crosshair(gui, 0xFFFFFF);
-	attack(gui);
+	if (gui->cam.stat.get[AMMO] >= 1)
+		attack(gui);
 	imgput(gui->buffer, weapon_x, weapon_y, gui->textures.weapon);
 }
