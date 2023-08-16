@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/08/16 16:50:40 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/16 17:02:57 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -329,6 +329,12 @@ void	update_rotation_speed(double *current_speed, double target_speed,
 int		get_keypress_index(int keycode);
 int		get_mousepress_index(int keycode);
 void	initialize_mouse_motion(t_gui *gui, int last[2]);
+
+void	act_on_sprint(t_gui *gui);
+void	act_on_move(t_gui *gui);
+void	act_on_camera_rotation(t_gui *gui, t_play *p);
+void	act_on_zoom(t_gui *gui);
+void	act_on_toggles(t_gui *gui);
 
 /* EVENTS */
 
