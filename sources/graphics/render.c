@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 14:03:16 by emis              #+#    #+#             */
-/*   Updated: 2023/08/16 16:13:10 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/16 16:51:18 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,11 @@ int	render(t_gui *gui)
 	mlx_put_image_to_window(gui->mlx, gui->mlx->win_list, gui->buffer, 0, 0);
 	regen(gui, HP, 1, RATE_HEAL);
 	regen(gui, ARM, 1, RATE_ARMOR_UP);
-	specs(gui, (t_vect){SCRWIDTH - 115, 30});
-	stats(gui, (t_vect){SCRWIDTH - 235, 30});
+	if (is_mask_set(&gui->cam.rndr, STATISTICS))
+	{
+		specs(gui, (t_vect){SCRWIDTH - 115, 30});
+		stats(gui, (t_vect){SCRWIDTH - 235, 30});
+	}
 	gui->rendered = 1;
 	return (0);
 }

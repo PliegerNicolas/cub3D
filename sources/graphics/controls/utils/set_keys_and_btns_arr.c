@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 07:02:41 by nicolas           #+#    #+#             */
-/*   Updated: 2023/08/14 15:33:34 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/16 16:44:29 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ static void	initialize_keys_arr(t_kbind *keys)
 	keys[11] = interactkey;
 	keys[12] = mapkey;
 	keys[13] = space;
+	keys[14] = statistics;
 }
 
 static void	initialize_btns_arr(t_bprs *mouse_btns)
@@ -42,7 +43,7 @@ static void	initialize_btns_arr(t_bprs *mouse_btns)
 
 int	get_keypress_index(int keycode)
 {
-	static t_kbind	keys[14];
+	static t_kbind	keys[15];
 	size_t			i;
 
 	if (!keys[1])

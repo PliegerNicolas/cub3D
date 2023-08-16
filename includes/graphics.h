@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/08/16 16:13:37 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/16 16:50:40 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef enum e_keybinds
 	interactkey = XK_e,
 	mapkey = XK_Tab,
 	space = XK_space,
+	statistics = XK_F3,
 }	t_kbind;
 
 typedef enum e_keypresses
@@ -64,6 +65,7 @@ typedef enum e_keypresses
 	KP_interact,
 	KP_map,
 	KP_space,
+	KP_statistics,
 }	t_kprs;
 
 typedef enum e_btnpresses
@@ -90,6 +92,7 @@ typedef enum e_render_level
 	MINIMAP = 8,
 	MINIMAP_CIRCULAR = 16,
 	MINIMAP_FOCUS = 32,
+	STATISTICS = 64,
 }	t_rndr;
 
 typedef enum e_type

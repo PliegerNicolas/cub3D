@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 05:50:41 by nicolas           #+#    #+#             */
-/*   Updated: 2023/08/16 15:51:53 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/16 16:50:26 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,11 @@ void	key_render(t_gui *gui)
 	if (check_press((gui->keys & (1 << KP_map)) != 0, 1))
 	{
 		select_map_type(&gui->cam.rndr);
+		gui->rendered = 0;
+	}
+	if (check_press((gui->keys & (1 << KP_statistics)) != 0, 2))
+	{
+		toggle_mask(&gui->cam.rndr, STATISTICS, TOGGLE);
 		gui->rendered = 0;
 	}
 	move(gui);
