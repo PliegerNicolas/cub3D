@@ -6,7 +6,7 @@
 #    By: nicolas <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/15 11:52:14 by nicolas           #+#    #+#              #
-#    Updated: 2023/08/15 18:22:52 by nicolas          ###   ########.fr        #
+#    Updated: 2023/08/16 10:02:16 by nplieger         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,6 +48,13 @@ LIBFT_DIR				=			libft
 LIBFT_INCLUDES_DIRS		=			libft
 LIBFT_NAME				=			libft.a
 
+LIBFT_COMPLETE			=			$(LIBFT_DIR)/$(LIBFT_NAME)
+
+ifeq ($(IS_LIBFT),true)
+	INCLUDES_FLAGS		+=			$(addprefix -I , ${LIBFT_INCLUDES_DIR})
+	ALL_LIBS			+=			$(LIBFT_COMPLETE)
+endif
+
 #* ************************************************************************** *#
 #* *                                MLX                                     * *#
 #* ************************************************************************** *#
@@ -57,6 +64,13 @@ IS_MLX					=			true
 MLX_DIR					=			mlx
 MLX_INCLUDES_DIRS		=			mlx
 MLX_NAME				=			libmlx_Linux.a
+
+MLX_COMPLETE			=			$(MLX_DIR)/$(MLX_NAME)
+
+ifeq ($(IS_MLX),true)
+	INCLUDES_FLAGS		+=			$(addprefix -I , ${MLX_INCLUDES_DIR})
+	ALL_LIBS			+=			$(MLX_COMPLETE)
+endif
 
 #* ************************************************************************** *#
 #* *                              INCLUDES                                  * *#
@@ -78,19 +92,6 @@ DEPENDENCIES			:=			$(OBJECTS:.o=.d)
 #* ************************************************************************** *#
 #* *                           RULES FILTER                                 * *#
 #* ************************************************************************** *#
-
-LIBFT_COMPLETE			=			$(LIBFT_DIR)/$(LIBFT_NAME)
-MLX_COMPLETE			=			$(MLX_DIR)/$(MLX_NAME)
-
-ifeq ($(IS_LIBFT),true)
-	INCLUDES_FLAGS		+=			$(addprefix -I , ${LIBFT_INCLUDES_DIR})
-	ALL_LIBS			+=			$(LIBFT_COMPLETE)
-endif
-
-ifeq ($(IS_MLX),true)
-	INCLUDES_FLAGS		+=			$(addprefix -I , ${MLX_INCLUDES_DIR})
-	ALL_LIBS			+=			$(MLX_COMPLETE)
-endif
 
 ifeq (noflag, $(filter noflag,$(MAKECMDGOALS)))
 	CC_FLAGS			+=			-Wall -Wextra
