@@ -6,14 +6,23 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 09:50:23 by nicolas           #+#    #+#             */
-/*   Updated: 2023/08/14 15:03:43 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/16 20:34:23 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
 
-static bool	is_in_fov(t_play *player)
+static bool	is_in_fov(t_play *player, t_rc *rc)
 {
+	double	dot_product;
+	double	cos_angle;
+	double	angle;
+
 	if (player->pitch > 0.5 || player->pitch < -0.5)
+		return (false);
+    dot_product = player->dir.x * rc->ray_dir.x + player->dir.y * rc->ray_dir.y;
+    cos_angle = dot_product / (magnitude(player->dir) * magnitude(rc->ray_dir));
+    angle = acos(cos_angle);
+	if (angle >= M_PI / 2.0)
 		return (false);
 	return (true);
 }
@@ -74,7 +83,7 @@ bool	is_projectile_obstructed(t_gui *gui, t_prj *projectile)
 	rc.map_y = (int)gui->cam.posi.y;
 	rc.ray_dir.x = (projectile->posi.x - gui->cam.posi.x) * gui->cam.zoom;
 	rc.ray_dir.y = (projectile->posi.y - gui->cam.posi.y) * gui->cam.zoom;
-	if (!is_in_fov(&gui->cam))
+	if (!is_in_fov(&gui->cam, &rc))
 		return (true);
 	rc.delta_dist.x = inv_safe(rc.ray_dir.x);
 	rc.delta_dist.y = inv_safe(rc.ray_dir.y);
