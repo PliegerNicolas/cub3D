@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 14:56:23 by emis              #+#    #+#             */
-/*   Updated: 2023/08/09 20:29:41 by emis             ###   ########.fr       */
+/*   Updated: 2023/08/15 11:12:42 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	set_rates_array(double *rates)
 		rates[i++] = 0.1;
 	rates[RATE_HEAL] = 1;
 	rates[RATE_ARMOR_UP] = 2;
-	rates[RATE_SHOOT] = 0.5;
+	rates[RATE_SHOOT] = 0.1;
 }
 
 int	nextframe(enum e_rates frnb)

@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 18:28:25 by emis              #+#    #+#             */
-/*   Updated: 2023/08/09 20:18:21 by emis             ###   ########.fr       */
+/*   Updated: 2023/08/16 20:46:07 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,5 @@ void	regen(t_gui *gui, t_fld fld, int amount, enum e_rates rate)
 	if (gui->cam.stat.get[fld] < -1)
 		printf("Weird stuff happening to stat %d\n", fld);
 	gui->cam.stat.get[fld] = bind(gui->cam.stat.get[fld] + amount,
-		-1, gui->cam.stat.max[fld]);
+			-1, gui->cam.stat.max[fld]);
 }

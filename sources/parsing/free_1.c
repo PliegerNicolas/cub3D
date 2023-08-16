@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 02:36:49 by nicolas           #+#    #+#             */
-/*   Updated: 2023/08/13 12:38:04 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/08/16 20:30:58 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,8 @@ static void	free_weapon(t_gui *gui)
 // 	}
 // }
 
+	// mlx_destroy_display(gui->mlx);
+	// free(gui->mlx);
 void	clear_parsing(t_gui *gui)
 {
 	if (!gui->mlx)
@@ -102,6 +104,4 @@ void	clear_parsing(t_gui *gui)
 	free_weapon(gui);
 	if (gui->buffer)
 		mlx_destroy_image(gui->mlx, gui->buffer);
-	// mlx_destroy_display(gui->mlx);
-	// free(gui->mlx);
 }

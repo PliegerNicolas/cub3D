@@ -6,13 +6,13 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 16:25:33 by emis              #+#    #+#             */
-/*   Updated: 2023/08/14 15:40:36 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/15 15:20:35 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "graphics.h"
 
-typedef struct rc_floor
+typedef struct s_rc_floor
 {
 	float	screen_center;
 	float	horizon;

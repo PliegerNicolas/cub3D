@@ -42,6 +42,7 @@ SOURCES += ./sources/graphics/controls/key_press.c
 SOURCES += ./sources/graphics/controls/controls.c
 SOURCES += ./sources/graphics/minimap.c
 SOURCES += ./sources/graphics/textures.c
+SOURCES += ./sources/graphics/sprites.c
 
 SOURCES += ./sources/graphics/casting/wall_casting_texture.c
 SOURCES += ./sources/graphics/casting/wall_casting.c

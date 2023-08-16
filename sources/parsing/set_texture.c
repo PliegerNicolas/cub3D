@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 03:27:14 by nicolas           #+#    #+#             */
-/*   Updated: 2023/08/14 16:23:58 by emis             ###   ########.fr       */
+/*   Updated: 2023/08/16 20:30:35 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,10 @@ static bool	set_floorceil_texture(t_gui *gui, char *path, int idx)
 
 static bool	set_sprite_texture(t_gui *gui, char *path)
 {
-	char	**args;
-	int		iter;
-	int		which;
-	const char *flds[] = {"HP\0\0", "STA\0", "ARM\0", "AMMO", "XP\0\0",
+	char		**args;
+	int			iter;
+	int			which;
+	const char	*flds[] = {"HP\0\0", "STA\0", "ARM\0", "AMMO", "XP\0\0",
 		".\0\0\0", "OBJ\0", "MOB\0"};
 
 	args = ft_splitset(path, " \t,;");

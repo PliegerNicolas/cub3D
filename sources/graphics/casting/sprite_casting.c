@@ -6,222 +6,118 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 16:26:04 by emis              #+#    #+#             */
-/*   Updated: 2023/08/14 21:15:00 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/08/16 21:43:54 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "graphics.h"
-
-static void	sort_lst(t_sprt **lst)
-{
-	t_sprt	*top;
-	t_sprt	*sp;
-	t_sprt	*old;
-
-	top = *lst;
-	sp = top;
-	while (sp->next)
-	{
-		if (sp->dist < sp->next->dist)
-		{
-			if (sp == top)
-			{
-				top = top->next;
-				sp->next = top->next;
-				top->next = sp;
-			}
-			else
-			{
-				old->next = sp->next;
-				sp->next = old->next->next;
-				old->next->next = sp;
-			}
-			sp = top;
-		}
-		old = sp;
-		sp = sp->next;
-	}
-	*lst = top;
-}
-
-static void	set_dist_and_sort(t_tex *tex, t_vect *from)
-{
-	t_sprt	*sp;
-	double	last;
-	bool	sort;
-
-	sp = tex->sprites;
-	last = -1;
-	sort = 0;
-	while (sp)
-	{
-		sp->dist = ((from->x - sp->posi.x)
-			* (from->x - sp->posi.x)
-			+ (from->y - sp->posi.y)
-			* (from->y - sp->posi.y)); //sqrt not taken, unneeded
-		if (last > -1 && sp->dist > last)
-			sort = 1;
-		last = sp->dist;
-		sp = sp->next;
-	}
-	if (sort)
-		sort_lst(&tex->sprites);
-}
 
 // translate sprite position to relative to camera
 // transform sprite with the inverse camera matrix
-// [ planeX   dirX ] -1                                       [ dirY      -dirX ]
-// [               ]       =  1/(planeX*dirY-dirX*planeY) *   [                 ]
-// [ planeY   dirY ]                                          [ -planeY  planeX ]
-t_vect	transform(t_sprt *cur, t_play *play)
+// [ planeX   dirX ] -1                                     [ dirY      -dirX ]
+// [               ]       =  1/(planeX*dirY-dirX*planeY) * [                 ]
+// [ planeY   dirY ]                                        [ -planeY  planeX ]
+static t_vect	transform(t_sprt *cur, t_play *play)
 {
 	t_vect	sprite;
-	double	invDet;
+	double	int_det;
 
 	sprite = (t_vect){cur->posi.x - play->posi.x,
 		cur->posi.y - play->posi.y};
-	invDet = 1.0 / (play->plane.x * (play->dir.y * play->zoom)
-		- (play->dir.x * play->zoom) * play->plane.y);
+	int_det = 1.0 / (play->plane.x * (play->dir.y * play->zoom)
+			- (play->dir.x * play->zoom) * play->plane.y);
 	return ((t_vect){
-		invDet * ((play->dir.y * play->zoom) * sprite.x
-		- (play->dir.x * play->zoom) * sprite.y),
-		invDet * (-play->plane.y * sprite.x
-		+ play->plane.x * sprite.y)});
+		int_det * ((play->dir.y * play->zoom) * sprite.x
+			- (play->dir.x * play->zoom) * sprite.y),
+		int_det * (-play->plane.y * sprite.x
+			+ play->plane.x * sprite.y)});
 }
 
-void	frame_shift(t_gui *gui)
+typedef struct s_rc_sprite
 {
-	t_sprt	*sp;
-	t_sprt	*old;
+	t_vect	transf;
+	int		screen_x;
+	int		sprite_height;
+	int		sprite_width;
+	int		cur_x;
+	int		cur_y;
+	int		start_y;
+	int		end_x;
+	int		end_y;
+	int		tex_x;
+	int		tex_y;
+	int		color;
+}	t_rcs;
 
-	if (!nextframe(RATE_MOB))
-		return;
-	sp = gui->textures.sprites;
-	while (sp)
+//calculate height of the sprite on screen
+//using 'transformY' instead of the real distance prevents fisheye
+//calculate lowest and highest pixel to fill in current stripe
+//calculate width of the sprite
+static void	compute_draw_bounds(t_sprt *cur, t_play *play, t_rcs *rc)
+{
+	rc->transf = transform(cur, play);
+	rc->screen_x = (int)((SCRWIDTH / 2) * (1 + rc->transf.x / rc->transf.y));
+	rc->sprite_height = abs((int)(SCRHEIGHT / (rc->transf.y))) / cur->scale.y;
+	rc->start_y = bind(-rc->sprite_height / 2 + SCRHEIGHT / 2 + (play->pitch
+				* SCRHEIGHT) + cur->offset / rc->transf.y, 0, SCRHEIGHT) - 1;
+	rc->end_y = bind(rc->sprite_height / 2 + SCRHEIGHT / 2 + (play->pitch
+				* SCRHEIGHT) + cur->offset / rc->transf.y, 0, SCRHEIGHT);
+	rc->sprite_width = abs((int)(SCRHEIGHT / (rc->transf.y))) / cur->scale.x;
+	rc->cur_x = bind(-rc->sprite_width / 2 + rc->screen_x, 0, SCRWIDTH) - 1;
+	rc->end_x = bind(rc->sprite_width / 2 + rc->screen_x, 0, SCRWIDTH);
+	rc->color = cur->alpha;
+	if (play->dark)
+		rc->color = bind(rc->color
+				- (play->dark * (cur->dist + 1) / 8.0), 1, 255);
+	rc->color = rc->color << 24;
+}
+
+//the conditions in the if are:
+//1) it's in front of camera plane so you don't see things behind you
+//2) it's on the screen (left)
+//3) it's on the screen (right)
+//4) z_buffer, with perpendicular distance
+//256 and 128 factors to avoid floats
+static void	draw_sprite(t_gui *gui, double z_buffer[SCRWIDTH], t_sprt *cur,
+	t_rcs *rc)
+{
+	while (cur->alpha >= 0 && ++rc->cur_x < rc->end_x)
 	{
-		if (sp->type == COLLECTIBLE)
-			sp->offset = (sp->offset + (int)sp->offset % 40)
-			- ((int)sp->offset + 4) % 40;
-		if (sp->type != DEAD)
-			sp->fcur = (sp->fcur + 1) % sp->fnum;
-		else if (sp->type == DEAD && sp->alpha < 0)
+		rc->tex_x = (int)((rc->cur_x - (-rc->sprite_width / 2 + rc->screen_x))
+				* 256 * cur->frames[0]->width / rc->sprite_width) / 256;
+		if (!(rc->transf.y > 0 && rc->cur_x > 0
+				&& rc->cur_x < SCRWIDTH && rc->transf.y < z_buffer[rc->cur_x]))
+			continue ;
+		rc->cur_y = rc->start_y;
+		while (++rc->cur_y < rc->end_y)
 		{
-			if (sp == gui->textures.sprites)
-				gui->textures.sprites = sp->next;
-			else
-				old->next = sp->next;
-			if (sp->amount < 0)
-			{
-				gain_xp(gui, sp);
-				if (rand() % XP == 0)
-					add_pack(gui, sp->posi, rand() % XP);
-			}
-			garbaj(sp, NULL, -1);
-			sp = gui->textures.sprites;
-			if (!--gui->textures.spnb)
-				return (void)(gui->textures.sprites = NULL);
+			rc->tex_y = ((((rc->cur_y - (gui->cam.pitch * SCRHEIGHT)
+								- cur->offset / rc->transf.y) * 256
+							- SCRHEIGHT * 128 + rc->sprite_height * 128)
+						* cur->frames[0]->height) / rc->sprite_height) / 256;
+			rc->color = (rc->color & 0xFF000000);
+			if (cur->frames[0]->width * rc->tex_y + rc->tex_x >= 0)
+				rc->color |= pixget(cur->frames[cur->fcur],
+						cur->frames[0]->width * rc->tex_y + rc->tex_x, 0);
+			if ((rc->color & 0x00FFFFFF) != 0)
+				pixput(gui->buffer, rc->cur_x, rc->cur_y, rc->color);
 		}
-		old = sp;
-		sp = sp->next;
 	}
 }
 
-void	sprite_cast(t_gui *gui, double ZBuffer[SCRWIDTH])
+void	sprite_cast(t_gui *gui, double z_buffer[SCRWIDTH])
 {
-	t_vect	transf;
+	t_rcs	rc;
 	t_sprt	*cur;
 
 	set_dist_and_sort(&gui->textures, &gui->cam.posi);
 	frame_shift(gui);
-
 	cur = gui->textures.sprites;
-
-	//after sorting the sprites, do the projection and draw them
-	// for(int i = 0; i < gui->textures.spnb; i++)
 	while (cur)
 	{
-		if (cur->type != DEAD)
-		{
-			if (cur->dist > .2)
-			{
-				if (cur->type == ALIVE)
-					check_and_move(gui->map, &cur->posi, 
-					delta(cur->posi, gui->cam.posi), 0.025 + ((rand() % 5) / 1000.0));
-			}
-			else
-			{
-				if (cur->stat == HP && cur->amount < 0
-					&& gui->cam.stat.get[ARM] >= 0)
-					gui->cam.stat.get[ARM] += cur->amount * !(rand() % 4);
-				else if (gui->cam.stat.get[cur->stat] > -1)
-					gui->cam.stat.get[cur->stat] = bind(
-						gui->cam.stat.get[cur->stat] + cur->amount, 0,
-						gui->cam.stat.max[cur->stat]);
-				if (cur->type == COLLECTIBLE)
-					cur->alpha = -1, cur->type = DEAD;
-			}
-		}
-		else
-			cur->alpha -= 7 * (cur->alpha > 0);
-		if (cur->alpha < 0)
-		{
-			cur = cur->next;
-			continue;
-			// delete sprite
-		}
-		transf = transform(cur, &gui->cam);
-
-		int spriteScreenX = (int)((SCRWIDTH / 2) * (1 + transf.x / transf.y));
-
-		//calculate height of the sprite on screen
-		int spriteHeight = abs((int)(SCRHEIGHT / (transf.y))) / cur->scale.y; //using 'transformY' instead of the real distance prevents fisheye
-		
-		// int pitch = 100;
-
-		//calculate lowest and highest pixel to fill in current stripe
-		int drawStartY = bind(-spriteHeight / 2 + SCRHEIGHT / 2 + (gui->cam.pitch * SCRHEIGHT) + cur->offset / transf.y, 0, SCRHEIGHT);
-		// if (drawStartY < 0)
-		// 	drawStartY = 0;
-		int drawEndY = bind(spriteHeight / 2 + SCRHEIGHT / 2 + (gui->cam.pitch * SCRHEIGHT) + cur->offset / transf.y, 0, SCRHEIGHT);
-		// if (drawEndY >= SCRHEIGHT)
-		// 	drawEndY = SCRHEIGHT - 1;
-
-		//calculate width of the sprite
-		int spriteWidth = abs((int)(SCRHEIGHT / (transf.y))) / cur->scale.x;
-		int drawStartX = bind(-spriteWidth / 2 + spriteScreenX, 0, SCRWIDTH);
-		// if (drawStartX < 0)
-		// 	drawStartX = 0;
-		int drawEndX = bind(spriteWidth / 2 + spriteScreenX, 0, SCRWIDTH);
-		// if (drawEndX >= SCRWIDTH)
-		// 	drawEndX = SCRWIDTH - 1;
-		// int which = gui->textures.sporder[i];
-		int	drk = cur->alpha;
-		if (gui->cam.dark)
-			drk = bind(drk - (gui->cam.dark * (cur->dist + 1) / 8.0), 1, 255);
-		//loop through every vertical stripe of the sprite on screen
-		for(int stripe = drawStartX; stripe < drawEndX; stripe++)
-		{
-			int texX = (int)(256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * cur->frames[0]->width / spriteWidth) / 256;
-			//the conditions in the if are:
-			//1) it's in front of camera plane so you don't see things behind you
-			//2) it's on the screen (left)
-			//3) it's on the screen (right)
-			//4) ZBuffer, with perpendicular distance
-			if (transf.y > 0 && stripe > 0 && stripe < SCRWIDTH && transf.y < ZBuffer[stripe])
-			for(int y = drawStartY; y < drawEndY; y++) //for every pixel of the current stripe
-			{
-				int d = (y - (gui->cam.pitch * SCRHEIGHT) - cur->offset / transf.y) * 256 - SCRHEIGHT * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
-				int texY = ((d * cur->frames[0]->height) / spriteHeight) / 256;
-				int	color;
-
-				if (cur->frames[0]->width * texY + texX < 0)
-					color = 0x00FFFFFF;
-				else
-					color = pixget(cur->frames[cur->fcur],
-				cur->frames[0]->width * texY + texX, 0); //get current color from the texture texture[sprite[spriteOrder[i]].texture][gui->textures.width * texY + texX]
-				if ((color & 0x00FFFFFF) != 0) // use alpha
-					pixput(gui->buffer, stripe, y, color | (drk << 24)); //buffer[y][stripe] = color paint pixel if it isn't black, black is the invisible color
-			}
-		}
+		update_sprite(gui, cur);
+		compute_draw_bounds(cur, &gui->cam, &rc);
+		draw_sprite(gui, z_buffer, cur, &rc);
 		cur = cur->next;
 	}
 }
