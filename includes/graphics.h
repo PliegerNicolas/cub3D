@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/08/15 13:58:12 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/08/16 17:02:57 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef enum e_keybinds
 	interactkey = XK_e,
 	mapkey = XK_Tab,
 	space = XK_space,
+	statistics = XK_F3,
 }	t_kbind;
 
 typedef enum e_keypresses
@@ -64,6 +65,7 @@ typedef enum e_keypresses
 	KP_interact,
 	KP_map,
 	KP_space,
+	KP_statistics,
 }	t_kprs;
 
 typedef enum e_btnpresses
@@ -75,13 +77,22 @@ typedef enum e_btnpresses
 	scroll_down,
 }	t_bprs;
 
+typedef enum	e_rndr_toggle
+{
+	TOGGLE = 0,
+	OFF = 1,
+	ON = 2,
+}	t_rndr_toggle;
+
 typedef enum e_render_level
 {
-	BASICWALLS,
-	TEXTUWALLS,
-	SPRITES,
-	FLOORCEIL,
-	MINIMAP
+	TEXTUWALLS = 1,
+	FLOORCEIL = 2,
+	SPRITES = 4,
+	MINIMAP = 8,
+	MINIMAP_CIRCULAR = 16,
+	MINIMAP_FOCUS = 32,
+	STATISTICS = 64,
 }	t_rndr;
 
 typedef enum e_type
@@ -319,6 +330,12 @@ int		get_keypress_index(int keycode);
 int		get_mousepress_index(int keycode);
 void	initialize_mouse_motion(t_gui *gui, int last[2]);
 
+void	act_on_sprint(t_gui *gui);
+void	act_on_move(t_gui *gui);
+void	act_on_camera_rotation(t_gui *gui, t_play *p);
+void	act_on_zoom(t_gui *gui);
+void	act_on_toggles(t_gui *gui);
+
 /* EVENTS */
 
 int		key_press(int keycode, t_gui *gui);
@@ -418,6 +435,13 @@ int		interact(t_gui *gui);
 
 void	gain_xp(t_gui *gui, t_sprt *ded);
 void	regen(t_gui *gui, t_fld fld, int amount, enum e_rates rate);
+
+/* BITMASK */
+
+bool	is_mask_set(int *mask, t_rndr option);
+void	toggle_mask(int *mask, t_rndr option, t_rndr_toggle status);
+void	select_map_type(int *mask);
+void	change_render_type(int *mask);
 
 /* ************************************** */
 /* * TEMP, NEEDED FOR PARSING			* */

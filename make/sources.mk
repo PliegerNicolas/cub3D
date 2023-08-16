@@ -45,6 +45,11 @@ SOURCES_NAMES += graphics/controls/utils/check_and_move
 SOURCES_NAMES += graphics/controls/utils/update_speed
 SOURCES_NAMES += graphics/controls/utils/mouse_motion_utils
 SOURCES_NAMES += graphics/controls/utils/set_keys_and_btns_arr
+SOURCES_NAMES += graphics/controls/utils/render_type
+SOURCES_NAMES += graphics/controls/utils/bitmask
+SOURCES_NAMES += graphics/controls/utils/act_on_displacement
+SOURCES_NAMES += graphics/controls/utils/act_on_camera
+SOURCES_NAMES += graphics/controls/utils/act_on_toggle
 
 SOURCES_NAMES += graphics/casting/wall_casting_texture
 SOURCES_NAMES += graphics/casting/wall_casting

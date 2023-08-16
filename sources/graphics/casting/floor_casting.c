@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 16:25:33 by emis              #+#    #+#             */
-/*   Updated: 2023/08/16 11:14:42 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/16 15:23:00 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static void	draw_pixel(t_gui *gui, t_rc_floor *rc, size_t x, size_t y)
 
 	if (y > rc->horizon)
 	{
-		if (gui->cam.rndr & (1 << FLOORCEIL)
+		if (is_mask_set(&gui->cam.rndr, FLOORCEIL)
 			&& gui->textures.floorceil && gui->textures.floorceil[0])
 			color = pixget(gui->textures.floorceil[0], gui->textures.width
 					* rc->texture_y + rc->texture_x, 0);
@@ -78,7 +78,7 @@ static void	draw_pixel(t_gui *gui, t_rc_floor *rc, size_t x, size_t y)
 	}
 	else
 	{
-		if (gui->cam.rndr & (1 << FLOORCEIL)
+		if (is_mask_set(&gui->cam.rndr, FLOORCEIL)
 			&& gui->textures.floorceil && gui->textures.floorceil[1])
 			color = pixget(gui->textures.floorceil[1], gui->textures.width
 					* rc->texture_y + rc->texture_x, 0);
