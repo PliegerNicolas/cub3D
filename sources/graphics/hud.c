@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 18:18:56 by emis              #+#    #+#             */
-/*   Updated: 2023/08/16 12:21:16 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/16 16:05:40 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,9 @@ void	hud(t_gui *gui)
 {
 	int	s;
 
-	if (is_mask_set(&gui->cam, MINIMAP))
+	if (!is_mask_set(&gui->cam.rndr, MINIMAP))
+		return ;
+	if (is_mask_set(&gui->cam.rndr, MINIMAP_CIRCULAR))
 	{
 		s = 14;
 		minimap(gui, (t_vect){s, s}, s, !(gui->keys & (1 << KP_map)));

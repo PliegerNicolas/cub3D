@@ -36,7 +36,6 @@ SOURCES_NAMES += graphics/draw
 SOURCES_NAMES += graphics/minimath
 SOURCES_NAMES += graphics/minimap
 SOURCES_NAMES += graphics/textures
-SOURCES_NAMES += graphics/bitmask
 
 SOURCES_NAMES += graphics/controls/events
 SOURCES_NAMES += graphics/controls/key_press
@@ -46,6 +45,8 @@ SOURCES_NAMES += graphics/controls/utils/check_and_move
 SOURCES_NAMES += graphics/controls/utils/update_speed
 SOURCES_NAMES += graphics/controls/utils/mouse_motion_utils
 SOURCES_NAMES += graphics/controls/utils/set_keys_and_btns_arr
+SOURCES_NAMES += graphics/controls/utils/render_type
+SOURCES_NAMES += graphics/controls/utils/bitmask
 
 SOURCES_NAMES += graphics/casting/wall_casting_texture
 SOURCES_NAMES += graphics/casting/wall_casting

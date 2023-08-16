@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/08/16 13:06:26 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/16 16:13:37 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,13 +75,21 @@ typedef enum e_btnpresses
 	scroll_down,
 }	t_bprs;
 
+typedef enum	e_rndr_toggle
+{
+	TOGGLE = 0,
+	OFF = 1,
+	ON = 2,
+}	t_rndr_toggle;
+
 typedef enum e_render_level
 {
-	EMPTY = 0,
 	TEXTUWALLS = 1,
 	FLOORCEIL = 2,
 	SPRITES = 4,
 	MINIMAP = 8,
+	MINIMAP_CIRCULAR = 16,
+	MINIMAP_FOCUS = 32,
 }	t_rndr;
 
 typedef enum e_type
@@ -421,8 +429,10 @@ void	regen(t_gui *gui, t_fld fld, int amount, enum e_rates rate);
 
 /* BITMASK */
 
-bool	is_mask_set(t_play *player, t_rndr option);
-void	change_render_type(t_play *player);
+bool	is_mask_set(int *mask, t_rndr option);
+void	toggle_mask(int *mask, t_rndr option, t_rndr_toggle status);
+void	select_map_type(int *mask);
+void	change_render_type(int *mask);
 
 /* ************************************** */
 /* * TEMP, NEEDED FOR PARSING			* */

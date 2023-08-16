@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 05:50:41 by nicolas           #+#    #+#             */
-/*   Updated: 2023/08/16 12:50:02 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/16 15:51:53 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ void	key_render(t_gui *gui)
 		interact(gui);
 	if (check_press((gui->keys & (1 << KP_map)) != 0, 1))
 	{
-		//gui->cam.rndr ^= (1 << MINIMAP);
+		select_map_type(&gui->cam.rndr);
 		gui->rendered = 0;
 	}
 	move(gui);

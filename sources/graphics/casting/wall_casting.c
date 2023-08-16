@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 17:41:41 by emis              #+#    #+#             */
-/*   Updated: 2023/08/16 12:57:17 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/16 15:22:46 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -82,7 +82,7 @@ void	wall_cast(t_gui *gui, double z_buffer[SCRWIDTH])
 		rc.delta_dist.x = inv_safe(rc.ray_dir.x);
 		rc.delta_dist.y = inv_safe(rc.ray_dir.y);
 		cast(gui, &rc);
-		if (is_mask_set(&gui->cam, TEXTUWALLS))
+		if (is_mask_set(&gui->cam.rndr, TEXTUWALLS))
 			wall_texture(gui, &rc);
 		else
 			wall_color(gui, &rc);
