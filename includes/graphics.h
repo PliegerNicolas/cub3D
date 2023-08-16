@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/08/15 13:58:12 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/08/16 13:06:26 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,11 @@ typedef enum e_btnpresses
 
 typedef enum e_render_level
 {
-	BASICWALLS,
-	TEXTUWALLS,
-	SPRITES,
-	FLOORCEIL,
-	MINIMAP
+	EMPTY = 0,
+	TEXTUWALLS = 1,
+	FLOORCEIL = 2,
+	SPRITES = 4,
+	MINIMAP = 8,
 }	t_rndr;
 
 typedef enum e_type
@@ -418,6 +418,11 @@ int		interact(t_gui *gui);
 
 void	gain_xp(t_gui *gui, t_sprt *ded);
 void	regen(t_gui *gui, t_fld fld, int amount, enum e_rates rate);
+
+/* BITMASK */
+
+bool	is_mask_set(t_play *player, t_rndr option);
+void	change_render_type(t_play *player);
 
 /* ************************************** */
 /* * TEMP, NEEDED FOR PARSING			* */

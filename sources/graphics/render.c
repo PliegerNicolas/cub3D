@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 14:03:16 by emis              #+#    #+#             */
-/*   Updated: 2023/08/16 11:14:32 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/16 13:08:39 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,16 +84,19 @@ int	render(t_gui *gui)
 
 	if (gui->rendered && ((!gui->keys && !gui->cam.speed.x && !gui->cam.speed.y
 				&& !gui->cam.rot_speed.x && !gui->cam.rot_speed.y)
-			&& !(gui->cam.rndr & (1 << SPRITES))))
+			&& !is_mask_set(&gui->cam, SPRITES)))
 		return (0);
 	key_render(gui);
 	erase(gui->buffer);
-	floor_cast(gui);
-	wall_cast(gui, z_buffer);
-	if (gui->cam.rndr & (1 << SPRITES))
+	if (gui->cam.rndr != EMPTY)
 	{
-		sprite_cast(gui, z_buffer);
-		weapon(gui);
+		floor_cast(gui);
+		wall_cast(gui, z_buffer);
+		if (is_mask_set(&gui->cam, SPRITES))
+		{
+			sprite_cast(gui, z_buffer);
+			weapon(gui);
+		}
 	}
 	hud(gui);
 	mlx_put_image_to_window(gui->mlx, gui->mlx->win_list, gui->buffer, 0, 0);

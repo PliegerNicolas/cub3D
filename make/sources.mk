@@ -36,6 +36,7 @@ SOURCES_NAMES += graphics/draw
 SOURCES_NAMES += graphics/minimath
 SOURCES_NAMES += graphics/minimap
 SOURCES_NAMES += graphics/textures
+SOURCES_NAMES += graphics/bitmask
 
 SOURCES_NAMES += graphics/controls/events
 SOURCES_NAMES += graphics/controls/key_press
