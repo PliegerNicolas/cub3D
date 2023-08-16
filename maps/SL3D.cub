@@ -2,17 +2,18 @@
 /* * TEXTURES							* */
 /* ************************************** */
 
-NO ./textures/solong3D/walls/wall0.xpm // north wall texture
-SO ./textures/solong3D/walls/wall1.xpm // south wall texture
-WE ./textures/solong3D/walls/wall2.xpm // west wall texture
-EA ./textures/solong3D/walls/wall3.xpm // east wall texture
+NO ./textures/solong3D/walls/wall0.xpm		// north wall texture
+SO ./textures/solong3D/walls/wall1.xpm		// south wall texture
+WE ./textures/solong3D/walls/wall2.xpm		// west wall texture
+EA ./textures/solong3D/walls/wall3.xpm		// east wall texture
 
+F 190,170,150								// brown
+C 35,35,65									// night blue
 
-F 226,113,162 // pink
-C 87,226,212 // light blue
+FL ./textures/solong3D/floorceil/floor.xpm	// floor texture
+CE ./textures/solong3D/floorceil/ceil.xpm	// ceiling texture
 
-FL ./textures/solong3D/floorceil/floor.xpm // floor texture
-CE ./textures/solong3D/floorceil/ceil.xpm // ceiling texture
+WP ./textures/weapons/AK.xpm				// weapon texture
 
 /* ************************************** */
 /* * MAP								* */

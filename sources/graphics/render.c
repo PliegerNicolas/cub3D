@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 14:03:16 by emis              #+#    #+#             */
-/*   Updated: 2023/08/14 20:17:27 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/08/16 11:14:32 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,9 +88,8 @@ int	render(t_gui *gui)
 		return (0);
 	key_render(gui);
 	erase(gui->buffer);
+	floor_cast(gui);
 	wall_cast(gui, z_buffer);
-	if (gui->cam.rndr & (1 << FLOORCEIL))
-		floor_cast(gui);
 	if (gui->cam.rndr & (1 << SPRITES))
 	{
 		sprite_cast(gui, z_buffer);
