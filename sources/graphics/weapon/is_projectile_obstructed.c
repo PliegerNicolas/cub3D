@@ -6,7 +6,7 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 09:50:23 by nicolas           #+#    #+#             */
-/*   Updated: 2023/08/16 20:34:23 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/08/17 23:19:53 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -19,9 +19,9 @@ static bool	is_in_fov(t_play *player, t_rc *rc)
 
 	if (player->pitch > 0.5 || player->pitch < -0.5)
 		return (false);
-    dot_product = player->dir.x * rc->ray_dir.x + player->dir.y * rc->ray_dir.y;
-    cos_angle = dot_product / (magnitude(player->dir) * magnitude(rc->ray_dir));
-    angle = acos(cos_angle);
+	dot_product = player->dir.x * rc->ray_dir.x + player->dir.y * rc->ray_dir.y;
+	cos_angle = dot_product / (magnitude(player->dir) * magnitude(rc->ray_dir));
+	angle = acos(cos_angle);
 	if (angle >= M_PI / 2.0)
 		return (false);
 	return (true);

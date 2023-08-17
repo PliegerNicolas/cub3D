@@ -6,19 +6,17 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 12:26:42 by emis              #+#    #+#             */
-/*   Updated: 2023/08/17 23:10:27 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/08/17 23:23:50 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "graphics.h"
 
-static void	sort_lst(t_sprt **lst)
+static void	sort_lst(t_sprt **lst, t_sprt *old)
 {
 	t_sprt	*sp;
-	t_sprt	*old;
 
 	sp = *lst;
-	old = sp;
 	while (sp->next)
 	{
 		if (sp->dist < sp->next->dist)
@@ -63,7 +61,7 @@ void	set_dist_and_sort(t_tex *tex, t_vect *from)
 		sp = sp->next;
 	}
 	if (sort)
-		sort_lst(&tex->sprites);
+		sort_lst(&tex->sprites, tex->sprites);
 }
 
 static bool	shift_type(t_gui *gui, t_sprt *sp, t_sprt *old)

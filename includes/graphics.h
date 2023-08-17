@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/08/17 20:38:29 by emis             ###   ########.fr       */
+/*   Updated: 2023/08/17 23:15:02 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ typedef enum e_btnpresses
 	scroll_down,
 }	t_bprs;
 
-typedef enum	e_rndr_toggle
+typedef enum e_rndr_toggle
 {
 	TOGGLE = 0,
 	OFF = 1,

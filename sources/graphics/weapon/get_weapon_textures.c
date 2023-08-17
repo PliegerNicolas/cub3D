@@ -6,7 +6,7 @@
 /*   By: nplieger <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 17:55:29 by nplieger          #+#    #+#             */
-/*   Updated: 2023/08/17 19:55:48 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/17 23:19:25 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -38,4 +38,3 @@ void	next_weapon_frame(t_gui *gui, size_t *weapon_frame)
 	else
 		(*weapon_frame) = 0;
 }
-

@@ -6,7 +6,7 @@
 /*   By: nplieger <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 15:54:55 by nplieger          #+#    #+#             */
-/*   Updated: 2023/08/17 20:22:00 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/17 23:19:00 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -29,10 +29,10 @@ void	set_weapon_position(t_gui *gui, int *x, int *y, int frame)
 	int		x_offset;
 	int		y_offset;
 	float	walk_angle;
+	t_img	*img;
 
-	t_img	*img = *gui->textures.spframes[SIZE + NB_OBJTYPE
+	img = *gui->textures.spframes[SIZE + NB_OBJTYPE
 		+ NB_MOBTYPE + gui->cam.selected_weapon];
-
 	x_offset = img->width * 0.2;
 	y_offset = img->height * 0.2 + gui->cam.pitch * SCRHEIGHT;
 	if (gui->cam.speed.x || gui->cam.speed.y || frame)

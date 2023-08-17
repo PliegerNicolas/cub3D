@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 19:16:31 by emis              #+#    #+#             */
-/*   Updated: 2023/08/17 19:56:26 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/17 23:19:11 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -110,7 +110,7 @@ void	weapon(t_gui *gui)
 	if (gui->cam.stat.get[AMMO] >= 1)
 		attack(gui, &weapon_frame);
 	if ((size_t)weapon_frame >= gui->textures.spfrsizes[SIZE
-		+ NB_OBJTYPE + NB_MOBTYPE + gui->cam.selected_weapon])
+			+ NB_OBJTYPE + NB_MOBTYPE + gui->cam.selected_weapon])
 		weapon_frame = 0;
 	imgput(gui->buffer, weapon_x, weapon_y, weapon_textures[weapon_frame]);
 	next_weapon_frame(gui, &weapon_frame);
