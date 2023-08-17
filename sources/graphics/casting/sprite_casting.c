@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 16:26:04 by emis              #+#    #+#             */
-/*   Updated: 2023/08/16 21:43:54 by emis             ###   ########.fr       */
+/*   Updated: 2023/08/17 17:16:59 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ static void	draw_sprite(t_gui *gui, double z_buffer[SCRWIDTH], t_sprt *cur,
 			rc->color = (rc->color & 0xFF000000);
 			if (cur->frames[0]->width * rc->tex_y + rc->tex_x >= 0)
 				rc->color |= pixget(cur->frames[cur->fcur],
-						cur->frames[0]->width * rc->tex_y + rc->tex_x, 0);
+						rc->tex_x, rc->tex_y) & 0xFFFFFF;
 			if ((rc->color & 0x00FFFFFF) != 0)
 				pixput(gui->buffer, rc->cur_x, rc->cur_y, rc->color);
 		}

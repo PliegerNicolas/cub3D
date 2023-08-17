@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 12:26:42 by emis              #+#    #+#             */
-/*   Updated: 2023/08/17 14:31:25 by emis             ###   ########.fr       */
+/*   Updated: 2023/08/17 15:27:04 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,9 @@ void	frame_shift(t_gui *gui)
 void	update_sprite(t_gui *gui, t_sprt *cur)
 {
 	if (cur->type == DEAD)
-		return ((void)(cur->alpha -= 7 * (cur->alpha > 0)));
+		return ((void)(cur->alpha -= 5 * (cur->alpha >= 0),
+			cur->scale = scale(cur->scale, 1.1),
+			cur->offset += 20));
 	if (cur->dist > .2)
 	{
 		if (cur->type == ALIVE)
