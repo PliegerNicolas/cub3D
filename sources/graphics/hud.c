@@ -63,10 +63,13 @@ void	hud(t_gui *gui)
 {
 	int	s;
 
-	if (gui->cam.rndr & (1 << MINIMAP))
+	if (!is_mask_set(&gui->cam.rndr, MINIMAP))
+		return ;
+	if (is_mask_set(&gui->cam.rndr, MINIMAP_CIRCULAR))
 	{
 		s = 14;
-		minimap(gui, (t_vect){s, s}, s, !(gui->keys & (1 << KP_map)));
+		minimap(gui, (t_vect){s, s}, s,
+			!is_mask_set(&gui->cam.rndr, MINIMAP_FOCUS));
 		curvybars(gui, (t_vect){0, 0}, s);
 	}
 	else

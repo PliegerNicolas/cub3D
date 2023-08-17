@@ -84,14 +84,13 @@ int	render(t_gui *gui)
 
 	if (gui->rendered && ((!gui->keys && !gui->cam.speed.x && !gui->cam.speed.y
 				&& !gui->cam.rot_speed.x && !gui->cam.rot_speed.y)
-			&& !(gui->cam.rndr & (1 << SPRITES))))
+			&& !is_mask_set(&gui->cam.rndr, SPRITES)))
 		return (0);
 	key_render(gui);
 	erase(gui->buffer);
+	floor_cast(gui);
 	wall_cast(gui, z_buffer);
-	if (gui->cam.rndr & (1 << FLOORCEIL))
-		floor_cast(gui);
-	if (gui->cam.rndr & (1 << SPRITES))
+	if (is_mask_set(&gui->cam.rndr, SPRITES))
 	{
 		sprite_cast(gui, z_buffer);
 		weapon(gui);
@@ -99,8 +98,11 @@ int	render(t_gui *gui)
 	hud(gui);
 	mlx_put_image_to_window(gui->mlx, gui->mlx->win_list, gui->buffer, 0, 0);
 	regen(gui, HP, 1, RATE_HEAL);
-	specs(gui, (t_vect){SCRWIDTH - 115, 30});
-	stats(gui, (t_vect){SCRWIDTH - 235, 30});
+	if (is_mask_set(&gui->cam.rndr, STATISTICS))
+	{
+		specs(gui, (t_vect){SCRWIDTH - 115, 30});
+		stats(gui, (t_vect){SCRWIDTH - 235, 30});
+	}
 	gui->rendered = 1;
 	return (0);
 }

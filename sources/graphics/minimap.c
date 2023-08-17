@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 18:54:34 by emis              #+#    #+#             */
-/*   Updated: 2023/08/13 12:34:25 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/08/17 19:53:54 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -90,6 +90,7 @@ int	fullmap(t_gui *gui, t_vect where)
 	int			y;
 	int			color;
 
+	color = 0;
 	if (!size)
 		size = 15 - (sqrt(gui->map.height * gui->map.width) / 10);
 	x = -1;

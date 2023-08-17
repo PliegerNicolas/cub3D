@@ -46,6 +46,8 @@ typedef enum e_keybinds
 	interactkey = XK_e,
 	mapkey = XK_Tab,
 	space = XK_space,
+	statistics = XK_F3,
+	swap_weapon = XK_q,
 }	t_kbind;
 
 typedef enum e_keypresses
@@ -64,6 +66,8 @@ typedef enum e_keypresses
 	KP_interact,
 	KP_map,
 	KP_space,
+	KP_statistics,
+	KP_swap_weapon,
 }	t_kprs;
 
 typedef enum e_btnpresses
@@ -75,13 +79,22 @@ typedef enum e_btnpresses
 	scroll_down,
 }	t_bprs;
 
+typedef enum	e_rndr_toggle
+{
+	TOGGLE = 0,
+	OFF = 1,
+	ON = 2,
+}	t_rndr_toggle;
+
 typedef enum e_render_level
 {
-	BASICWALLS,
-	TEXTUWALLS,
-	SPRITES,
-	FLOORCEIL,
-	MINIMAP
+	TEXTUWALLS = 1,
+	FLOORCEIL = 2,
+	SPRITES = 4,
+	MINIMAP = 8,
+	MINIMAP_CIRCULAR = 16,
+	MINIMAP_FOCUS = 32,
+	STATISTICS = 64,
 }	t_rndr;
 
 typedef enum e_type
@@ -102,6 +115,7 @@ enum e_rates
 	RATE_HEAL,
 	RATE_ARMOR_UP,
 	RATE_SHOOT,
+	RATE_WEAPON,
 	RATE_NB
 };
 
@@ -139,6 +153,7 @@ typedef struct s_ray_caster
 
 # define NB_MOBTYPE 5
 # define NB_OBJTYPE 5
+# define NB_WPNTYPE 3
 
 typedef enum e_stat_field
 {
@@ -183,6 +198,7 @@ typedef struct s_player
 	t_vect	accel_rate;
 	t_vect	rot_accel_rate;
 	t_vect	hit_box;
+	int		selected_weapon;
 }	t_play;
 
 typedef struct s_sprite	t_sprt;
@@ -214,14 +230,11 @@ typedef struct s_textures
 	int		arrsize;
 	t_img	**walls;
 	t_img	**doors;
-	t_img	**spframes[SIZE + NB_OBJTYPE + NB_MOBTYPE];
-	size_t	spfrsizes[SIZE + NB_OBJTYPE + NB_MOBTYPE];
-	t_img	*weapon;
+	t_img	**spframes[SIZE + NB_OBJTYPE + NB_MOBTYPE + NB_WPNTYPE];
+	size_t	spfrsizes[SIZE + NB_OBJTYPE + NB_MOBTYPE + NB_WPNTYPE];
 	int		spnb;
 	t_sprt	*sprites;
 }	t_tex;
-	// int		*sporder;
-	// double	*spdist;
 
 typedef struct s_map
 {
@@ -319,6 +332,12 @@ int		get_keypress_index(int keycode);
 int		get_mousepress_index(int keycode);
 void	initialize_mouse_motion(t_gui *gui, int last[2]);
 
+void	act_on_sprint(t_gui *gui);
+void	act_on_move(t_gui *gui);
+void	act_on_camera_rotation(t_gui *gui, t_play *p);
+void	act_on_zoom(t_gui *gui);
+void	act_on_toggles(t_gui *gui);
+
 /* EVENTS */
 
 int		key_press(int keycode, t_gui *gui);
@@ -394,8 +413,11 @@ void	hud(t_gui *gui);
 /* WEAPON */
 
 void	weapon(t_gui *gui);
-int		calculate_next_walk_frame(t_gui *gui, int frame);
+int		calculate_next_walk_frame(t_gui *gui);
 void	set_weapon_position(t_gui *gui, int *x, int *y, int frame);
+
+t_img	**get_weapon_textures(t_gui *gui);
+void	next_weapon_frame(t_gui *gui, size_t *weapon_frame);
 
 bool	is_projectile_obstructed(t_gui *gui, t_prj *projectile);
 bool	move_projectile(t_gui *gui, t_prj *projectile);
@@ -410,7 +432,8 @@ void	draw_projectile(t_gui *gui, int x, int y, double distance);
 void	draw_projectile_impact(t_gui *gui, int x, int y, double distance);
 void	draw_crosshair(t_gui *gui, int color);
 
-void	initialize_projectile(t_play *player, t_prj *projectile);
+void	initialize_projectile(t_play *player, t_prj *projectile,
+			size_t *weapon_frame);
 void	clear_projectile(t_prj *projectile);
 
 /* INTERACT */
@@ -423,6 +446,13 @@ int		interact(t_gui *gui);
 void	gain_xp(t_gui *gui, t_sprt *ded);
 void	regen(t_gui *gui, t_fld fld, int amount, enum e_rates rate);
 void	touch_sprite(t_gui *gui, t_sprt *sprt);
+
+/* BITMASK */
+
+bool	is_mask_set(int *mask, t_rndr option);
+void	toggle_mask(int *mask, t_rndr option, t_rndr_toggle status);
+void	select_map_type(int *mask);
+void	change_render_type(int *mask);
 
 /* ************************************** */
 /* * TEMP, NEEDED FOR PARSING			* */
@@ -469,5 +499,6 @@ bool	set_mobs(t_gui *gui);
 /* set_weapon.c */
 
 bool	set_weapon(t_gui *gui, char *line);
+bool	set_weapon_texture(t_gui *gui, char *path);
 
 #endif

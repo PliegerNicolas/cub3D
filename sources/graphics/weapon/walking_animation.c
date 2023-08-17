@@ -6,18 +6,22 @@
 /*   By: nplieger <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 15:54:55 by nplieger          #+#    #+#             */
-/*   Updated: 2023/08/13 11:57:06 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/08/17 20:22:00 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
 
-int	calculate_next_walk_frame(t_gui *gui, int frame)
+int	calculate_next_walk_frame(t_gui *gui)
 {
+	static int		walk_frame;
+
 	if (gui->cam.speed.x || gui->cam.speed.y)
-		return ((frame + 1) % WALK_FREQUENCY);
-	else if (frame != 0 && frame != (WALK_FREQUENCY * 0.5))
-		return ((frame + 1) % WALK_FREQUENCY);
-	return (0);
+		walk_frame = (walk_frame + 1) % WALK_FREQUENCY;
+	else if (walk_frame != 0 && walk_frame != (WALK_FREQUENCY * 0.5))
+		walk_frame = (walk_frame + 1) % WALK_FREQUENCY;
+	else
+		walk_frame = 0;
+	return (walk_frame);
 }
 
 void	set_weapon_position(t_gui *gui, int *x, int *y, int frame)
@@ -26,8 +30,11 @@ void	set_weapon_position(t_gui *gui, int *x, int *y, int frame)
 	int		y_offset;
 	float	walk_angle;
 
-	x_offset = gui->textures.weapon->width * 0.2;
-	y_offset = gui->textures.weapon->height * 0.2 + gui->cam.pitch * SCRHEIGHT;
+	t_img	*img = *gui->textures.spframes[SIZE + NB_OBJTYPE
+		+ NB_MOBTYPE + gui->cam.selected_weapon];
+
+	x_offset = img->width * 0.2;
+	y_offset = img->height * 0.2 + gui->cam.pitch * SCRHEIGHT;
 	if (gui->cam.speed.x || gui->cam.speed.y || frame)
 	{
 		walk_angle = (frame / (float)WALK_FREQUENCY
@@ -35,6 +42,6 @@ void	set_weapon_position(t_gui *gui, int *x, int *y, int frame)
 		x_offset += (int)(sin(walk_angle) * WALK_AMPLITUDE);
 		y_offset -= (int)(fabs(cos(walk_angle)) * WALK_AMPLITUDE / 2);
 	}
-	*x = SCRWIDTH - gui->textures.weapon->width + x_offset;
-	*y = SCRHEIGHT - gui->textures.weapon->height + y_offset;
+	*x = SCRWIDTH - img->width + x_offset;
+	*y = SCRHEIGHT - img->height + y_offset;
 }

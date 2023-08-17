@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 03:27:14 by nicolas           #+#    #+#             */
-/*   Updated: 2023/08/16 20:30:35 by emis             ###   ########.fr       */
+/*   Updated: 2023/08/17 16:05:14 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static bool	set_wall_texture(t_gui *gui, char *path, int idx)
 	gui->textures.walls[idx] = mlx_xpm_file_to_image(gui->mlx, path,
 			&gui->textures.width, &gui->textures.height);
 	if (!gui->textures.walls[idx])
-		return (put_parsing_err("Not enough memory"), true);
+		return (put_parsing_err("Not enough memory or invalid texture"), true);
 	return (false);
 }
 
@@ -62,7 +62,7 @@ static bool	set_floorceil_texture(t_gui *gui, char *path, int idx)
 	gui->textures.floorceil[idx] = mlx_xpm_file_to_image(gui->mlx, path,
 			&width, &height);
 	if (!gui->textures.floorceil[idx])
-		return (put_parsing_err("Not enough memory"), true);
+		return (put_parsing_err("Not enough memory or invalid texture"), true);
 	return (false);
 }
 
@@ -103,6 +103,8 @@ static bool	set_which(t_gui *gui, t_type_id ti, char *path)
 
 	if (ti == sprite_texture)
 		return (set_sprite_texture(gui, path));
+	else if (ti == weapon_texture)
+		return (set_weapon_texture(gui, path));
 	if (ti == door_texture)
 		return (load_texture_arr(gui, &gui->textures.doors, path, 1));
 	i = -1;

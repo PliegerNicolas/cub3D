@@ -120,7 +120,7 @@ all:		${NAME}
 
 .objects/%.o:	%.c
 		@mkdir -p $(dir $@)
-		${CC} ${CFLAGS} -c $< -o $@ ${INC}
+		${CC} ${CFLAGS} -c $< -o $@ ${INC} -fPIE
 
 ${OBJPATH}:
 		mkdir -p ${OBJPATH}

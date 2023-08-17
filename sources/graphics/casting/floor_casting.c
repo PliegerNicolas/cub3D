@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 16:25:33 by emis              #+#    #+#             */
-/*   Updated: 2023/08/15 15:20:35 by emis             ###   ########.fr       */
+/*   Updated: 2023/08/16 15:23:00 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,8 @@ static void	draw_pixel(t_gui *gui, t_rc_floor *rc, size_t x, size_t y)
 
 	if (y > rc->horizon)
 	{
-		if (gui->textures.floorceil && gui->textures.floorceil[0])
+		if (is_mask_set(&gui->cam.rndr, FLOORCEIL)
+			&& gui->textures.floorceil && gui->textures.floorceil[0])
 			color = pixget(gui->textures.floorceil[0], gui->textures.width
 					* rc->texture_y + rc->texture_x, 0);
 		else
@@ -77,7 +78,8 @@ static void	draw_pixel(t_gui *gui, t_rc_floor *rc, size_t x, size_t y)
 	}
 	else
 	{
-		if (gui->textures.floorceil && gui->textures.floorceil[1])
+		if (is_mask_set(&gui->cam.rndr, FLOORCEIL)
+			&& gui->textures.floorceil && gui->textures.floorceil[1])
 			color = pixget(gui->textures.floorceil[1], gui->textures.width
 					* rc->texture_y + rc->texture_x, 0);
 		else
@@ -109,8 +111,7 @@ void	floor_cast(t_gui *gui)
 			set_texture_coordinates(gui, &rc);
 			rc.floor_x += rc.floor_step_x;
 			rc.floor_y += rc.floor_step_y;
-			if (pixget(gui->buffer, x, y) == 0)
-				draw_pixel(gui, &rc, x, y);
+			draw_pixel(gui, &rc, x, y);
 			x++;
 		}
 		y++;

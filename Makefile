@@ -1,101 +1,296 @@
-#################### INCLUDE ####################
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: nicolas <marvin@42.fr>                     +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2023/08/15 11:52:14 by nicolas           #+#    #+#              #
+#    Updated: 2023/08/17 19:53:21 by nplieger         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
--include make/includes.mk
+#* ************************************************************************** *#
+#* *                            GENERAL INFO                                * *#
+#* ************************************************************************** *#
+
+NAME				=			cub3D
+RUN_PARAMS			=			maps/test2.cub
+
+#* ************************************************************************** *#
+#* *                             COMPILATION                                * *#
+#* ************************************************************************** *#
+
+CC						=			gcc
+CC_FLAGS				=
+LIBRARY_FLAGS			=			-L/usr/lib -Lmlx -lXext -lX11 -lz -lm
+
+
+#* ************************************************************************** *#
+#* *                               SOURCES                                  * *#
+#* ************************************************************************** *#
+
+SOURCES_EXTENSION		=			.c
+SOURCES_PATH			=			sources
+
 -include make/sources.mk
+SOURCES_NAMES			:=			$(addsuffix $(SOURCES_EXTENSION), $(SOURCES_NAMES))
+SOURCES					:=			$(addprefix $(SOURCES_PATH)/, $(SOURCES_NAMES))
 
-INCPATH		:=	includes/
-INC			:=	-I$(INCPATH)
 
-################# FOLDER PATHS ##################
+#* ************************************************************************** *#
+#* *                               LIBFT                                    * *#
+#* ************************************************************************** *#
 
-OBJPATH		:=	.objects/
+IS_LIBFT				=			true
 
-LIBPATH		:=	libft/
+LIBFT_DIR				=			libft
+LIBFT_INCLUDES_DIRS		=			libft
+LIBFT_NAME				=			libft.a
 
-MLXPATH		:=	mlx/
+LIBFT_COMPLETE			=			$(LIBFT_DIR)/$(LIBFT_NAME)
 
-#################### SOURCES ####################
+ifeq ($(IS_LIBFT),true)
+	INCLUDES_FLAGS		+=			$(addprefix -I , ${LIBFT_INCLUDES_DIR})
+	ALL_LIBS			+=			$(LIBFT_COMPLETE)
+endif
 
-LIB			:=	libft.a
+#* ************************************************************************** *#
+#* *                                MLX                                     * *#
+#* ************************************************************************** *#
 
-MLX			:=	libmlx.a
+IS_MLX					=			true
 
-OBJS		:=	$(SOURCES:.c=.o)
-OBJS		:=	$(addprefix $(OBJPATH), $(OBJS))
+MLX_DIR					=			mlx
+MLX_INCLUDES_DIRS		=			mlx
+MLX_NAME				=			libmlx_Linux.a
 
-CC			:=	cc
+MLX_COMPLETE			=			$(MLX_DIR)/$(MLX_NAME)
 
-CFLAGS		:=	-Wall -Wextra -Werror
+ifeq ($(IS_MLX),true)
+	INCLUDES_FLAGS		+=			$(addprefix -I , ${MLX_INCLUDES_DIR})
+	ALL_LIBS			+=			$(MLX_COMPLETE)
+endif
 
-CCFLAGS		:=	${INC} -I/usr/include -Imlx -g3
+#* ************************************************************************** *#
+#* *                              INCLUDES                                  * *#
+#* ************************************************************************** *#
 
-LFLAGS		:=	-L/usr/lib -lXext -lX11 -lm -lz
+INCLUDES_DIRS			=			includes
+INCLUDES_FLAGS			=			$(addprefix -I, $(INCLUDES_DIRS))
 
-RM			:=	rm -rf
+#* ************************************************************************** *#
+#* *                              OBJECTS                                   * *#
+#* ************************************************************************** *#
 
-NAME		:=	cub3D
+OBJECTS_PATH			=			objects
 
-####################  COLOR  ####################
+OBJECTS					:=			$(addprefix $(OBJECTS_PATH)/,				\
+									$(SOURCES_NAMES:$(SOURCES_EXTENSION)=.o))
+DEPENDENCIES			:=			$(OBJECTS:.o=.d)
 
-RED			= \033[31;01m
+#* ************************************************************************** *#
+#* *                           RULES FILTER                                 * *#
+#* ************************************************************************** *#
 
-GREEN		= \033[32;01m
+ifeq (noflag, $(filter noflag,$(MAKECMDGOALS)))
+	CC_FLAGS			+=			-Wall -Wextra
+else
+	CC_FLAGS			+=			-Wall -Wextra -Werror
+endif
 
-NOCOL		= \033[0m
+ifeq (debug, $(filter debug,$(MAKECMDGOALS)))
+	CC_FLAGS			+=			-g3
+endif
 
-####################  RULES  ####################
+ifeq (sanadd, $(filter sanadd,$(MAKECMDGOALS)))
+	CC_FLAGS			+=			-fsanitize=address -g3
+endif
 
-${NAME}: ${LIBPATH}${LIB} ${MLXPATH}${MLX} ${OBJPATH} ${OBJS} $(INCLUDES)
-		@${CC} ${CFLAGS} ${OBJS} ${LIBPATH}${LIB} ${MLXPATH}${MLX} ${LFLAGS} -o ${NAME}	\
-		&& echo "${GREEN}Cub3D compiled! :D ${NOCOL}"	\
-		|| echo "${RED}Cub3D compilation failed... X(${NOCOL}"
+ifeq (santhread, $(filter santhread,$(MAKECMDGOALS)))
+	CC_FLAGS			+=			-fsanitize=thread -g3
+endif
 
-all:	${NAME}
+ifeq (optimize, $(filter optimize,$(MAKECMDGOALS)))
+	CC_FLAGS			+=			-O3
+endif
 
-.objects/%.o:	%.c
-		@mkdir -p $(dir $@)
-		${CC} ${CFLAGS} ${CCFLAGS} -c $< -o $@
+#* ************************************************************************** *#
+#* *                          TEXT CONSTANTS                                * *#
+#* ************************************************************************** *#
 
-${OBJPATH}:
-		mkdir -p ${OBJPATH}
+BLACK					=			\033[30m
+RED						=			\033[31m
+GREEN					=			\033[32m
+YELLOW					=			\033[33m
+BLUE					=			\033[34m
+MAGENTA					=			\033[35m
+CYAN					=			\033[36m
 
-${LIBPATH}${LIB}: | ${LIBPATH}
-		$(MAKE) -C ${LIBPATH}
+BOLD					=			\033[1m
+THIN					=			\033[2m
+ITALIC					=			\033[3m
+UNDERLINE				=			\033[4m
 
-# gitlibft: | ${LIBPATH}
-# 		@cd ${LIBPATH} && git pull
+RESET_TEXT				=			\033[0m
 
-# ${LIBPATH}:
-# 		git clone https://github.com/ethanolmethanol/libft42 $@
+#* ************************************************************************** *#
+#* *                           PRESENTATION                                 * *#
+#* ************************************************************************** *#
 
-${MLXPATH}${MLX}: | ${MLXPATH}
-		$(MAKE) -C ${MLXPATH}
+define intro
+	@echo -n "$(BOLD)$(BLUE)"
+	@echo "                                      .--,-``-.                 "
+	@echo "   ,----..                           /   /     '.      ,---,    "
+	@echo "  /   /   \                 ,---,   / ../        ;   .'  .' \`\  "
+	@echo " |   :     :         ,--, ,---.'|   \ \`\`\  .\`-    ',---.'     \ "
+	@echo " .   |  ;. /       ,'_ /| |   | :    \___\/   \   :|   |  .\`\  |"
+	@echo " .   ; /--\`   .--. |  | : :   : :         \   :   |:   : |  '  |"
+	@echo " ;   | ;    ,'_ /| :  . | :     |,-.      /  /   / |   ' '  ;  :"
+	@echo " |   : |    |  ' | |  . . |   : '  |      \  \   \ '   | ;  .  |"
+	@echo " .   | '___ |  | ' |  | | |   |  / :  ___ /   :   ||   | :  |  '"
+	@echo " '   ; : .'|:  | : ;  ; | '   : |: | /   /\   /   :'   : | /  ; "
+	@echo " '   | '/  :'  :  \`--'   \|   | '/ :/ ,,/  ',-    .|   | '\` ,/  "
+	@echo " |   :    / :  ,      .-./|   :    |\ ''\        ; ;   :  .'    "
+	@echo "  \   \ .'   \`--\`----'    /    \  /  \   \     .'  |   ,.'      "
+	@echo "   \`---\`                  \`-'----'    \`--\`-,,-'    '---'        "
+	@echo
+	@echo "¸,ø¤º°\`°º¤ø,¸,ø¤°º¤ø,¸,ø¤º°º¤ø,¸,ø¤º°\`°º¤ø,¸,ø¤°º¤ø,¸,ø¤º°\`°º¤ø,¸"
+	@echo -n "$(RESET_TEXT)"
+endef
 
-${MLXPATH}:
-		git clone https://github.com/42Paris/minilibx-linux $@
+define end_success
+	@echo
+	@echo -n "$(BOLD)$(BLUE)"
+	@echo "¸,ø¤º°\`°º¤ø,¸,ø¤°º¤ø,¸,ø¤º°º¤ø,¸,ø¤º°\`°º¤ø,¸,ø¤°º¤ø,¸,ø¤º°\`°º¤ø,¸"
+	@echo "$(RESET_TEXT)"
+	@echo -n "$(BLUE)"
+	@echo	"	⢀⡴⠑⡄⠀⠀⠀⠀⠀⠀⠀⣀⣀⣤⣤⣤⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ "
+	@echo	"	⠸⡇⠀⠿⡀⠀⠀⠀⣀⡴⢿⣿⣿⣿⣿⣿⣿⣿⣷⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀ "
+	@echo	"	⠀⠀⠀⠀⠑⢄⣠⠾⠁⣀⣄⡈⠙⣿⣿⣿⣿⣿⣿⣿⣿⣆⠀⠀⠀⠀⠀⠀⠀⠀ "
+	@echo	"	⠀⠀⠀⠀⢀⡀⠁⠀⠀⠈⠙⠛⠂⠈⣿⣿⣿⣿⣿⠿⡿⢿⣆⠀⠀⠀⠀⠀⠀⠀ "
+	@echo	"	⠀⠀⠀⢀⡾⣁⣀⠀⠴⠂⠙⣗⡀⠀⢻⣿⣿⠭⢤⣴⣦⣤⣹⠀⠀⠀⢀⢴⣶⣆ "
+	@echo	"	⠀⠀⢀⣾⣿⣿⣿⣷⣮⣽⣾⣿⣥⣴⣿⣿⡿⢂⠔⢚⡿⢿⣿⣦⣴⣾⠁⠸⣼⡿ "
+	@echo	"	⠀⢀⡞⠁⠙⠻⠿⠟⠉⠀⠛⢹⣿⣿⣿⣿⣿⣌⢤⣼⣿⣾⣿⡟⠉⠀⠀⠀⠀⠀ "
+	@echo	"	⠀⣾⣷⣶⠇⠀⠀⣤⣄⣀⡀⠈⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀ "
+	@echo	"	⠀⠉⠈⠉⠀⠀⢦⡈⢻⣿⣿⣿⣶⣶⣶⣶⣤⣽⡹⣿⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀ "
+	@echo	"	⠀⠀⠀⠀⠀⠀⠀⠉⠲⣽⡻⢿⣿⣿⣿⣿⣿⣿⣷⣜⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀ "
+	@echo	"	⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣷⣶⣮⣭⣽⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀         $(BOLD)$(GREEN)$(NAME)$(RESET_TEXT)$(BLUE)"
+	@echo	"	⠀⠀⠀⠀⠀⠀⣀⣀⣈⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠇      $(GREEN)successfully compiled !$(RESET_TEXT)$(BLUE)"
+	@echo	"	⠀⠀⠀⠀⠀⠀⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠃⠀⠀⠀⠀⠀⠀⠀⠀ "
+	@echo	"	⠀⠀⠀⠀⠀⠀⠀⠹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀ "
+	@echo	"	⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠛⠻⠿⠿⠿⠿⠛⠉             "
+	@echo -n "$(RESET_TEXT)"
+endef
+
+LAST_DIR = ""
+FIRST_COMPILE_MESSAGE = true
+define compile_message
+	@if [ "$(FIRST_COMPILE_MESSAGE)" = "true" ]; then \
+		printf "\n"; \
+		FIRST_COMPILE_MESSAGE=false; \
+	fi
+	@if [ "$(dir $<)" != "$(LAST_DIR)" ]; then \
+		printf "$(BOLD)$(YELLOW)Compiling files in directory $(RESET_TEXT)$(BOLD)$(CYAN)$(dir $<)$(RESET_TEXT)\n"; \
+		LAST_DIR="$(dir $<)"; \
+	fi
+	printf "$(CYAN)    • $(notdir $<)";
+	@$(eval LAST_DIR := $(dir $<))
+endef
+
+#* ************************************************************************** *#
+#* *                          MAKEFILE RULES                                * *#
+#* ************************************************************************** *#
+
+all:					intro $(NAME)
+
+intro:
+	@$(call intro)
+
+# -------------------- #
+# Create object files. #
+# -------------------- #
+
+$(OBJECTS_PATH)/%.o:	$(SOURCES_PATH)/%$(SOURCES_EXTENSION)
+	@mkdir -p $(dir $@)
+	@$(call compile_message)
+	@$(CC) $(CC_FLAGS) -MMD -MF $(@:.o=.d)  $(INCLUDES_FLAGS) -c $< -o $@
+
+$(OBJECTS_PATH)/%.o:	%$(SOURCES_EXTENSION)
+	@mkdir -p $(dir $@)
+	@$(call compile_message)
+	@$(CC) $(CC_FLAGS) -MMD -MF $(@:.o=.d)  $(INCLUDES_FLAGS) -c $< -o $@
+
+# -------------------------------- #
+# Compile LIBFT and MLX if needed. #
+# -------------------------------- #
+
+$(LIBFT_COMPLETE):
+ifeq ($(IS_LIBFT), true)
+	@echo
+	@echo "$(CYAN)Compiling library :$(RESET_TEXT)$(BOLD)$(YELLOW) LIBFT $(RESET_TEXT)$(CYAN)...$(RESET_TEXT)"
+	@make --silent -C $(LIBFT_DIR) all
+	@echo "$(GREEN)$(BOLD)៙ LIBFT$(RESET_TEXT)$(GREEN) successfully compiled ! 👏 $(RESET_TEXT)"
+endif
+
+$(MLX_COMPLETE):
+ifeq ($(IS_MLX), true)
+	@echo
+	@echo "$(CYAN)Compiling library :$(RESET_TEXT)$(BOLD)$(YELLOW) MLX $(RESET_TEXT)$(CYAN)...$(RESET_TEXT)"
+	@make -C $(MLX_DIR) all > /dev/null 2>&1
+	@echo "$(GREEN)$(BOLD)៙ MLX$(RESET_TEXT)$(GREEN) successfully compiled ! 👏 $(RESET_TEXT)"
+endif
+	
+# ---------------------------------------- #
+# Link the files after compiling them all. #
+# ---------------------------------------- #
+
+-include $(DEPENDENCIES)
+$(NAME):				$(LIBFT_COMPLETE) $(MLX_COMPLETE) $(OBJECTS)
+	@echo
+	@echo
+	@echo "$(YELLOW)Linking $(BOLD)$(CYAN)$@ $(RESET_TEXT)$(YELLOW)...$(RESET_COLOR)"
+	@$(CC) $(CC_FLAGS) $(INCLUDES_FLAGS) -o $@ $(OBJECTS) $(ALL_LIBS) $(LIBRARY_FLAGS)
+	@$(call end_success)
+
+# --------------------- #
+# Delete compiled data. #
+# --------------------- #
 
 clean:
-		${RM} ${OBJPATH}
+	@rm -rf $(OBJECTS_PATH)
+	@echo "$(YELLOW)Deleting $(CYAN)$(OBJECTS_PATH) $(YELLOW)...$(RESET_TEXT)"
 
-fclean: clean
-		$(MAKE) -C ${LIBPATH} fclean
-		${RM} ${NAME} \
-# ${MLXPATH}
+fclean:					clean
+	@rm -f $(NAME)
+	@echo "$(YELLOW)Deleting $(CYAN)$(NAME) executable $(YELLOW)...$(RESET_TEXT)"
 
-re:		fclean all
+fcleanlib:				fclean
+ifeq ($(IS_LIBFT), true)
+	@make --silent -C $(LIBFT_DIR) fclean
+	@echo "$(YELLOW)Deleting all compiled $(CYAN)LIBFT$(YELLOW) files ...$(RESET_TEXT)"
+endif
+ifeq ($(IS_MLX), true)
+	@make -C $(MLX_DIR) clean > /dev/null 2>&1
+	@echo "$(YELLOW)Deleting all compiled $(CYAN)MLX$(YELLOW) files ...$(RESET_TEXT)"
+endif
 
-val:
-	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./cub3D
+re:						clean all
 
-san:	CFLAGS += -fsanitize=address
-san:	re
+relib:					fcleanlib all
 
-# xpm:
-# 	mogrify -format xpm -- ${TXTS}
+run:					all
+	@echo "$(GREEN)Executing : $(CYAN)./$(NAME) $(RUN_PARAMS)$(RESET_TEXT)"
+	@./$(NAME) $(RUN_PARAMS)
 
-gmk:
-		@mkdir -p make
-		@find -name '*.c' | grep -Ev 'libft|mlx' | sed 's/^/SOURCES += /' > make/sources.mk
-		@find -name '*.h' | grep -Ev 'libft|mlx' | sed 's/^/INCLUDES += /' > make/includes.mk
+noflag: 				all
 
-.PHONY: all clean fclean re%
+debug:					all
+
+sanadd:					all
+
+santhread:				all
+
+optimize:				all
+
+.PHONY:	header clean fclean re run fcleanlib relib noflag debug sanadd santhread

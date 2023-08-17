@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 07:20:02 by nicolas           #+#    #+#             */
-/*   Updated: 2023/08/13 12:34:38 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/08/17 16:00:36 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ bool	act_on_type_identifier(t_gui *gui, char *line, t_type_id ti)
 	if (ti == north_texture || ti == south_texture
 		|| ti == east_texture || ti == west_texture
 		|| ti == floor_texture || ti == ceiling_texture
-		|| ti == door_texture || ti == sprite_texture)
+		|| ti == door_texture || ti == sprite_texture
+		|| ti == weapon_texture)
 	{
 		if (set_texture(gui, line, ti))
 			return (true);
@@ -78,11 +79,6 @@ bool	act_on_type_identifier(t_gui *gui, char *line, t_type_id ti)
 	else if (ti == floor_color || ti == ceiling_color)
 	{
 		if (set_color(gui, line, ti))
-			return (true);
-	}
-	else if (ti == weapon_texture)
-	{
-		if (set_weapon(gui, line))
 			return (true);
 	}
 	return (false);

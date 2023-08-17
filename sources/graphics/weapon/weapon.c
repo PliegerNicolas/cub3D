@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 19:16:31 by emis              #+#    #+#             */
-/*   Updated: 2023/08/14 15:46:57 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/17 19:56:26 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -64,7 +64,7 @@ static bool	raycast_projectile(t_gui *gui, t_prj *projectile)
 	return (true);
 }
 
-static void	attack(t_gui *gui)
+static void	attack(t_gui *gui, size_t *weapon_frame)
 {
 	static t_prj	projectiles[MAX_PROJECTILES];
 	size_t			i;
@@ -78,7 +78,10 @@ static void	attack(t_gui *gui)
 		while (i < MAX_PROJECTILES && projectiles[i].status)
 			i++;
 		if (i < MAX_PROJECTILES)
-			initialize_projectile(&gui->cam, &projectiles[i]);
+		{
+			initialize_projectile(&gui->cam, &projectiles[i], weapon_frame);
+			gui->cam.stat.get[AMMO]--;
+		}
 	}
 	i = 0;
 	while (i < MAX_PROJECTILES)
@@ -91,17 +94,24 @@ static void	attack(t_gui *gui)
 
 void	weapon(t_gui *gui)
 {
-	static int		walk_frame;
+	t_img			**weapon_textures;
+	static size_t	weapon_frame;
 	int				weapon_x;
 	int				weapon_y;
 
-	if (!gui->textures.weapon)
+	weapon_textures = get_weapon_textures(gui);
+	if (!weapon_textures)
 		return ;
 	weapon_x = 0;
 	weapon_y = 0;
-	walk_frame = calculate_next_walk_frame(gui, walk_frame);
-	set_weapon_position(gui, &weapon_x, &weapon_y, walk_frame);
+	set_weapon_position(gui, &weapon_x, &weapon_y,
+		calculate_next_walk_frame(gui));
 	draw_crosshair(gui, 0xFFFFFF);
-	attack(gui);
-	imgput(gui->buffer, weapon_x, weapon_y, gui->textures.weapon);
+	if (gui->cam.stat.get[AMMO] >= 1)
+		attack(gui, &weapon_frame);
+	if ((size_t)weapon_frame >= gui->textures.spfrsizes[SIZE
+		+ NB_OBJTYPE + NB_MOBTYPE + gui->cam.selected_weapon])
+		weapon_frame = 0;
+	imgput(gui->buffer, weapon_x, weapon_y, weapon_textures[weapon_frame]);
+	next_weapon_frame(gui, &weapon_frame);
 }

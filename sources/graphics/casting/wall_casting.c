@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 17:41:41 by emis              #+#    #+#             */
-/*   Updated: 2023/08/15 15:21:12 by emis             ###   ########.fr       */
+/*   Updated: 2023/08/16 15:22:46 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,10 @@ void	wall_cast(t_gui *gui, double z_buffer[SCRWIDTH])
 		rc.delta_dist.x = inv_safe(rc.ray_dir.x);
 		rc.delta_dist.y = inv_safe(rc.ray_dir.y);
 		cast(gui, &rc);
-		if (p->rndr & (1 << BASICWALLS))
-			wall_color(gui, &rc);
-		else if (p->rndr & (1 << TEXTUWALLS))
+		if (is_mask_set(&gui->cam.rndr, TEXTUWALLS))
 			wall_texture(gui, &rc);
+		else
+			wall_color(gui, &rc);
 		z_buffer[rc.x++] = rc.perp_wall_dist;
 	}
 }

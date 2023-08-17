@@ -6,13 +6,14 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 00:26:05 by nicolas           #+#    #+#             */
-/*   Updated: 2023/08/15 14:48:05 by emis             ###   ########.fr       */
+/*   Updated: 2023/08/17 19:43:00 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "graphics.h"
 
-void	initialize_projectile(t_play *player, t_prj *projectile)
+void	initialize_projectile(t_play *player, t_prj *projectile,
+	size_t *weapon_frame)
 {
 	if (!player->stat.get[AMMO] || !player->stat.get[AMMO]--)
 		return ;
@@ -21,6 +22,7 @@ void	initialize_projectile(t_play *player, t_prj *projectile)
 	projectile->direction.x = player->dir.x;
 	projectile->direction.y = player->dir.y;
 	projectile->status = true;
+	(*weapon_frame) = 1;
 }
 
 void	clear_projectile(t_prj *projectile)
