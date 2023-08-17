@@ -1,16 +1,18 @@
-NO ./textures/wolf/bluestone.xpm	// north wall texture
-SO ./textures/wolf/colorstone.xpm	// south wall texture
-WE ./textures/wolf/eagle.xpm		// west wall texture
-EA ./textures/wolf/mossy.xpm		// east wall texture
-D ./textures/wolf/door.xpm			// door texture
+NO ./textures/wolf/bluestone.xpm		// north wall texture
+SO ./textures/wolf/colorstone.xpm		// south wall texture
+WE ./textures/wolf/eagle.xpm			// west wall texture
+EA ./textures/wolf/mossy.xpm			// east wall texture
 
-F 190,170,150						// brown
-C 35,35,65							// night blue
+D ./textures/wolf/door.xpm				// door texture
 
-FL ./textures/wolf/greystone.xpm	// floor texture
-CE ./textures/wolf/purplestone.xpm	// ceiling texture
+F 190,170,150							// brown
+C 35,35,65								// night blue
 
-WP ./textures/weapons/AK.xpm		// weapon texture
+FL ./textures/wolf/greystone.xpm		// floor texture
+CE ./textures/wolf/purplestone.xpm		// ceiling texture
+
+WP 5 ./textures/weapons/shotgun/shotgun	// weapon texture
+WP 1 ./textures/weapons/ak47/AK			// weapon texture
 
 /* ************************************** */
 /* * MAP								* */

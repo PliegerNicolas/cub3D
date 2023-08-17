@@ -6,7 +6,7 @@
 #    By: nicolas <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/15 11:52:14 by nicolas           #+#    #+#              #
-#    Updated: 2023/08/16 10:02:16 by nplieger         ###   ########.fr        #
+#    Updated: 2023/08/17 19:53:21 by nplieger         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -103,12 +103,12 @@ ifeq (debug, $(filter debug,$(MAKECMDGOALS)))
 	CC_FLAGS			+=			-g3
 endif
 
-ifeq (sanaddress, $(filter sanaddress,$(MAKECMDGOALS)))
-	CC_FLAGS			+=			-fsanitize=address
+ifeq (sanadd, $(filter sanadd,$(MAKECMDGOALS)))
+	CC_FLAGS			+=			-fsanitize=address -g3
 endif
 
 ifeq (santhread, $(filter santhread,$(MAKECMDGOALS)))
-	CC_FLAGS			+=			-fsanitize=thread
+	CC_FLAGS			+=			-fsanitize=thread -g3
 endif
 
 ifeq (optimize, $(filter optimize,$(MAKECMDGOALS)))
@@ -229,7 +229,7 @@ $(LIBFT_COMPLETE):
 ifeq ($(IS_LIBFT), true)
 	@echo
 	@echo "$(CYAN)Compiling library :$(RESET_TEXT)$(BOLD)$(YELLOW) LIBFT $(RESET_TEXT)$(CYAN)...$(RESET_TEXT)"
-	@make -C $(LIBFT_DIR) all > /dev/null 2>&1
+	@make --silent -C $(LIBFT_DIR) all
 	@echo "$(GREEN)$(BOLD)៙ LIBFT$(RESET_TEXT)$(GREEN) successfully compiled ! 👏 $(RESET_TEXT)"
 endif
 
@@ -267,7 +267,7 @@ fclean:					clean
 
 fcleanlib:				fclean
 ifeq ($(IS_LIBFT), true)
-	@make -C $(LIBFT_DIR) fclean > /dev/null 2>&1
+	@make --silent -C $(LIBFT_DIR) fclean
 	@echo "$(YELLOW)Deleting all compiled $(CYAN)LIBFT$(YELLOW) files ...$(RESET_TEXT)"
 endif
 ifeq ($(IS_MLX), true)
@@ -290,5 +290,7 @@ debug:					all
 sanadd:					all
 
 santhread:				all
+
+optimize:				all
 
 .PHONY:	header clean fclean re run fcleanlib relib noflag debug sanadd santhread

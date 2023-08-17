@@ -15,7 +15,7 @@ C 35,35,65								// night blue
 FL ./textures/wolf/greystone.xpm		// floor texture
 CE ./textures/wolf/purplestone.xpm		// ceiling texture
 
-WP ./textures/weapons/AK.xpm			// weapon texture
+WP 5 ./textures/weapons/shotgun/shotgun	// weapon texture
 
 111111111111111111111111111111111111111111111111111111111111111111111111111111111
 100000000000000000000000000000000000000000000000000000000000000000000000000000001

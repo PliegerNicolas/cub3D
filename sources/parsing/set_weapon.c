@@ -6,27 +6,53 @@
 /*   By: nplieger <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 09:23:10 by nplieger          #+#    #+#             */
-/*   Updated: 2023/08/14 21:24:54 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/08/17 17:50:56 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
 
-bool	set_weapon(t_gui *gui, char *line)
+static size_t	count_args(char **args)
 {
-	char	*path;
-	int		width;
-	int		height;
+	size_t	i;
 
-	path = get_type_identifier_data(line);
-	if (!path)
-		return (true);
-	width = 0;
-	height = 0;
-	if (gui->textures.weapon)
-		mlx_destroy_image(gui->mlx, gui->textures.weapon);
-	gui->textures.weapon = mlx_xpm_file_to_image(gui->mlx, path,
-			&width, &height);
-	if (!gui->textures.weapon)
-		return (free(path), put_parsing_err("Not enough memory or invalid weapon texture"), true);
-	return (free(path), false);
+	i = 0;
+	while (args && args[i])
+		i++;
+	return (i);
+}
+
+static int	find_open_weapon_slot(t_img ***texture_arr)
+{
+	int		which;
+
+	if (!texture_arr)
+		return (put_parsing_err("Not enough memory"), -1);
+	which = SIZE + NB_OBJTYPE + NB_MOBTYPE;
+	while (texture_arr[which])
+		which++;
+	if (which < SIZE + NB_OBJTYPE + NB_MOBTYPE + NB_WPNTYPE)
+		return (which);
+	return (put_parsing_err("Too much weapon textures set"), -1);
+}
+
+bool	set_weapon_texture(t_gui *gui, char *path)
+{
+	char	**args;
+	int		which;
+	int		iter;
+
+	args = ft_splitset(path, " \t,;");
+	if (!args)
+		return (put_parsing_err("Not enough memory"), true);
+	if (count_args(args) != 2)
+		return (free_ch_ar(args), put_parsing_err("Incorrect WP format in .cub \
+file : WP [frames] [texture_path]"), true);
+	which = find_open_weapon_slot(gui->textures.spframes);
+	if (which < 0)
+		return (free_ch_ar(args), true);
+	iter = ft_atoi(args[0]);
+	if (iter <= 0)
+		iter = 1;
+	iter = set_frames(gui, which, args[1], iter);
+	return (free_ch_ar(args), iter != 0);
 }
