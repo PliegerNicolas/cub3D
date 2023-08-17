@@ -6,7 +6,7 @@
 #    By: nicolas <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/15 11:52:14 by nicolas           #+#    #+#              #
-#    Updated: 2023/08/17 19:09:26 by nplieger         ###   ########.fr        #
+#    Updated: 2023/08/17 19:53:21 by nplieger         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -103,12 +103,12 @@ ifeq (debug, $(filter debug,$(MAKECMDGOALS)))
 	CC_FLAGS			+=			-g3
 endif
 
-ifeq (sanaddress, $(filter sanaddress,$(MAKECMDGOALS)))
-	CC_FLAGS			+=			-fsanitize=address
+ifeq (sanadd, $(filter sanadd,$(MAKECMDGOALS)))
+	CC_FLAGS			+=			-fsanitize=address -g3
 endif
 
 ifeq (santhread, $(filter santhread,$(MAKECMDGOALS)))
-	CC_FLAGS			+=			-fsanitize=thread
+	CC_FLAGS			+=			-fsanitize=thread -g3
 endif
 
 ifeq (optimize, $(filter optimize,$(MAKECMDGOALS)))
@@ -290,5 +290,7 @@ debug:					all
 sanadd:					all
 
 santhread:				all
+
+optimize:				all
 
 .PHONY:	header clean fclean re run fcleanlib relib noflag debug sanadd santhread

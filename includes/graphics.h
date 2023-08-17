@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/08/17 19:25:51 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/17 19:56:05 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -413,6 +413,7 @@ int		calculate_next_walk_frame(t_gui *gui);
 void	set_weapon_position(t_gui *gui, int *x, int *y, int frame);
 
 t_img	**get_weapon_textures(t_gui *gui);
+void	next_weapon_frame(t_gui *gui, size_t *weapon_frame);
 
 bool	is_projectile_obstructed(t_gui *gui, t_prj *projectile);
 bool	move_projectile(t_gui *gui, t_prj *projectile);
@@ -428,7 +429,7 @@ void	draw_projectile_impact(t_gui *gui, int x, int y, double distance);
 void	draw_crosshair(t_gui *gui, int color);
 
 void	initialize_projectile(t_play *player, t_prj *projectile,
-			int *weapon_frame);
+			size_t *weapon_frame);
 void	clear_projectile(t_prj *projectile);
 
 /* INTERACT */

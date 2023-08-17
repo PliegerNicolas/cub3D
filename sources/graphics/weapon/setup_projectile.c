@@ -6,12 +6,13 @@
 /*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 00:26:05 by nicolas           #+#    #+#             */
-/*   Updated: 2023/08/17 19:11:20 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/17 19:43:00 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
 
-void	initialize_projectile(t_play *player, t_prj *projectile, int *weapon_frame)
+void	initialize_projectile(t_play *player, t_prj *projectile,
+	size_t *weapon_frame)
 {
 	projectile->posi.x = player->posi.x;
 	projectile->posi.y = player->posi.y;

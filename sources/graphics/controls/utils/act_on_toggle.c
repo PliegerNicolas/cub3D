@@ -6,7 +6,7 @@
 /*   By: nplieger <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 16:58:26 by nplieger          #+#    #+#             */
-/*   Updated: 2023/08/17 18:23:46 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/17 20:14:19 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -41,7 +41,8 @@ static void	act_on_weapon_swap(t_gui *gui)
 	{
 		gui->cam.selected_weapon++;
 		gui->cam.selected_weapon %= NB_WPNTYPE;
-		if (!gui->textures.spframes[SIZE + NB_OBJTYPE + NB_MOBTYPE + gui->cam.selected_weapon])
+		if (!gui->textures.spframes[SIZE + NB_OBJTYPE
+			+ NB_MOBTYPE + gui->cam.selected_weapon])
 			gui->cam.selected_weapon = 0;
 		gui->rendered = 0;
 	}
