@@ -12,7 +12,7 @@
 
 #include "graphics.h"
 
-typedef struct rc_floor
+typedef struct s_rc_floor
 {
 	float	screen_center;
 	float	horizon;

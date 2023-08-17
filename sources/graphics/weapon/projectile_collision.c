@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   projectile_collision.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolas <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 18:36:22 by nicolas           #+#    #+#             */
-/*   Updated: 2023/08/13 12:51:44 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/08/15 11:58:21 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "graphics.h"
 
 bool	is_out_of_bounds(t_gui *gui, int cell_x, int cell_y)
@@ -45,7 +46,7 @@ bool	sprite_collision(t_gui *gui, int cell_x, int cell_y)
 	sprt = gui->textures.sprites;
 	while (sprt)
 	{
-		if (sprt->type != DEAD)
+		if (sprt->type == ALIVE)
 		{
 			sprt_pos = sprt->posi;
 			if ((int)sprt_pos.x == cell_x && (int)sprt_pos.y == cell_y)

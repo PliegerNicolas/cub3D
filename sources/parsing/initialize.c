@@ -38,11 +38,6 @@ static bool	initialize_gui(t_gui *gui)
 {
 	gui->mlx = mlx_init();
 	mkorbrk(gui->mlx, mlxwrap, !gui->mlx, 1);
-	// if (!gui->mlx)
-	// {
-	// 	put_parsing_err("Couldn't initialize graphical driver.");
-	// 	return (clear_parsing(gui), true);
-	// }
 	gui->buffer = mlx_new_image(gui->mlx, SCRWIDTH, SCRHEIGHT);
 	if (!gui->buffer)
 	{

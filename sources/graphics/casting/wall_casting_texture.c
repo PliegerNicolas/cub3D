@@ -6,12 +6,13 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:15:05 by nplieger          #+#    #+#             */
-/*   Updated: 2023/08/14 15:52:33 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/15 15:20:56 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "graphics.h"
 
-typedef struct texture_data
+typedef struct s_texture_data
 {
 	int		id;
 	int		x;

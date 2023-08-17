@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 14:03:16 by emis              #+#    #+#             */
-/*   Updated: 2023/08/16 16:51:18 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/17 20:45:38 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,9 @@ static void	stats(t_gui *gui, t_vect where)
 	strputinfo(gui, where, "/ ", gui->cam.stat.max[XP]);
 	where.x -= 70;
 	where.y += 15;
-	strputinfo(gui, where, "Ammo    ", gui->cam.stat.get[AMMO]);
-	where.y += 15;
 	strputinfo(gui, where, "Level   ", gui->cam.stat.get[LVL]);
+	where.y += 15;
+	strputinfo(gui, where, "Ammo    ", gui->cam.stat.get[AMMO]);
 }
 
 int	render(t_gui *gui)
@@ -98,7 +98,6 @@ int	render(t_gui *gui)
 	hud(gui);
 	mlx_put_image_to_window(gui->mlx, gui->mlx->win_list, gui->buffer, 0, 0);
 	regen(gui, HP, 1, RATE_HEAL);
-	regen(gui, ARM, 1, RATE_ARMOR_UP);
 	if (is_mask_set(&gui->cam.rndr, STATISTICS))
 	{
 		specs(gui, (t_vect){SCRWIDTH - 115, 30});

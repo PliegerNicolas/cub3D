@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 02:02:02 by nicolas           #+#    #+#             */
-/*   Updated: 2023/08/14 16:25:55 by emis             ###   ########.fr       */
+/*   Updated: 2023/08/16 20:29:54 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,8 @@ bool	set_frames(t_gui *gui, size_t which, char *path, int num)
 	if (!gui->textures.spfrsizes[which])
 		gui->textures.spfrsizes[which] = abs(num) + !num;
 	if (path && num < 0)
-		return (load_texture_arr(gui, &gui->textures.spframes[which], path, -num));
+		return (load_texture_arr(gui, &gui->textures.spframes[which],
+				path, -num));
 	i = 0;
 	while ((int)i < num)
 	{

@@ -70,4 +70,3 @@ SOURCES_NAMES += garbaj/wrappers
 SOURCES_NAMES += garbaj/garbaj
 SOURCES_NAMES += garbaj/error
 SOURCES_NAMES += garbaj/free
-

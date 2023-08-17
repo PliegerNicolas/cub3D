@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/08/17 19:56:05 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/17 20:38:29 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # include "garbaj.h"
 # include "parsing.h"
 
-# define SCRWIDTH 1280
+# define SCRWIDTH 1200
 # define SCRHEIGHT 1000
 
 /* ************************************** */
@@ -274,8 +274,8 @@ typedef struct s_gui
 
 # define WALK_AMPLITUDE 8
 # define WALK_FREQUENCY 30
-# define PROJECTILE_SPEED 0.20
-# define MAX_PROJECTILES 25
+# define PROJECTILE_SPEED 0.70
+# define MAX_PROJECTILES 1000
 
 // colors
 
@@ -348,7 +348,6 @@ int		mouse_motion(int x, int y, t_gui *gui);
 
 /* TEXTURES */
 
-t_img	*load_texture(t_gui *gui, char *path);
 bool	load_texture_arr(t_gui *gui, t_img ***where, char *path, int size);
 
 /* MINIMATH */
@@ -390,7 +389,12 @@ int		nextframe(enum e_rates frnb);
 /* SPRITE CASTING */
 
 void	sprite_cast(t_gui *gui, double ZBuffer[SCRWIDTH]);
-// void	sort_sprites(t_tex *tex, t_vect *from);
+
+/* SPRITES */
+
+void	set_dist_and_sort(t_tex *tex, t_vect *from);
+void	frame_shift(t_gui *gui);
+void	update_sprite(t_gui *gui, t_sprt *cur);
 
 /* DRAW */
 
@@ -441,6 +445,7 @@ int		interact(t_gui *gui);
 
 void	gain_xp(t_gui *gui, t_sprt *ded);
 void	regen(t_gui *gui, t_fld fld, int amount, enum e_rates rate);
+void	touch_sprite(t_gui *gui, t_sprt *sprt);
 
 /* BITMASK */
 

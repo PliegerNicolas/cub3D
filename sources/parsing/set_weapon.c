@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   set_weapon.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nplieger <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 09:23:10 by nplieger          #+#    #+#             */
 /*   Updated: 2023/08/17 17:50:56 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "graphics.h"
 
 static size_t	count_args(char **args)

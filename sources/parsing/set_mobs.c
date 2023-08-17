@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 05:11:31 by nicolas           #+#    #+#             */
-/*   Updated: 2023/08/14 20:13:26 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/08/17 20:25:37 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ t_sprt	*add_mob(t_gui *gui, t_vect posi, size_t which)
 {
 	t_sprt	*sprite;
 
+	if (!gui->textures.spframes[which])
+		return (NULL);
 	sprite = trymalloc(sizeof(t_sprt), 2);
 	sprite->posi = posi;
 	sprite->stat = HP;
@@ -39,6 +41,8 @@ t_sprt	*add_pack(t_gui *gui, t_vect posi, size_t which)
 {
 	t_sprt	*sprite;
 
+	if (!gui->textures.spframes[which])
+		return (NULL);
 	sprite = trymalloc(sizeof(t_sprt), 2);
 	sprite->posi = posi;
 	sprite->stat = which;
@@ -62,9 +66,11 @@ t_sprt	*add_obj(t_gui *gui, t_vect posi, size_t which)
 {
 	t_sprt	*sprite;
 
+	if (!gui->textures.spframes[which])
+		return (NULL);
 	sprite = trymalloc(sizeof(t_sprt), 2);
 	sprite->posi = posi;
-	sprite->stat = which;
+	sprite->stat = HP;
 	sprite->amount = 0;
 	sprite->solid = 0;
 	sprite->type = STATIONARY;
@@ -81,6 +87,32 @@ t_sprt	*add_obj(t_gui *gui, t_vect posi, size_t which)
 	return (sprite);
 }
 
+static bool	add_which(t_gui *gui, size_t row, size_t col)
+{
+	if (gui->map.map[row][col] == mob_tile)
+	{
+		if (!add_mob(gui, (t_vect){row, col}, SIZE + NB_OBJTYPE))
+			return (true);
+		if (gui->map.map)
+			gui->map.map[row][col] = 0;
+	}
+	if (gui->map.map[row][col] == pack_tile)
+	{
+		if (!add_pack(gui, (t_vect){row, col}, HP))
+			return (true);
+		if (gui->map.map)
+			gui->map.map[row][col] = 0;
+	}
+	if (gui->map.map[row][col] == obj_tile)
+	{
+		if (!add_obj(gui, (t_vect){row, col}, SIZE))
+			return (true);
+		if (gui->map.map)
+			gui->map.map[row][col] = 0;
+	}
+	return (false);
+}
+
 bool	set_mobs(t_gui *gui)
 {
 	size_t	row;
@@ -94,27 +126,8 @@ bool	set_mobs(t_gui *gui)
 		col = -1;
 		while (++col < gui->map.width)
 		{
-			if (gui->map.map[row][col] == mob_tile)
-			{
-				if (!add_mob(gui, (t_vect){row, col}, SIZE + NB_OBJTYPE))
-					return (true);
-				if (gui->map.map)
-					gui->map.map[row][col] = 0;
-			}
-			if (gui->map.map[row][col] == pack_tile)
-			{
-				if (!add_pack(gui, (t_vect){row, col}, HP))
-					return (true);
-				if (gui->map.map)
-					gui->map.map[row][col] = 0;
-			}
-			if (gui->map.map[row][col] == obj_tile)
-			{
-				if (!add_obj(gui, (t_vect){row, col}, SIZE))
-					return (true);
-				if (gui->map.map)
-					gui->map.map[row][col] = 0;
-			}
+			if (add_which(gui, row, col))
+				return (true);
 		}
 	}
 	return (false);
