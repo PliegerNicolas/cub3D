@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/08/17 18:13:34 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/17 19:25:51 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ enum e_rates
 	RATE_HEAL,
 	RATE_ARMOR_UP,
 	RATE_SHOOT,
+	RATE_WEAPON,
 	RATE_NB
 };
 
@@ -426,7 +427,8 @@ void	draw_projectile(t_gui *gui, int x, int y, double distance);
 void	draw_projectile_impact(t_gui *gui, int x, int y, double distance);
 void	draw_crosshair(t_gui *gui, int color);
 
-void	initialize_projectile(t_play *player, t_prj *projectile);
+void	initialize_projectile(t_play *player, t_prj *projectile,
+			int *weapon_frame);
 void	clear_projectile(t_prj *projectile);
 
 /* INTERACT */

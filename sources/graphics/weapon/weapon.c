@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 19:16:31 by emis              #+#    #+#             */
-/*   Updated: 2023/08/17 18:05:52 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/17 19:26:59 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -64,7 +64,7 @@ static bool	raycast_projectile(t_gui *gui, t_prj *projectile)
 	return (true);
 }
 
-static void	attack(t_gui *gui)
+static void	attack(t_gui *gui, int *weapon_frame)
 {
 	static t_prj	projectiles[MAX_PROJECTILES];
 	size_t			i;
@@ -79,7 +79,7 @@ static void	attack(t_gui *gui)
 			i++;
 		if (i < MAX_PROJECTILES)
 		{
-			initialize_projectile(&gui->cam, &projectiles[i]);
+			initialize_projectile(&gui->cam, &projectiles[i], weapon_frame);
 			gui->cam.stat.get[AMMO]--;
 		}
 	}
@@ -94,12 +94,13 @@ static void	attack(t_gui *gui)
 
 void	weapon(t_gui *gui)
 {
-	t_img			**weapon;
+	t_img			**weapon_textures;
+	static int		weapon_frame;
 	int				weapon_x;
 	int				weapon_y;
 
-	weapon = get_weapon_textures(gui);
-	if (!weapon)
+	weapon_textures = get_weapon_textures(gui);
+	if (!weapon_textures)
 		return ;
 	weapon_x = 0;
 	weapon_y = 0;
@@ -107,6 +108,13 @@ void	weapon(t_gui *gui)
 		calculate_next_walk_frame(gui));
 	draw_crosshair(gui, 0xFFFFFF);
 	if (gui->cam.stat.get[AMMO] >= 1)
-		attack(gui);
-	//imgput(gui->buffer, weapon_x, weapon_y, gui->textures.weapon);
+		attack(gui, &weapon_frame);
+	imgput(gui->buffer, weapon_x, weapon_y, weapon_textures[weapon_frame]);
+	if (weapon_frame && (size_t)(weapon_frame + 1) < gui->textures.spfrsizes[SIZE + NB_OBJTYPE + NB_MOBTYPE + gui->cam.selected_weapon])
+	{
+		if (nextframe(RATE_WEAPON))
+			weapon_frame++;
+	}
+	else
+		weapon_frame = 0;
 }
