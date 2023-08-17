@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 03:27:14 by nicolas           #+#    #+#             */
-/*   Updated: 2023/08/16 11:00:01 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/17 16:05:14 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,8 @@ static bool	set_which(t_gui *gui, t_type_id ti, char *path)
 
 	if (ti == sprite_texture)
 		return (set_sprite_texture(gui, path));
+	else if (ti == weapon_texture)
+		return (set_weapon_texture(gui, path));
 	if (ti == door_texture)
 		return (load_texture_arr(gui, &gui->textures.doors, path, 1));
 	i = -1;

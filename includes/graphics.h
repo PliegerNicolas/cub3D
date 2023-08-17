@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/08/16 17:02:57 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/17 17:40:16 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,7 @@ typedef struct s_ray_caster
 
 # define NB_MOBTYPE 5
 # define NB_OBJTYPE 5
+# define NB_WPNTYPE 3
 
 typedef enum e_stat_field
 {
@@ -225,14 +226,11 @@ typedef struct s_textures
 	int		arrsize;
 	t_img	**walls;
 	t_img	**doors;
-	t_img	**spframes[SIZE + NB_OBJTYPE + NB_MOBTYPE];
-	size_t	spfrsizes[SIZE + NB_OBJTYPE + NB_MOBTYPE];
-	t_img	*weapon;
+	t_img	**spframes[SIZE + NB_OBJTYPE + NB_MOBTYPE + NB_WPNTYPE];
+	size_t	spfrsizes[SIZE + NB_OBJTYPE + NB_MOBTYPE + NB_WPNTYPE];
 	int		spnb;
 	t_sprt	*sprites;
 }	t_tex;
-	// int		*sporder;
-	// double	*spdist;
 
 typedef struct s_map
 {
@@ -488,5 +486,6 @@ bool	set_mobs(t_gui *gui);
 /* set_weapon.c */
 
 bool	set_weapon(t_gui *gui, char *line);
+bool	set_weapon_texture(t_gui *gui, char *path);
 
 #endif

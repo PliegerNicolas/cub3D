@@ -13,7 +13,8 @@ C 35,35,65									// night blue
 FL ./textures/solong3D/floorceil/floor.xpm	// floor texture
 CE ./textures/solong3D/floorceil/ceil.xpm	// ceiling texture
 
-WP ./textures/weapons/AK.xpm				// weapon texture
+WP 5 ./textures/weapons/shotgun/shotgun		// weapon texture
+WP 1 ./textures/weapons/ak47/AK				// weapon texture
 
 /* ************************************** */
 /* * MAP								* */

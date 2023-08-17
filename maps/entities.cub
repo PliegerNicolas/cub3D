@@ -15,7 +15,9 @@ C 220,215,210														// white-yellowish
 FL ./textures/excalibur/basalt_top.xpm								// floor texture
 CE ./textures/excalibur/quartz_pillar_top.xpm						// ceiling texture
 
-WP ./textures/weapons/AK.xpm										// weapon texture
+WP			5 textures/weapons/shotgun/shotgun						// weapon texture
+WP			1 textures/weapons/ak47/AK								// weapon texture
+WP			1 textures/weapons/wand/wand							// weapon texture
 
 SP	AMMO	-2 textures/excalibur/items/popped_chorus_fruit.xpm		// ammo pack
 SP	AMMO	-2 textures/excalibur/items/prismarine_shard.xpm		// ammo pack
@@ -26,11 +28,11 @@ SP	ARM		-4 textures/excalibur/items/chainmail_leggings.xpm		// armor pack
 SP	ARM		-4 textures/excalibur/items/chainmail_boots.xpm			// armor pack
 SP	STA		-1 textures/excalibur/items/feather.xpm					// stamina pack
 
-SP	MOB		8 textures/solong/slime // mob texture prefix
-SP	MOB		8 1 textures/solong/slime // mob texture prefix
+SP	MOB		8 textures/solong/slime									// mob texture prefix
+SP	MOB		8 1 textures/solong/slime								// mob texture prefix
 
-SP	OBJ		8 0 textures/solong/5 // obj texture prefix
-SP	OBJ		8 1 textures/solong/5 // obj texture prefix
+SP	OBJ		8 0 textures/solong/5									// obj texture prefix
+SP	OBJ		8 1 textures/solong/5									// obj texture prefix
 
 /* ************************************** */
 /* * MAP								* */

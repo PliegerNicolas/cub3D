@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 19:16:31 by emis              #+#    #+#             */
-/*   Updated: 2023/08/16 17:27:43 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/17 15:50:27 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -98,8 +98,10 @@ void	weapon(t_gui *gui)
 	int				weapon_x;
 	int				weapon_y;
 
-	if (!gui->textures.weapon)
+	if (!gui->textures.spframes[SIZE + NB_OBJTYPE + NB_MOBTYPE])
 		return ;
+	//if (!gui->textures.weapon)
+	//	return ;
 	weapon_x = 0;
 	weapon_y = 0;
 	walk_frame = calculate_next_walk_frame(gui, walk_frame);
@@ -107,5 +109,5 @@ void	weapon(t_gui *gui)
 	draw_crosshair(gui, 0xFFFFFF);
 	if (gui->cam.stat.get[AMMO] >= 1)
 		attack(gui);
-	imgput(gui->buffer, weapon_x, weapon_y, gui->textures.weapon);
+	//imgput(gui->buffer, weapon_x, weapon_y, gui->textures.weapon);
 }
