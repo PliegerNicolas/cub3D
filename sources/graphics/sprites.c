@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 12:26:42 by emis              #+#    #+#             */
-/*   Updated: 2023/08/16 21:32:35 by emis             ###   ########.fr       */
+/*   Updated: 2023/08/17 14:31:25 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,32 @@ void	set_dist_and_sort(t_tex *tex, t_vect *from)
 		sort_lst(&tex->sprites);
 }
 
+static bool	shift_type(t_gui *gui, t_sprt *sp, t_sprt *old)
+{
+	if (sp->type == COLLECTIBLE)
+		sp->offset = (sp->offset + (int)sp->offset % 40)
+			- ((int)sp->offset + 4) % 40;
+	if (sp->type != DEAD)
+		sp->fcur = (sp->fcur + 1) % sp->fnum;
+	else if (sp->type == DEAD && sp->alpha < 0)
+	{
+		if (sp == gui->textures.sprites)
+			gui->textures.sprites = sp->next;
+		else
+			old->next = sp->next;
+		if (sp->amount < 0)
+		{
+			gain_xp(gui, sp);
+			if (rand() % XP == 0)
+				add_pack(gui, sp->posi, rand() % XP);
+		}
+		garbaj(sp, NULL, -1);
+		--gui->textures.spnb;
+		return (true);
+	}
+	return (false);
+}
+
 void	frame_shift(t_gui *gui)
 {
 	t_sprt	*sp;
@@ -75,30 +101,11 @@ void	frame_shift(t_gui *gui)
 	sp = gui->textures.sprites;
 	while (sp)
 	{
-		if (sp->type == COLLECTIBLE)
-			sp->offset = (sp->offset + (int)sp->offset % 40)
-				- ((int)sp->offset + 4) % 40;
-		if (sp->type != DEAD)
-			sp->fcur = (sp->fcur + 1) % sp->fnum;
-		else if (sp->type == DEAD && sp->alpha < 0)
-		{
-			if (sp == gui->textures.sprites)
-				gui->textures.sprites = sp->next;
-			else
-				old->next = sp->next;
-			if (sp->amount < 0)
-			{
-				gain_xp(gui, sp);
-				if (rand() % XP == 0)
-					add_pack(gui, sp->posi, rand() % XP);
-			}
-			garbaj(sp, NULL, -1);
+		if (shift_type(gui, sp, old))
 			sp = gui->textures.sprites;
-			if (!--gui->textures.spnb)
-				return ((void)(gui->textures.sprites = NULL));
-		}
 		old = sp;
-		sp = sp->next;
+		if (sp)
+			sp = sp->next;
 	}
 }
 
