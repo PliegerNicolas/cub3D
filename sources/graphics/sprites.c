@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 12:26:42 by emis              #+#    #+#             */
-/*   Updated: 2023/08/17 20:34:00 by emis             ###   ########.fr       */
+/*   Updated: 2023/08/17 23:10:27 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static void	sort_lst(t_sprt **lst)
 	t_sprt	*old;
 
 	sp = *lst;
+	old = sp;
 	while (sp->next)
 	{
 		if (sp->dist < sp->next->dist)
@@ -99,6 +100,7 @@ void	frame_shift(t_gui *gui)
 	if (!nextframe(RATE_MOB))
 		return ;
 	sp = gui->textures.sprites;
+	old = sp;
 	while (sp)
 	{
 		if (shift_type(gui, sp, old))
