@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 16:15:01 by nicolas           #+#    #+#             */
-/*   Updated: 2023/08/16 17:38:06 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/17 14:28:57 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,13 @@ static void	set_vector(t_play *player, size_t row, size_t col)
 	player->stat.get[HP] = 100;
 	player->stat.get[STA] = 25;
 	player->stat.get[ARM] = 0;
-	player->stat.get[AMMO] = 30;
+	player->stat.get[AMMO] = 50;
 	player->stat.get[XP] = 0;
 	player->stat.get[LVL] = 0;
 	player->stat.max[HP] = 100;
 	player->stat.max[STA] = 25;
 	player->stat.max[ARM] = 50;
-	player->stat.max[AMMO] = 50;
+	player->stat.max[AMMO] = 100;
 	player->stat.max[XP] = 100;
 	player->stat.max[LVL] = 100;
 }

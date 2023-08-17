@@ -2,32 +2,29 @@
 /* * TEXTURES							* */
 /* ************************************** */
 
-NO ./textures/sol/*test*/ong/00.xpm // north wall texture
-SO ./textures/solong/10.xpm // south wall texture
-WE ./textures/solong/20.xpm // west wall texture
-EA ./textures/solong/30.xpm // east wall texture
+NO ./textures/excalibur/chiseled_quartz_block.xpm					// north wall texture
+SO ./textures/excalibur/chiseled_quartz_block.xpm					// south wall texture
+WE ./textures/excalibur/chiseled_quartz_block.xpm					// west wall texture
+EA ./textures/excalibur/chiseled_quartz_block.xpm					// east wall texture
 
-F 226,113,162 // pink
-C 87,226,212 // light blue
+D ./textures/excalibur/quartz_block_chiseled_alt.xpm				// door texture
 
-FL ./textures/solong/00.xpm // floor texture
-CE ./textures/solong/10.xpm // ceiling texture
+F 50,50,50															// gray-blueish
+C 220,215,210														// white-yellowish
 
-WP ./textures/weapons/AK.xpm // weapon texture
+FL ./textures/excalibur/basalt_top.xpm								// floor texture
+CE ./textures/excalibur/quartz_pillar_top.xpm						// ceiling texture
 
-SP	AMMO	-6 textures/collectibles/ammo-rifle_32px.xpm // ammo pack texture
-SP	AMMO	-6 textures/collectibles/ammo-rifle-alt_32px.xpm // ammo pack texture
-SP	AMMO	-6 textures/collectibles/ammo-pistol_32px.xpm // ammo pack texture
-SP	AMMO	-6 textures/collectibles/ammo-pistol-alt_32px.xpm // ammo pack texture
-SP	AMMO	-6 textures/collectibles/ammo-shotgun_32px.xpm // ammo pack texture
-SP	AMMO	-6 textures/collectibles/ammo-shotgun-alt_32px.xpm // ammo pack texture
+WP ./textures/weapons/AK.xpm										// weapon texture
 
-SP	HP		-2 textures/collectibles/health-green_32px.xpm // hp pack texture
-SP	HP		-2 textures/collectibles/health-red_32px.xpm  // hp pack texture
-
-SP	ARM		-1 textures/collectibles/health-armor_32px.xpm // armor pack texture
-
-SP	STA		-1 textures/shrek.xpm // stamina pack texture
+SP	AMMO	-2 textures/excalibur/items/popped_chorus_fruit.xpm		// ammo pack
+SP	AMMO	-2 textures/excalibur/items/prismarine_shard.xpm		// ammo pack
+SP	HP		-1 textures/excalibur/items/heart.xpm					// health pack
+SP	ARM		-4 textures/excalibur/items/chainmail_helmet.xpm		// armor pack
+SP	ARM		-4 textures/excalibur/items/chainmail_chestplate.xpm	// armor pack
+SP	ARM		-4 textures/excalibur/items/chainmail_leggings.xpm		// armor pack
+SP	ARM		-4 textures/excalibur/items/chainmail_boots.xpm			// armor pack
+SP	STA		-1 textures/excalibur/items/feather.xpm					// stamina pack
 
 SP	MOB		8 textures/solong/slime // mob texture prefix
 SP	MOB		8 1 textures/solong/slime // mob texture prefix
