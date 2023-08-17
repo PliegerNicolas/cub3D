@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 05:11:31 by nicolas           #+#    #+#             */
-/*   Updated: 2023/08/16 20:44:28 by emis             ###   ########.fr       */
+/*   Updated: 2023/08/17 20:25:37 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ t_sprt	*add_mob(t_gui *gui, t_vect posi, size_t which)
 {
 	t_sprt	*sprite;
 
+	if (!gui->textures.spframes[which])
+		return (NULL);
 	sprite = trymalloc(sizeof(t_sprt), 2);
 	sprite->posi = posi;
 	sprite->stat = HP;
@@ -39,6 +41,8 @@ t_sprt	*add_pack(t_gui *gui, t_vect posi, size_t which)
 {
 	t_sprt	*sprite;
 
+	if (!gui->textures.spframes[which])
+		return (NULL);
 	sprite = trymalloc(sizeof(t_sprt), 2);
 	sprite->posi = posi;
 	sprite->stat = which;
@@ -62,6 +66,8 @@ t_sprt	*add_obj(t_gui *gui, t_vect posi, size_t which)
 {
 	t_sprt	*sprite;
 
+	if (!gui->textures.spframes[which])
+		return (NULL);
 	sprite = trymalloc(sizeof(t_sprt), 2);
 	sprite->posi = posi;
 	sprite->stat = HP;

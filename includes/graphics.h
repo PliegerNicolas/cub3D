@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/08/17 17:31:20 by emis             ###   ########.fr       */
+/*   Updated: 2023/08/17 20:38:29 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -422,6 +422,7 @@ int		interact(t_gui *gui);
 
 void	gain_xp(t_gui *gui, t_sprt *ded);
 void	regen(t_gui *gui, t_fld fld, int amount, enum e_rates rate);
+void	touch_sprite(t_gui *gui, t_sprt *sprt);
 
 /* ************************************** */
 /* * TEMP, NEEDED FOR PARSING			* */

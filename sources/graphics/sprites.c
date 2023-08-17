@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 12:26:42 by emis              #+#    #+#             */
-/*   Updated: 2023/08/17 15:27:04 by emis             ###   ########.fr       */
+/*   Updated: 2023/08/17 20:34:00 by emis             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,21 +119,8 @@ void	update_sprite(t_gui *gui, t_sprt *cur)
 	{
 		if (cur->type == ALIVE)
 			check_and_move(gui->map, &cur->posi, delta(cur->posi,
-					gui->cam.posi), 0.025 + ((rand() % 5) / 1000.0));
+					gui->cam.posi), 0.025 + ((rand() % 10) / 1000.0));
 	}
 	else
-	{
-		if (cur->stat == HP && cur->amount < 0
-			&& gui->cam.stat.get[ARM] >= 0)
-			gui->cam.stat.get[ARM] += cur->amount * !(rand() % 4);
-		else if (gui->cam.stat.get[cur->stat] > -1)
-			gui->cam.stat.get[cur->stat] = bind(
-					gui->cam.stat.get[cur->stat] + cur->amount, 0,
-					gui->cam.stat.max[cur->stat]);
-		if (cur->type == COLLECTIBLE)
-		{
-			cur->alpha = -1;
-			cur->type = DEAD;
-		}
-	}
+		touch_sprite(gui, cur);
 }
