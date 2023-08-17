@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 16:15:01 by nicolas           #+#    #+#             */
-/*   Updated: 2023/08/17 14:28:57 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/17 17:53:34 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ static void	set_base_stats(t_play *player)
 	player->zoom_rate = 0.025;
 	player->hit_box.x = 0.1;
 	player->hit_box.y = 0.1;
+	player->selected_weapon = 0;
 	player->rndr = TEXTUWALLS | SPRITES | FLOORCEIL
 		| MINIMAP | MINIMAP_CIRCULAR;
 }

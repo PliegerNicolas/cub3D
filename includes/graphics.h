@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/08/17 17:40:16 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/17 18:13:34 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef enum e_keybinds
 	mapkey = XK_Tab,
 	space = XK_space,
 	statistics = XK_F3,
+	swap_weapon = XK_q,
 }	t_kbind;
 
 typedef enum e_keypresses
@@ -66,6 +67,7 @@ typedef enum e_keypresses
 	KP_map,
 	KP_space,
 	KP_statistics,
+	KP_swap_weapon,
 }	t_kprs;
 
 typedef enum e_btnpresses
@@ -195,6 +197,7 @@ typedef struct s_player
 	t_vect	accel_rate;
 	t_vect	rot_accel_rate;
 	t_vect	hit_box;
+	int		selected_weapon;
 }	t_play;
 
 typedef struct s_sprite	t_sprt;
@@ -405,8 +408,10 @@ void	hud(t_gui *gui);
 /* WEAPON */
 
 void	weapon(t_gui *gui);
-int		calculate_next_walk_frame(t_gui *gui, int frame);
+int		calculate_next_walk_frame(t_gui *gui);
 void	set_weapon_position(t_gui *gui, int *x, int *y, int frame);
+
+t_img	**get_weapon_textures(t_gui *gui);
 
 bool	is_projectile_obstructed(t_gui *gui, t_prj *projectile);
 bool	move_projectile(t_gui *gui, t_prj *projectile);

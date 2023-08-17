@@ -6,17 +6,19 @@
 /*   By: nplieger <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 15:54:55 by nplieger          #+#    #+#             */
-/*   Updated: 2023/08/17 16:55:25 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/17 18:00:37 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
 
-int	calculate_next_walk_frame(t_gui *gui, int frame)
+int	calculate_next_walk_frame(t_gui *gui)
 {
+	static int		walk_frame;
+
 	if (gui->cam.speed.x || gui->cam.speed.y)
-		return ((frame + 1) % WALK_FREQUENCY);
-	else if (frame != 0 && frame != (WALK_FREQUENCY * 0.5))
-		return ((frame + 1) % WALK_FREQUENCY);
+		return ((walk_frame + 1) % WALK_FREQUENCY);
+	else if (walk_frame != 0 && walk_frame != (WALK_FREQUENCY * 0.5))
+		return ((walk_frame + 1) % WALK_FREQUENCY);
 	return (0);
 }
 

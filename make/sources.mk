@@ -64,6 +64,7 @@ SOURCES_NAMES += graphics/weapon/is_projectile_obstructed
 SOURCES_NAMES += graphics/weapon/projectile_collision
 SOURCES_NAMES += graphics/weapon/draw_projectile
 SOURCES_NAMES += graphics/weapon/crosshair
+SOURCES_NAMES += graphics/weapon/get_weapon_textures
 
 SOURCES_NAMES += garbaj/wrappers
 SOURCES_NAMES += garbaj/garbaj
