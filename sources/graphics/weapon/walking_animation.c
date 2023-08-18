@@ -6,7 +6,7 @@
 /*   By: nplieger <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 15:54:55 by nplieger          #+#    #+#             */
-/*   Updated: 2023/08/17 23:19:00 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/08/18 16:05:41 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -33,8 +33,8 @@ void	set_weapon_position(t_gui *gui, int *x, int *y, int frame)
 
 	img = *gui->textures.spframes[SIZE + NB_OBJTYPE
 		+ NB_MOBTYPE + gui->cam.selected_weapon];
-	x_offset = img->width * 0.2;
-	y_offset = img->height * 0.2 + gui->cam.pitch * SCRHEIGHT;
+	x_offset = img->width * 0.9;
+	y_offset = img->height - gui->cam.pitch * SCRHEIGHT;
 	if (gui->cam.speed.x || gui->cam.speed.y || frame)
 	{
 		walk_angle = (frame / (float)WALK_FREQUENCY
@@ -42,6 +42,6 @@ void	set_weapon_position(t_gui *gui, int *x, int *y, int frame)
 		x_offset += (int)(sin(walk_angle) * WALK_AMPLITUDE);
 		y_offset -= (int)(fabs(cos(walk_angle)) * WALK_AMPLITUDE / 2);
 	}
-	*x = SCRWIDTH - img->width + x_offset;
-	*y = SCRHEIGHT - img->height + y_offset;
+	*x = SCRWIDTH - x_offset;
+	*y = SCRHEIGHT - y_offset;
 }
