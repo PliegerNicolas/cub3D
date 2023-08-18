@@ -6,7 +6,7 @@
 #    By: nicolas <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/15 11:52:14 by nicolas           #+#    #+#              #
-#    Updated: 2023/08/17 19:53:21 by nplieger         ###   ########.fr        #
+#    Updated: 2023/08/18 21:37:22 by nicolas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -235,6 +235,9 @@ endif
 
 $(MLX_COMPLETE):
 ifeq ($(IS_MLX), true)
+	@if git submodule status | egrep -q '^[-]|^[+]' ; then \
+		git submodule update --init --recursive; \
+	fi
 	@echo
 	@echo "$(CYAN)Compiling library :$(RESET_TEXT)$(BOLD)$(YELLOW) MLX $(RESET_TEXT)$(CYAN)...$(RESET_TEXT)"
 	@make -C $(MLX_DIR) all > /dev/null 2>&1
