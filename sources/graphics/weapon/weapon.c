@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 19:16:31 by emis              #+#    #+#             */
-/*   Updated: 2023/08/17 23:19:11 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/08/18 15:46:20 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -78,10 +78,7 @@ static void	attack(t_gui *gui, size_t *weapon_frame)
 		while (i < MAX_PROJECTILES && projectiles[i].status)
 			i++;
 		if (i < MAX_PROJECTILES)
-		{
 			initialize_projectile(&gui->cam, &projectiles[i], weapon_frame);
-			gui->cam.stat.get[AMMO]--;
-		}
 	}
 	i = 0;
 	while (i < MAX_PROJECTILES)
