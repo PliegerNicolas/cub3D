@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 19:16:31 by emis              #+#    #+#             */
-/*   Updated: 2023/08/18 15:46:20 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/08/18 16:17:28 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -70,7 +70,8 @@ static void	attack(t_gui *gui, size_t *weapon_frame)
 	size_t			i;
 
 	i = 0;
-	if (((gui->btns & (1 << left_click))
+	if (gui->cam.stat.get[AMMO] >= 1
+		&& ((gui->btns & (1 << left_click))
 			|| gui->keys & (1 << KP_space))
 		&& nextframe(RATE_SHOOT))
 	{
@@ -104,8 +105,7 @@ void	weapon(t_gui *gui)
 	set_weapon_position(gui, &weapon_x, &weapon_y,
 		calculate_next_walk_frame(gui));
 	draw_crosshair(gui, 0xFFFFFF);
-	if (gui->cam.stat.get[AMMO] >= 1)
-		attack(gui, &weapon_frame);
+	attack(gui, &weapon_frame);
 	if ((size_t)weapon_frame >= gui->textures.spfrsizes[SIZE
 			+ NB_OBJTYPE + NB_MOBTYPE + gui->cam.selected_weapon])
 		weapon_frame = 0;
