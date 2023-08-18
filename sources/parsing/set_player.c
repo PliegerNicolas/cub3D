@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 16:15:01 by nicolas           #+#    #+#             */
-/*   Updated: 2023/08/17 17:53:34 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/18 16:24:23 by nicolas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ static void	set_base_stats(t_play *player)
 	player->rot_speed_target.y = 0.03;
 	player->accel_rate.x = player->speed_target.x * 0.1;
 	player->accel_rate.y = player->speed_target.y * 0.1;
-	player->rot_accel_rate.x = player->rot_speed_target.x * 0.15;
-	player->rot_accel_rate.y = player->rot_speed_target.y * 0.15;
+	player->rot_accel_rate.x = player->rot_speed_target.x * 0.2;
+	player->rot_accel_rate.y = player->rot_speed_target.y * 0.2;
 	player->sprint_multiplicator = 2.0;
 	player->pitch = 0.0;
 	player->dark = 0;
