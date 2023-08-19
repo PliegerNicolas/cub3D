@@ -6,7 +6,7 @@
 #    By: nicolas <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/15 11:52:14 by nicolas           #+#    #+#              #
-#    Updated: 2023/08/18 22:27:05 by nicolas          ###   ########.fr        #
+#    Updated: 2023/08/19 11:24:41 by nplieger         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,9 +34,6 @@ SOURCES_EXTENSION		=			.c
 SOURCES_PATH			=			sources
 
 -include make/sources.mk
-SOURCES_NAMES			:=			$(addsuffix $(SOURCES_EXTENSION), $(SOURCES_NAMES))
-SOURCES					:=			$(addprefix $(SOURCES_PATH)/, $(SOURCES_NAMES))
-
 
 #* ************************************************************************** *#
 #* *                               LIBFT                                    * *#
@@ -85,8 +82,7 @@ INCLUDES_FLAGS			=			$(addprefix -I, $(INCLUDES_DIRS))
 
 OBJECTS_PATH			=			objects
 
-OBJECTS					:=			$(addprefix $(OBJECTS_PATH)/,				\
-									$(SOURCES_NAMES:$(SOURCES_EXTENSION)=.o))
+OBJECTS					:=			$(addprefix $(OBJECTS_PATH)/, $(SOURCES:.c=.o))
 DEPENDENCIES			:=			$(OBJECTS:.o=.d)
 
 #* ************************************************************************** *#
@@ -277,8 +273,6 @@ endif
 ifeq ($(IS_MLX), true)
 	@echo "$(YELLOW)Deleting all compiled $(CYAN)MLX$(YELLOW) files ...$(RESET_TEXT)"
 	@make -C $(MLX_DIR) clean > /dev/null 2>&1
-	@echo "$(YELLOW)De-initializing $(CYAN)MLX$(YELLOW) submodule ...$(RESET_TEXT)"
-	@git submodule deinit -f $(MLX_DIR) > /dev/null 2>&1
 endif
 
 re:						clean all
@@ -299,4 +293,8 @@ santhread:				all
 
 optimize:				all
 
-.PHONY:	header clean fclean re run fcleanlib relib noflag debug sanadd santhread
+gmk:
+	@if [ -d make ];then echo ok;else mkdir make;fi
+	@find -name '*.c' -printf "%d%p\n" | sort -n | grep -v libft | grep -v mlx | sed 's/^[[:digit:]]/SOURCES += /' > make/sources.mk
+
+.PHONY:	header clean fclean re run fcleanlib relib noflag debug sanadd santhread gmk
