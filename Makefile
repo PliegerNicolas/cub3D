@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: nicolas <marvin@42.fr>                     +#+  +:+       +#+         #
+#    By: emis <emis@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/15 11:52:14 by nicolas           #+#    #+#              #
-#    Updated: 2023/08/19 13:10:50 by nplieger         ###   ########.fr        #
+#    Updated: 2023/08/19 14:29:53 by emis             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -324,10 +324,9 @@ run:					all
 demo:					all
 	@for map in maps/$(MAP_FOLDER)/*.cub ;	\
 	do 										\
-		valgrind ./cub3D $$map ;						\
+		./cub3D $$map ;						\
 		echo $$map ;						\
 	done
-
 
 gmk:
 	@if [ -d make ];then echo ok;else mkdir make;fi
