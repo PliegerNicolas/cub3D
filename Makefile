@@ -6,7 +6,7 @@
 #    By: nicolas <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/15 11:52:14 by nicolas           #+#    #+#              #
-#    Updated: 2023/08/17 19:53:21 by nplieger         ###   ########.fr        #
+#    Updated: 2023/08/18 22:27:05 by nicolas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -237,6 +237,10 @@ $(MLX_COMPLETE):
 ifeq ($(IS_MLX), true)
 	@echo
 	@echo "$(CYAN)Compiling library :$(RESET_TEXT)$(BOLD)$(YELLOW) MLX $(RESET_TEXT)$(CYAN)...$(RESET_TEXT)"
+	@if git submodule status | egrep -q '^[-]|^[+]' ; then \
+		git submodule update --init --recursive > /dev/null 2>&1 ; \
+		echo "$(ITALIC)$(YELLOW)MLX$(GREEN) submodule successfully downloaded or updated$(RESET_TEXT)" ; \
+	fi
 	@make -C $(MLX_DIR) all > /dev/null 2>&1
 	@echo "$(GREEN)$(BOLD)៙ MLX$(RESET_TEXT)$(GREEN) successfully compiled ! 👏 $(RESET_TEXT)"
 endif
@@ -267,12 +271,14 @@ fclean:					clean
 
 fcleanlib:				fclean
 ifeq ($(IS_LIBFT), true)
-	@make --silent -C $(LIBFT_DIR) fclean
 	@echo "$(YELLOW)Deleting all compiled $(CYAN)LIBFT$(YELLOW) files ...$(RESET_TEXT)"
+	@make --silent -C $(LIBFT_DIR) fclean
 endif
 ifeq ($(IS_MLX), true)
-	@make -C $(MLX_DIR) clean > /dev/null 2>&1
 	@echo "$(YELLOW)Deleting all compiled $(CYAN)MLX$(YELLOW) files ...$(RESET_TEXT)"
+	@make -C $(MLX_DIR) clean > /dev/null 2>&1
+	@echo "$(YELLOW)De-initializing $(CYAN)MLX$(YELLOW) submodule ...$(RESET_TEXT)"
+	@git submodule deinit -f $(MLX_DIR) > /dev/null 2>&1
 endif
 
 re:						clean all
