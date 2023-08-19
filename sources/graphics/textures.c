@@ -22,7 +22,7 @@ static t_img	*load_texture(t_gui *gui, char *path, int checkdim)
 
 	img = mlx_xpm_file_to_image(gui->mlx, path, &w, &h);
 	if (!img)
-		return (errno = 1, eerror("Failure to load texture.\n"), NULL);
+		return (errno = 1, eerror("Error\nFailure to load texture.\n"), NULL);
 	mlximgwrap(gui->mlx);
 	garbaj(img, mlximgwrap, 1);
 	if (!checkdim)
@@ -31,7 +31,7 @@ static t_img	*load_texture(t_gui *gui, char *path, int checkdim)
 		sh = h;
 	}
 	else if (w != sw || h != sh)
-		return (errno = 1, eerror("Texture size mismatch.\n"), NULL);
+		return (errno = 1, eerror("Error\nTexture size mismatch.\n"), NULL);
 	return (img);
 }
 
@@ -47,9 +47,9 @@ bool	load_texture_arr(t_gui *gui, t_img ***where, char *path, int size)
 		sizecheck = size;
 	}
 	if (size != sizecheck)
-		return (errno = 1, eerror("Texture array size mismatch.\n"), 1);
+		return (errno = 1, eerror("Error\nTexture array size mismatch.\n"), 1);
 	if (which == size)
-		return (errno = 1, eerror("Texture array full.\n"), 1);
+		return (errno = 1, eerror("Error\nTexture array full.\n"), 1);
 	(*where)[which] = load_texture(gui, path, which);
 	return (!(*where)[which++]);
 }

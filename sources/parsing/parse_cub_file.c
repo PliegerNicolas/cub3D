@@ -32,6 +32,10 @@ static bool	textures_set(t_gui *gui)
 {
 	size_t	i;
 
+	if (gui->textures.ceil_color == -1)
+		return (put_parsing_err("Missing ceil colors."), true);
+	if (gui->textures.floor_color == -1)
+		return (put_parsing_err("Missing floor colors."), true);
 	if (!gui->textures.walls)
 		return (put_parsing_err("Missing wall textures."), true);
 	i = 0;

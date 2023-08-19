@@ -27,8 +27,16 @@ static bool	initialize_textures(t_gui *gui)
 	gui->textures.walls = NULL;
 	gui->textures.doors = NULL;
 	gui->textures.floorceil = NULL;
-	gui->textures.ceil_color = 0x8DC2D9;
-	gui->textures.floor_color = 0x6E6E6E;
+	if (BONUS)
+	{
+		gui->textures.ceil_color = 0x8DC2D9;
+		gui->textures.floor_color = 0x6E6E6E;
+	}
+	else
+	{
+		gui->textures.ceil_color = -1;
+		gui->textures.floor_color = -1;
+	}
 	ft_bzero(gui->textures.spframes, sizeof(gui->textures.spframes));
 	ft_bzero(gui->textures.spfrsizes, sizeof(gui->textures.spfrsizes));
 	return (false);

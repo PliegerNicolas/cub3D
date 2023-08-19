@@ -68,6 +68,9 @@ char	*get_type_identifier_data(char *line)
 	temp = get_data(line);
 	if (!temp)
 		return (NULL);
+	if (!temp[0])
+		return (free(temp), put_parsing_err("Missing data after identifier."),
+			NULL);
 	data_str = ft_strtrim(temp, " \f\n\r\t\v");
 	free(temp);
 	if (!data_str)

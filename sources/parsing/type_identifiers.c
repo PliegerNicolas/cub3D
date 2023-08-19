@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 07:20:02 by nicolas           #+#    #+#             */
-/*   Updated: 2023/08/17 16:00:36 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/19 12:05:41 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,16 @@ static void	set_strti(t_str_to_ti *strti)
 	strti[2].ti = west_texture;
 	strti[3].str = "EA";
 	strti[3].ti = east_texture;
-	strti[4].str = "FL";
-	strti[4].ti = floor_texture;
-	strti[5].str = "CE";
-	strti[5].ti = ceiling_texture;
-	strti[6].str = "F";
-	strti[6].ti = floor_color;
-	strti[7].str = "C";
-	strti[7].ti = ceiling_color;
+	strti[4].str = "F";
+	strti[4].ti = floor_color;
+	strti[5].str = "C";
+	strti[5].ti = ceiling_color;
+	if (!BONUS)
+		return ;
+	strti[6].str = "FL";
+	strti[6].ti = floor_texture;
+	strti[7].str = "CE";
+	strti[7].ti = ceiling_texture;
 	strti[8].str = "D";
 	strti[8].ti = door_texture;
 	strti[9].str = "SP";
@@ -43,7 +45,7 @@ t_type_id	set_type_identifier(char *line, size_t *index)
 {
 	size_t		i;
 	size_t		len;
-	t_str_to_ti	strti[11];
+	t_str_to_ti	strti[6 + (5 * BONUS)];
 
 	if (!line)
 		return (not_found);
@@ -51,7 +53,9 @@ t_type_id	set_type_identifier(char *line, size_t *index)
 	i = 0;
 	while (i < sizeof(strti) / sizeof(*strti))
 	{
-		len = ft_strlen(strti[i].str);
+		len = 0;
+		while ((line + *index)[len] && !ft_isspace((line + *index)[len]))
+			len++;
 		if (ft_strncmp(line + *index, strti[i].str, len) == 0)
 			return ((*index) += len, strti[i].ti);
 		i++;

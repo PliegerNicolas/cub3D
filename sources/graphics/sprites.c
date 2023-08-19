@@ -80,7 +80,7 @@ static bool	shift_type(t_gui *gui, t_sprt *sp, t_sprt *old)
 		if (sp->amount < 0)
 		{
 			gain_xp(gui, sp);
-			if (rand() % XP == 0)
+			if (rand() % 3 == 0)
 				add_pack(gui, sp->posi, rand() % XP);
 		}
 		garbaj(sp, NULL, -1);

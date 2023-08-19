@@ -1,0 +1,28 @@
+/* ************************************** */
+/* * TEXTURES							* */
+/* ************************************** */
+
+NO ./textures/excalibur/chiseled_quartz_block.xpm					// north wall texture
+SO ./textures/excalibur/chiseled_quartz_block.xpm					// south wall texture
+WE ./textures/excalibur/chiseled_quartz_block.xpm					// west wall texture
+EA ./textures/excalibur/chiseled_quartz_block.xpm					// east wall texture
+
+F 50,50,50															// gray-blueish
+C 220,215,210														// white-yellowish
+
+/* ************************************** */
+/* * MAP								* */
+/* ************************************** */
+
+             11111
+   11111111111000111
+11110000111001000001
+10000000000001100001111
+10000000000000000000001
+100E0000011000011000001
+10000001111111011000001
+10000001000001000000001
+11110001111100011111111
+   1000000000001
+   1000001011111
+   111111111

@@ -6,7 +6,7 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:33:13 by emis              #+#    #+#             */
-/*   Updated: 2023/08/18 15:43:57 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/08/19 12:39:37 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,8 +264,8 @@ typedef struct s_gui
 /* * MACRO								* */
 /* ************************************** */
 
-# define E_SPTEXTID "Wrong/missing sprite identifier in cub file.\n"
-# define E_SPTEXTNB "Wrong/missing frame count in cub file.\n"
+# define E_SPTEXTID "Error\nWrong/missing sprite identifier in cub file.\n"
+# define E_SPTEXTNB "Error\nWrong/missing frame count in cub file.\n"
 
 # define DOOR_OPEN 42
 # define DOOR_CLOSED 43

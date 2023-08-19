@@ -6,7 +6,7 @@
 /*   By: nplieger <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 15:46:37 by nplieger          #+#    #+#             */
-/*   Updated: 2023/08/16 16:12:50 by nplieger         ###   ########.fr       */
+/*   Updated: 2023/08/19 12:43:17 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -38,6 +38,8 @@ void	change_render_type(int *mask)
 {
 	static int	render_types;
 
+	if (!BONUS)
+		return ((void)(*mask = TEXTUWALLS));
 	if (render_types == 0)
 		toggle_mask(mask, SPRITES, OFF);
 	else if (render_types == 1)
@@ -56,8 +58,5 @@ void	change_render_type(int *mask)
 		toggle_mask(mask, SPRITES, OFF);
 	else if (render_types == 5)
 		turn_all_on(mask);
-	if (render_types >= 5)
-		render_types = 0;
-	else
-		render_types++;
+	render_types = (render_types + 1) % 5;
 }

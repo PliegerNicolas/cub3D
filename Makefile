@@ -6,7 +6,7 @@
 #    By: nicolas <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/15 11:52:14 by nicolas           #+#    #+#              #
-#    Updated: 2023/08/19 11:37:57 by nplieger         ###   ########.fr        #
+#    Updated: 2023/08/19 13:10:50 by nplieger         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@
 #* ************************************************************************** *#
 
 NAME				=			cub3D
-RUN_PARAMS			=			maps/test2.cub
+RUN_PARAMS			=			maps/mandatory/map.cub
 
 #* ************************************************************************** *#
 #* *                             COMPILATION                                * *#
@@ -111,6 +111,15 @@ ifeq (optimize, $(filter optimize,$(MAKECMDGOALS)))
 	CC_FLAGS			+=			-O3
 endif
 
+ifeq (bonus, $(filter bonus,$(MAKECMDGOALS)))
+	CC_FLAGS			+=			-D BONUS=1
+	MAP_FOLDER			=			bonus
+else
+	CC_FLAGS			+=			-D BONUS=0
+	MAP_FOLDER			=			mandatory
+endif
+
+
 #* ************************************************************************** *#
 #* *                          TEXT CONSTANTS                                * *#
 #* ************************************************************************** *#
@@ -135,6 +144,7 @@ RESET_TEXT				=			\033[0m
 #* ************************************************************************** *#
 
 define intro
+
 	@echo -n "$(BOLD)$(BLUE)"
 	@echo "                                      .--,-``-.                 "
 	@echo "   ,----..                           /   /     '.      ,---,    "
@@ -279,13 +289,17 @@ ifeq ($(IS_MLX), true)
 	fi
 endif
 
+# --------------------- #
+# Recompile.			#
+# --------------------- #
+
 re:						clean all
 
 relib:					fcleanlib all
 
-run:					all
-	@echo "$(GREEN)Executing : $(CYAN)./$(NAME) $(RUN_PARAMS)$(RESET_TEXT)"
-	@./$(NAME) $(RUN_PARAMS)
+# --------------------- #
+# Additional flag.		#
+# --------------------- #
 
 noflag: 				all
 
@@ -297,8 +311,26 @@ santhread:				all
 
 optimize:				all
 
+bonus:					all
+
+# --------------------- #
+# Woop woop.			#
+# --------------------- #
+
+run:					all
+	@echo "$(GREEN)Executing : $(CYAN)./$(NAME) $(RUN_PARAMS)$(RESET_TEXT)"
+	@./$(NAME) $(RUN_PARAMS)
+
+demo:					all
+	@for map in maps/$(MAP_FOLDER)/*.cub ;	\
+	do 										\
+		valgrind ./cub3D $$map ;						\
+		echo $$map ;						\
+	done
+
+
 gmk:
 	@if [ -d make ];then echo ok;else mkdir make;fi
 	@find -name '*.c' -printf "%d%p\n" | sort -n | grep -v libft | grep -v mlx | sed 's/^[[:digit:]]/SOURCES += /' > make/sources.mk
 
-.PHONY:	header clean fclean re run fcleanlib relib noflag debug sanadd santhread gmk
+.PHONY:	header clean fclean re run fcleanlib relib noflag debug sanadd santhread gmk bonus demo

@@ -30,9 +30,12 @@ int	main(int ac, char **av)
 	mlx_loop_hook(gui.mlx, &render, &gui);
 	mlx_hook(gui.win, KeyPress, KeyPressMask, &key_press, &gui);
 	mlx_hook(gui.win, KeyRelease, KeyReleaseMask, &key_rel, &gui);
-	mlx_hook(gui.win, ButtonPress, ButtonPressMask, &mouse_press, &gui);
-	mlx_hook(gui.win, ButtonRelease, ButtonReleaseMask, &mouse_rel, &gui);
-	mlx_hook(gui.win, MotionNotify, PointerMotionMask, &mouse_motion, &gui);
+	if (BONUS)
+	{
+		mlx_hook(gui.win, ButtonPress, ButtonPressMask, &mouse_press, &gui);
+		mlx_hook(gui.win, ButtonRelease, ButtonReleaseMask, &mouse_rel, &gui);
+		mlx_hook(gui.win, MotionNotify, PointerMotionMask, &mouse_motion, &gui);
+	}
 	mlx_hook(gui.win, DestroyNotify, 0L, &mlx_loop_end, gui.mlx);
 	mlx_loop(gui.mlx);
 	mlx_destroy_window(gui.mlx, gui.mlx->win_list);

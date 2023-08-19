@@ -10,10 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <time.h>
 #include "graphics.h"
 
-//#define RATES ((double[]){0.01, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1})
+#if BONUS == 1
+# include <time.h>
 
 static void	set_rates_array(double *rates)
 {
@@ -46,3 +46,35 @@ int	nextframe(enum e_rates frnb)
 	last[frnb] = cur;
 	return (1);
 }
+
+#else
+
+static void	set_rates_array(double *rates)
+{
+	size_t	i;
+
+	i = 0;
+	rates[i++] = 0.01;
+	while (i < RATE_NB)
+		rates[i++] = 0.1;
+	rates[RATE_HEAL] = 1;
+	rates[RATE_ARMOR_UP] = 2;
+	rates[RATE_SHOOT] = 0.1;
+	rates[RATE_WEAPON] = 0.05;
+}
+
+int	nextframe(enum e_rates frnb)
+{
+	static int		last[RATE_NB];
+	static double	rates[RATE_NB];
+
+	if (frnb > RATE_NB)
+		return (0);
+	if (!rates[0])
+		set_rates_array(rates);
+	if (++last[frnb] < rates[frnb] * 100)
+		return (0);
+	return (last[frnb] = 0, 1);
+}
+
+#endif

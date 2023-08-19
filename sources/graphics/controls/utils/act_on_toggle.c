@@ -6,7 +6,7 @@
 /*   By: nplieger <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 16:58:26 by nplieger          #+#    #+#             */
-/*   Updated: 2023/08/17 23:18:12 by nicolas          ###   ########.fr       */
+/*   Updated: 2023/08/19 12:41:07 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "graphics.h"
@@ -50,6 +50,8 @@ static void	act_on_weapon_swap(t_gui *gui)
 
 void	act_on_toggles(t_gui *gui)
 {
+	if (!BONUS)
+		return ;
 	act_on_interaction(gui);
 	act_on_map(gui);
 	act_on_statistics(gui);

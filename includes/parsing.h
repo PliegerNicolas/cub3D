@@ -6,12 +6,16 @@
 /*   By: emis <emis@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 15:34:04 by emis              #+#    #+#             */
-/*   Updated: 2023/08/14 15:51:15 by emis             ###   ########.fr       */
+/*   Updated: 2023/08/19 12:48:08 by nplieger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSING_H
 # define PARSING_H
+
+# ifndef BONUS
+#  define BONUS 1
+# endif
 
 /* ************************************** */
 /* * INCLUDES							* */
@@ -81,6 +85,12 @@ typedef struct str_to_type_identifier
 /* ************************************** */
 /* * MACRO								* */
 /* ************************************** */
+
+# if BONUS == 1
+#  define MAPTOKENS "01NSWEMPOD"
+# else
+#  define MAPTOKENS "01NSWE"
+# endif
 
 /* ************************************** */
 /* * FUNCTIONS							* */
